@@ -1,0 +1,172 @@
+[build]
+  publish = "."
+
+# ─── Cache-Control Headers ───────────────────────────────────────────────────
+# CSS & JS — cache for 1 year (they are fingerprinted by deployment)
+[[headers]]
+  for = "/css/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/js/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# Images — cache for 1 year
+[[headers]]
+  for = "/images/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# HTML — always re-validate so content stays fresh
+[[headers]]
+  for = "/*.html"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+[[headers]]
+  for = "/"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+
+[[redirects]]
+  from = "/blog/css/*"
+  to = "/css/:splat"
+  status = 200
+
+[[redirects]]
+  from = "/blog/images/*"
+  to = "/images/:splat"
+  status = 200
+
+[[redirects]]
+  from = "/blog/js/*"
+  to = "/js/:splat"
+  status = 200
+
+[[redirects]]
+  from = "/blog/*.html"
+  to = "/:splat.html"
+  status = 200
+
+[[redirects]]
+  from = "/blog/:slug"
+  to = "/post.html"
+  status = 200
+
+[[redirects]]
+  from = "/blog"
+  to = "/blog.html"
+  status = 200
+
+[[redirects]]
+  from = "/blogs"
+  to = "/blog.html"
+  status = 200
+
+[[redirects]]
+  from = "/post"
+  to = "/post.html"
+  status = 200
+
+[[redirects]]
+  from = "/cart"
+  to = "/cart.html"
+  status = 200
+
+[[redirects]]
+  from = "/programs"
+  to = "/programs.html"
+  status = 200
+
+[[redirects]]
+  from = "/login"
+  to = "/login.html"
+  status = 200
+
+[[redirects]]
+  from = "/front-end-software"
+  to = "/front-end-software.html"
+  status = 200
+
+[[redirects]]
+  from = "/software"
+  to = "/front-end-software.html"
+  status = 200
+
+[[redirects]]
+  from = "/about-company"
+  to = "/about-company.html"
+  status = 200
+
+[[redirects]]
+  from = "/about-owner"
+  to = "/about-owner.html"
+  status = 200
+
+[[redirects]]
+  from = "/testimonials"
+  to = "/testimonials.html"
+  status = 200
+
+[[redirects]]
+  from = "/technical-blogs"
+  to = "/technical-blogs.html"
+  status = 200
+
+[[redirects]]
+  from = "/vlsi-designs"
+  to = "/vlsi-designs.html"
+  status = 200
+
+[[redirects]]
+  from = "/soc-verification"
+  to = "/soc-verification.html"
+  status = 200
+
+[[redirects]]
+  from = "/embedded-systems"
+  to = "/embedded-systems.html"
+  status = 200
+
+[[redirects]]
+  from = "/ai-models"
+  to = "/ai-models.html"
+  status = 200
+
+[[redirects]]
+  from = "/web-development"
+  to = "/web-development.html"
+  status = 200
+
+[[redirects]]
+  from = "/technical-training"
+  to = "/technical-training.html"
+  status = 200
+
+[[redirects]]
+  from = "/marketing-solutions"
+  to = "/marketing-solutions.html"
+  status = 200
+
+[[redirects]]
+  from = "/marketing-solution"
+  to = "/marketing-solutions.html"
+  status = 200
+
+[[redirects]]
+  from = "/about"
+  to = "/about-company.html"
+  status = 302
+
+[[redirects]]
+  from = "/solutions"
+  to = "/marketing-solutions.html"
+  status = 302
+
+[[redirects]]
+  from = "/contact"
+  to = "/index.html#contact"
+  status = 302

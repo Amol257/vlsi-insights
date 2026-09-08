@@ -1,0 +1,1600 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About the Company | VLSI Insights</title>
+  <meta name="description" content="Learn about VLSI Insights: our story, engineering mission, leadership values, and how we bridge academia and the semiconductor industry." />
+
+  <!-- Fonts: Space Grotesk (700) + Inter (400, 500, 600) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@700&display=swap" rel="stylesheet" />
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js" defer></script>
+
+  <style>
+    /* -------------------------------------------------------------------------- */
+    /* CSS TOKENS & RESET  CLEAN MINIMALIST LIGHT THEME                          */
+    /* -------------------------------------------------------------------------- */
+    :root {
+      /* Backgrounds */
+      --void:       #FFFFFF;
+      --substrate:  #FAFAFA;
+      --surface:    var(--substrate);
+      --layer:      #FFFFFF;
+      --edge: #E2E8F0;
+
+      /* Accents */
+      --trace: #00A887;
+      --focus: #00A887;
+      --signal:     #2563EB;
+      --copper:     #C2410C;
+
+      /* Text */
+      --text-hi: #0F172A;
+      --text-mid:   #475569;
+      --text-lo:    #64748B;
+
+      /* Semantic */
+      --error:      #DC2626;
+
+      /* Typography */
+      --font-display: 'Space Grotesk', sans-serif;
+      --font-body:    'Inter', sans-serif;
+
+      --text-xs:   0.75rem;
+      --text-sm:   0.875rem;
+      --text-base: 1rem;
+      --text-lg:   1.125rem;
+      --text-xl:   1.375rem;
+      --text-2xl:  1.75rem;
+      --text-3xl:  2.25rem;
+      --text-4xl:  3rem;
+      --text-5xl:  4rem;
+
+      --weight-normal:   400;
+      --weight-medium:   500;
+      --weight-semibold: 600;
+      --weight-bold:     700;
+
+      --leading-tight:  1.15;
+      --leading-snug:   1.35;
+      --leading-base:   1.6;
+      --leading-loose:  1.8;
+
+      --tracking-tight: -0.02em;
+      --tracking-normal: 0em;
+      --tracking-wide:   0.04em;
+
+      /* Spacing */
+      --space-1:   4px;
+      --space-2:   8px;
+      --space-3:   12px;
+      --space-4:   16px;
+      --space-5:   20px;
+      --space-6:   24px;
+      --space-8:   32px;
+      --space-10:  40px;
+      --space-12:  48px;
+      --space-16:  64px;
+      --space-20:  80px;
+      --space-24:  96px;
+      --space-32: 128px;
+      --section-y: clamp(80px, 10vw, 140px);
+
+      /* Motion */
+      --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+      --dur-fast:      150ms;
+      --dur-base:      300ms;
+      --dur-slow:      600ms;
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      background: var(--substrate);
+      color: var(--text-mid);
+    }
+
+    body {
+      background: var(--substrate);
+      color: var(--text-mid);
+      font-family: var(--font-body);
+      font-size: var(--text-base);
+      line-height: var(--leading-base);
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    img, svg {
+      display: block;
+      max-width: 100%;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button {
+      font: inherit;
+      border: none;
+      background: none;
+      cursor: pointer;
+    }
+
+    :focus-visible {
+      outline: 2px solid var(--focus);
+      outline-offset: 2px;
+    }
+
+    .skip-link {
+      position: absolute;
+      top: -60px;
+      left: 16px;
+      background: var(--text-hi);
+      color: #FFFFFF;
+      padding: 10px 18px;
+      font-weight: var(--weight-semibold);
+      z-index: 9999;
+      border-radius: 4px;
+      transition: top var(--dur-fast) ease;
+    }
+
+    .skip-link:focus {
+      top: 16px;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 var(--space-6);
+    }
+
+    @media (min-width: 1024px) {
+      .container {
+        padding: 0 var(--space-12);
+      }
+    }
+
+    /* -------------------------------------------------------------------------- */
+    /* NAVIGATION BAR                                                             */
+    /* Navbar styles are defined in css/navbar.css  no inline overrides needed */
+
+    /* -------------------------------------------------------------------------- */
+    /* BUTTONS                                                                    */
+    /* -------------------------------------------------------------------------- */
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-2);
+      min-height: 48px;
+      padding: 12px 28px;
+      background: #0F172A;
+      color: #FFFFFF;
+      font-family: var(--font-body);
+      font-weight: var(--weight-semibold);
+      font-size: var(--text-base);
+      border-radius: 4px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background var(--dur-fast) ease, transform var(--dur-fast) ease;
+      border: 1px solid #0F172A;
+    }
+
+    .btn-primary:hover {
+      background: #1E293B;
+      border-color: #1E293B;
+      transform: translateY(-2px);
+      
+    }
+
+    .btn-primary:active {
+      transform: scale(0.98);
+    }
+
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-2);
+      min-height: 48px;
+      padding: 12px 28px;
+      background: #FFFFFF;
+      color: var(--text-hi);
+      font-family: var(--font-body);
+      font-weight: var(--weight-semibold);
+      font-size: var(--text-base);
+      border: 1px solid #CBD5E1;
+      border-radius: 4px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: border-color var(--dur-fast) ease, color var(--dur-fast) ease, background var(--dur-fast) ease, transform var(--dur-fast) ease;
+    }
+
+    .btn-secondary:hover {
+      border-color: var(--trace);
+      color: var(--trace);
+      background: rgba(0, 168, 135, 0.04);
+      transform: translateY(-2px);
+    }
+
+    .btn-secondary:active {
+      transform: scale(0.98);
+    }
+
+    .whatsapp-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-2);
+      min-height: 44px;
+      padding: 10px 22px;
+      background: #128C7E;
+      color: #fff;
+      font-family: var(--font-body);
+      font-weight: var(--weight-semibold);
+      font-size: var(--text-sm);
+      border-radius: 4px;
+      text-decoration: none;
+      transition: background var(--dur-fast) ease, transform var(--dur-fast) ease;
+    }
+
+    .whatsapp-cta:hover {
+      background: #075E54;
+      transform: translateY(-1px);
+    }
+
+    .whatsapp-cta:active {
+      transform: scale(0.98);
+    }
+
+    /* -------------------------------------------------------------------------- */
+    /* SECTION HEADINGS & LABELS (Scroll-triggered)                               */
+    /* -------------------------------------------------------------------------- */
+    .section-heading-group {
+      margin-bottom: var(--space-12);
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity var(--dur-slow) var(--ease-out-expo),
+                  transform var(--dur-slow) var(--ease-out-expo);
+    }
+
+    .section-heading-group.revealed {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .section-label {
+      font-family: var(--font-body);
+      font-weight: var(--weight-semibold);
+      font-size: var(--text-sm);
+      color: var(--trace);
+      letter-spacing: var(--tracking-wide);
+      margin-bottom: var(--space-2);
+    }
+
+    .section-heading {
+      font-family: var(--font-display);
+      font-weight: var(--weight-bold);
+      font-size: clamp(2rem, 4vw, var(--text-3xl));
+      color: var(--text-hi);
+      letter-spacing: var(--tracking-tight);
+      line-height: var(--leading-tight);
+    }
+
+    /* -------------------------------------------------------------------------- */
+    /* 1. HERO SECTION                                                            */
+    /* -------------------------------------------------------------------------- */
+    .company-hero {
+      position: relative;
+      min-height: 50vh;
+      display: flex;
+      align-items: center;
+      background: #FFFFFF;
+      border-bottom: 1px solid var(--edge);
+      padding: var(--space-16) 0;
+      overflow: hidden;
+    }
+
+    .company-hero-watermark,
+    .hero-circuit-watermark {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0.25;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .company-hero__content {
+      position: relative;
+      z-index: 2;
+      max-width: 820px;
+    }
+
+    .company-hero__title {
+      font-family: var(--font-display);
+      font-weight: var(--weight-bold);
+      font-size: clamp(2.25rem, 5vw, 3.5rem);
+      line-height: 1.12;
+      color: var(--text-hi);
+      letter-spacing: var(--tracking-tight);
+      margin-bottom: var(--space-4);
+    }
+
+    .company-hero__subtitle {
+      font-size: var(--text-lg);
+      color: var(--text-mid);
+      line-height: var(--leading-base);
+      max-width: 680px;
+    }
+
+    /* -------------------------------------------------------------------------- */
+    /* 2. OUR STORY                                                               */
+    /* -------------------------------------------------------------------------- */
+    .story-section {
+      padding: var(--section-y) 0;
+      background: var(--substrate);
+      border-bottom: 1px solid var(--edge);
+    }
+
+    .story-layout {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: var(--space-12);
+      align-items: start;
+    }
+
+    @media (min-width: 1024px) {
+      .story-layout {
+        grid-template-columns: 1.4fr 1fr;
+      }
+    }
+
+    .story-paragraphs {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-6);
+      font-size: var(--text-lg);
+      line-height: 1.8;
+      color: var(--text-mid);
+    }
+
+    .story-pillars {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-4);
+      background: var(--layer);
+      border: 1px solid var(--edge);
+      border-radius: 8px;
+      padding: var(--space-8);
+      
+    }
+
+    .story-pillar-item {
+      display: flex;
+      align-items: flex-start;
+      gap: var(--space-4);
+      padding-bottom: var(--space-4);
+      border-bottom: 1px solid var(--edge);
+    }
+
+    .story-pillar-item:last-child {
+      padding-bottom: 0;
+      border-bottom: none;
+    }
+
+    .pillar-icon {
+      color: var(--trace);
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .pillar-icon svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    .pillar-title {
+      font-family: var(--font-display);
+      font-weight: var(--weight-bold);
+      font-size: var(--text-base);
+      color: var(--text-hi);
+      margin-bottom: 2px;
+    }
+
+    .pillar-desc {
+      font-size: var(--text-xs);
+      color: var(--text-mid);
+      line-height: var(--leading-base);
+    }
+
+    /* -------------------------------------------------------------------------- */
+    /* 3. MISSION & VALUES                                                        */
+    /* -------------------------------------------------------------------------- */
+    .values-section {
+      padding: var(--section-y) 0;
+      background: var(--surface);
+      border-bottom: 1px solid var(--edge);
+    }
+
+    .values-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: var(--space-10);
+    }
+
+    @media (min-width: 768px) {
+      .values-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    .value-column {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .value-title-block {
+      border-left: 4px solid var(--trace);
+      padding-left: var(--space-4);
+      margin-bottom: var(--space-4);
+    }
+
+    .value-title {
+      font-family: var(--font-display);
+      font-weight: var(--weight-bold);
+      font-size: var(--text-xl);
+      color: var(--text-hi);
+      line-height: var(--leading-snug);
+    }
+
+    .value-body {
+      font-size: var(--text-sm);
+      color: var(--text-mid);
+      line-height: var(--leading-base);
+    }
+
+    /* -------------------------------------------------------------------------- */
+    /* 4. SERVICES AT A GLANCE                                                    */
+    /* -------------------------------------------------------------------------- */
+    .services-glance-section {
+      padding: var(--section-y) 0;
+      background: var(--substrate);
+      border-bottom: 1px solid var(--edge);
+    }
+
+    .glance-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: var(--space-8);
+    }
+
+    @media (min-width: 640px) {
+      .glance-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (min-width: 1024px) {
+      .glance-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    .glance-item {
+      padding: var(--space-6) 0;
+      border-top: 1px solid var(--edge);
+    }
+
+    .glance-icon {
+      color: var(--trace);
+      margin-bottom: var(--space-3);
+    }
+
+    .glance-icon svg {
+      width: 24px;
+      height: 24px;
+    }
+
+    .glance-title {
+      font-family: var(--font-display);
+      font-weight: var(--weight-bold);
+      font-size: var(--text-lg);
+      color: var(--text-hi);
+      margin-bottom: var(--space-2);
+    }
+
+    .glance-desc {
+      font-size: var(--text-sm);
+      color: var(--text-mid);
+      line-height: var(--leading-base);
+    }
+
+    /* -------------------------------------------------------------------------- */
+    /* 5. TEAM GRID                                                               */
+    /* -------------------------------------------------------------------------- */
+    .team-section {
+      padding: var(--section-y) 0;
+      background: var(--surface);
+      border-bottom: 1px solid var(--edge);
+    }
+
+    .team-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: var(--space-6);
+    }
+
+    @media (min-width: 640px) {
+      .team-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (min-width: 1024px) {
+      .team-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    .team-card {
+      background: var(--layer);
+      border: 1px solid var(--edge);
+      border-radius: 8px;
+      padding: var(--space-8);
+      
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: var(--space-4);
+      transition: border-color var(--dur-base) ease;
+    }
+
+    .team-card:hover {
+      border-color: var(--trace);
+      
+    }
+
+    .team-avatar {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: rgba(0, 168, 135, 0.08);
+      border: 1.5px solid var(--trace);
+      color: var(--trace);
+      font-family: var(--font-display);
+      font-weight: var(--weight-bold);
+      font-size: var(--text-lg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      letter-spacing: 0.05em;
+    }
+
+    .team-name {
+      font-family: var(--font-display);
+      font-weight: var(--weight-bold);
+      font-size: var(--text-lg);
+      color: var(--text-hi);
+    }
+
+    .team-role {
+      font-size: var(--text-xs);
+      color: var(--trace);
+      margin-top: 2px;
+      margin-bottom: var(--space-2);
+      font-weight: var(--weight-semibold);
+    }
+
+    .team-bio {
+      font-size: var(--text-sm);
+      color: var(--text-mid);
+      line-height: var(--leading-base);
+      flex-grow: 1;
+    }
+
+    .team-linkedin {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-2);
+      font-size: var(--text-xs);
+      color: var(--text-lo);
+      min-height: 36px;
+      transition: color var(--dur-fast) ease;
+    }
+
+    .team-linkedin:hover {
+      color: var(--trace);
+    }
+
+    .team-linkedin svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    /* -------------------------------------------------------------------------- */
+    /* 6. CTA SECTION                                                             */
+    /* -------------------------------------------------------------------------- */
+    .cta-section {
+      padding: var(--section-y) 0;
+      background: var(--substrate);
+      border-bottom: 1px solid var(--edge);
+    }
+
+    .cta-layout {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: var(--space-8);
+      align-items: center;
+    }
+
+    @media (min-width: 1024px) {
+      .cta-layout {
+        grid-template-columns: 1.5fr 1fr;
+      }
+    }
+
+    .cta-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-4);
+      justify-content: flex-start;
+    }
+
+    @media (min-width: 1024px) {
+      .cta-actions {
+        justify-content: flex-end;
+      }
+    }
+
+    /* -------------------------------------------------------------------------- */
+    /* FOOTER                                                                     */
+    /* -------------------------------------------------------------------------- */
+    .footer {
+      background: var(--surface);
+      padding: var(--space-16) 0 var(--space-8);
+      border-top: 1px solid var(--edge);
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: var(--space-10);
+      margin-bottom: var(--space-12);
+    }
+
+    @media (min-width: 640px) {
+      .footer-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (min-width: 1024px) {
+      .footer-grid {
+        grid-template-columns: 2fr 1fr 1fr 1.5fr;
+      }
+    }
+
+    .footer-brand {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-4);
+    }
+
+    .footer-desc {
+      font-size: var(--text-sm);
+      color: var(--text-mid);
+      line-height: var(--leading-base);
+      max-width: 320px;
+    }
+
+    .footer-socials {
+      display: flex;
+      gap: var(--space-3);
+    }
+
+    .footer-social-link {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      border-radius: 4px;
+      background: #FFFFFF;
+      border: 1px solid var(--edge);
+      color: var(--text-mid);
+      transition: color var(--dur-fast) ease, border-color var(--dur-fast) ease, transform var(--dur-fast) ease;
+    }
+
+    .footer-social-link:hover {
+      color: var(--trace);
+      border-color: var(--trace);
+      transform: translateY(-2px);
+    }
+
+    .footer-social-link svg {
+      width: 18px;
+      height: 18px;
+    }
+
+    .footer-col-title {
+      font-family: var(--font-display);
+      font-weight: var(--weight-bold);
+      font-size: var(--text-sm);
+      color: var(--text-hi);
+      margin-bottom: var(--space-4);
+      letter-spacing: var(--tracking-wide);
+    }
+
+    .footer-links {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-3);
+    }
+
+    .footer-link {
+      font-size: var(--text-sm);
+      color: var(--text-mid);
+      min-height: 32px;
+      display: inline-flex;
+      align-items: center;
+      transition: color var(--dur-fast) ease;
+    }
+
+    .footer-link:hover {
+      color: var(--trace);
+    }
+
+    .footer-bottom {
+      padding-top: var(--space-8);
+      border-top: 1px solid var(--edge);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-2);
+      font-size: var(--text-xs);
+      color: var(--text-lo);
+    }
+
+    @media (min-width: 640px) {
+      .footer-bottom {
+        flex-direction: row;
+        justify-content: space-between;
+      }
+    }
+
+    /* -------------------------------------------------------------------------- */
+    /* REDUCED MOTION                                                             */
+    /* -------------------------------------------------------------------------- */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
+      .section-heading-group {
+        opacity: 1 !important;
+        transform: none !important;
+      }
+    }
+  
+    /* Floating WhatsApp Chat Widget */
+    .floating-whatsapp {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .floating-whatsapp__btn {
+      position: relative;
+      width: 56px;
+      height: 56px;
+      background: #000000;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      ;
+      transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s ease;
+      text-decoration: none;
+    }
+
+    .floating-whatsapp__btn:hover {
+      transform: scale(1.1) translateY(-3px);
+      ;
+    }
+
+    .floating-whatsapp__btn:active {
+      transform: scale(0.95);
+    }
+
+    .floating-whatsapp__img {
+      width: 36px;
+      height: 36px;
+      object-fit: contain;
+      display: block;
+      transition: transform 0.3s ease;
+    }
+
+    .floating-whatsapp__btn:hover .floating-whatsapp__img {
+      transform: scale(1.05);
+    }
+
+    .floating-whatsapp__badge {
+      position: absolute;
+      top: -2px;
+      right: -2px;
+      width: 20px;
+      height: 20px;
+      background: #EF4444;
+      color: #ffffff;
+      font-size: 11px;
+      font-weight: 700;
+      font-family: inherit;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 2px solid #ffffff;
+      ;
+      animation: pulse-whatsapp-badge 2s infinite;
+    }
+
+    .floating-whatsapp__tooltip {
+      position: absolute;
+      right: 68px;
+      background: #111827;
+      color: #ffffff;
+      padding: 6px 14px;
+      border-radius: 8px;
+      font-size: 0.8125rem;
+      font-weight: 600;
+      white-space: nowrap;
+      pointer-events: none;
+      opacity: 0;
+      transform: translateX(8px);
+      transition: opacity 0.2s ease, transform 0.2s ease;
+      ;
+    }
+
+    .floating-whatsapp__tooltip::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      right: -5px;
+      transform: translateY(-50%);
+      border-width: 5px 0 5px 5px;
+      border-style: solid;
+      border-color: transparent transparent transparent #111827;
+    }
+
+    .floating-whatsapp__btn:hover .floating-whatsapp__tooltip {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    @keyframes pulse-whatsapp-badge {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.15); }
+    }</style>
+  <link rel="stylesheet" href="css/navbar.css">
+  <link rel="stylesheet" href="css/footer.css">
+  <link rel="stylesheet" href="css/global.css">
+</head>
+<body>
+
+  <!-- Accessibility Skip Link -->
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <!-- ========================================================================= -->
+  <!-- NAVIGATION BAR                                                            -->
+  <!-- ========================================================================= -->
+    <!-- ========================================================================= -->
+  <!-- NAVIGATION BAR                                                            -->
+  <!-- ========================================================================= -->
+    <!-- ========================================================================= -->
+  <!-- NAVIGATION BAR                                                            -->
+  <!-- ========================================================================= -->
+  <!-- NAVIGATION BAR -->
+  <header class="navbar" role="banner">
+    <div class="container navbar__inner">
+      <!-- Brand Logo -->
+      <a href="index.html" class="nav-logo" aria-label="VLSI Insights Homepage">
+        <img src="images/logo.png" alt="VLSI Insights" class="nav-logo-img">
+      </a>
+
+      <!-- Desktop Navigation -->
+      <nav class="nav-links" role="navigation" aria-label="Main Navigation">
+        <div class="nav-item">
+          <a href="index.html" class="nav-link">Home</a>
+        </div>
+
+        <!-- Services Dropdown (Categorized) -->
+        <div class="nav-item" id="desktopServicesItem">
+          <button type="button" class="nav-link" id="desktopServicesBtn" aria-expanded="false" aria-haspopup="true">
+            Services
+            <i data-lucide="chevron-down" class="chevron"></i>
+          </button>
+          <div class="dropdown-panel dropdown-panel--services" role="menu">
+            <div class="dropdown-col">
+              <span class="dropdown-col-heading">Engineering Services</span>
+              <a href="vlsi-designs.html" class="dropdown-item" role="menuitem">
+                <span class="dropdown-item__icon"><i data-lucide="cpu"></i></span>
+                <div>
+                  <div class="dropdown-item__title">VLSI Related Services</div>
+                  <div class="dropdown-item__desc">RTL layout, physical design, and verification.</div>
+                </div>
+              </a>
+              <a href="soc-verification.html" class="dropdown-item" role="menuitem">
+                <span class="dropdown-item__icon"><i data-lucide="shield-check"></i></span>
+                <div>
+                  <div class="dropdown-item__title">SOC Verification</div>
+                  <div class="dropdown-item__desc">UVM functional verification architectures.</div>
+                </div>
+              </a>
+              <a href="embedded-systems.html" class="dropdown-item" role="menuitem">
+                <span class="dropdown-item__icon"><i data-lucide="microchip"></i></span>
+                <div>
+                  <div class="dropdown-item__title">Embedded Systems</div>
+                  <div class="dropdown-item__desc">MCU firmware to real-time operating systems.</div>
+                </div>
+              </a>
+              <a href="ai-models.html" class="dropdown-item" role="menuitem">
+                <span class="dropdown-item__icon"><i data-lucide="brain"></i></span>
+                <div>
+                  <div class="dropdown-item__title">AI Models</div>
+                  <div class="dropdown-item__desc">Edge ML and embedded inference pipelines.</div>
+                </div>
+              </a>
+              <a href="web-development.html" class="dropdown-item" role="menuitem">
+                <span class="dropdown-item__icon"><i data-lucide="code-2"></i></span>
+                <div>
+                  <div class="dropdown-item__title">Web Development</div>
+                  <div class="dropdown-item__desc">Modern engineering web applications and portals.</div>
+                </div>
+              </a>
+            </div>
+
+            <div class="dropdown-col">
+              <span class="dropdown-col-heading">Training &amp; Growth</span>
+              <a href="technical-training.html" class="dropdown-item" role="menuitem">
+                <span class="dropdown-item__icon"><i data-lucide="graduation-cap"></i></span>
+                <div>
+                  <div class="dropdown-item__title">Technical Training</div>
+                  <div class="dropdown-item__desc">Hands-on VLSI &amp; embedded engineering training.</div>
+                </div>
+              </a>
+              <a href="marketing-solutions.html" class="dropdown-item" role="menuitem">
+                <span class="dropdown-item__icon"><i data-lucide="trending-up"></i></span>
+                <div>
+                  <div class="dropdown-item__title">Marketing Solutions</div>
+                  <div class="dropdown-item__desc">Growth strategies for technical enterprises.</div>
+                </div>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div class="nav-item">
+          <a href="programs.html" class="nav-link">Programs</a>
+        </div>
+
+        <div class="nav-item">
+          <a href="front-end-software.html" class="nav-link">Front End Software</a>
+        </div>
+
+        <div class="nav-item">
+          <a href="blog.html" class="nav-link">Blog</a>
+        </div>
+
+        <!-- About Dropdown -->
+        <div class="nav-item" id="desktopAboutItem">
+          <button type="button" class="nav-link" id="desktopAboutBtn" aria-expanded="false" aria-haspopup="true">
+            About
+            <i data-lucide="chevron-down" class="chevron"></i>
+          </button>
+          <div class="dropdown-panel" role="menu">
+            <a href="about-company.html" class="dropdown-item active" role="menuitem">
+              <span class="dropdown-item__icon"><i data-lucide="building-2"></i></span>
+              <div>
+                <div class="dropdown-item__title">About the Company</div>
+                <div class="dropdown-item__desc">Our story, mission, engineering team, and culture.</div>
+              </div>
+            </a>
+            <a href="about-owner.html" class="dropdown-item" role="menuitem">
+              <span class="dropdown-item__icon"><i data-lucide="user"></i></span>
+              <div>
+                <div class="dropdown-item__title">About the Owner</div>
+                <div class="dropdown-item__desc">Founder profile, journey, expertise, and leadership.</div>
+              </div>
+            </a>
+                      <a href="testimonials.html" class="dropdown-item" role="menuitem">
+              <span class="dropdown-item__icon"><i data-lucide="message-square"></i></span>
+              <div>
+                <div class="dropdown-item__title">Testimonials</div>
+                <div class="dropdown-item__desc">What industry engineers and alumni say about us.</div>
+              </div>
+            </a>
+          </div>
+        </div>
+
+        <div class="nav-item">
+          <a href="index.html#contact" class="nav-link">Contact</a>
+        </div>
+      </nav>
+
+      <!-- Cart Icon + Mobile Hamburger Button -->
+      <div class="navbar__controls">
+        <a href="cart.html" class="nav-cart-btn" aria-label="View Cart" id="cartNavBtn">
+          <i data-lucide="shopping-cart"></i>
+          <span class="cart-badge" id="cartBadge" data-visible="false">0</span>
+        </a>
+        <button type="button" class="nav-hamburger" id="hamburgerBtn" aria-label="Open navigation menu" aria-expanded="false" aria-controls="mobileDrawer">
+          <i data-lucide="menu"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Drawer & Overlay -->
+  <div class="drawer-overlay" id="drawerOverlay"></div>
+  <aside class="mobile-drawer" id="mobileDrawer" role="dialog" aria-modal="true" aria-label="Mobile Navigation">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;padding-bottom:12px;border-bottom:1px solid var(--edge);">
+      <img src="images/logo.png" alt="VLSI Insights" style="height:30px;width:auto;max-width:160px;object-fit:contain;">
+      <button type="button" id="drawerCloseBtn" aria-label="Close navigation menu" style="padding:6px;border-radius:4px;color:#475569;cursor:pointer;background:none;border:none;">
+        <i data-lucide="x"></i>
+      </button>
+    </div>
+    <ul class="mobile-nav-list">
+      <li>
+        <a href="index.html" class="mobile-nav-link drawer-close-trigger">Home</a>
+      </li>
+      <li>
+        <button type="button" class="mobile-nav-link" id="mobileServicesToggle" aria-expanded="false">
+          <span>Services</span>
+          <i data-lucide="chevron-down"></i>
+        </button>
+        <div class="mobile-accordion" id="mobileServicesAccordion">
+          <div style="font-size:0.6875rem;font-weight:700;color:var(--trace);text-transform:uppercase;padding:8px 12px 4px;">Engineering Services</div>
+          <a href="vlsi-designs.html" class="drawer-close-trigger"><i data-lucide="cpu"></i> VLSI Related Services</a>
+          <a href="soc-verification.html" class="drawer-close-trigger"><i data-lucide="shield-check"></i> SOC Verification</a>
+          <a href="embedded-systems.html" class="drawer-close-trigger"><i data-lucide="microchip"></i> Embedded Systems</a>
+          <a href="ai-models.html" class="drawer-close-trigger"><i data-lucide="brain"></i> AI Models</a>
+          <a href="web-development.html" class="drawer-close-trigger"><i data-lucide="code-2"></i> Web Development</a>
+          <div style="font-size:0.6875rem;font-weight:700;color:var(--trace);text-transform:uppercase;padding:12px 12px 4px 12px;border-top:1px solid var(--edge);margin-top:4px;">Training &amp; Growth</div>
+          <a href="technical-training.html" class="drawer-close-trigger"><i data-lucide="graduation-cap"></i> Technical Training</a>
+          <a href="marketing-solutions.html" class="drawer-close-trigger"><i data-lucide="trending-up"></i> Marketing Solutions</a>
+        </div>
+      </li>
+      <li>
+        <a href="programs.html" class="mobile-nav-link drawer-close-trigger">Programs</a>
+      </li>
+      <li>
+        <a href="front-end-software.html" class="mobile-nav-link drawer-close-trigger">Front End Software</a>
+      </li>
+      <li>
+        <a href="blog.html" class="mobile-nav-link drawer-close-trigger">Blog</a>
+      </li>
+      <li>
+        <button type="button" class="mobile-nav-link" id="mobileAboutToggle" aria-expanded="false">
+          <span>About</span>
+          <i data-lucide="chevron-down"></i>
+        </button>
+        <div class="mobile-accordion" id="mobileAboutAccordion">
+          <a href="about-company.html" class="drawer-close-trigger"><i data-lucide="building-2"></i> About the Company</a>
+          <a href="about-owner.html" class="drawer-close-trigger"><i data-lucide="user"></i> About the Owner</a>
+          <a href="testimonials.html" class="drawer-close-trigger"><i data-lucide="message-square"></i> Testimonials</a>
+        </div>
+      </li>
+      <li>
+        <a href="index.html#contact" class="mobile-nav-link drawer-close-trigger">Contact</a>
+      </li>
+    </ul>
+    <div style="margin-top:auto;padding-top:20px;border-top:1px solid var(--edge);display:flex;flex-direction:column;gap:10px;">
+      <a href="cart.html" class="drawer-close-trigger" style="display:flex;align-items:center;justify-content:center;gap:8px;padding:12px;background:var(--surface);border:1px solid var(--edge);border-radius:6px;color:var(--text-hi);font-weight:600;text-decoration:none;font-size:0.875rem;">
+        <i data-lucide="shopping-cart" style="width:18px;height:18px;"></i>
+        <span>View Cart</span>
+      </a>
+      <a href="login.html" class="drawer-close-trigger" style="display:flex;align-items:center;justify-content:center;gap:8px;padding:12px;background:var(--trace);color:#FFFFFF;border-radius:6px;font-weight:600;text-decoration:none;font-size:0.875rem;">
+        <i data-lucide="user" style="width:18px;height:18px;"></i>
+        <span>Sign In</span>
+      </a>
+    </div>
+  </aside>
+
+  <!-- ========================================================================= -->
+  <!-- MAIN CONTENT                                                              -->
+  <!-- ========================================================================= -->
+  <main id="main-content">
+
+    <!-- 1. HERO SECTION (Sentence Case in HTML, Watermark Trace, No Photo) -->
+    <section class="company-hero">
+      <svg class="hero-circuit-watermark" viewBox="0 0 1440 480" fill="none" preserveAspectRatio="none" aria-hidden="true">
+        <path d="M0,120 L280,120 L340,180 L700,180 L760,120 L1100,120 L1160,180 L1440,180" stroke="#94A3B8" stroke-width="1.5" stroke-dasharray="6 4"/>
+        <path d="M0,320 L240,320 L300,260 L620,260 L680,320 L960,320 L1020,260 L1440,260" stroke="#94A3B8" stroke-width="1.5"/>
+        <circle cx="280" cy="120" r="4" fill="#94A3B8"/>
+        <circle cx="700" cy="180" r="4" fill="#94A3B8"/>
+        <circle cx="1100" cy="120" r="4" fill="#94A3B8"/>
+        <circle cx="240" cy="320" r="4" fill="#94A3B8"/>
+        <circle cx="680" cy="320" r="4" fill="#94A3B8"/>
+        <circle cx="1020" cy="260" r="4" fill="#94A3B8"/>
+      </svg>
+
+      <div class="container">
+        <div class="company-hero__content">
+          <div class="badge-pill" style="display:inline-flex;align-items:center;gap:8px;padding:6px 14px;border-radius:9999px;background:rgba(0,168,135,0.08);border:1px solid rgba(0,168,135,0.25);color:var(--trace);font-size:0.8125rem;font-weight:600;margin-bottom:16px;">
+            <i data-lucide="building-2" style="width:14px;height:14px;"></i>
+            <span>About the Company</span>
+          </div>
+          <h1 class="company-hero__title">We bridge academia and the semiconductor industry</h1>
+          <p class="company-hero__subtitle">
+            Founded by veteran tape-out engineers to resolve the chronic disconnect between textbook digital theory and high-stakes silicon execution.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. OUR STORY -->
+    <section class="story-section">
+      <div class="container">
+        <div class="story-layout">
+          <!-- Story Text -->
+          <div>
+            <div class="section-heading-group">
+              <p class="section-label">Our story</p>
+              <h2 class="section-heading">Founded on a practical problem</h2>
+            </div>
+            <div class="story-paragraphs">
+              <p>
+                Every year, thousands of engineering graduates step out with degrees in electronics and computer engineering, yet semiconductor design houses face acute hiring pinches for job-ready verification and physical design specialists. Traditional curricula lean heavily on outdated textbook syntheses, rarely exposing students to modern multi-corner timing closure, SystemVerilog UVM testbenches, or commercial EDA toolchains.
+              </p>
+              <p>
+                VLSI Insights was established to dismantle that barrier. We built a training and consulting ecosystem where learning mimics actual engineering cycles in Tier-1 design centers. Our learners don't memorize definitions; they write synthesizable RTL, debug race conditions, design clock-domain crossing synchronizers, and bring peripheral IP blocks through full verification suites.
+              </p>
+              <p>
+                Over the past five years, we have expanded from intensive student mentoring batches to trusted academic partnerships with leading universities and corporate upskilling programs for global semiconductor enterprises. By uniting technical rigor with hands-on labs, we equip engineers to walk directly onto active project floors on day one.
+              </p>
+            </div>
+          </div>
+
+          <!-- Key Operational Focus -->
+          <div class="story-pillars">
+            <h3 style="font-family: var(--font-display); font-weight: var(--weight-bold); font-size: var(--text-lg); color: var(--text-hi); margin-bottom: var(--space-2);">
+              Core Operational Focus
+            </h3>
+
+            <div class="story-pillar-item">
+              <span class="pillar-icon"><i data-lucide="cpu"></i></span>
+              <div>
+                <h4 class="pillar-title">Tape-out Fidelity</h4>
+                <p class="pillar-desc">Simulating true industry constraints, design rule checks, and signoff metrics across every lab exercise.</p>
+              </div>
+            </div>
+
+            <div class="story-pillar-item">
+              <span class="pillar-icon"><i data-lucide="book-open"></i></span>
+              <div>
+                <h4 class="pillar-title">Curriculum Agility</h4>
+                <p class="pillar-desc">Continuously updating tracks to match current EDA methodologies, RISC-V extensions, and edge AI workloads.</p>
+              </div>
+            </div>
+
+            <div class="story-pillar-item">
+              <span class="pillar-icon"><i data-lucide="shield-check"></i></span>
+              <div>
+                <h4 class="pillar-title">Accountable Mentorship</h4>
+                <p class="pillar-desc">Direct technical reviews, code pull-request feedback, and one-on-one architecture critiques from working professionals.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. MISSION & VALUES -->
+    <section class="values-section">
+      <div class="container">
+        <div class="section-heading-group">
+          <p class="section-label">Guiding principles</p>
+          <h2 class="section-heading">Our Mission and Values</h2>
+        </div>
+
+        <div class="values-grid">
+          <div class="value-column">
+            <div class="value-title-block">
+              <h3 class="value-title">Practical Precision</h3>
+            </div>
+            <p class="value-body">
+              Hands-on EDA labs and silicon-realistic testbenches always take precedence over passive lectures. If it cannot be simulated, synthesized, and verified, it is not ready for the floor.
+            </p>
+          </div>
+
+          <div class="value-column">
+            <div class="value-title-block">
+              <h3 class="value-title">Industry Fidelity</h3>
+            </div>
+            <p class="value-body">
+              Our training tracks and consulting offerings are mapped directly to live Tier-1 semiconductor job profiles and production requirements, ensuring zero ramp-up time for recruited engineers.
+            </p>
+          </div>
+
+          <div class="value-column">
+            <div class="value-title-block">
+              <h3 class="value-title">Sustainable Mentorship</h3>
+            </div>
+            <p class="value-body">
+              We invest in long-term engineering development. Our mentors remain lifelong technical contacts, fostering an alumni network spanning leading fabless and EDA enterprises.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. SERVICES AT A GLANCE (3x2 Typographic Rows, No Hover States) -->
+    <section class="services-glance-section">
+      <div class="container">
+        <div class="section-heading-group">
+          <p class="section-label">Capabilities</p>
+          <h2 class="section-heading">Services at a Glance</h2>
+        </div>
+
+        <div class="glance-grid">
+          <div class="glance-item">
+            <div class="glance-icon"><i data-lucide="cpu"></i></div>
+            <h3 class="glance-title">VLSI Designs</h3>
+            <p class="glance-desc">Front-end RTL coding, synthesis, static timing analysis, and physical implementation cycles.</p>
+          </div>
+
+          <div class="glance-item">
+            <div class="glance-icon"><i data-lucide="microchip"></i></div>
+            <h3 class="glance-title">Embedded Systems</h3>
+            <p class="glance-desc">Bare-metal microcontrollers, FreeRTOS architectures, driver development, and board bring-up.</p>
+          </div>
+
+          <div class="glance-item">
+            <div class="glance-icon"><i data-lucide="brain"></i></div>
+            <h3 class="glance-title">AI Models</h3>
+            <p class="glance-desc">Deploying quantized inference pipelines, edge ML optimizations, and hardware acceleration.</p>
+          </div>
+
+          <div class="glance-item">
+            <div class="glance-icon"><i data-lucide="shield-check"></i></div>
+            <h3 class="glance-title">SOC Verification</h3>
+            <p class="glance-desc">UVM testbench architecture, constrained random verification, and functional coverage closure.</p>
+          </div>
+
+          <div class="glance-item">
+            <div class="glance-icon"><i data-lucide="trending-up"></i></div>
+            <h3 class="glance-title">Digital Marketing</h3>
+            <p class="glance-desc">Technical content strategy, SEO, and paid performance campaigns for engineering enterprises.</p>
+          </div>
+
+          <div class="glance-item">
+            <div class="glance-icon"><i data-lucide="code-2"></i></div>
+            <h3 class="glance-title">Web Development</h3>
+            <p class="glance-desc">Modern web applications, high-performance dashboards, and secure educational client portals.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. TEAM GRID (3-Column, Circular Teal Initial Avatars, No Photos) -->
+    <section class="team-section">
+      <div class="container">
+        <div class="section-heading-group">
+          <p class="section-label">The people behind it</p>
+          <h2 class="section-heading">Our Technical Leadership</h2>
+        </div>
+
+        <div class="team-grid">
+          <!-- Member 1 -->
+          <article class="team-card">
+            <div class="team-avatar" aria-label="Anand Kumar">AK</div>
+            <div>
+              <h3 class="team-name">Anand Kumar</h3>
+              <div class="team-role">Head of VLSI &amp; Verification</div>
+            </div>
+            <p class="team-bio">
+              15+ years leading ASIC design and UVM verification teams across tier-1 semiconductor firms. Oversees syllabus fidelity and technical grilling modules.
+            </p>
+            <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" class="team-linkedin">
+              <i data-lucide="linkedin"></i> Connect on LinkedIn
+            </a>
+          </article>
+
+          <!-- Member 2 -->
+          <article class="team-card">
+            <div class="team-avatar" aria-label="Rohan Sen">RS</div>
+            <div>
+              <h3 class="team-name">Rohan Sen</h3>
+              <div class="team-role">Lead Embedded Architect</div>
+            </div>
+            <p class="team-bio">
+              Specialist in ARM Cortex-M/A firmware, RTOS kernel porting, and industrial IoT communication protocols with 12+ years in hardware engineering.
+            </p>
+            <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" class="team-linkedin">
+              <i data-lucide="linkedin"></i> Connect on LinkedIn
+            </a>
+          </article>
+
+          <!-- Member 3 -->
+          <article class="team-card">
+            <div class="team-avatar" aria-label="Vandana Nair">VN</div>
+            <div>
+              <h3 class="team-name">Vandana Nair</h3>
+              <div class="team-role">Director of Academic Partnerships</div>
+            </div>
+            <p class="team-bio">
+              Liaises directly with university placement cells, university deans, and corporate recruiting heads to streamline hiring drives across India.
+            </p>
+            <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" class="team-linkedin">
+              <i data-lucide="linkedin"></i> Connect on LinkedIn
+            </a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- 6. CTA SECTION -->
+    <section class="cta-section">
+      <div class="container">
+        <div class="cta-layout">
+          <div>
+            <div class="section-heading-group" style="margin-bottom: var(--space-4);">
+              <p class="section-label">Get involved</p>
+              <h2 class="section-heading">Want to collaborate with VLSI Insights?</h2>
+            </div>
+            <p style="color: var(--text-mid); font-size: var(--text-base); line-height: var(--leading-base);">
+              Whether you represent an institution seeking placement curriculum alignment or an enterprise looking to upskill design engineers, we are ready to partner.
+            </p>
+          </div>
+
+          <div class="cta-actions">
+            <a href="index.html#contact" class="btn-primary">Training Enquiries</a>
+            <a href="index.html#contact" class="btn-secondary">Corporate Partnerships</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ========================================================================= -->
+  <!-- FOOTER                                                                    -->
+  <!-- ========================================================================= -->
+  <footer class="footer" role="contentinfo">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="index.html#hero" class="nav-logo" aria-label="VLSI Insights">
+            <img src="images/logo.png" alt="VLSI Insights  Empowering Tomorrow's Technology Today" class="nav-logo-img">
+          </a>
+          <p class="footer-desc">
+            Bridging academia and the semiconductor industry through practical engineering mastery.
+          </p>
+          <div class="footer-socials">
+            <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" class="footer-social-link" aria-label="LinkedIn">
+              <i data-lucide="linkedin"></i>
+            </a>
+            <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" class="footer-social-link" aria-label="YouTube">
+              <i data-lucide="youtube"></i>
+            </a>
+            <a href="https://github.com" target="_blank" rel="noopener noreferrer" class="footer-social-link" aria-label="GitHub">
+              <i data-lucide="github"></i>
+            </a>
+            <a href="https://wa.me/919810191592" target="_blank" rel="noopener noreferrer" class="footer-social-link" aria-label="WhatsApp">
+              <i data-lucide="message-circle"></i>
+            </a>
+          </div>
+        </div>
+
+        <div>
+          <h4 class="footer-col-title">Services</h4>
+          <ul class="footer-links">
+            <li><a href="vlsi-designs.html" class="footer-link">VLSI Designs</a></li>
+            <li><a href="embedded-systems.html" class="footer-link">Embedded Systems</a></li>
+            <li><a href="ai-models.html" class="footer-link">AI Models</a></li>
+            <li><a href="soc-verification.html" class="footer-link">SOC Verification</a></li>
+            <li><a href="marketing-solutions.html" class="footer-link">Marketing</a></li>
+            <li><a href="web-development.html" class="footer-link">Web Development</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="footer-col-title">Company</h4>
+          <ul class="footer-links">
+            <li><a href="about-company.html" class="footer-link">About the Company</a></li>
+            <li><a href="about-owner.html" class="footer-link">About the Owner</a></li>
+            <li><a href="programs.html" class="footer-link">Programs</a></li>
+            <li><a href="front-end-software.html" class="footer-link">Front End Software</a></li>
+            <li><a href="index.html#solutions" class="footer-link">Solutions</a></li>
+            <li><a href="index.html#blog" class="footer-link">Technical Blog</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="footer-col-title">Get in touch</h4>
+          <ul class="footer-links" style="margin-bottom: var(--space-4);">
+            <li><a href="mailto:info@vlsiinsights.com" class="footer-link">info@vlsiinsights.com</a></li>
+            <li><a href="tel:+919810191592" class="footer-link">+91 98101 91592</a></li>
+          </ul>
+          <a
+            href="https://wa.me/919810191592?text=Hello%2C%20I%20want%20to%20enquire%20about%20the%20Job%20Oriented%20Program."
+            class="whatsapp-cta"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <i data-lucide="message-circle"></i>
+            Chat on WhatsApp
+          </a>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <div>&copy; 2026 VLSI Insights. All rights reserved.</div>
+        <div>Built for semiconductor excellence.</div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ========================================================================= -->
+  <!-- JAVASCRIPT LOGIC                                                          -->
+  <!-- ========================================================================= -->
+  <script>
+    lucide.createIcons();
+
+    // Mobile Navigation & Drawer
+    const hamburgerBtn = document.getElementById('hamburgerBtn');
+    const mobileDrawer = document.getElementById('mobileDrawer');
+    const drawerOverlay = document.getElementById('drawerOverlay');
+    const drawerTriggers = document.querySelectorAll('.drawer-close-trigger');
+
+    function toggleDrawer(open) {
+      const isOpen = open ?? !mobileDrawer.classList.contains('open');
+      mobileDrawer.classList.toggle('open', isOpen);
+      drawerOverlay.classList.toggle('open', isOpen);
+      hamburgerBtn.setAttribute('aria-expanded', isOpen);
+      document.body.style.overflow = isOpen ? 'hidden' : '';
+    }
+
+    const drawerCloseBtn = document.getElementById('drawerCloseBtn');
+    if (drawerCloseBtn) drawerCloseBtn.addEventListener('click', () => toggleDrawer(false));
+    hamburgerBtn.addEventListener('click', () => toggleDrawer());
+    drawerOverlay.addEventListener('click', () => toggleDrawer(false));
+    drawerTriggers.forEach(btn => btn.addEventListener('click', () => toggleDrawer(false)));
+
+    // Mobile Navigation Dropdown Accordions
+    const mobileServicesToggle = document.getElementById('mobileServicesToggle');
+    const mobileServicesAccordion = document.getElementById('mobileServicesAccordion');
+    const mobileAboutToggle = document.getElementById('mobileAboutToggle');
+    const mobileAboutAccordion = document.getElementById('mobileAboutAccordion');
+
+    if (mobileServicesToggle && mobileServicesAccordion) {
+      mobileServicesToggle.addEventListener('click', () => {
+        const isOpen = mobileServicesAccordion.classList.toggle('open');
+        mobileServicesToggle.setAttribute('aria-expanded', isOpen);
+        const chevron = mobileServicesToggle.querySelector('svg');
+        if (chevron) chevron.style.transform = isOpen ? 'rotate(180deg)' : 'rotate(0deg)';
+      });
+    }
+
+    if (mobileAboutToggle && mobileAboutAccordion) {
+      mobileAboutToggle.addEventListener('click', () => {
+        const isOpen = mobileAboutAccordion.classList.toggle('open');
+        mobileAboutToggle.setAttribute('aria-expanded', isOpen);
+        const chevron = mobileAboutToggle.querySelector('svg');
+        if (chevron) chevron.style.transform = isOpen ? 'rotate(180deg)' : 'rotate(0deg)';
+      });
+    }
+
+    // Desktop Dropdown Click / Hover Management
+    const desktopServicesItem = document.getElementById('desktopServicesItem');
+    const desktopServicesBtn = document.getElementById('desktopServicesBtn');
+    const desktopAboutItem = document.getElementById('desktopAboutItem');
+    const desktopAboutBtn = document.getElementById('desktopAboutBtn');
+
+    function setupDesktopDropdown(item, btn) {
+      if (!item || !btn) return;
+      let closeTimer = null;
+
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const isOpen = item.classList.toggle('open');
+        btn.setAttribute('aria-expanded', isOpen);
+      });
+
+      item.addEventListener('mouseenter', () => {
+        if (closeTimer) {
+          clearTimeout(closeTimer);
+          closeTimer = null;
+        }
+      });
+
+      item.addEventListener('mouseleave', () => {
+        closeTimer = setTimeout(() => {
+          item.classList.remove('open');
+          btn.setAttribute('aria-expanded', 'false');
+        }, 180);
+      });
+    }
+
+    setupDesktopDropdown(desktopServicesItem, desktopServicesBtn);
+    setupDesktopDropdown(desktopAboutItem, desktopAboutBtn);
+
+    document.addEventListener('click', (e) => {
+      if (desktopServicesItem && !desktopServicesItem.contains(e.target)) {
+        desktopServicesItem.classList.remove('open');
+        desktopServicesBtn.setAttribute('aria-expanded', 'false');
+      }
+      if (desktopAboutItem && !desktopAboutItem.contains(e.target)) {
+        desktopAboutItem.classList.remove('open');
+        desktopAboutBtn.setAttribute('aria-expanded', 'false');
+      }
+    });
+
+    // Scroll-triggered section headings (IntersectionObserver, fires once)
+    const headingObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('revealed');
+          headingObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15 });
+
+    document.querySelectorAll('.section-heading-group').forEach(el => headingObserver.observe(el));
+  </script>
+  <!-- Cart Badge Sync -->
+  <script>
+    (function() {
+      function updateCartBadge() {
+        try {
+          const items = JSON.parse(localStorage.getItem('vlsi_cart') || '[]');
+          const count = items.reduce((s, i) => s + (i.qty || 1), 0);
+          document.querySelectorAll('.cart-badge').forEach(b => {
+            b.textContent = count;
+            b.setAttribute('data-count', count);
+            b.setAttribute('data-visible', count > 0 ? 'true' : 'false');
+            b.style.display = count > 0 ? 'inline-flex' : 'none';
+          });
+        } catch(e) {}
+      }
+      updateCartBadge();
+      window.addEventListener('storage', updateCartBadge);
+    })();
+  </script>
+
+  <!-- Floating WhatsApp Chat Widget -->
+  <aside class="floating-whatsapp" aria-label="WhatsApp Support">
+    <a href="https://api.whatsapp.com/send/?phone=919810191592&text=Hello%2C+I+want+to+enquire+about+the+Job+Oriented+Program.&type=phone_number&app_absent=0" 
+       target="_blank" 
+       rel="noopener noreferrer" 
+       class="floating-whatsapp__btn" 
+       aria-label="Chat on WhatsApp with VLSI Insights">
+      <span class="floating-whatsapp__badge" aria-label="1 new notification">1</span>
+      <img src="images/whatsapp-icon.png" alt="WhatsApp" class="floating-whatsapp__img" width="36" height="36" loading="lazy" decoding="async">
+      <span class="floating-whatsapp__tooltip">Chat on WhatsApp</span>
+    </a>
+  </aside>
+  <script src="js/main.js" defer></script>
+</body>
+</html>
+
+
+
+

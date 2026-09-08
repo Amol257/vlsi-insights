@@ -1,0 +1,1120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Technical Blogs | VLSI Insights</title>
+  <meta name="description" content="In-depth technical semiconductor articles, RTL design tutorials, SystemVerilog verification guides, and career roadmaps by VLSI Insights.">
+  <link rel="canonical" href="technical-blogs.html">
+
+  <!-- Google Fonts: Space Grotesk (Headings) + Inter (Body) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js" defer></script>
+
+  <style>
+    :root {
+      --void: #FFFFFF;
+      --substrate: #FAFAFA;
+      --surface: var(--substrate);
+      --card: #FFFFFF;
+      --edge: #E2E8F0;
+      --border: #E2E8F0;
+      --trace: #00A887;
+      --focus: #00A887;
+      --text-hi: #0F172A;
+      --text: #334155;
+      --text-mid: #475569;
+      --text-dim: #64748B;
+      --text-lo: #94A3B8;
+
+      --font-display: 'Space Grotesk', -apple-system, sans-serif;
+      --font-body: 'Inter', -apple-system, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+
+      --space-2: 8px;
+      --space-3: 12px;
+      --space-4: 16px;
+      --space-6: 24px;
+      --space-8: 32px;
+      --space-12: 48px;
+
+      --dur-fast: 150ms;
+      --dur-base: 250ms;
+      --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      background: var(--substrate);
+      color: var(--text-mid);
+    }
+
+    body {
+      background: var(--substrate);
+      color: var(--text-mid);
+      font-family: var(--font-body);
+      font-size: 1rem;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    img, svg {
+      display: block;
+      max-width: 100%;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button {
+      font: inherit;
+      border: none;
+      background: none;
+      cursor: pointer;
+    }
+
+    :focus-visible {
+      outline: 2px solid var(--focus);
+      outline-offset: 2px;
+    }
+
+    .container {
+      max-width: 1280px;
+      margin-inline: auto;
+      padding-inline: var(--space-6);
+    }
+
+    /* -------------------------------------------------------------------------- */
+    /* STANDARDIZED NAVBAR & NAVIGATION SYSTEM                                    */
+    /* Navbar styles are defined in css/navbar.css — no inline overrides needed */
+
+    .mobile-nav-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin: 0;
+      padding: 0;
+    }
+
+    .mobile-nav-link {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      padding: 10px 12px;
+      font-family: var(--font-body);
+      font-size: var(--text-base);
+      font-weight: var(--weight-medium);
+      color: var(--text-mid);
+      border-radius: 6px;
+      text-decoration: none;
+      background: none;
+      border: none;
+      text-align: left;
+      cursor: pointer;
+    }
+
+    .mobile-nav-link:hover,
+    .mobile-nav-link.active {
+      color: var(--trace);
+      background: rgba(0, 168, 135, 0.06);
+    }
+
+    .mobile-accordion {
+      display: none;
+      flex-direction: column;
+      padding-left: var(--space-4);
+      border-left: 2px solid var(--edge);
+      margin: var(--space-2) 0 var(--space-3) var(--space-3);
+      gap: 4px;
+    }
+
+    .mobile-accordion a {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 10px;
+      font-size: 0.875rem;
+      color: var(--text-mid);
+      text-decoration: none;
+      border-radius: 4px;
+    }
+
+    .mobile-accordion a:hover {
+      color: var(--trace);
+      background: rgba(0, 168, 135, 0.06);
+    }
+
+    /* HERO BANNER */
+    .blogs-hero {
+      position: relative;
+      background: #FFFFFF;
+      border-bottom: 1px solid var(--edge);
+      padding: 64px 0 56px;
+      overflow: hidden;
+    }
+    .hero-circuit-watermark {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      opacity: 0.25;
+      z-index: 1;
+    }
+    .blogs-hero > .container {
+      position: relative;
+      z-index: 2;
+    }
+    .badge-pill {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 6px 14px; border-radius: 9999px;
+      background: rgba(0, 168, 135, 0.08);
+      border: 1px solid rgba(0, 168, 135, 0.25);
+      color: var(--trace);
+      font-size: 0.8125rem; font-weight: 600;
+      margin-bottom: 16px;
+    }
+
+    .section-label {
+      font-family: var(--font-mono);
+      font-size: 0.8125rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      color: var(--trace);
+      margin-bottom: 12px;
+      display: inline-block;
+    }
+
+    .hero-title {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 700;
+      color: var(--text-hi);
+      line-height: 1.15;
+      margin-bottom: 16px;
+    }
+
+    .hero-subtitle {
+      max-width: 820px;
+      margin: 0;
+      font-size: 1.0625rem;
+      color: var(--text-mid);
+      line-height: 1.6;
+    }
+
+    /* FILTER PILLS */
+    .filter-bar {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 8px;
+      margin: 36px 0 16px;
+    }
+
+    .filter-pill {
+      padding: 8px 18px;
+      border-radius: 30px;
+      background: #FFFFFF;
+      border: 1px solid var(--edge);
+      color: var(--text-mid);
+      font-size: 0.875rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .filter-pill:hover, .filter-pill.active {
+      background: var(--trace);
+      color: #FFFFFF;
+      border-color: var(--trace);
+      
+    }
+
+    /* BLOG GRID */
+    .blogs-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+      gap: 28px;
+      padding: 56px 0 80px;
+    }
+
+    .blog-tile {
+      background: #FFFFFF;
+      border: 1px solid var(--edge);
+      border-radius: 10px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      
+      transition: transform 0.3s var(--ease-out-expo), border-color 0.3s ease;
+    }
+
+    .blog-tile:hover {
+      transform: translateY(-5px);
+      border-color: var(--trace);
+      
+    }
+
+    .blog-tile__thumb-wrap {
+      width: 100%;
+      height: 210px;
+      overflow: hidden;
+      background: var(--void);
+      position: relative;
+    }
+
+    .blog-tile__thumb {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+
+    .blog-tile:hover .blog-tile__thumb {
+      transform: scale(1.06);
+    }
+
+    .blog-tile__body {
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+    }
+
+    .blog-badge {
+      align-self: flex-start;
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--trace);
+      background: rgba(0, 168, 135, 0.08);
+      border: 1px solid rgba(0, 168, 135, 0.25);
+      padding: 3px 9px;
+      border-radius: 4px;
+      margin-bottom: 12px;
+    }
+
+    .blog-tile__title {
+      font-family: var(--font-display);
+      font-size: 1.125rem;
+      font-weight: 700;
+      color: var(--text-hi);
+      line-height: 1.35;
+      margin-bottom: 10px;
+    }
+
+    .blog-tile__title a {
+      color: inherit;
+      transition: color 0.2s ease;
+    }
+
+    .blog-tile__title a:hover {
+      color: var(--trace);
+    }
+
+    .blog-tile__excerpt {
+      font-size: 0.875rem;
+      color: var(--text-mid);
+      line-height: 1.6;
+      margin-bottom: 20px;
+      flex-grow: 1;
+    }
+
+    .blog-tile__footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-top: 1px solid var(--edge);
+      padding-top: 14px;
+      font-size: 0.8125rem;
+      color: var(--text-dim);
+    }
+
+    .blog-tile__btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      color: var(--trace);
+      font-weight: 600;
+      font-size: 0.875rem;
+      transition: gap 0.2s ease;
+    }
+
+    .blog-tile:hover .blog-tile__btn {
+      gap: 8px;
+    }
+
+    /* FOOTER */
+    .site-footer {
+      background: var(--surface);
+      color: var(--text-mid);
+      padding: 64px 0 32px;
+      border-top: 1px solid var(--edge);
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 40px;
+      margin-bottom: 48px;
+    }
+
+    .footer-col-title {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 0.9375rem;
+      color: var(--text-hi);
+      letter-spacing: 0.04em;
+      
+      margin-bottom: 16px;
+    }
+
+    .footer-links {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .footer-link {
+      font-size: 0.875rem;
+      color: var(--text-mid);
+      text-decoration: none;
+      transition: color 0.15s ease;
+    }
+
+    .footer-link:hover {
+      color: var(--trace);
+    }
+
+    .footer-bottom {
+      border-top: 1px solid var(--edge);
+      padding-top: 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.8125rem;
+      color: var(--text-lo);
+    }
+
+    }
+
+    /* FLOATING WHATSAPP */
+    .floating-whatsapp {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      z-index: 9999;
+    }
+
+    .floating-whatsapp__btn {
+      width: 56px;
+      height: 56px;
+      background: #000000;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      ;
+      transition: transform 0.25s ease;
+      text-decoration: none;
+      position: relative;
+    }
+
+    .floating-whatsapp__btn:hover {
+      transform: scale(1.1) translateY(-3px);
+    }
+
+    .floating-whatsapp__img {
+      width: 36px;
+      height: 36px;
+      object-fit: contain;
+    }
+
+    .floating-whatsapp__badge {
+      position: absolute;
+      top: -2px;
+      right: -2px;
+      width: 20px;
+      height: 20px;
+      background: #EF4444;
+      color: #ffffff;
+      font-size: 11px;
+      font-weight: 700;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 2px solid #ffffff;
+    }
+
+    @media (max-width: 900px) {
+      .nav-links { display: none; }
+      .footer-grid { grid-template-columns: 1fr; gap: 32px; }
+      .blogs-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+  <link rel="stylesheet" href="css/navbar.css">
+  <link rel="stylesheet" href="css/footer.css">
+  <link rel="stylesheet" href="css/global.css">
+</head>
+<body>
+
+  <!-- ========================================================================= -->
+  <!-- NAVIGATION BAR                                                            -->
+  <!-- ========================================================================= -->
+  <!-- NAVIGATION BAR -->
+  <header class="navbar" role="banner">
+    <div class="container navbar__inner">
+      <!-- Brand Logo -->
+      <a href="index.html" class="nav-logo" aria-label="VLSI Insights Homepage">
+        <img src="images/logo.png" alt="VLSI Insights — Empowering Tomorrow's Technology Today" class="nav-logo-img">
+      </a>
+
+      <!-- Desktop Navigation -->
+      <nav class="nav-links" role="navigation" aria-label="Main Navigation">
+        <div class="nav-item">
+          <a href="index.html" class="nav-link">Home</a>
+        </div>
+
+        <!-- Services Dropdown (Categorized) -->
+        <div class="nav-item" id="desktopServicesItem">
+          <button type="button" class="nav-link" id="desktopServicesBtn" aria-expanded="false" aria-haspopup="true">
+            Services
+            <i data-lucide="chevron-down" class="chevron"></i>
+          </button>
+          <div class="dropdown-panel dropdown-panel--services" role="menu">
+            <div class="dropdown-col">
+              <span class="dropdown-col-heading">Engineering Services</span>
+              <a href="vlsi-designs.html" class="dropdown-item" role="menuitem">
+                <span class="dropdown-item__icon"><i data-lucide="cpu"></i></span>
+                <div>
+                  <div class="dropdown-item__title">VLSI Related Services</div>
+                  <div class="dropdown-item__desc">RTL layout, physical design, and verification.</div>
+                </div>
+              </a>
+              <a href="soc-verification.html" class="dropdown-item" role="menuitem">
+                <span class="dropdown-item__icon"><i data-lucide="shield-check"></i></span>
+                <div>
+                  <div class="dropdown-item__title">SOC Verification</div>
+                  <div class="dropdown-item__desc">UVM functional verification architectures.</div>
+                </div>
+              </a>
+              <a href="embedded-systems.html" class="dropdown-item" role="menuitem">
+                <span class="dropdown-item__icon"><i data-lucide="microchip"></i></span>
+                <div>
+                  <div class="dropdown-item__title">Embedded Systems</div>
+                  <div class="dropdown-item__desc">MCU firmware to real-time operating systems.</div>
+                </div>
+              </a>
+              <a href="ai-models.html" class="dropdown-item" role="menuitem">
+                <span class="dropdown-item__icon"><i data-lucide="brain"></i></span>
+                <div>
+                  <div class="dropdown-item__title">AI Models</div>
+                  <div class="dropdown-item__desc">Edge ML and embedded inference pipelines.</div>
+                </div>
+              </a>
+              <a href="web-development.html" class="dropdown-item" role="menuitem">
+                <span class="dropdown-item__icon"><i data-lucide="code-2"></i></span>
+                <div>
+                  <div class="dropdown-item__title">Web Development</div>
+                  <div class="dropdown-item__desc">Modern engineering web applications and portals.</div>
+                </div>
+              </a>
+            </div>
+
+            <div class="dropdown-col">
+              <span class="dropdown-col-heading">Training &amp; Growth</span>
+              <a href="technical-training.html" class="dropdown-item" role="menuitem">
+                <span class="dropdown-item__icon"><i data-lucide="graduation-cap"></i></span>
+                <div>
+                  <div class="dropdown-item__title">Technical Training</div>
+                  <div class="dropdown-item__desc">Hands-on VLSI &amp; embedded engineering training.</div>
+                </div>
+              </a>
+              <a href="marketing-solutions.html" class="dropdown-item" role="menuitem">
+                <span class="dropdown-item__icon"><i data-lucide="trending-up"></i></span>
+                <div>
+                  <div class="dropdown-item__title">Marketing Solutions</div>
+                  <div class="dropdown-item__desc">Growth strategies for technical enterprises.</div>
+                </div>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div class="nav-item">
+          <a href="programs.html" class="nav-link">Programs</a>
+        </div>
+
+        <div class="nav-item">
+          <a href="front-end-software.html" class="nav-link">Front End Software</a>
+        </div>
+
+        <div class="nav-item">
+          <a href="blog.html" class="nav-link active" aria-current="page">Blogs</a>
+        </div>
+
+        <!-- About Dropdown -->
+        <div class="nav-item" id="desktopAboutItem">
+          <button type="button" class="nav-link" id="desktopAboutBtn" aria-expanded="false" aria-haspopup="true">
+            About
+            <i data-lucide="chevron-down" class="chevron"></i>
+          </button>
+          <div class="dropdown-panel" role="menu">
+            <a href="about-company.html" class="dropdown-item" role="menuitem">
+              <span class="dropdown-item__icon"><i data-lucide="building-2"></i></span>
+              <div>
+                <div class="dropdown-item__title">About the Company</div>
+                <div class="dropdown-item__desc">Our story, mission, engineering team, and culture.</div>
+              </div>
+            </a>
+            <a href="about-owner.html" class="dropdown-item" role="menuitem">
+              <span class="dropdown-item__icon"><i data-lucide="user"></i></span>
+              <div>
+                <div class="dropdown-item__title">About the Owner</div>
+                <div class="dropdown-item__desc">Founder profile, journey, expertise, and leadership.</div>
+              </div>
+            </a>
+                      <a href="testimonials.html" class="dropdown-item" role="menuitem">
+              <span class="dropdown-item__icon"><i data-lucide="message-square"></i></span>
+              <div>
+                <div class="dropdown-item__title">Testimonials</div>
+                <div class="dropdown-item__desc">What industry engineers and alumni say about us.</div>
+              </div>
+            </a>
+          </div>
+        </div>
+
+        <div class="nav-item">
+          <a href="index.html#contact" class="nav-link">Contact</a>
+        </div>
+      </nav>
+
+      <!-- Cart Icon + Mobile Hamburger Button -->
+      <div class="navbar__controls">
+        <a href="cart.html" class="nav-cart-btn" aria-label="View Cart" id="cartNavBtn">
+          <i data-lucide="shopping-cart"></i>
+          <span class="cart-badge" id="cartBadge" data-visible="false">0</span>
+        </a>
+        <button type="button" class="nav-hamburger" id="hamburgerBtn" aria-label="Open navigation menu" aria-expanded="false" aria-controls="mobileDrawer">
+          <i data-lucide="menu"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Drawer & Overlay -->
+  <div class="drawer-overlay" id="drawerOverlay"></div>
+  <aside class="mobile-drawer" id="mobileDrawer" role="dialog" aria-modal="true" aria-label="Mobile Navigation">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;padding-bottom:12px;border-bottom:1px solid var(--edge);">
+      <img src="images/logo.png" alt="VLSI Insights" style="height:30px;width:auto;max-width:160px;object-fit:contain;">
+      <button type="button" id="drawerCloseBtn" aria-label="Close navigation menu" style="padding:6px;border-radius:4px;color:#475569;cursor:pointer;background:none;border:none;">
+        <i data-lucide="x"></i>
+      </button>
+    </div>
+    <ul class="mobile-nav-list">
+      <li>
+        <a href="index.html" class="mobile-nav-link drawer-close-trigger">Home</a>
+      </li>
+      <li>
+        <button type="button" class="mobile-nav-link" id="mobileServicesToggle" aria-expanded="false">
+          <span>Services</span>
+          <i data-lucide="chevron-down"></i>
+        </button>
+        <div class="mobile-accordion" id="mobileServicesAccordion">
+          <div style="font-size:0.6875rem;font-weight:700;color:var(--trace);text-transform:uppercase;padding:8px 12px 4px;">Engineering Services</div>
+          <a href="vlsi-designs.html" class="drawer-close-trigger"><i data-lucide="cpu"></i> VLSI Related Services</a>
+          <a href="soc-verification.html" class="drawer-close-trigger"><i data-lucide="shield-check"></i> SOC Verification</a>
+          <a href="embedded-systems.html" class="drawer-close-trigger"><i data-lucide="microchip"></i> Embedded Systems</a>
+          <a href="ai-models.html" class="drawer-close-trigger"><i data-lucide="brain"></i> AI Models</a>
+          <a href="web-development.html" class="drawer-close-trigger"><i data-lucide="code-2"></i> Web Development</a>
+          <div style="font-size:0.6875rem;font-weight:700;color:var(--trace);text-transform:uppercase;padding:12px 12px 4px 12px;border-top:1px solid var(--edge);margin-top:4px;">Training &amp; Growth</div>
+          <a href="technical-training.html" class="drawer-close-trigger"><i data-lucide="graduation-cap"></i> Technical Training</a>
+          <a href="marketing-solutions.html" class="drawer-close-trigger"><i data-lucide="trending-up"></i> Marketing Solutions</a>
+        </div>
+      </li>
+      <li>
+        <a href="programs.html" class="mobile-nav-link drawer-close-trigger">Programs</a>
+      </li>
+      <li>
+        <a href="front-end-software.html" class="mobile-nav-link drawer-close-trigger">Front End Software</a>
+      </li>
+      <li>
+        <a href="blog.html" class="mobile-nav-link drawer-close-trigger active">Blog</a>
+      </li>
+      <li>
+        <button type="button" class="mobile-nav-link" id="mobileAboutToggle" aria-expanded="false">
+          <span>About</span>
+          <i data-lucide="chevron-down"></i>
+        </button>
+        <div class="mobile-accordion" id="mobileAboutAccordion">
+          <a href="about-company.html" class="drawer-close-trigger"><i data-lucide="building-2"></i> About the Company</a>
+          <a href="about-owner.html" class="drawer-close-trigger"><i data-lucide="user"></i> About the Owner</a>
+          <a href="testimonials.html" class="drawer-close-trigger"><i data-lucide="message-square"></i> Testimonials</a>
+        </div>
+      </li>
+      <li>
+        <a href="index.html#contact" class="mobile-nav-link drawer-close-trigger">Contact</a>
+      </li>
+    </ul>
+    <div style="margin-top:auto;padding-top:20px;border-top:1px solid var(--edge);display:flex;flex-direction:column;gap:10px;">
+      <a href="cart.html" class="drawer-close-trigger" style="display:flex;align-items:center;justify-content:center;gap:8px;padding:12px;background:var(--surface);border:1px solid var(--edge);border-radius:6px;color:var(--text-hi);font-weight:600;text-decoration:none;font-size:0.875rem;">
+        <i data-lucide="shopping-cart" style="width:18px;height:18px;"></i>
+        <span>View Cart</span>
+      </a>
+      <a href="login.html" class="drawer-close-trigger" style="display:flex;align-items:center;justify-content:center;gap:8px;padding:12px;background:var(--trace);color:#FFFFFF;border-radius:6px;font-weight:600;text-decoration:none;font-size:0.875rem;">
+        <i data-lucide="user" style="width:18px;height:18px;"></i>
+        <span>Sign In</span>
+      </a>
+    </div>
+  </aside>
+
+  <section class="blogs-hero">
+    <svg class="hero-circuit-watermark" viewBox="0 0 1440 480" fill="none" preserveAspectRatio="none" aria-hidden="true">
+      <path d="M0,120 L280,120 L340,180 L700,180 L760,120 L1100,120 L1160,180 L1440,180" stroke="#94A3B8" stroke-width="1.5" stroke-dasharray="6 4"/>
+      <path d="M0,320 L240,320 L300,260 L620,260 L680,320 L960,320 L1020,260 L1440,260" stroke="#94A3B8" stroke-width="1.5"/>
+      <circle cx="280" cy="120" r="4" fill="#94A3B8"/>
+      <circle cx="700" cy="180" r="4" fill="#94A3B8"/>
+      <circle cx="1100" cy="120" r="4" fill="#94A3B8"/>
+      <circle cx="240" cy="320" r="4" fill="#94A3B8"/>
+      <circle cx="680" cy="320" r="4" fill="#94A3B8"/>
+      <circle cx="1020" cy="260" r="4" fill="#94A3B8"/>
+    </svg>
+    <div class="container">
+      <div class="badge-pill">
+        <i data-lucide="book-open" style="width:14px;height:14px;"></i>
+        <span>Knowledge &amp; Engineering Hub</span>
+      </div>
+      <h1 class="hero-title">Technical VLSI Blogs</h1>
+      <p class="hero-subtitle">
+        In-depth silicon engineering breakdowns, RTL design best practices, SystemVerilog verification architectures, and career roadmaps straight from VLSI Insights.
+      </p>
+    </div>
+  </section>
+
+  <!-- BLOGS GRID -->
+  <main class="container">
+    <div class="blogs-grid" id="blogsContainer">
+
+      <!-- Blog 1 -->
+      <article class="blog-tile" data-category="roadmap">
+        <div class="blog-tile__thumb-wrap">
+          <img src="images/blogs/blog-1.png" alt="How to Get Your First VLSI Job in 2026" class="blog-tile__thumb" loading="lazy">
+        </div>
+        <div class="blog-tile__body">
+          <span class="blog-badge">Career Roadmap</span>
+          <h2 class="blog-tile__title">
+            <a href="https://vlsiinsights.com/how-to-get-your-first-vlsi-job/" target="_blank" rel="noopener noreferrer">
+              How to Get Your First VLSI Job in 2026: Complete Roadmap for Freshers (No Experience Required)
+            </a>
+          </h2>
+          <p class="blog-tile__excerpt">
+            The semiconductor industry is experiencing unprecedented growth. Governments and technology companies worldwide are investing billions in chip manufacturing and skilled engineering talent.
+          </p>
+          <div class="blog-tile__footer">
+            <span>VLSI Insights Lab</span>
+            <a href="https://vlsiinsights.com/how-to-get-your-first-vlsi-job/" target="_blank" rel="noopener noreferrer" class="blog-tile__btn">
+              <span>Read Full Article</span>
+              <i data-lucide="arrow-right" style="width:14px;height:14px;"></i>
+            </a>
+          </div>
+        </div>
+      </article>
+
+      <!-- Blog 2 -->
+      <article class="blog-tile" data-category="verification">
+        <div class="blog-tile__thumb-wrap">
+          <img src="images/blogs/blog-2.png" alt="SystemVerilog vs Verilog" class="blog-tile__thumb" loading="lazy">
+        </div>
+        <div class="blog-tile__body">
+          <span class="blog-badge">SystemVerilog &amp; SV</span>
+          <h2 class="blog-tile__title">
+            <a href="https://vlsiinsights.com/systemverilog-vs-verilog/" target="_blank" rel="noopener noreferrer">
+              SystemVerilog vs Verilog: What's the Difference? Which One Should You Learn First in 2026?
+            </a>
+          </h2>
+          <p class="blog-tile__excerpt">
+            If you're planning to build a career in VLSI Frontend Design, explore the core technical distinctions between Verilog description and SystemVerilog verification architectures.
+          </p>
+          <div class="blog-tile__footer">
+            <span>Smart Guide</span>
+            <a href="https://vlsiinsights.com/systemverilog-vs-verilog/" target="_blank" rel="noopener noreferrer" class="blog-tile__btn">
+              <span>Read Full Article</span>
+              <i data-lucide="arrow-right" style="width:14px;height:14px;"></i>
+            </a>
+          </div>
+        </div>
+      </article>
+
+      <!-- Blog 3 -->
+      <article class="blog-tile" data-category="roadmap">
+        <div class="blog-tile__thumb-wrap">
+          <img src="images/blogs/blog-5.png" alt="RTL Design vs Design Verification" class="blog-tile__thumb" loading="lazy">
+        </div>
+        <div class="blog-tile__body">
+          <span class="blog-badge">Career Comparison</span>
+          <h2 class="blog-tile__title">
+            <a href="https://vlsiinsights.com/rtl-design-vs-design-verification-vlsi-career/" target="_blank" rel="noopener noreferrer">
+              RTL Design vs Design Verification: Which VLSI Career Path Is Right for Your Growth in 2026?
+            </a>
+          </h2>
+          <p class="blog-tile__excerpt">
+            The semiconductor industry is growing rapidly, creating thousands of opportunities. Compare job roles, daily challenges, and compensation packages between RTL and DV.
+          </p>
+          <div class="blog-tile__footer">
+            <span>Career Guidance</span>
+            <a href="https://vlsiinsights.com/rtl-design-vs-design-verification-vlsi-career/" target="_blank" rel="noopener noreferrer" class="blog-tile__btn">
+              <span>Read Full Article</span>
+              <i data-lucide="arrow-right" style="width:14px;height:14px;"></i>
+            </a>
+          </div>
+        </div>
+      </article>
+
+      <!-- Blog 4 -->
+      <article class="blog-tile" data-category="roadmap">
+        <div class="blog-tile__thumb-wrap">
+          <img src="images/blogs/blog-6.png" alt="VLSI Career Roadmap 2026" class="blog-tile__thumb" loading="lazy">
+        </div>
+        <div class="blog-tile__body">
+          <span class="blog-badge">Career Roadmap</span>
+          <h2 class="blog-tile__title">
+            <a href="https://vlsiinsights.com/vlsi-career-roadmap-2026/" target="_blank" rel="noopener noreferrer">
+              VLSI Career Roadmap 2026: Complete Guide to Become a Successful VLSI Engineer
+            </a>
+          </h2>
+          <p class="blog-tile__excerpt">
+            From Artificial Intelligence processors and autonomous vehicles to smartphones and cloud computing, discover the exact technical milestones required to thrive.
+          </p>
+          <div class="blog-tile__footer">
+            <span>Industry Guide</span>
+            <a href="https://vlsiinsights.com/vlsi-career-roadmap-2026/" target="_blank" rel="noopener noreferrer" class="blog-tile__btn">
+              <span>Read Full Article</span>
+              <i data-lucide="arrow-right" style="width:14px;height:14px;"></i>
+            </a>
+          </div>
+        </div>
+      </article>
+
+      <!-- Blog 5 -->
+      <article class="blog-tile" data-category="verification">
+        <div class="blog-tile__thumb-wrap">
+          <img src="images/blogs/blog-5.png" alt="RTL Design vs Design Verification Success" class="blog-tile__thumb" loading="lazy">
+        </div>
+        <div class="blog-tile__body">
+          <span class="blog-badge">Verification</span>
+          <h2 class="blog-tile__title">
+            <a href="https://vlsiinsights.com/rtl-design-vs-design-verification/" target="_blank" rel="noopener noreferrer">
+              RTL Design vs Design Verification: Which VLSI Career Success Path Is Right for You?
+            </a>
+          </h2>
+          <p class="blog-tile__excerpt">
+            One of the most common questions among ECE students and aspiring VLSI professionals: &ldquo;Should I choose RTL Design or Design Verification?&rdquo; Here is the definitive answer.
+          </p>
+          <div class="blog-tile__footer">
+            <span>Career Analysis</span>
+            <a href="https://vlsiinsights.com/rtl-design-vs-design-verification/" target="_blank" rel="noopener noreferrer" class="blog-tile__btn">
+              <span>Read Full Article</span>
+              <i data-lucide="arrow-right" style="width:14px;height:14px;"></i>
+            </a>
+          </div>
+        </div>
+      </article>
+
+      <!-- Blog 6 -->
+      <article class="blog-tile" data-category="rtl">
+        <div class="blog-tile__thumb-wrap">
+          <img src="images/blogs/blog-6.png" alt="Frontend VLSI Roadmap" class="blog-tile__thumb" loading="lazy">
+        </div>
+        <div class="blog-tile__body">
+          <span class="blog-badge">RTL Design</span>
+          <h2 class="blog-tile__title">
+            <a href="https://vlsiinsights.com/frontend-vlsi-roadmap/" target="_blank" rel="noopener noreferrer">
+              Frontend VLSI Roadmap: Complete Guide to Becoming a Successful RTL Design Engineer in 2026
+            </a>
+          </h2>
+          <p class="blog-tile__excerpt">
+            If you are an ECE student, recent graduate, or professional looking to enter the chip industry, follow this structured roadmap covering digital logic, Verilog, and synthesis.
+          </p>
+          <div class="blog-tile__footer">
+            <span>RTL Curriculum</span>
+            <a href="https://vlsiinsights.com/frontend-vlsi-roadmap/" target="_blank" rel="noopener noreferrer" class="blog-tile__btn">
+              <span>Read Full Article</span>
+              <i data-lucide="arrow-right" style="width:14px;height:14px;"></i>
+            </a>
+          </div>
+        </div>
+      </article>
+
+      <!-- Blog 7 -->
+      <article class="blog-tile" data-category="rtl">
+        <div class="blog-tile__thumb-wrap">
+          <img src="images/blogs/blog-7.png" alt="Top 50 RTL Design Interview Questions" class="blog-tile__thumb" loading="lazy">
+        </div>
+        <div class="blog-tile__body">
+          <span class="blog-badge">Interview Prep</span>
+          <h2 class="blog-tile__title">
+            <a href="https://vlsiinsights.com/rtl-design-interview-questions/" target="_blank" rel="noopener noreferrer">
+              Top 50 RTL Design Interview Questions and Answers for 2026
+            </a>
+          </h2>
+          <p class="blog-tile__excerpt">
+            RTL Design interviews assess candidate understanding of digital design, Verilog/SystemVerilog, timing concepts, finite state machines, protocols, and practical debugging skills.
+          </p>
+          <div class="blog-tile__footer">
+            <span>Interview Guide</span>
+            <a href="https://vlsiinsights.com/rtl-design-interview-questions/" target="_blank" rel="noopener noreferrer" class="blog-tile__btn">
+              <span>Read Full Article</span>
+              <i data-lucide="arrow-right" style="width:14px;height:14px;"></i>
+            </a>
+          </div>
+        </div>
+      </article>
+
+      <!-- Blog 8 -->
+      <article class="blog-tile" data-category="asic">
+        <div class="blog-tile__thumb-wrap">
+          <img src="images/blogs/blog-8.png" alt="Complete ASIC Design Flow Explained" class="blog-tile__thumb" loading="lazy">
+        </div>
+        <div class="blog-tile__body">
+          <span class="blog-badge">ASIC Flow</span>
+          <h2 class="blog-tile__title">
+            <a href="https://vlsiinsights.com/asic-design-flow-explained/" target="_blank" rel="noopener noreferrer">
+              Complete ASIC Design Flow Explained: From Specification to Tapeout
+            </a>
+          </h2>
+          <p class="blog-tile__excerpt">
+            Behind every successful chip lies a structured development process. Understand specification definition, architectural partitioning, synthesis, DFT, and physical layout.
+          </p>
+          <div class="blog-tile__footer">
+            <span>Architecture</span>
+            <a href="https://vlsiinsights.com/asic-design-flow-explained/" target="_blank" rel="noopener noreferrer" class="blog-tile__btn">
+              <span>Read Full Article</span>
+              <i data-lucide="arrow-right" style="width:14px;height:14px;"></i>
+            </a>
+          </div>
+        </div>
+      </article>
+
+      <!-- Blog 9 -->
+      <article class="blog-tile" data-category="roadmap">
+        <div class="blog-tile__thumb-wrap">
+          <img src="images/blogs/blog-9.png" alt="Frontend vs Backend VLSI" class="blog-tile__thumb" loading="lazy">
+        </div>
+        <div class="blog-tile__body">
+          <span class="blog-badge">VLSI Overview</span>
+          <h2 class="blog-tile__title">
+            <a href="https://vlsiinsights.com/frontend-vs-backend-vlsi/" target="_blank" rel="noopener noreferrer">
+              Frontend vs Backend VLSI: Which Career Path Is Better in 2026?
+            </a>
+          </h2>
+          <p class="blog-tile__excerpt">
+            Should you focus on architectural microarchitecture, logic synthesis, and verification (Frontend), or floorplanning, placement, and clock tree routing (Backend)?
+          </p>
+          <div class="blog-tile__footer">
+            <span>Career Roadmap</span>
+            <a href="https://vlsiinsights.com/frontend-vs-backend-vlsi/" target="_blank" rel="noopener noreferrer" class="blog-tile__btn">
+              <span>Read Full Article</span>
+              <i data-lucide="arrow-right" style="width:14px;height:14px;"></i>
+            </a>
+          </div>
+        </div>
+      </article>
+
+      <!-- Blog 10 -->
+      <article class="blog-tile" data-category="rtl">
+        <div class="blog-tile__thumb-wrap">
+          <img src="images/blogs/blog-10.png" alt="Best Skills for RTL Design Engineers" class="blog-tile__thumb" loading="lazy">
+        </div>
+        <div class="blog-tile__body">
+          <span class="blog-badge">RTL Skills</span>
+          <h2 class="blog-tile__title">
+            <a href="https://vlsiinsights.com/best-skills-for-rtl-design-engineers/" target="_blank" rel="noopener noreferrer">
+              Best Skills for RTL Design Engineers in 2026: Complete Career Roadmap
+            </a>
+          </h2>
+          <p class="blog-tile__excerpt">
+            RTL Design remains one of the most sought-after career paths in silicon. Master the core competencies: clock domain crossing, static timing, linting, and synthesis optimization.
+          </p>
+          <div class="blog-tile__footer">
+            <span>Skills Breakdown</span>
+            <a href="https://vlsiinsights.com/best-skills-for-rtl-design-engineers/" target="_blank" rel="noopener noreferrer" class="blog-tile__btn">
+              <span>Read Full Article</span>
+              <i data-lucide="arrow-right" style="width:14px;height:14px;"></i>
+            </a>
+          </div>
+        </div>
+      </article>
+
+    </div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <a href="index.html" style="display:inline-block;margin-bottom:16px;">
+            <img src="images/logo.png" alt="VLSI Insights" style="height:38px;width:auto;display:block;">
+          </a>
+          <p style="font-size:0.875rem;line-height:1.6;color:var(--text-mid);max-width:320px;">
+            Empowering semiconductor front-end engineers through production-level training, design services, and industry mentorship.
+          </p>
+        </div>
+        <div>
+          <h4 class="footer-col-title">Services</h4>
+          <ul class="footer-links">
+            <li><a href="vlsi-designs.html" class="footer-link">VLSI Designs</a></li>
+            <li><a href="soc-verification.html" class="footer-link">SOC Verification</a></li>
+            <li><a href="embedded-systems.html" class="footer-link">Embedded Systems</a></li>
+            <li><a href="ai-models.html" class="footer-link">AI Models</a></li>
+            <li><a href="web-development.html" class="footer-link">Web Development</a></li>
+            <li><a href="marketing-solutions.html" class="footer-link">Marketing Solutions</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="footer-col-title">Company</h4>
+          <ul class="footer-links">
+            <li><a href="about-company.html" class="footer-link">About Company</a></li>
+            <li><a href="about-owner.html" class="footer-link">About Founder</a></li>
+            <li><a href="programs.html" class="footer-link">Programs</a></li>
+            <li><a href="front-end-software.html" class="footer-link">Front End Software</a></li>
+            <li><a href="technical-blogs.html" class="footer-link">Technical Blogs</a></li>
+            <li><a href="testimonials.html" class="footer-link">Testimonials</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="footer-col-title">Get in Touch</h4>
+          <ul class="footer-links" style="margin-bottom:16px;">
+            <li><a href="tel:+919810191592" class="footer-link">+91 98101 91592</a></li>
+            <li><a href="mailto:info@vlsiinsights.com" class="footer-link">info@vlsiinsights.com</a></li>
+            <li><span style="font-size:0.875rem;color:var(--text-lo);">Bengaluru &amp; Delhi NCR</span></li>
+          </ul>
+          <a href="https://wa.me/919810191592?text=Hello%2C%20I%20want%20to%20enquire%20about%20the%20Job%20Oriented%20Program." target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;gap:8px;padding:8px 16px;background:#25D366;color:#FFF;border-radius:6px;text-decoration:none;font-size:0.875rem;font-weight:600;">
+            <i data-lucide="message-circle" style="width:16px;height:16px;"></i>
+            <span>Chat on WhatsApp</span>
+          </a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <div>&copy; 2026 VLSI Insights. All rights reserved.</div>
+        <div style="display:flex;gap:20px;">
+          <a href="index.html" class="footer-link">Home</a>
+          <a href="programs.html" class="footer-link">Programs</a>
+          <a href="front-end-software.html" class="footer-link">EDA Tools</a>
+          <a href="index.html#contact" class="footer-link">Contact</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Floating WhatsApp Chat Widget -->
+  <aside class="floating-whatsapp" aria-label="WhatsApp Support">
+    <a href="https://api.whatsapp.com/send/?phone=919810191592&text=Hello%2C+I+want+to+enquire+about+the+Job+Oriented+Program.&type=phone_number&app_absent=0" 
+       target="_blank" 
+       rel="noopener noreferrer" 
+       class="floating-whatsapp__btn" 
+       aria-label="Chat on WhatsApp with VLSI Insights">
+      <span class="floating-whatsapp__badge" aria-label="1 new notification">1</span>
+      <img src="images/whatsapp-icon.png" alt="WhatsApp" class="floating-whatsapp__img" width="36" height="36" loading="lazy" decoding="async">
+    </a>
+  </aside>
+
+  <script>
+    lucide.createIcons();
+
+    // Cart Badge
+    try {
+      const cart = JSON.parse(localStorage.getItem('vlsi_cart') || '[]');
+      // Cart badge synced by universal updateCartBadge()
+    } catch(e) {}
+
+    // Universal Mobile Drawer & Dropdown Logic
+    const hamburgerBtn = document.getElementById('hamburgerBtn');
+    const mobileDrawer = document.getElementById('mobileDrawer');
+    const drawerOverlay = document.getElementById('drawerOverlay');
+    const drawerCloseBtn = document.getElementById('drawerCloseBtn');
+
+    function openDrawer() {
+      if (mobileDrawer) mobileDrawer.classList.add('open');
+      if (drawerOverlay) drawerOverlay.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeDrawer() {
+      if (mobileDrawer) mobileDrawer.classList.remove('open');
+      if (drawerOverlay) drawerOverlay.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+
+    if (hamburgerBtn) hamburgerBtn.addEventListener('click', openDrawer);
+    if (drawerCloseBtn) drawerCloseBtn.addEventListener('click', closeDrawer);
+    if (drawerOverlay) drawerOverlay.addEventListener('click', closeDrawer);
+
+    document.querySelectorAll('.drawer-close-trigger').forEach(el => {
+      el.addEventListener('click', closeDrawer);
+    });
+
+    const sToggle = document.getElementById('mobileServicesToggle');
+    const sAcc = document.getElementById('mobileServicesAccordion');
+    if (sToggle && sAcc) {
+      sToggle.addEventListener('click', function(e) {
+        e.preventDefault();
+        const exp = sToggle.getAttribute('aria-expanded') === 'true';
+        sToggle.setAttribute('aria-expanded', !exp);
+        sAcc.style.display = exp ? 'none' : 'flex';
+        const icon = sToggle.querySelector('[data-lucide="chevron-down"], svg');
+        if (icon) icon.style.transform = exp ? 'none' : 'rotate(180deg)';
+      });
+    }
+
+    const aToggle = document.getElementById('mobileAboutToggle');
+    const aAcc = document.getElementById('mobileAboutAccordion');
+    if (aToggle && aAcc) {
+      aToggle.addEventListener('click', function(e) {
+        e.preventDefault();
+        const exp = aToggle.getAttribute('aria-expanded') === 'true';
+        aToggle.setAttribute('aria-expanded', !exp);
+        aAcc.style.display = exp ? 'none' : 'flex';
+        const icon = aToggle.querySelector('[data-lucide="chevron-down"], svg');
+        if (icon) icon.style.transform = exp ? 'none' : 'rotate(180deg)';
+      });
+    }
+  </script>
+  <script>
+    (function() {
+      function updateCartBadge() {
+        try {
+          const items = JSON.parse(localStorage.getItem('vlsi_cart') || '[]');
+          const count = items.reduce((s, i) => s + (i.qty || 1), 0);
+          document.querySelectorAll('.cart-badge').forEach(b => {
+            b.textContent = count;
+            b.setAttribute('data-count', count);
+            b.setAttribute('data-visible', count > 0 ? 'true' : 'false');
+            b.style.display = count > 0 ? 'inline-flex' : 'none';
+          });
+        } catch(e) {}
+      }
+      updateCartBadge();
+      window.addEventListener('storage', updateCartBadge);
+    })();
+  </script>
+  <script src="js/main.js" defer></script>
+</body>
+</html>
+

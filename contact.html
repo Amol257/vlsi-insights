@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact | VLSI Insights</title>
+  <meta http-equiv="refresh" content="0; url=index.html#contact">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Inter', -apple-system, sans-serif;
+      margin: 0;
+      padding: 40px 20px;
+      background: var(--substrate);
+      color: var(--text-hi);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 80vh;
+      text-align: center;
+    }
+    .card {
+      background: #FFFFFF;
+      border: 1px solid var(--edge);
+      border-radius: 12px;
+      padding: 32px;
+      max-width: 500px;
+      width: 100%;
+      
+    }
+    h1 { font-family: 'Space Grotesk', sans-serif; font-size: 1.5rem; margin-top: 0; }
+    p { color: #64748B; font-size: 0.95rem; line-height: 1.5; }
+    .btn {
+      display: inline-block;
+      margin-top: 20px;
+      padding: 12px 24px;
+      background: var(--trace);
+      color: #FFFFFF;
+      text-decoration: none;
+      font-weight: 600;
+      border-radius: 6px;
+      transition: background 0.2s;
+    }
+    .btn:hover { background: #008f72; }
+  
+    /* Floating WhatsApp Chat Widget */
+    .floating-whatsapp {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .floating-whatsapp__btn {
+      position: relative;
+      width: 56px;
+      height: 56px;
+      background: #000000;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      ;
+      transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s ease;
+      text-decoration: none;
+    }
+
+    .floating-whatsapp__btn:hover {
+      transform: scale(1.1) translateY(-3px);
+      ;
+    }
+
+    .floating-whatsapp__btn:active {
+      transform: scale(0.95);
+    }
+
+    .floating-whatsapp__img {
+      width: 36px;
+      height: 36px;
+      object-fit: contain;
+      display: block;
+      transition: transform 0.3s ease;
+    }
+
+    .floating-whatsapp__btn:hover .floating-whatsapp__img {
+      transform: scale(1.05);
+    }
+
+    .floating-whatsapp__badge {
+      position: absolute;
+      top: -2px;
+      right: -2px;
+      width: 20px;
+      height: 20px;
+      background: #EF4444;
+      color: #ffffff;
+      font-size: 11px;
+      font-weight: 700;
+      font-family: inherit;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 2px solid #ffffff;
+      ;
+      animation: pulse-whatsapp-badge 2s infinite;
+    }
+
+    .floating-whatsapp__tooltip {
+      position: absolute;
+      right: 68px;
+      background: #111827;
+      color: #ffffff;
+      padding: 6px 14px;
+      border-radius: 8px;
+      font-size: 0.8125rem;
+      font-weight: 600;
+      white-space: nowrap;
+      pointer-events: none;
+      opacity: 0;
+      transform: translateX(8px);
+      transition: opacity 0.2s ease, transform 0.2s ease;
+      ;
+    }
+
+    .floating-whatsapp__tooltip::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      right: -5px;
+      transform: translateY(-50%);
+      border-width: 5px 0 5px 5px;
+      border-style: solid;
+      border-color: transparent transparent transparent #111827;
+    }
+
+    .floating-whatsapp__btn:hover .floating-whatsapp__tooltip {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    @keyframes pulse-whatsapp-badge {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.15); }
+    }</style>
+  <script>
+    window.location.replace("index.html#contact");
+  </script>
+</head>
+<body>
+  <div class="card">
+    <h1>Contact VLSI Insights</h1>
+    <p>Redirecting you to our contact and enquiry section...</p>
+    <a href="index.html#contact" class="btn">Proceed to Contact &rarr;</a>
+  </div>
+
+  <!-- Floating WhatsApp Chat Widget -->
+  <aside class="floating-whatsapp" aria-label="WhatsApp Support">
+    <a href="https://api.whatsapp.com/send/?phone=919810191592&text=Hello%2C+I+want+to+enquire+about+the+Job+Oriented+Program.&type=phone_number&app_absent=0" 
+       target="_blank" 
+       rel="noopener noreferrer" 
+       class="floating-whatsapp__btn" 
+       aria-label="Chat on WhatsApp with VLSI Insights">
+      <span class="floating-whatsapp__badge" aria-label="1 new notification">1</span>
+      <img src="images/whatsapp-icon.png" alt="WhatsApp" class="floating-whatsapp__img" width="36" height="36" loading="lazy" decoding="async">
+      <span class="floating-whatsapp__tooltip">Chat on WhatsApp</span>
+    </a>
+  </aside>
+</body>
+</html>
+
+

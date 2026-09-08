@@ -1,0 +1,2227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Front End Software | VLSI Insights</title>
+  <meta name="description" content="Explore front-end semiconductor simulation tools, verified installation walkthroughs, and setup guides for QuestaSim, ModelSim, and EDA Playground with VLSI Insights.">
+  <link rel="canonical" href="front-end-software.html">
+
+  <!-- Google Fonts: Space Grotesk (Headings) + Inter (Body) + JetBrains Mono (Code) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js" defer></script>
+
+  <!-- Master Navbar & Footer Stylesheets -->
+  <link rel="stylesheet" href="css/navbar.css">
+  <link rel="stylesheet" href="css/footer.css">
+  <link rel="stylesheet" href="css/global.css">
+
+  <style>
+    /* -------------------------------------------------------------------------- */
+    /* CSS DESIGN TOKENS (Clean Modern Minimalist Light Theme)                    */
+    /* -------------------------------------------------------------------------- */
+    :root {
+      --void: #FFFFFF;
+      --substrate: #FAFAFA;
+      --surface: var(--substrate);
+      --card: #FFFFFF;
+      --card-hover: #FFFFFF;
+      --edge: #E2E8F0;
+      --border: #E2E8F0;
+      --edge-highlight: #CBD5E1;
+      --trace: #00A887;
+      --focus: #00A887;
+      --trace-glow: rgba(0, 168, 135, 0.12);
+      --copper: #C2410C;
+      --text-hi: #0F172A;
+      --text: #334155;
+      --text-mid: #475569;
+      --muted: #64748B;
+      --text-dim: #64748B;
+      --success: #059669;
+
+      --font-display: 'Space Grotesk', -apple-system, sans-serif;
+      --font-body: 'Inter', -apple-system, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+
+      --space-1: 4px;
+      --space-2: 8px;
+      --space-3: 12px;
+      --space-4: 16px;
+      --space-5: 20px;
+      --space-6: 24px;
+      --space-8: 32px;
+      --space-10: 40px;
+      --space-12: 48px;
+      --space-16: 64px;
+      --space-20: 80px;
+      --space-24: 96px;
+
+      --dur-fast: 150ms;
+      --dur-base: 250ms;
+      --dur-slow: 400ms;
+      --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      background: var(--substrate);
+      color: var(--text-mid);
+    }
+
+    body {
+      background: var(--substrate);
+      color: var(--text-mid);
+      font-family: var(--font-body);
+      font-size: 1rem;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    img, svg {
+      display: block;
+      max-width: 100%;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button {
+      font: inherit;
+      border: none;
+      background: none;
+      cursor: pointer;
+    }
+
+    :focus-visible {
+      outline: 2px solid var(--focus);
+      outline-offset: 2px;
+    }
+
+    .skip-link {
+      position: absolute;
+      top: -60px;
+      left: 16px;
+      background: var(--trace);
+      color: #FFFFFF;
+      padding: 10px 18px;
+      font-weight: 600;
+      z-index: 9999;
+      border-radius: 4px;
+      transition: top var(--dur-fast) ease;
+    }
+
+    .skip-link:focus {
+      top: 16px;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 var(--space-6);
+    }
+
+    @media (min-width: 1024px) {
+      .container {
+        padding: 0 var(--space-12);
+      }
+    }
+
+    /* -------------------------------------------------------------------------- */
+    /* NAVBAR                                                                     */
+    /* Navbar styles are defined in css/navbar.css  no inline overrides needed */
+
+    .drawer-close {
+      align-self: flex-end;
+      width: 44px;
+      height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-mid);
+      margin-bottom: var(--space-4);
+    }
+
+    .drawer-nav-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-4);
+    }
+
+    .drawer-nav-item {
+      border-bottom: 1px solid var(--edge);
+      padding-bottom: var(--space-3);
+    }
+
+    .drawer-nav-link {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      min-height: 44px;
+      font-family: var(--font-display);
+      font-size: 1.125rem;
+      font-weight: 600;
+      color: var(--text-hi);
+      text-align: left;
+    }
+
+    .drawer-accordion {
+      display: none;
+      flex-direction: column;
+      gap: var(--space-2);
+      padding: var(--space-3) 0 var(--space-2) var(--space-3);
+    }
+
+    .drawer-accordion.open {
+      display: flex;
+    }
+
+    .drawer-sublink {
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+      min-height: 40px;
+      font-size: 0.875rem;
+      color: var(--text-mid);
+    }
+
+    .drawer-sublink:hover {
+      color: var(--trace);
+    }
+
+    /* -------------------------------------------------------------------------- */
+    /* BUTTONS & BADGES                                                           */
+    /* -------------------------------------------------------------------------- */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-2);
+      padding: 11px 22px;
+      font-family: var(--font-body);
+      font-weight: 600;
+      font-size: 0.875rem;
+      border-radius: 4px;
+      min-height: 44px;
+      transition: all var(--dur-fast) ease;
+      cursor: pointer;
+    }
+
+    .btn:active {
+      transform: scale(0.98);
+    }
+
+    .btn-primary {
+      background: #0F172A;
+      color: #FFFFFF;
+      border: 1px solid #0F172A;
+    }
+
+    .btn-primary:hover {
+      background: #1E293B;
+      border-color: #1E293B;
+      transform: translateY(-1px);
+    }
+
+    .btn-secondary {
+      background: #FFFFFF;
+      color: var(--text-hi);
+      border: 1px solid #CBD5E1;
+    }
+
+    .btn-secondary:hover {
+      border-color: var(--trace);
+      color: var(--trace);
+      background: rgba(0, 168, 135, 0.04);
+      transform: translateY(-1px);
+    }
+
+    .badge-teal {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 12px;
+      background: rgba(0, 168, 135, 0.08);
+      border: 1px solid rgba(0, 168, 135, 0.25);
+      color: var(--trace);
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      
+      border-radius: 4px;
+    }
+
+    .badge-vendor {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 3px 8px;
+      background: var(--surface);
+      border: 1px solid var(--edge);
+      color: var(--text-hi);
+      font-family: var(--font-mono);
+      font-size: 0.6875rem;
+      font-weight: 600;
+      border-radius: 3px;
+    }
+
+    .badge-os {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 2px 8px;
+      background: var(--substrate);
+      border: 1px solid var(--edge);
+      color: var(--text-mid);
+      font-family: var(--font-mono);
+      font-size: 0.6875rem;
+      border-radius: 3px;
+    }
+
+    /* -------------------------------------------------------------------------- */
+    /* SECTION HEADINGS SCROLL REVEAL                                             */
+    /* -------------------------------------------------------------------------- */
+    .section-heading-group {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.6s var(--ease-out-expo), transform 0.6s var(--ease-out-expo);
+      margin-bottom: var(--space-12);
+    }
+
+    .section-heading-group.revealed {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .section-label {
+      display: inline-block;
+      font-family: var(--font-mono);
+      font-size: 0.8125rem;
+      color: var(--trace);
+      letter-spacing: 0.08em;
+      margin-bottom: var(--space-2);
+      font-weight: 600;
+    }
+
+    .section-title {
+      font-family: var(--font-display);
+      font-size: clamp(1.75rem, 3.5vw, 2.5rem);
+      font-weight: 700;
+      color: var(--text-hi);
+      letter-spacing: -0.02em;
+      line-height: 1.2;
+      margin-bottom: var(--space-3);
+    }
+
+    .section-subtitle {
+      font-size: 1rem;
+      color: var(--text-mid);
+      max-width: 680px;
+      line-height: 1.6;
+    }
+
+    /* -------------------------------------------------------------------------- */
+    /* 1. HERO SECTION (40vh, Watermark, No Photo)                                */
+    /* -------------------------------------------------------------------------- */
+    .software-hero {
+      position: relative;
+      min-height: 40vh;
+      display: flex;
+      align-items: center;
+      padding: var(--space-16) 0;
+      background: var(--void);
+      overflow: hidden;
+      border-bottom: 1px solid var(--edge);
+    }
+
+    .hero-circuit-watermark {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      opacity: 0.25;
+      z-index: 1;
+    }
+
+    .software-hero__content {
+      position: relative;
+      z-index: 2;
+      max-width: 820px;
+    }
+
+    .software-pills-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-3);
+      margin-bottom: var(--space-4);
+    }
+
+    .hero-info-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 12px;
+      background: rgba(0, 168, 135, 0.08);
+      border: 1px solid rgba(0, 168, 135, 0.25);
+      color: var(--trace);
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      border-radius: 40px;
+      font-weight: 600;
+    }
+
+    .hero-title {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 700;
+      color: var(--text-hi);
+      line-height: 1.2;
+      letter-spacing: -0.02em;
+      margin-bottom: var(--space-3);
+    }
+
+    .hero-subtitle {
+      font-size: 1.05rem;
+      color: var(--text-mid);
+      line-height: 1.6;
+    }
+
+    /* -------------------------------------------------------------------------- */
+    /* 2. ACCESS NOTICE BANNER (Teal Border, Informational, No Red)               */
+    /* -------------------------------------------------------------------------- */
+    .access-notice-banner {
+      background: var(--substrate);
+      border-top: 1px solid var(--edge);
+      border-bottom: 1px solid var(--edge);
+      padding: var(--space-6) 0;
+    }
+
+    .access-notice__inner {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-4);
+    }
+
+    @media (min-width: 768px) {
+      .access-notice__inner {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+      }
+    }
+
+    .access-notice__left {
+      display: flex;
+      align-items: flex-start;
+      gap: var(--space-4);
+    }
+
+    .access-notice__icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 6px;
+      background: rgba(0, 168, 135, 0.08);
+      border: 1px solid rgba(0, 168, 135, 0.25);
+      color: var(--trace);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .access-notice__title {
+      font-family: var(--font-display);
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--text-hi);
+      margin-bottom: 2px;
+    }
+
+    .access-notice__desc {
+      font-size: 0.875rem;
+      color: var(--text-mid);
+      line-height: 1.5;
+    }
+
+    .access-notice__link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 9px 18px;
+      background: #FFFFFF;
+      border: 1px solid var(--edge);
+      color: var(--text-hi);
+      font-family: var(--font-body);
+      font-weight: 600;
+      font-size: 0.875rem;
+      border-radius: 4px;
+      white-space: nowrap;
+      transition: all var(--dur-fast) ease;
+    }
+
+    .access-notice__link:hover {
+      border-color: var(--trace);
+      color: var(--trace);
+      background: rgba(0, 168, 135, 0.04);
+    }
+    /* -------------------------------------------------------------------------- */
+    /* 3. FAQ ACCORDION (Pure CSS Transitions, No JS Animation Lib)               */
+    /* -------------------------------------------------------------------------- */
+    .faq-section {
+      padding: var(--space-20) 0;
+      background: var(--surface);
+      border-top: 1px solid var(--edge);
+      border-bottom: 1px solid var(--edge);
+    }
+
+    .faq-container {
+      max-width: 860px;
+      margin: 0 auto;
+    }
+
+    .faq-list {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-3);
+    }
+
+    .faq-item {
+      background: #FFFFFF;
+      border: 1px solid var(--edge);
+      border-radius: 8px;
+      overflow: hidden;
+      transition: border-color var(--dur-fast) ease;
+    }
+
+    .faq-item:hover {
+      border-color: var(--edge-highlight);
+    }
+
+    .faq-item.open {
+      border-color: var(--trace);
+      
+    }
+
+    .faq-trigger {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: var(--space-5) var(--space-6);
+      font-family: var(--font-display);
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--text-hi);
+      text-align: left;
+      cursor: pointer;
+    }
+
+    .faq-trigger svg {
+      width: 18px;
+      height: 18px;
+      color: var(--trace);
+      transition: transform var(--dur-fast) ease;
+      flex-shrink: 0;
+      margin-left: var(--space-3);
+    }
+
+    .faq-item.open .faq-trigger svg {
+      transform: rotate(180deg);
+    }
+
+    .faq-body {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.35s var(--ease-out-expo), padding 0.35s var(--ease-out-expo);
+      padding: 0 var(--space-6);
+    }
+
+    .faq-item.open .faq-body {
+      max-height: 400px;
+      padding: 0 var(--space-6) var(--space-5);
+    }
+
+    .faq-answer {
+      font-size: 0.9375rem;
+      color: var(--text);
+      line-height: 1.6;
+      border-top: 1px solid var(--edge);
+      padding-top: var(--space-4);
+    }
+
+    /* -------------------------------------------------------------------------- */
+    /* 7. FINAL CTA                                                               */
+    /* -------------------------------------------------------------------------- */
+    .software-final-cta {
+      padding: var(--space-20) 0;
+      text-align: center;
+    }
+
+    .final-cta-box {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: var(--space-12) var(--space-6);
+      background: #FFFFFF;
+      border: 1px solid var(--edge);
+      border-radius: 12px;
+      
+    }
+
+    .final-cta-title {
+      font-family: var(--font-display);
+      font-size: clamp(1.6rem, 3vw, 2.25rem);
+      font-weight: 700;
+      color: var(--text-hi);
+      letter-spacing: -0.02em;
+      margin-bottom: var(--space-3);
+    }
+
+    .final-cta-desc {
+      font-size: 1rem;
+      color: var(--text-mid);
+      line-height: 1.6;
+      margin-bottom: var(--space-8);
+    }
+
+    .final-cta-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: var(--space-4);
+    }
+
+    /* -------------------------------------------------------------------------- */
+    /* FOOTER                                                                     */
+    /* -------------------------------------------------------------------------- */
+    .footer {
+      background: #FFFFFF;
+      border-top: 1px solid var(--edge);
+      padding: var(--space-16) 0 var(--space-8);
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: var(--space-10);
+      margin-bottom: var(--space-12);
+    }
+
+    @media (min-width: 768px) {
+      .footer-grid {
+        grid-template-columns: 1.5fr 1fr 1fr 1fr;
+      }
+    }
+
+    .footer-col-title {
+      font-family: var(--font-display);
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: var(--text-hi);
+      letter-spacing: 0.04em;
+      
+      margin-bottom: var(--space-4);
+    }
+
+    .footer-links {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-2);
+    }
+
+    .footer-link {
+      font-size: 0.875rem;
+      color: var(--text-mid);
+      transition: color var(--dur-fast) ease;
+    }
+
+    .footer-link:hover {
+      color: var(--trace);
+    }
+
+    .footer-bottom {
+      padding-top: var(--space-8);
+      border-top: 1px solid var(--edge);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-4);
+      align-items: center;
+      justify-content: space-between;
+      font-size: 0.8125rem;
+      color: var(--text-dim);
+    }
+
+    @media (min-width: 768px) {
+      .footer-bottom {
+        flex-direction: row;
+      }
+    }
+    /* -------------------------------------------------------------------------- */
+    /* FRONT-END SOFTWARES & EDA TOOLS SHOWCASE SECTION                           */
+    /* -------------------------------------------------------------------------- */
+    .frontend-software-hub {
+      padding: var(--section-y) 0;
+      background: var(--surface);
+      border-top: 1px solid var(--edge);
+      border-bottom: 1px solid var(--edge);
+      position: relative;
+    }
+
+    .frontend-software-hub .section-heading-group {
+      margin-bottom: var(--space-8);
+    }
+
+    /* EDA Playground Callout Card */
+    .eda-tool-card {
+      background: linear-gradient(135deg, rgba(0, 168, 135, 0.06) 0%, rgba(37, 99, 235, 0.04) 100%), #FFFFFF;
+      border: 1px solid rgba(0, 168, 135, 0.35);
+      border-radius: 12px;
+      padding: 24px 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      margin-bottom: 40px;
+      
+      transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+
+    .eda-tool-card:hover {
+      transform: translateY(-2px);
+      
+      border-color: var(--trace);
+    }
+
+    .eda-tool-card__content {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .eda-tool-card__icon {
+      width: 52px;
+      height: 52px;
+      border-radius: 10px;
+      background: rgba(0, 168, 135, 0.12);
+      border: 1px solid rgba(0, 168, 135, 0.3);
+      color: var(--trace);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .eda-tool-card__icon svg {
+      width: 26px;
+      height: 26px;
+    }
+
+    .eda-tool-card__title {
+      font-family: var(--font-display);
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--text-hi);
+      margin-bottom: 4px;
+    }
+
+    .eda-tool-card__subtext {
+      font-size: 0.9375rem;
+      color: var(--text-mid);
+      line-height: 1.5;
+    }
+
+    .eda-tool-card__btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 24px;
+      background: var(--trace);
+      color: #FFFFFF;
+      font-family: var(--font-body);
+      font-size: 0.9375rem;
+      font-weight: 600;
+      border-radius: 8px;
+      text-decoration: none;
+      white-space: nowrap;
+      transition: background 0.2s ease, transform 0.15s ease;
+      
+    }
+
+    .eda-tool-card__btn:hover {
+      background: #008f73;
+      transform: translateY(-2px);
+      
+      color: #FFFFFF;
+    }
+
+    /* Video & Software Showcase Grid */
+    .software-video-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+      gap: 32px;
+      margin-bottom: 40px;
+    }
+
+    @media (max-width: 640px) {
+      .software-video-grid {
+        grid-template-columns: 1fr;
+      }
+      .eda-tool-card {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 20px;
+      }
+      .eda-tool-card__content {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .eda-tool-card__btn {
+        width: 100%;
+        justify-content: center;
+      }
+    }
+
+    .software-video-card {
+      background: #FFFFFF;
+      border: 1px solid var(--edge);
+      border-radius: 12px;
+      overflow: hidden;
+      
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.25s var(--ease-out-expo), border-color 0.25s ease;
+    }
+
+    .software-video-card:hover {
+      transform: translateY(-4px);
+      
+      border-color: rgba(0, 168, 135, 0.4);
+    }
+
+    .video-thumbnail-wrap {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      background-color: var(--void);
+      overflow: hidden;
+      cursor: pointer;
+    }
+
+    .video-thumbnail-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.3s ease, filter 0.3s ease;
+    }
+
+    .video-thumbnail-wrap:hover .video-thumbnail-img {
+      transform: scale(1.04);
+      filter: brightness(0.9);
+    }
+
+    .video-play-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(15, 23, 42, 0.2) 0%, rgba(15, 23, 42, 0.7) 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      transition: background 0.2s ease;
+    }
+
+    .video-thumbnail-wrap:hover .video-play-overlay {
+      background: linear-gradient(180deg, rgba(15, 23, 42, 0.1) 0%, rgba(15, 23, 42, 0.8) 100%);
+    }
+
+    .youtube-play-btn {
+      width: 68px;
+      height: 48px;
+      background: #FF0000;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      
+      transition: transform 0.2s ease;
+    }
+
+    .video-thumbnail-wrap:hover .youtube-play-btn {
+      transform: scale(1.15);
+      
+    }
+
+    .youtube-play-triangle {
+      width: 0;
+      height: 0;
+      border-style: solid;
+      border-width: 9px 0 9px 16px;
+      border-color: transparent transparent transparent #FFFFFF;
+      margin-left: 3px;
+    }
+
+    .video-play-label {
+      color: #FFFFFF;
+      font-family: var(--font-display);
+      font-size: 0.875rem;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .video-active-frame {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: 0;
+    }
+
+    .video-quick-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 18px;
+      background: #0B132B;
+      color: #94A3B8;
+      font-size: 0.8125rem;
+    }
+
+    .video-quick-bar a {
+      color: #38BDF8;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-weight: 500;
+      transition: color 0.15s ease;
+    }
+
+    .video-quick-bar a:hover {
+      color: #7DD3FC;
+      text-decoration: underline;
+    }
+
+    .software-info-pane {
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+    }
+
+    .software-card-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .software-title {
+      font-family: var(--font-display);
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--text-hi);
+      letter-spacing: -0.01em;
+    }
+
+    .software-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 4px 10px;
+      border-radius: 100px;
+      background: rgba(0, 168, 135, 0.1);
+      color: var(--trace);
+      border: 1px solid rgba(0, 168, 135, 0.2);
+      white-space: nowrap;
+    }
+
+    .software-badge--modelsim {
+      background: rgba(37, 99, 235, 0.1);
+      color: #2563EB;
+      border-color: rgba(37, 99, 235, 0.2);
+    }
+
+    .software-desc {
+      font-size: 0.9375rem;
+      color: var(--text-mid);
+      line-height: 1.6;
+      margin-bottom: 16px;
+    }
+
+    .software-specs-list {
+      list-style: none;
+      padding: 0;
+      margin: 0 0 20px 0;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .software-specs-list li {
+      font-size: 0.875rem;
+      color: var(--text-mid);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .software-specs-list li svg {
+      width: 16px;
+      height: 16px;
+      color: var(--trace);
+      flex-shrink: 0;
+    }
+
+    /* Download Action Bar Directly Under Respective YouTube Video */
+    .software-download-box {
+      margin-top: auto;
+      padding-top: 18px;
+      border-top: 1px solid var(--edge);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      background: #FAFAFC;
+      margin-left: -24px;
+      margin-right: -24px;
+      margin-bottom: -24px;
+      padding: 16px 24px;
+    }
+
+    .download-prompt {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .download-prompt__label {
+      font-size: 0.75rem;
+      
+      letter-spacing: 0.05em;
+      color: var(--text-lo);
+      font-weight: 600;
+    }
+
+    .download-prompt__title {
+      font-family: var(--font-display);
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--text-hi);
+    }
+
+    .download-tap-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--void);
+      color: #FFFFFF;
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-family: var(--font-body);
+      font-size: 0.875rem;
+      font-weight: 600;
+      border: 1px solid var(--void);
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+
+    .download-tap-btn:hover {
+      background: var(--trace);
+      border-color: var(--trace);
+      color: #FFFFFF;
+      transform: translateY(-2px);
+      
+    }
+
+    /* Register with us. Get a Free Demo Banner */
+    .free-demo-banner {
+      background: linear-gradient(135deg, var(--void) 0%, var(--layer) 100%);
+      border-radius: 12px;
+      padding: 32px 36px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      color: #FFFFFF;
+      
+    }
+
+    @media (max-width: 640px) {
+      .free-demo-banner {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 24px;
+      }
+      .free-demo-banner .demo-btn {
+        width: 100%;
+        justify-content: center;
+      }
+    }
+
+    .free-demo-banner__title {
+      font-family: var(--font-display);
+      font-size: 1.375rem;
+      font-weight: 700;
+      color: #FFFFFF;
+      margin-bottom: 6px;
+    }
+
+    .free-demo-banner__desc {
+      font-size: 0.9375rem;
+      color: #94A3B8;
+      line-height: 1.5;
+    }
+
+    .free-demo-banner .demo-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 26px;
+      background: var(--trace);
+      color: #FFFFFF;
+      font-family: var(--font-body);
+      font-size: 0.9375rem;
+      font-weight: 600;
+      border-radius: 8px;
+      text-decoration: none;
+      white-space: nowrap;
+      transition: background 0.2s ease, transform 0.15s ease;
+      
+    }
+
+    .free-demo-banner .demo-btn:hover {
+      background: #008f73;
+      transform: translateY(-2px);
+      
+      color: #FFFFFF;
+    }
+
+    /* Interactive Software Modal */
+    .software-modal-backdrop {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(15, 23, 42, 0.6);
+      backdrop-filter: blur(4px);
+      z-index: 9999;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .software-modal-backdrop.active {
+      display: flex;
+      animation: fadeIn 0.2s ease-out;
+    }
+
+    .software-modal-box {
+      background: #FFFFFF;
+      border-radius: 14px;
+      max-width: 620px;
+      width: 100%;
+      
+      border: 1px solid var(--edge);
+      overflow: hidden;
+      position: relative;
+      animation: modalSlideUp 0.25s var(--ease-out-expo);
+    }
+
+    @keyframes modalSlideUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px) scale(0.97);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    .software-modal-header {
+      padding: 20px 24px;
+      border-bottom: 1px solid var(--edge);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: var(--substrate);
+    }
+
+    .software-modal-title {
+      font-family: var(--font-display);
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--text-hi);
+    }
+
+    .software-modal-close {
+      background: none;
+      border: none;
+      color: var(--text-mid);
+      cursor: pointer;
+      padding: 6px;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.15s ease, color 0.15s ease;
+    }
+
+    .software-modal-close:hover {
+      background: var(--edge);
+      color: var(--text-hi);
+    }
+
+    .software-modal-body {
+      padding: 24px;
+      max-height: 75vh;
+      overflow-y: auto;
+    }
+
+    .software-guide-step {
+      display: flex;
+      gap: 14px;
+      margin-bottom: 18px;
+    }
+
+    .software-guide-num {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: rgba(0, 168, 135, 0.12);
+      color: var(--trace);
+      font-weight: 700;
+      font-size: 0.875rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .software-guide-text h4 {
+      font-family: var(--font-display);
+      font-size: 0.9375rem;
+      font-weight: 700;
+      color: var(--text-hi);
+      margin-bottom: 4px;
+    }
+
+    .software-guide-text p {
+      font-size: 0.875rem;
+      color: var(--text-mid);
+      line-height: 1.5;
+    }
+
+    .software-modal-actions {
+      margin-top: 24px;
+      padding-top: 18px;
+      border-top: 1px solid var(--edge);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      justify-content: flex-end;
+    }
+  
+    /* Floating WhatsApp Chat Widget */
+    .floating-whatsapp {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .floating-whatsapp__btn {
+      position: relative;
+      width: 56px;
+      height: 56px;
+      background: #000000;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      ;
+      transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s ease;
+      text-decoration: none;
+    }
+
+    .floating-whatsapp__btn:hover {
+      transform: scale(1.1) translateY(-3px);
+      ;
+    }
+
+    .floating-whatsapp__btn:active {
+      transform: scale(0.95);
+    }
+
+    .floating-whatsapp__img {
+      width: 36px;
+      height: 36px;
+      object-fit: contain;
+      display: block;
+      transition: transform 0.3s ease;
+    }
+
+    .floating-whatsapp__btn:hover .floating-whatsapp__img {
+      transform: scale(1.05);
+    }
+
+    .floating-whatsapp__badge {
+      position: absolute;
+      top: -2px;
+      right: -2px;
+      width: 20px;
+      height: 20px;
+      background: #EF4444;
+      color: #ffffff;
+      font-size: 11px;
+      font-weight: 700;
+      font-family: inherit;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 2px solid #ffffff;
+      ;
+      animation: pulse-whatsapp-badge 2s infinite;
+    }
+
+    .floating-whatsapp__tooltip {
+      position: absolute;
+      right: 68px;
+      background: #111827;
+      color: #ffffff;
+      padding: 6px 14px;
+      border-radius: 8px;
+      font-size: 0.8125rem;
+      font-weight: 600;
+      white-space: nowrap;
+      pointer-events: none;
+      opacity: 0;
+      transform: translateX(8px);
+      transition: opacity 0.2s ease, transform 0.2s ease;
+      ;
+    }
+
+    .floating-whatsapp__tooltip::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      right: -5px;
+      transform: translateY(-50%);
+      border-width: 5px 0 5px 5px;
+      border-style: solid;
+      border-color: transparent transparent transparent #111827;
+    }
+
+    .floating-whatsapp__btn:hover .floating-whatsapp__tooltip {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    @keyframes pulse-whatsapp-badge {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.15); }
+    }</style>
+</head>
+<body>
+  <a href="#mainContent" class="skip-link">Skip to main content</a>
+  <!-- NAVIGATION BAR -->
+  <header class="navbar" role="banner">
+    <div class="container navbar__inner">
+      <!-- Brand Logo -->
+      <a href="index.html" class="nav-logo" aria-label="VLSI Insights Homepage">
+        <img src="images/logo.png" alt="VLSI Insights" class="nav-logo-img">
+      </a>
+
+      <!-- Desktop Navigation -->
+      <nav class="nav-links" role="navigation" aria-label="Main Navigation">
+        <div class="nav-item">
+          <a href="index.html" class="nav-link">Home</a>
+        </div>
+
+        <!-- Services Dropdown (Categorized) -->
+        <div class="nav-item" id="desktopServicesItem">
+          <button type="button" class="nav-link" id="desktopServicesBtn" aria-expanded="false" aria-haspopup="true">
+            Services
+            <i data-lucide="chevron-down" class="chevron"></i>
+          </button>
+          <div class="dropdown-panel dropdown-panel--services" role="menu">
+            <div class="dropdown-col">
+              <span class="dropdown-col-heading">Engineering Services</span>
+              <a href="vlsi-designs.html" class="dropdown-item" role="menuitem">
+                <span class="dropdown-item__icon"><i data-lucide="cpu"></i></span>
+                <div>
+                  <div class="dropdown-item__title">VLSI Related Services</div>
+                  <div class="dropdown-item__desc">RTL layout, physical design, and verification.</div>
+                </div>
+              </a>
+              <a href="soc-verification.html" class="dropdown-item" role="menuitem">
+                <span class="dropdown-item__icon"><i data-lucide="shield-check"></i></span>
+                <div>
+                  <div class="dropdown-item__title">SOC Verification</div>
+                  <div class="dropdown-item__desc">UVM functional verification architectures.</div>
+                </div>
+              </a>
+              <a href="embedded-systems.html" class="dropdown-item" role="menuitem">
+                <span class="dropdown-item__icon"><i data-lucide="microchip"></i></span>
+                <div>
+                  <div class="dropdown-item__title">Embedded Systems</div>
+                  <div class="dropdown-item__desc">MCU firmware to real-time operating systems.</div>
+                </div>
+              </a>
+              <a href="ai-models.html" class="dropdown-item" role="menuitem">
+                <span class="dropdown-item__icon"><i data-lucide="brain"></i></span>
+                <div>
+                  <div class="dropdown-item__title">AI Models</div>
+                  <div class="dropdown-item__desc">Edge ML and embedded inference pipelines.</div>
+                </div>
+              </a>
+              <a href="web-development.html" class="dropdown-item" role="menuitem">
+                <span class="dropdown-item__icon"><i data-lucide="code-2"></i></span>
+                <div>
+                  <div class="dropdown-item__title">Web Development</div>
+                  <div class="dropdown-item__desc">Modern engineering web applications and portals.</div>
+                </div>
+              </a>
+            </div>
+
+            <div class="dropdown-col">
+              <span class="dropdown-col-heading">Training &amp; Growth</span>
+              <a href="technical-training.html" class="dropdown-item" role="menuitem">
+                <span class="dropdown-item__icon"><i data-lucide="graduation-cap"></i></span>
+                <div>
+                  <div class="dropdown-item__title">Technical Training</div>
+                  <div class="dropdown-item__desc">Hands-on VLSI &amp; embedded engineering training.</div>
+                </div>
+              </a>
+              <a href="marketing-solutions.html" class="dropdown-item" role="menuitem">
+                <span class="dropdown-item__icon"><i data-lucide="trending-up"></i></span>
+                <div>
+                  <div class="dropdown-item__title">Marketing Solutions</div>
+                  <div class="dropdown-item__desc">Growth strategies for technical enterprises.</div>
+                </div>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div class="nav-item">
+          <a href="programs.html" class="nav-link">Programs</a>
+        </div>
+
+        <div class="nav-item">
+          <a href="front-end-software.html" class="nav-link active" aria-current="page">Front End Software</a>
+        </div>
+
+        <div class="nav-item">
+          <a href="blog.html" class="nav-link">Blog</a>
+        </div>
+
+        <!-- About Dropdown -->
+        <div class="nav-item" id="desktopAboutItem">
+          <button type="button" class="nav-link" id="desktopAboutBtn" aria-expanded="false" aria-haspopup="true">
+            About
+            <i data-lucide="chevron-down" class="chevron"></i>
+          </button>
+          <div class="dropdown-panel" role="menu">
+            <a href="about-company.html" class="dropdown-item" role="menuitem">
+              <span class="dropdown-item__icon"><i data-lucide="building-2"></i></span>
+              <div>
+                <div class="dropdown-item__title">About the Company</div>
+                <div class="dropdown-item__desc">Our story, mission, engineering team, and culture.</div>
+              </div>
+            </a>
+            <a href="about-owner.html" class="dropdown-item" role="menuitem">
+              <span class="dropdown-item__icon"><i data-lucide="user"></i></span>
+              <div>
+                <div class="dropdown-item__title">About the Owner</div>
+                <div class="dropdown-item__desc">Founder profile, journey, expertise, and leadership.</div>
+              </div>
+            </a>
+                      <a href="testimonials.html" class="dropdown-item" role="menuitem">
+              <span class="dropdown-item__icon"><i data-lucide="message-square"></i></span>
+              <div>
+                <div class="dropdown-item__title">Testimonials</div>
+                <div class="dropdown-item__desc">What industry engineers and alumni say about us.</div>
+              </div>
+            </a>
+          </div>
+        </div>
+
+        <div class="nav-item">
+          <a href="index.html#contact" class="nav-link">Contact</a>
+        </div>
+      </nav>
+
+      <!-- Cart Icon + Mobile Hamburger Button -->
+      <div class="navbar__controls">
+        <a href="cart.html" class="nav-cart-btn" aria-label="View Cart" id="cartNavBtn">
+          <i data-lucide="shopping-cart"></i>
+          <span class="cart-badge" id="cartBadge" data-visible="false">0</span>
+        </a>
+        <button type="button" class="nav-hamburger" id="hamburgerBtn" aria-label="Open navigation menu" aria-expanded="false" aria-controls="mobileDrawer">
+          <i data-lucide="menu"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Drawer & Overlay -->
+  <div class="drawer-overlay" id="drawerOverlay"></div>
+  <aside class="mobile-drawer" id="mobileDrawer" role="dialog" aria-modal="true" aria-label="Mobile Navigation">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;padding-bottom:12px;border-bottom:1px solid var(--edge);">
+      <img src="images/logo.png" alt="VLSI Insights" style="height:30px;width:auto;max-width:160px;object-fit:contain;">
+      <button type="button" id="drawerCloseBtn" aria-label="Close navigation menu" style="padding:6px;border-radius:4px;color:#475569;cursor:pointer;background:none;border:none;">
+        <i data-lucide="x"></i>
+      </button>
+    </div>
+    <ul class="mobile-nav-list">
+      <li>
+        <a href="index.html" class="mobile-nav-link drawer-close-trigger">Home</a>
+      </li>
+      <li>
+        <button type="button" class="mobile-nav-link" id="mobileServicesToggle" aria-expanded="false">
+          <span>Services</span>
+          <i data-lucide="chevron-down"></i>
+        </button>
+        <div class="mobile-accordion" id="mobileServicesAccordion">
+          <div style="font-size:0.6875rem;font-weight:700;color:var(--trace);text-transform:uppercase;padding:8px 12px 4px;">Engineering Services</div>
+          <a href="vlsi-designs.html" class="drawer-close-trigger"><i data-lucide="cpu"></i> VLSI Related Services</a>
+          <a href="soc-verification.html" class="drawer-close-trigger"><i data-lucide="shield-check"></i> SOC Verification</a>
+          <a href="embedded-systems.html" class="drawer-close-trigger"><i data-lucide="microchip"></i> Embedded Systems</a>
+          <a href="ai-models.html" class="drawer-close-trigger"><i data-lucide="brain"></i> AI Models</a>
+          <a href="web-development.html" class="drawer-close-trigger"><i data-lucide="code-2"></i> Web Development</a>
+          <div style="font-size:0.6875rem;font-weight:700;color:var(--trace);text-transform:uppercase;padding:12px 12px 4px 12px;border-top:1px solid var(--edge);margin-top:4px;">Training &amp; Growth</div>
+          <a href="technical-training.html" class="drawer-close-trigger"><i data-lucide="graduation-cap"></i> Technical Training</a>
+          <a href="marketing-solutions.html" class="drawer-close-trigger"><i data-lucide="trending-up"></i> Marketing Solutions</a>
+        </div>
+      </li>
+      <li>
+        <a href="programs.html" class="mobile-nav-link drawer-close-trigger">Programs</a>
+      </li>
+      <li>
+        <a href="front-end-software.html" class="mobile-nav-link drawer-close-trigger active">Front End Software</a>
+      </li>
+      <li>
+        <a href="blog.html" class="mobile-nav-link drawer-close-trigger">Blog</a>
+      </li>
+      <li>
+        <button type="button" class="mobile-nav-link" id="mobileAboutToggle" aria-expanded="false">
+          <span>About</span>
+          <i data-lucide="chevron-down"></i>
+        </button>
+        <div class="mobile-accordion" id="mobileAboutAccordion">
+          <a href="about-company.html" class="drawer-close-trigger"><i data-lucide="building-2"></i> About the Company</a>
+          <a href="about-owner.html" class="drawer-close-trigger"><i data-lucide="user"></i> About the Owner</a>
+          <a href="testimonials.html" class="drawer-close-trigger"><i data-lucide="message-square"></i> Testimonials</a>
+        </div>
+      </li>
+      <li>
+        <a href="index.html#contact" class="mobile-nav-link drawer-close-trigger">Contact</a>
+      </li>
+    </ul>
+    <div style="margin-top:auto;padding-top:20px;border-top:1px solid var(--edge);display:flex;flex-direction:column;gap:10px;">
+      <a href="cart.html" class="drawer-close-trigger" style="display:flex;align-items:center;justify-content:center;gap:8px;padding:12px;background:var(--surface);border:1px solid var(--edge);border-radius:6px;color:var(--text-hi);font-weight:600;text-decoration:none;font-size:0.875rem;">
+        <i data-lucide="shopping-cart" style="width:18px;height:18px;"></i>
+        <span>View Cart</span>
+      </a>
+      <a href="login.html" class="drawer-close-trigger" style="display:flex;align-items:center;justify-content:center;gap:8px;padding:12px;background:var(--trace);color:#FFFFFF;border-radius:6px;font-weight:600;text-decoration:none;font-size:0.875rem;">
+        <i data-lucide="user" style="width:18px;height:18px;"></i>
+        <span>Sign In</span>
+      </a>
+    </div>
+  </aside>
+
+  <main id="mainContent">
+    <!-- ======================================================================= -->
+    <!-- 1. HERO SECTION (40vh, Watermark, No Photo)                             -->
+    <!-- ======================================================================= -->
+    <section class="software-hero">
+      <svg class="hero-circuit-watermark" viewBox="0 0 1440 480" fill="none" preserveAspectRatio="none" aria-hidden="true">
+        <path d="M0,120 L280,120 L340,180 L700,180 L760,120 L1100,120 L1160,180 L1440,180" stroke="#94A3B8" stroke-width="1.5" stroke-dasharray="6 4"/>
+        <path d="M0,320 L240,320 L300,260 L620,260 L680,320 L960,320 L1020,260 L1440,260" stroke="#94A3B8" stroke-width="1.5"/>
+        <circle cx="280" cy="120" r="4" fill="#94A3B8"/>
+        <circle cx="700" cy="180" r="4" fill="#94A3B8"/>
+        <circle cx="1100" cy="120" r="4" fill="#94A3B8"/>
+        <circle cx="240" cy="320" r="4" fill="#94A3B8"/>
+        <circle cx="680" cy="320" r="4" fill="#94A3B8"/>
+        <circle cx="1020" cy="260" r="4" fill="#94A3B8"/>
+      </svg>
+
+      <div class="container software-hero__content">
+        <div class="software-pills-row">
+          <span class="hero-info-pill">
+            <i data-lucide="lock" style="width: 13px; height: 13px;"></i>
+            <span>Enrolled Students & Faculty Only</span>
+          </span>
+          <span class="hero-info-pill">
+            <i data-lucide="shield-check" style="width: 13px; height: 13px;"></i>
+            <span>Academic & Cloud EDA Licenses</span>
+          </span>
+        </div>
+        <h1 class="hero-title">Front-end EDA software & lab environment</h1>
+        <p class="hero-subtitle">Access industry-standard simulation software, setup walkthroughs, and verified EDA tools for hands-on digital design and verification coursework.</p>
+      </div>
+    </section>
+
+    <!-- ======================================================================= -->
+    <!-- 2. ACCESS NOTICE BANNER (Informational, Teal Border, No Red)             -->
+    <!-- ======================================================================= -->
+    <section class="access-notice-banner" aria-label="Software Access Policy">
+      <div class="container access-notice__inner">
+        <div class="access-notice__left">
+          <div class="access-notice__icon">
+            <i data-lucide="info"></i>
+          </div>
+          <div>
+            <h2 class="access-notice__title">Authorized Coursework & Research Access</h2>
+            <p class="access-notice__desc">All simulation tools and setup walkthroughs are provisioned for registered students for educational and skill development purposes.</p>
+          </div>
+        </div>
+        <div>
+          <a href="programs.html" class="access-notice__link">
+            <span>View Programs</span>
+            <i data-lucide="arrow-right" style="width: 15px; height: 15px;"></i>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================================= -->
+    <!-- 2B. FRONT-END SOFTWARES & EDA TOOLS (QUESTASIM, MODELSIM & EDA PLAYGROUND)-->
+    <!-- Reference: https://vlsiinsights.com/front-end-softwares/               -->
+    <!-- ======================================================================= -->
+    <section class="frontend-software-hub" id="frontend-softwares" aria-label="Front-End Software Details & EDA Tools">
+      <div class="container">
+        <div class="section-heading-group">
+          <p class="section-label">Simulation & EDA Tools</p>
+          <h2 class="section-heading">Front-End Software & Simulation Workflows</h2>
+          <p style="color: var(--text-mid); max-width: 680px; margin-top: 8px; font-size: 1rem; line-height: 1.6;">
+            Interactive tool access, step-by-step video setup guides, and verified downloads for industry-standard QuestaSim, ModelSim, and cloud-based EDA Playground.
+          </p>
+        </div>
+
+        <!-- 1. EDA PLAYGROUND TOOL ACCESS CARD -->
+        <div class="eda-tool-card" id="eda-playground-card">
+          <div class="eda-tool-card__content">
+            <div class="eda-tool-card__icon">
+              <i data-lucide="play-circle"></i>
+            </div>
+            <div>
+              <h3 class="eda-tool-card__title">Click here for tool access</h3>
+              <p class="eda-tool-card__subtext">Launch cloud-based Verilog, SystemVerilog, and UVM simulation instantly with zero local installation on EDA Playground.</p>
+            </div>
+          </div>
+          <a href="https://edaplayground.com/" target="_blank" rel="noopener noreferrer" class="eda-tool-card__btn" id="btnEdaPlaygroundAccess" aria-label="Tap here for EDA Playground tool access">
+            <span>Tap here</span>
+            <i data-lucide="external-link" style="width: 16px; height: 16px;"></i>
+          </a>
+        </div>
+
+        <!-- 2. VIDEO SHOWCASE & DOWNLOAD ACTIONS (QUESTASIM & MODELSIM) -->
+        <div class="software-video-grid">
+
+          <!-- QUESTA-SIM VIDEO & DOWNLOAD CARD -->
+          <article class="software-video-card" id="questasim-showcase">
+            <div class="video-thumbnail-wrap" id="questasimPlayerWrap" onclick="playVideo('questasimPlayerWrap', 'gOo57e69_B8')">
+              <img src="images/questasim-thumb.jpg" alt="QuestaSim Simulation &amp; Setup Tutorial - VLSI Insights" class="video-thumbnail-img" loading="lazy" decoding="async">
+              <div class="video-play-overlay">
+                <div class="youtube-play-btn" aria-label="Play QuestaSim Tutorial Video">
+                  <div class="youtube-play-triangle"></div>
+                </div>
+                <div class="video-play-label">
+                  <i data-lucide="play" style="width:14px;height:14px;fill:currentColor;"></i>
+                  <span>Play Tutorial Walkthrough</span>
+                </div>
+              </div>
+            </div>
+            <div class="video-quick-bar">
+              <span><i data-lucide="video" style="width: 14px; height: 14px; vertical-align: -2px; margin-right: 4px;"></i>QuestaSim Tutorial</span>
+              <a href="https://www.youtube.com/watch?v=gOo57e69_B8" target="_blank" rel="noopener noreferrer">
+                <span>Watch on YouTube</span>
+                <i data-lucide="external-link" style="width: 12px; height: 12px;"></i>
+              </a>
+            </div>
+            <div class="software-info-pane">
+              <div class="software-card-header">
+                <h3 class="software-title">Questasim</h3>
+                <span class="software-badge"><i data-lucide="award" style="width: 12px; height: 12px;"></i> Advanced Simulation EDA</span>
+              </div>
+              <p class="software-desc">
+                High-performance multi-language simulation engine for modern ASIC and SoC design. Comprehensive support for SystemVerilog, UVM testbenches, assertions (SVA), mixed-signal, and unified coverage metrics.
+              </p>
+              <ul class="software-specs-list">
+                <li><i data-lucide="check-circle-2"></i> SystemVerilog IEEE 1800 & UVM 1.2 Verification</li>
+                <li><i data-lucide="check-circle-2"></i> Assertion-based verification (SVA) & Code Coverage</li>
+                <li><i data-lucide="check-circle-2"></i> Fast debug environment with advanced waveform viewer</li>
+              </ul>
+
+              <!-- Questasim download action under respective video -->
+              <div class="software-download-box">
+                <div class="download-prompt">
+                  <span class="download-prompt__label">Official Software</span>
+                  <span class="download-prompt__title">Click here to Download</span>
+                </div>
+                <button type="button" class="download-tap-btn" onclick="openSoftwareModal('questasim')" id="btnQuestasimDownload" aria-label="Tap here to download Questasim">
+                  <span>Tap here</span>
+                  <i data-lucide="download" style="width: 16px; height: 16px;"></i>
+                </button>
+              </div>
+            </div>
+          </article>
+
+          <!-- MODEL-SIM VIDEO & DOWNLOAD CARD -->
+          <article class="software-video-card" id="modelsim-showcase">
+            <div class="video-thumbnail-wrap" id="modelsimPlayerWrap" onclick="playVideo('modelsimPlayerWrap', '-U1OzeV9EKg', 1)">
+              <img src="images/modelsim-thumb.jpg" alt="ModelSim Simulation &amp; Setup Tutorial - VLSI Insights" class="video-thumbnail-img" loading="lazy" decoding="async">
+              <div class="video-play-overlay">
+                <div class="youtube-play-btn" aria-label="Play ModelSim Tutorial Video">
+                  <div class="youtube-play-triangle"></div>
+                </div>
+                <div class="video-play-label">
+                  <i data-lucide="play" style="width:14px;height:14px;fill:currentColor;"></i>
+                  <span>Play Tutorial Walkthrough</span>
+                </div>
+              </div>
+            </div>
+            <div class="video-quick-bar">
+              <span><i data-lucide="video" style="width: 14px; height: 14px; vertical-align: -2px; margin-right: 4px;"></i>ModelSim Tutorial</span>
+              <a href="https://www.youtube.com/watch?v=-U1OzeV9EKg&t=1s" target="_blank" rel="noopener noreferrer">
+                <span>Watch on YouTube</span>
+                <i data-lucide="external-link" style="width: 12px; height: 12px;"></i>
+              </a>
+            </div>
+            <div class="software-info-pane">
+              <div class="software-card-header">
+                <h3 class="software-title">Modelsim</h3>
+                <span class="software-badge software-badge--modelsim"><i data-lucide="check" style="width: 12px; height: 12px;"></i> HDL Simulation Standard</span>
+              </div>
+              <p class="software-desc">
+                Industry-benchmark simulation and debug environment for FPGA and ASIC design flows. Standardized across academic institutions and silicon teams for robust VHDL, Verilog, and SystemVerilog verification.
+              </p>
+              <ul class="software-specs-list">
+                <li><i data-lucide="check-circle-2"></i> Complete VHDL & Verilog IEEE-compliant simulation</li>
+                <li><i data-lucide="check-circle-2"></i> Native graphical debugger, source browser & datapath viewing</li>
+                <li><i data-lucide="check-circle-2"></i> Full compatibility with Intel Quartus & AMD Vivado flows</li>
+              </ul>
+
+              <!-- Modelsim download action under respective video -->
+              <div class="software-download-box">
+                <div class="download-prompt">
+                  <span class="download-prompt__label">Official Software</span>
+                  <span class="download-prompt__title">Click here to Download</span>
+                </div>
+                <button type="button" class="download-tap-btn" onclick="openSoftwareModal('modelsim')" id="btnModelsimDownload" aria-label="Tap here to download Modelsim">
+                  <span>Tap here</span>
+                  <i data-lucide="download" style="width: 16px; height: 16px;"></i>
+                </button>
+              </div>
+            </div>
+          </article>
+
+        </div>
+
+        <!-- 3. REGISTER WITH US - GET FREE DEMO BANNER -->
+        <div class="free-demo-banner" id="free-demo-banner">
+          <div>
+            <h3 class="free-demo-banner__title">Register with us. Get a Free Demo</h3>
+            <p class="free-demo-banner__desc">Need assistance configuring your EDA environment, license servers, or running your first UVM testbench? Join our live interactive demo session.</p>
+          </div>
+          <a href="contact.html" class="demo-btn" id="btnRegisterFreeDemo" aria-label="Tap here to register with us and get a free demo">
+            <span>Tap here</span>
+            <i data-lucide="arrow-right" style="width: 16px; height: 16px;"></i>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- 6. FAQ ACCORDION (5 Questions, Max-Height Transitions, No JS Lib)       -->
+    <!-- ======================================================================= -->
+    <section class="faq-section" aria-label="Frequently Asked Questions">
+      <div class="container faq-container">
+        <div class="section-heading-group" style="text-align: center;">
+          <span class="section-label">Software FAQ</span>
+          <h2 class="section-title">Common questions & lab policies</h2>
+          <p class="section-subtitle" style="margin: 0 auto;">Everything you need to know about system compatibility, tool access, and verified download packages.</p>
+        </div>
+
+        <div class="faq-list">
+          <!-- Question 1 -->
+          <div class="faq-item open">
+            <button type="button" class="faq-trigger" aria-expanded="true">
+              <span>1. Who is eligible for software lab access credentials?</span>
+              <i data-lucide="chevron-down"></i>
+            </button>
+            <div class="faq-body">
+              <p class="faq-answer">Access is granted to all students enrolled in our active VLSI RTL, UVM Verification, Embedded Systems, and Job-Oriented career tracks. Faculty and institutional partner researchers are also provisioned dedicated credentials during their cohort periods.</p>
+            </div>
+          </div>
+
+          <!-- Question 2 -->
+          <div class="faq-item">
+            <button type="button" class="faq-trigger" aria-expanded="false">
+              <span>2. Can I use these EDA licenses for commercial freelance or tape-outs?</span>
+              <i data-lucide="chevron-down"></i>
+            </button>
+            <div class="faq-body">
+              <p class="faq-answer">No. All licenses provided through VLSI Insights operate under academic and workforce training agreements. They are legally restricted to coursework, skill development, and non-commercial open-source verification projects.</p>
+            </div>
+          </div>
+
+          <!-- Question 4 -->
+          <div class="faq-item">
+            <button type="button" class="faq-trigger" aria-expanded="false">
+              <span>3. What are the minimum PC hardware specifications required?</span>
+              <i data-lucide="chevron-down"></i>
+            </button>
+            <div class="faq-body">
+              <p class="faq-answer">For local simulation via QuestaSim and ModelSim, a minimum of 8 GB RAM, 20 GB free disk space, and a modern 64-bit multi-core CPU are recommended.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================================= -->
+    <!-- 7. CENTERED FINAL CTA                                                   -->
+    <!-- ======================================================================= -->
+    <section class="software-final-cta">
+      <div class="container">
+        <div class="final-cta-box">
+          <span class="badge-teal" style="margin-bottom: var(--space-4);">Get Started with Practical Silicon Tools</span>
+          <h2 class="final-cta-title">Ready to run your first simulation?</h2>
+          <p class="final-cta-desc">Join hundreds of engineers who learned industry-standard verification and synthesis workflows through our hands-on curriculum.</p>
+          <div class="final-cta-buttons">
+            <a href="programs.html" class="btn btn-primary">Explore Training Programs</a>
+            <a href="index.html#contact" class="btn btn-secondary">Request Software Support</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ========================================================================= -->
+  <!-- FOOTER                                                                    -->
+  <!-- ========================================================================= -->
+  <footer class="footer" role="contentinfo">
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <a href="index.html" class="nav-logo" style="margin-bottom: var(--space-4);" aria-label="VLSI Insights">
+            <img src="images/logo.png" alt="VLSI Insights" class="nav-logo-img" style="height: 42px; width: auto;">
+          </a>
+          <p style="font-size: 0.875rem; color: var(--text-mid); line-height: 1.6;">
+            A premier semiconductor training hub, corporate consultancy, and digital engineering agency based in India. Bridging academia to industrial silicon execution.
+          </p>
+        </div>
+
+        <div>
+          <div class="footer-col-title">Programs</div>
+          <ul class="footer-links">
+            <li><a href="programs.html" class="footer-link">VLSI Mastery Program (6 Months)</a></li>
+            <li><a href="programs.html" class="footer-link">RTL Design & Verification</a></li>
+            <li><a href="programs.html" class="footer-link">Assertions & Functional Coverage</a></li>
+            <li><a href="programs.html" class="footer-link">Artix-7 & Spartan FPGAs</a></li>
+            <li><a href="programs.html" class="footer-link">Arduino & Raspberry Pi</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <div class="footer-col-title">Resources</div>
+          <ul class="footer-links">
+            <li><a href="front-end-software.html" class="footer-link">EDA Software Lab</a></li>
+            <li><a href="about-company.html" class="footer-link">About Company</a></li>
+            <li><a href="about-owner.html" class="footer-link">About Owner</a></li>
+            <li><a href="index.html#solutions" class="footer-link">Digital Growth</a></li>
+            <li><a href="index.html#contact" class="footer-link">Contact Admissions</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <div class="footer-col-title">Contact</div>
+          <ul class="footer-links" style="font-size: 0.875rem; color: var(--text-mid);">
+            <li>info@vlsiinsights.com</li>
+            <li>+91 98101 91592</li>
+            <li style="margin-top: var(--space-2);">
+              <a href="https://wa.me/919810191592" target="_blank" rel="noopener noreferrer" style="color: var(--trace); display: inline-flex; align-items: center; gap: 4px;">
+                <i data-lucide="message-circle" style="width: 14px; height: 14px;"></i>
+                <span>Direct WhatsApp Line</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <div>&copy; 2026 VLSI Insights. All rights reserved.</div>
+        <div style="display: flex; gap: var(--space-4);">
+          <a href="front-end-software.html" class="footer-link">EDA Tools</a>
+          <a href="about-company.html" class="footer-link">Mission & Values</a>
+          <a href="about-owner.html" class="footer-link">Founder Profile</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ========================================================================= -->
+  <!-- JAVASCRIPT LOGIC                                                          -->
+  <!-- ========================================================================= -->
+  <script>
+    // -------------------------------------------------------------------------
+    // 1. FAQ ACCORDION (Pure CSS Height Transition, Simple Class Toggle)
+    // -------------------------------------------------------------------------
+    const faqItems = document.querySelectorAll('.faq-item');
+    faqItems.forEach(item => {
+      const trigger = item.querySelector('.faq-trigger');
+      trigger.addEventListener('click', () => {
+        const isOpen = item.classList.contains('open');
+        // Close other items for neat presentation
+        faqItems.forEach(i => {
+          i.classList.remove('open');
+          i.querySelector('.faq-trigger').setAttribute('aria-expanded', 'false');
+        });
+        if (!isOpen) {
+          item.classList.add('open');
+          trigger.setAttribute('aria-expanded', 'true');
+        }
+      });
+    });
+
+    // -------------------------------------------------------------------------
+    // 5. SECTION HEADING SCROLL REVEAL (IntersectionObserver)
+    // -------------------------------------------------------------------------
+    const headingObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('revealed');
+          headingObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15 });
+
+    document.querySelectorAll('.section-heading-group').forEach(el => headingObserver.observe(el));
+
+    // -------------------------------------------------------------------------
+    // 6. NAVBAR DESKTOP DROPDOWN & MOBILE DRAWER LOGIC
+    // -------------------------------------------------------------------------
+    const hamburgerBtn = document.getElementById('hamburgerBtn');
+    const mobileDrawer = document.getElementById('mobileDrawer');
+    const drawerOverlay = document.getElementById('drawerOverlay');
+    const drawerTriggers = document.querySelectorAll('.drawer-close-trigger');
+
+    function toggleMobileDrawer(open) {
+      const isOpen = open ?? !mobileDrawer.classList.contains('open');
+      mobileDrawer.classList.toggle('open', isOpen);
+      drawerOverlay.classList.toggle('open', isOpen);
+      hamburgerBtn.setAttribute('aria-expanded', isOpen);
+      document.body.style.overflow = isOpen ? 'hidden' : '';
+    }
+
+    hamburgerBtn.addEventListener('click', () => toggleMobileDrawer());
+    drawerOverlay.addEventListener('click', () => toggleMobileDrawer(false));
+    document.getElementById('drawerCloseBtn').addEventListener('click', () => toggleMobileDrawer(false));
+    drawerTriggers.forEach(btn => btn.addEventListener('click', () => toggleMobileDrawer(false)));
+
+    const mobileServicesToggle = document.getElementById('mobileServicesToggle');
+    const mobileServicesAccordion = document.getElementById('mobileServicesAccordion');
+    const mobileAboutToggle = document.getElementById('mobileAboutToggle');
+    const mobileAboutAccordion = document.getElementById('mobileAboutAccordion');
+
+    if (mobileServicesToggle && mobileServicesAccordion) {
+      mobileServicesToggle.addEventListener('click', () => {
+        const isOpen = mobileServicesAccordion.classList.toggle('open');
+        mobileServicesToggle.setAttribute('aria-expanded', isOpen);
+        const icon = mobileServicesToggle.querySelector('svg');
+        if (icon) icon.style.transform = isOpen ? 'rotate(180deg)' : 'rotate(0deg)';
+      });
+    }
+
+    if (mobileAboutToggle && mobileAboutAccordion) {
+      mobileAboutToggle.addEventListener('click', () => {
+        const isOpen = mobileAboutAccordion.classList.toggle('open');
+        mobileAboutToggle.setAttribute('aria-expanded', isOpen);
+        const icon = mobileAboutToggle.querySelector('svg');
+        if (icon) icon.style.transform = isOpen ? 'rotate(180deg)' : 'rotate(0deg)';
+      });
+    }
+
+    // Desktop Dropdown
+    const desktopServicesItem = document.getElementById('desktopServicesItem');
+    const desktopServicesBtn = document.getElementById('desktopServicesBtn');
+    const desktopAboutItem = document.getElementById('desktopAboutItem');
+    const desktopAboutBtn = document.getElementById('desktopAboutBtn');
+
+    function setupDesktopDropdown(item, btn) {
+      if (!item || !btn) return;
+      let closeTimer = null;
+
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const isOpen = item.classList.toggle('open');
+        btn.setAttribute('aria-expanded', isOpen);
+      });
+
+      item.addEventListener('mouseenter', () => {
+        if (closeTimer) {
+          clearTimeout(closeTimer);
+          closeTimer = null;
+        }
+      });
+
+      item.addEventListener('mouseleave', () => {
+        closeTimer = setTimeout(() => {
+          item.classList.remove('open');
+          btn.setAttribute('aria-expanded', 'false');
+        }, 180);
+      });
+    }
+
+    setupDesktopDropdown(desktopServicesItem, desktopServicesBtn);
+    setupDesktopDropdown(desktopAboutItem, desktopAboutBtn);
+
+    document.addEventListener('click', (e) => {
+      if (desktopServicesItem && !desktopServicesItem.contains(e.target)) {
+        desktopServicesItem.classList.remove('open');
+        desktopServicesBtn.setAttribute('aria-expanded', 'false');
+      }
+      if (desktopAboutItem && !desktopAboutItem.contains(e.target)) {
+        desktopAboutItem.classList.remove('open');
+        desktopAboutBtn.setAttribute('aria-expanded', 'false');
+      }
+    });
+  </script>
+  <!-- SOFTWARE DOWNLOAD & SETUP MODAL -->
+  <div class="software-modal-backdrop" id="softwareModalBackdrop" role="dialog" aria-modal="true" aria-labelledby="softwareModalTitle">
+    <div class="software-modal-box">
+      <div class="software-modal-header">
+        <h3 class="software-modal-title" id="softwareModalTitle">Download Software</h3>
+        <button type="button" class="software-modal-close" onclick="closeSoftwareModal()" aria-label="Close modal">
+          <i data-lucide="x" style="width: 20px; height: 20px;"></i>
+        </button>
+      </div>
+      <div class="software-modal-body" id="softwareModalBody">
+        <!-- Dynamically injected via JS based on selected tool (QuestaSim / ModelSim) -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Software Modal Script -->
+  <script>
+    function playVideo(containerId, videoId, startSec) {
+      const container = document.getElementById(containerId);
+      if (!container) return;
+      const startParam = startSec ? `&start=${startSec}` : '';
+      container.innerHTML = `
+        <iframe
+          class="video-active-frame"
+          src="https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0${startParam}"
+          title="VLSI Insights Simulation Tutorial"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          allowfullscreen>
+        </iframe>
+      `;
+    }
+
+    const softwareInfoData = {
+      questasim: {
+        title: 'QuestaSim " Download & Access Guide',
+        platform: 'High-Performance Verification & Simulation Engine',
+        steps: [
+          {
+            title: '1. Software Access & Setup',
+            desc: 'Request QuestaSim software binaries and license setup guidance directly through VLSI Insights engineering support.'
+          },
+          {
+            title: '2. Environment Requirements',
+            desc: 'Compatible with 64-bit Windows 10/11 and Enterprise Linux (RHEL/Alma/Rocky 8+). Recommended minimum: 8 GB RAM and 15 GB disk space.'
+          },
+          {
+            title: '3. License Server Configuration',
+            desc: 'Set up your local or network license environment variable: export LM_LICENSE_FILE=port@host or configure the licensing utility.'
+          },
+          {
+            title: '4. Video Tutorial Walkthrough',
+            desc: 'Watch the step-by-step QuestaSim installation and testbench simulation video embedded above for complete end-to-end guidance.'
+          }
+        ],
+        youtubeUrl: 'https://www.youtube.com/watch?v=gOo57e69_B8'
+      },
+      modelsim: {
+        title: 'ModelSim " Download & Access Guide',
+        platform: 'Industry Standard Digital Simulation',
+        steps: [
+          {
+            title: '1. ModelSim Access & Packages',
+            desc: 'Obtain installation packages and environment setup assistance through VLSI Insights training and design programs.'
+          },
+          {
+            title: '2. Supported Operating Systems',
+            desc: 'Compatible with 64-bit Windows 10/11 and Linux. Lightweight footprint (~3 GB) ideal for digital logic, Verilog, and VHDL coursework.'
+          },
+          {
+            title: '3. Testbench Compilation & Waveforms',
+            desc: 'Compile HDL files with vcom and vlog commands or utilize the intuitive GUI project manager to run simulations and inspect signal waveforms.'
+          },
+          {
+            title: '4. Video Tutorial Walkthrough',
+            desc: 'Watch the complete ModelSim walkthrough video embedded above to verify your setup from initial download to waveform debugging.'
+          }
+        ],
+        youtubeUrl: 'https://www.youtube.com/watch?v=-U1OzeV9EKg'
+      }
+    };
+
+    function openSoftwareModal(toolKey) {
+      const data = softwareInfoData[toolKey];
+      if (!data) return;
+      const modalBackdrop = document.getElementById('softwareModalBackdrop');
+      const titleEl = document.getElementById('softwareModalTitle');
+      const bodyEl = document.getElementById('softwareModalBody');
+
+      titleEl.textContent = data.title;
+      bodyEl.innerHTML = `
+        <div style="margin-bottom: 16px; padding: 12px 16px; background: rgba(0, 168, 135, 0.08); border: 1px solid rgba(0, 168, 135, 0.25); border-radius: 8px;">
+          <div style="font-size: 0.75rem; color: var(--trace); font-weight: 700; letter-spacing: 0.05em;">Publisher & Platform</div>
+          <div style="font-size: 1rem; font-weight: 600; color: var(--text-hi);">${data.platform}</div>
+        </div>
+        <div style="margin-bottom: 20px;">
+          ${data.steps.map(step => `
+            <div class="software-guide-step">
+              <div class="software-guide-num">${step.title.charAt(0)}</div>
+              <div class="software-guide-text">
+                <h4>${step.title}</h4>
+                <p>${step.desc}</p>
+              </div>
+            </div>
+          `).join('')}
+        </div>
+        <div class="software-modal-actions">
+          <a href="${data.youtubeUrl}" target="_blank" rel="noopener noreferrer" class="download-tap-btn" style="background:#DC2626; border-color:#DC2626;">
+            <i data-lucide="youtube" style="width: 16px; height: 16px;"></i>
+            <span>Watch Tutorial</span>
+          </a>
+          <a href="contact.html" onclick="closeSoftwareModal()" class="download-tap-btn" style="background:var(--trace); border-color:var(--trace);">
+            <i data-lucide="download" style="width: 16px; height: 16px;"></i>
+            <span>Request Download & Access</span>
+          </a>
+          <a href="contact.html" class="eda-tool-card__btn" style="padding: 10px 18px; font-size: 0.875rem;">
+            <span>Get Free Demo</span>
+            <i data-lucide="arrow-right" style="width: 14px; height: 14px;"></i>
+          </a>
+        </div>
+      `;
+
+      if (window.lucide) {
+        lucide.createIcons();
+      }
+
+      modalBackdrop.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeSoftwareModal() {
+      const modalBackdrop = document.getElementById('softwareModalBackdrop');
+      if (modalBackdrop) {
+        modalBackdrop.classList.remove('active');
+      }
+      document.body.style.overflow = '';
+    }
+
+    // Modal click outside to close
+    document.addEventListener('click', function(e) {
+      const modalBackdrop = document.getElementById('softwareModalBackdrop');
+      if (modalBackdrop && e.target === modalBackdrop) {
+        closeSoftwareModal();
+      }
+    });
+
+    // Escape key to close modal
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        closeSoftwareModal();
+      }
+    });
+  </script>
+
+  <!-- Cart Badge Sync -->
+  <script>
+    (function() {
+      function updateCartBadge() {
+        try {
+          const items = JSON.parse(localStorage.getItem('vlsi_cart') || '[]');
+          const count = items.reduce((s, i) => s + (i.qty || 1), 0);
+          document.querySelectorAll('.cart-badge').forEach(b => {
+            b.textContent = count;
+            b.setAttribute('data-count', count);
+            b.setAttribute('data-visible', count > 0 ? 'true' : 'false');
+            b.style.display = count > 0 ? 'inline-flex' : 'none';
+          });
+        } catch(e) {}
+      }
+      updateCartBadge();
+      window.addEventListener('storage', updateCartBadge);
+    })();
+  </script>
+
+  <!-- Floating WhatsApp Chat Widget -->
+  <aside class="floating-whatsapp" aria-label="WhatsApp Support">
+    <a href="https://api.whatsapp.com/send/?phone=919810191592&text=Hello%2C+I+want+to+enquire+about+the+Job+Oriented+Program.&type=phone_number&app_absent=0" 
+       target="_blank" 
+       rel="noopener noreferrer" 
+       class="floating-whatsapp__btn" 
+       aria-label="Chat on WhatsApp with VLSI Insights">
+      <span class="floating-whatsapp__badge" aria-label="1 new notification">1</span>
+      <img src="images/whatsapp-icon.png" alt="WhatsApp" class="floating-whatsapp__img" width="36" height="36" loading="lazy" decoding="async">
+      <span class="floating-whatsapp__tooltip">Chat on WhatsApp</span>
+    </a>
+  </aside>
+
+  <!-- Initialise Lucide icons on page load -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      if (window.lucide) lucide.createIcons();
+    });
+  </script>
+
+  <script src="js/main.js" defer></script>
+</body>
+</html>
+
+
+
+

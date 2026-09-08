@@ -1,0 +1,1342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cart | VLSI Insights</title>
+  <meta name="description" content="Review your selected VLSI training programs and complete your enrollment securely with Razorpay." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@700&display=swap" rel="stylesheet" />
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js" defer></script>
+  <!-- Razorpay Checkout SDK -->
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
+  <!-- Master Navbar & Footer Stylesheets -->
+  <link rel="stylesheet" href="css/navbar.css">
+  <link rel="stylesheet" href="css/footer.css">
+  <link rel="stylesheet" href="css/global.css">
+
+  <style>
+    /* ============================================================ */
+    /* DESIGN TOKENS                                                 */
+    /* ============================================================ */
+    :root {
+      --void:       #FFFFFF;
+      --substrate:  #FAFAFA;
+      --surface:    var(--substrate);
+      --layer:      #FFFFFF;
+      --edge: #E2E8F0;
+      --trace: #00A887;
+      --copper:     #C2410C;
+      --text-hi: #0F172A;
+      --text-mid:   #475569;
+      --text-lo:    #64748B;
+      --error:      #DC2626;
+      --font-display: 'Space Grotesk', sans-serif;
+      --font-body:    'Inter', sans-serif;
+      --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+      --dur-fast:  150ms;
+      --dur-base:  300ms;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--substrate);
+      color: var(--text-mid);
+      font-family: var(--font-body);
+      font-size: 1rem;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+    a { color: inherit; text-decoration: none; }
+    button { font: inherit; border: none; background: none; cursor: pointer; }
+    img, svg { display: block; max-width: 100%; }
+
+    .container {
+      width: 100%;
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+    @media (min-width: 1024px) {
+      .container {
+        padding: 0 48px;
+      }
+    }
+
+    /* ============================================================ */
+    /* NAVBAR                                                        */
+    /* Navbar styles are defined in css/navbar.css — no inline overrides needed */
+    .mobile-nav-list { list-style: none; display: flex; flex-direction: column; gap: 4px; }
+    .mobile-nav-link {
+      display: flex; align-items: center; justify-content: space-between;
+      width: 100%; padding: 12px 14px;
+      color: var(--text-hi); font-size: 0.9375rem; font-weight: 600;
+      text-decoration: none; border-radius: 6px;
+      background: none; border: none; text-align: left; cursor: pointer;
+    }
+    .mobile-nav-link:hover { background: var(--substrate); color: var(--trace); }
+    .mobile-accordion {
+      display: none; flex-direction: column; gap: 2px; padding: 4px 0 8px 16px;
+    }
+    .mobile-accordion.open { display: flex; }
+    .mobile-accordion a {
+      display: flex; align-items: center; gap: 8px;
+      padding: 8px 12px; font-size: 0.875rem; color: var(--text-mid);
+      text-decoration: none; border-radius: 4px;
+    }
+    .mobile-accordion a:hover { color: var(--trace); background: var(--surface); }
+
+    /* User pill */
+    .nav-user-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 12px 6px 6px;
+      background: #FFF;
+      border: 1px solid var(--edge);
+      border-radius: 20px;
+      font-size: 0.8125rem;
+      font-weight: 600;
+      color: var(--text-hi);
+      text-decoration: none;
+    }
+    .nav-user-pill:hover { border-color: var(--trace); }
+
+    .nav-user-avatar {
+      width: 28px; height: 28px;
+      background: var(--trace);
+      color: #FFF;
+      font-size: 0.75rem;
+      font-weight: 700;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      
+    }
+
+    .nav-logout-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 6px 10px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--text-lo);
+      border: 1px solid var(--edge);
+      border-radius: 4px;
+      background: #FFF;
+      cursor: pointer;
+      transition: all var(--dur-fast) ease;
+    }
+    .nav-logout-btn:hover { border-color: var(--error); color: var(--error); }
+
+    /* ============================================================ */
+    /* PAGE HERO                                                     */
+    /* ============================================================ */
+    /* CART HERO                                                    */
+    /* ============================================================ */
+    .cart-hero {
+      position: relative;
+      background: #FFFFFF;
+      border-bottom: 1px solid var(--edge);
+      padding: 56px 0 44px;
+      overflow: hidden;
+    }
+    .hero-circuit-watermark {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      opacity: 0.25;
+      z-index: 1;
+    }
+    .cart-hero > .container {
+      position: relative;
+      z-index: 2;
+    }
+    .cart-hero__label {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 12px;
+      border-radius: 9999px;
+      background: rgba(0, 168, 135, 0.08);
+      border: 1px solid rgba(0, 168, 135, 0.25);
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      
+      color: var(--trace);
+      margin-bottom: 12px;
+    }
+    .cart-hero__title {
+      font-family: var(--font-display);
+      font-size: clamp(1.75rem, 4vw, 2.5rem);
+      font-weight: 700;
+      color: var(--text-hi);
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+      margin-bottom: 8px;
+    }
+    .cart-hero__sub { font-size: 1rem; color: var(--text-lo); }
+
+    /* ============================================================ */
+    /* CART LAYOUT                                                   */
+    /* ============================================================ */
+    .cart-layout {
+      display: grid;
+      grid-template-columns: 1fr 360px;
+      gap: 32px;
+      padding: 40px 0 80px;
+      align-items: start;
+    }
+    @media (max-width: 900px) {
+      .cart-layout { grid-template-columns: 1fr; }
+    }
+
+    /* ============================================================ */
+    /* CART PANEL                                                    */
+    /* ============================================================ */
+    .cart-panel {
+      background: var(--layer);
+      border: 1px solid var(--edge);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+    .cart-panel__header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px 24px;
+      border-bottom: 1px solid var(--edge);
+      background: var(--surface);
+    }
+    .cart-panel__title {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 1rem;
+      color: var(--text-hi);
+    }
+    .cart-panel__count { font-size: 0.8125rem; color: var(--text-lo); font-weight: 500; }
+
+    /* ---- Cart Item ---- */
+    .cart-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      padding: 20px 24px;
+      border-bottom: 1px solid var(--edge);
+      transition: background var(--dur-fast) ease;
+      animation: fadeIn 0.3s ease;
+    }
+    .cart-item:last-child { border-bottom: none; }
+    .cart-item:hover { background: var(--surface); }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .cart-item__icon {
+      width: 48px; height: 48px;
+      background: rgba(0,168,135,0.1);
+      border: 1px solid rgba(0,168,135,0.2);
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--trace);
+      flex-shrink: 0;
+    }
+    .cart-item__body { flex: 1; min-width: 0; }
+    .cart-item__name {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 0.9375rem;
+      color: var(--text-hi);
+      margin-bottom: 4px;
+      white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    }
+    .cart-item__price { font-size: 0.875rem; font-weight: 600; color: var(--trace); margin-bottom: 8px; }
+    .cart-item__qty-row { display: flex; align-items: center; gap: 8px; }
+    .qty-btn {
+      width: 28px; height: 28px;
+      border: 1px solid var(--edge);
+      border-radius: 4px;
+      display: inline-flex; align-items: center; justify-content: center;
+      color: var(--text-hi); background: #FFF;
+      cursor: pointer; font-size: 1rem; font-weight: 700; line-height: 1;
+      transition: all var(--dur-fast) ease; flex-shrink: 0;
+    }
+    .qty-btn:hover { border-color: var(--trace); color: var(--trace); }
+    .qty-display { min-width: 28px; text-align: center; font-weight: 600; font-size: 0.875rem; color: var(--text-hi); }
+    .cart-item__remove {
+      display: inline-flex; align-items: center; gap: 4px;
+      font-size: 0.75rem; font-weight: 500; color: var(--error);
+      cursor: pointer; margin-left: 4px;
+      transition: opacity var(--dur-fast) ease;
+    }
+    .cart-item__remove:hover { opacity: 0.75; }
+    .cart-item__subtotal {
+      font-family: var(--font-display);
+      font-size: 1rem; font-weight: 700;
+      color: var(--text-hi); flex-shrink: 0;
+      text-align: right; min-width: 90px;
+    }
+
+    /* ---- Empty State ---- */
+    .cart-empty { text-align: center; padding: 80px 24px; }
+    .cart-empty__icon {
+      width: 80px; height: 80px;
+      background: var(--surface); border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 20px; color: var(--text-lo);
+    }
+    .cart-empty__title { font-family: var(--font-display); font-weight: 700; font-size: 1.25rem; color: var(--text-hi); margin-bottom: 8px; }
+    .cart-empty__sub { font-size: 0.9375rem; color: var(--text-lo); margin-bottom: 24px; }
+    .btn-browse {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 11px 22px;
+      background: var(--trace); color: #FFF;
+      font-weight: 600; font-size: 0.9375rem; border-radius: 6px;
+      transition: all var(--dur-fast) ease;
+    }
+    .btn-browse:hover { background: #008269; transform: translateY(-1px); }
+
+    /* ============================================================ */
+    /* ORDER SUMMARY                                                 */
+    /* ============================================================ */
+    .order-summary {
+      background: var(--layer);
+      border: 1px solid var(--edge);
+      border-radius: 12px;
+      position: sticky; top: 80px;
+      overflow: hidden;
+    }
+    .order-summary__header {
+      padding: 20px 24px;
+      border-bottom: 1px solid var(--edge);
+      background: var(--surface);
+    }
+    .order-summary__title { font-family: var(--font-display); font-weight: 700; font-size: 1rem; color: var(--text-hi); }
+    .order-summary__body { padding: 24px; }
+
+    .summary-row {
+      display: flex; align-items: center; justify-content: space-between;
+      font-size: 0.9375rem; color: var(--text-mid); margin-bottom: 12px;
+    }
+    .summary-row--total {
+      font-family: var(--font-display);
+      font-size: 1.125rem; font-weight: 700;
+      color: var(--text-hi);
+      padding-top: 16px; border-top: 1px solid var(--edge); margin-top: 4px;
+    }
+    .summary-divider { height: 1px; background: var(--edge); margin: 8px 0 16px; }
+
+    .promo-row { display: flex; gap: 8px; margin-bottom: 16px; }
+    .promo-input {
+      flex: 1; padding: 9px 12px;
+      border: 1px solid var(--edge); border-radius: 6px;
+      font: inherit; font-size: 0.875rem; color: var(--text-hi);
+      background: #FFF; transition: border-color var(--dur-fast) ease; outline: none;
+    }
+    .promo-input:focus { border-color: var(--trace); }
+    .promo-apply-btn {
+      padding: 9px 14px; background: #0F172A; color: #FFF;
+      font-weight: 600; font-size: 0.8125rem; border-radius: 6px;
+      transition: background var(--dur-fast) ease; flex-shrink: 0;
+    }
+    .promo-apply-btn:hover { background: #1E293B; }
+    .promo-msg { font-size: 0.8125rem; color: var(--error); margin-bottom: 8px; }
+    .promo-msg.success { color: var(--trace); }
+
+    /* Pay Button */
+    .pay-btn {
+      display: flex; align-items: center; justify-content: center; gap: 10px;
+      width: 100%; padding: 14px 20px;
+      background: var(--trace); color: #FFF;
+      font-family: var(--font-display); font-size: 1rem; font-weight: 700;
+      border-radius: 8px; cursor: pointer; border: none;
+      transition: all var(--dur-fast) ease;
+      margin-top: 8px; position: relative; overflow: hidden;
+    }
+    .pay-btn::after {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, transparent 60%);
+    }
+    .pay-btn:hover:not(:disabled) { background: #008269; transform: translateY(-1px); }
+    .pay-btn:active:not(:disabled) { transform: scale(0.98); }
+    .pay-btn:disabled { opacity: 0.55; cursor: not-allowed; }
+    .pay-btn .spinner {
+      display: none; width: 18px; height: 18px;
+      border: 2px solid rgba(255,255,255,0.4); border-top-color: #FFF;
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+    }
+    .pay-btn.loading .spinner { display: block; }
+    .pay-btn.loading .pay-btn__label { opacity: 0.5; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .secure-note { display: flex; align-items: center; justify-content: center; gap: 6px; font-size: 0.75rem; color: var(--text-lo); margin-top: 12px; }
+    .trust-badges { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 16px; }
+    .trust-badge {
+      display: inline-flex; align-items: center; gap: 4px;
+      padding: 4px 10px;
+      background: var(--surface); border: 1px solid var(--edge); border-radius: 20px;
+      font-size: 0.6875rem; font-weight: 600; color: var(--text-lo);
+    }
+    .razorpay-note { display: flex; align-items: center; justify-content: center; gap: 6px; margin-top: 14px; font-size: 0.6875rem; color: var(--text-lo); }
+
+    /* ============================================================ */
+    /* SUCCESS OVERLAY                                               */
+    /* ============================================================ */
+    .success-overlay {
+      position: fixed; inset: 0;
+      background: rgba(15,23,42,0.65);
+      backdrop-filter: blur(8px);
+      z-index: 9999;
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0; pointer-events: none;
+      transition: opacity 0.35s ease;
+    }
+    .success-overlay.visible { opacity: 1; pointer-events: auto; }
+    .success-card {
+      background: #FFFFFF; border-radius: 16px; padding: 48px 40px;
+      max-width: 420px; width: 90%; text-align: center;
+      transform: scale(0.92);
+      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .success-overlay.visible .success-card { transform: scale(1); }
+    .success-icon {
+      width: 72px; height: 72px;
+      background: rgba(0,168,135,0.12); border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 20px; color: var(--trace);
+    }
+    .success-title { font-family: var(--font-display); font-weight: 700; font-size: 1.5rem; color: var(--text-hi); margin-bottom: 10px; }
+    .success-sub { font-size: 0.9375rem; color: var(--text-mid); margin-bottom: 28px; line-height: 1.6; }
+    .success-id {
+      display: inline-block; padding: 6px 14px;
+      background: var(--substrate); border: 1px solid var(--edge); border-radius: 4px;
+      font-family: monospace; font-size: 0.8125rem; color: var(--text-hi); margin-bottom: 28px;
+    }
+    .success-actions { display: flex; flex-direction: column; gap: 10px; }
+    .btn-primary-full {
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+      padding: 12px 20px;
+      background: var(--trace); color: #FFF;
+      font-weight: 700; font-size: 0.9375rem; border-radius: 8px;
+      transition: all var(--dur-fast) ease;
+    }
+    .btn-primary-full:hover { background: #008269; }
+    .btn-ghost-full {
+      display: flex; align-items: center; justify-content: center;
+      padding: 12px 20px;
+      font-weight: 600; font-size: 0.9375rem; color: var(--text-mid);
+      border: 1px solid var(--edge); border-radius: 8px;
+      transition: all var(--dur-fast) ease;
+    }
+    .btn-ghost-full:hover { border-color: var(--text-hi); color: var(--text-hi); }
+
+    /* ============================================================ */
+    /* FOOTER                                                        */
+    /* ============================================================ */
+    .cart-footer {
+      border-top: 1px solid var(--edge);
+      padding: 24px 0;
+      text-align: center;
+      font-size: 0.8125rem;
+      color: var(--text-lo);
+    }
+
+    @media (max-width: 600px) {
+      .cart-item { flex-wrap: wrap; }
+      .cart-item__subtotal { flex: 0 0 100%; text-align: left; font-size: 0.9375rem; }
+      .order-summary { position: static; }
+    }
+  
+    /* Floating WhatsApp Chat Widget */
+    .floating-whatsapp {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .floating-whatsapp__btn {
+      position: relative;
+      width: 56px;
+      height: 56px;
+      background: #000000;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      ;
+      transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s ease;
+      text-decoration: none;
+    }
+
+    .floating-whatsapp__btn:hover {
+      transform: scale(1.1) translateY(-3px);
+      ;
+    }
+
+    .floating-whatsapp__btn:active {
+      transform: scale(0.95);
+    }
+
+    .floating-whatsapp__img {
+      width: 36px;
+      height: 36px;
+      object-fit: contain;
+      display: block;
+      transition: transform 0.3s ease;
+    }
+
+    .floating-whatsapp__btn:hover .floating-whatsapp__img {
+      transform: scale(1.05);
+    }
+
+    .floating-whatsapp__badge {
+      position: absolute;
+      top: -2px;
+      right: -2px;
+      width: 20px;
+      height: 20px;
+      background: #EF4444;
+      color: #ffffff;
+      font-size: 11px;
+      font-weight: 700;
+      font-family: inherit;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 2px solid #ffffff;
+      ;
+      animation: pulse-whatsapp-badge 2s infinite;
+    }
+
+    .floating-whatsapp__tooltip {
+      position: absolute;
+      right: 68px;
+      background: #111827;
+      color: #ffffff;
+      padding: 6px 14px;
+      border-radius: 8px;
+      font-size: 0.8125rem;
+      font-weight: 600;
+      white-space: nowrap;
+      pointer-events: none;
+      opacity: 0;
+      transform: translateX(8px);
+      transition: opacity 0.2s ease, transform 0.2s ease;
+      ;
+    }
+
+    .floating-whatsapp__tooltip::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      right: -5px;
+      transform: translateY(-50%);
+      border-width: 5px 0 5px 5px;
+      border-style: solid;
+      border-color: transparent transparent transparent #111827;
+    }
+
+    .floating-whatsapp__btn:hover .floating-whatsapp__tooltip {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    @keyframes pulse-whatsapp-badge {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.15); }
+    }</style>
+  <link rel="stylesheet" href="css/navbar.css">
+</head>
+<body>
+
+  <!-- ========================================================================= -->
+  <!-- NAVIGATION BAR                                                            -->
+  <!-- ========================================================================= -->
+    <!-- ========================================================================= -->
+  <!-- NAVIGATION BAR                                                            -->
+  <!-- ========================================================================= -->
+    <!-- ========================================================================= -->
+  <!-- NAVIGATION BAR                                                            -->
+  <!-- ========================================================================= -->
+  <!-- NAVIGATION BAR -->
+  <header class="navbar" role="banner">
+    <div class="container navbar__inner">
+      <!-- Brand Logo -->
+      <a href="index.html" class="nav-logo" aria-label="VLSI Insights Homepage">
+        <img src="images/logo.png" alt="VLSI Insights — Empowering Tomorrow's Technology Today" class="nav-logo-img">
+      </a>
+
+      <!-- Desktop Navigation -->
+      <nav class="nav-links" role="navigation" aria-label="Main Navigation">
+        <div class="nav-item">
+          <a href="index.html" class="nav-link">Home</a>
+        </div>
+
+        <!-- Services Dropdown (Categorized) -->
+        <div class="nav-item" id="desktopServicesItem">
+          <button type="button" class="nav-link" id="desktopServicesBtn" aria-expanded="false" aria-haspopup="true">
+            Services
+            <i data-lucide="chevron-down" class="chevron"></i>
+          </button>
+          <div class="dropdown-panel dropdown-panel--services" role="menu">
+            <div class="dropdown-col">
+              <span class="dropdown-col-heading">Engineering Services</span>
+              <a href="vlsi-designs.html" class="dropdown-item" role="menuitem">
+                <span class="dropdown-item__icon"><i data-lucide="cpu"></i></span>
+                <div>
+                  <div class="dropdown-item__title">VLSI Related Services</div>
+                  <div class="dropdown-item__desc">RTL layout, physical design, and verification.</div>
+                </div>
+              </a>
+              <a href="soc-verification.html" class="dropdown-item" role="menuitem">
+                <span class="dropdown-item__icon"><i data-lucide="shield-check"></i></span>
+                <div>
+                  <div class="dropdown-item__title">SOC Verification</div>
+                  <div class="dropdown-item__desc">UVM functional verification architectures.</div>
+                </div>
+              </a>
+              <a href="embedded-systems.html" class="dropdown-item" role="menuitem">
+                <span class="dropdown-item__icon"><i data-lucide="microchip"></i></span>
+                <div>
+                  <div class="dropdown-item__title">Embedded Systems</div>
+                  <div class="dropdown-item__desc">MCU firmware to real-time operating systems.</div>
+                </div>
+              </a>
+              <a href="ai-models.html" class="dropdown-item" role="menuitem">
+                <span class="dropdown-item__icon"><i data-lucide="brain"></i></span>
+                <div>
+                  <div class="dropdown-item__title">AI Models</div>
+                  <div class="dropdown-item__desc">Edge ML and embedded inference pipelines.</div>
+                </div>
+              </a>
+              <a href="web-development.html" class="dropdown-item" role="menuitem">
+                <span class="dropdown-item__icon"><i data-lucide="code-2"></i></span>
+                <div>
+                  <div class="dropdown-item__title">Web Development</div>
+                  <div class="dropdown-item__desc">Modern engineering web applications and portals.</div>
+                </div>
+              </a>
+            </div>
+
+            <div class="dropdown-col">
+              <span class="dropdown-col-heading">Training &amp; Growth</span>
+              <a href="technical-training.html" class="dropdown-item" role="menuitem">
+                <span class="dropdown-item__icon"><i data-lucide="graduation-cap"></i></span>
+                <div>
+                  <div class="dropdown-item__title">Technical Training</div>
+                  <div class="dropdown-item__desc">Hands-on VLSI &amp; embedded engineering training.</div>
+                </div>
+              </a>
+              <a href="marketing-solutions.html" class="dropdown-item" role="menuitem">
+                <span class="dropdown-item__icon"><i data-lucide="trending-up"></i></span>
+                <div>
+                  <div class="dropdown-item__title">Marketing Solutions</div>
+                  <div class="dropdown-item__desc">Growth strategies for technical enterprises.</div>
+                </div>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div class="nav-item">
+          <a href="programs.html" class="nav-link">Programs</a>
+        </div>
+
+        <div class="nav-item">
+          <a href="front-end-software.html" class="nav-link">Front End Software</a>
+        </div>
+
+        <div class="nav-item">
+          <a href="blog.html" class="nav-link">Blog</a>
+        </div>
+
+        <!-- About Dropdown -->
+        <div class="nav-item" id="desktopAboutItem">
+          <button type="button" class="nav-link" id="desktopAboutBtn" aria-expanded="false" aria-haspopup="true">
+            About
+            <i data-lucide="chevron-down" class="chevron"></i>
+          </button>
+          <div class="dropdown-panel" role="menu">
+            <a href="about-company.html" class="dropdown-item" role="menuitem">
+              <span class="dropdown-item__icon"><i data-lucide="building-2"></i></span>
+              <div>
+                <div class="dropdown-item__title">About the Company</div>
+                <div class="dropdown-item__desc">Our story, mission, engineering team, and culture.</div>
+              </div>
+            </a>
+            <a href="about-owner.html" class="dropdown-item" role="menuitem">
+              <span class="dropdown-item__icon"><i data-lucide="user"></i></span>
+              <div>
+                <div class="dropdown-item__title">About the Owner</div>
+                <div class="dropdown-item__desc">Founder profile, journey, expertise, and leadership.</div>
+              </div>
+            </a>
+                      <a href="testimonials.html" class="dropdown-item" role="menuitem">
+              <span class="dropdown-item__icon"><i data-lucide="message-square"></i></span>
+              <div>
+                <div class="dropdown-item__title">Testimonials</div>
+                <div class="dropdown-item__desc">What industry engineers and alumni say about us.</div>
+              </div>
+            </a>
+          </div>
+        </div>
+
+        <div class="nav-item">
+          <a href="index.html#contact" class="nav-link">Contact</a>
+        </div>
+      </nav>
+
+      <!-- Cart Icon + Mobile Hamburger Button -->
+      <div class="navbar__controls">
+        <a href="cart.html" class="nav-cart-btn" aria-label="View Cart" id="cartNavBtn">
+          <i data-lucide="shopping-cart"></i>
+          <span class="cart-badge" id="cartBadge" data-visible="false">0</span>
+        </a>
+        <button type="button" class="nav-hamburger" id="hamburgerBtn" aria-label="Open navigation menu" aria-expanded="false" aria-controls="mobileDrawer">
+          <i data-lucide="menu"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Drawer & Overlay -->
+  <div class="drawer-overlay" id="drawerOverlay"></div>
+  <aside class="mobile-drawer" id="mobileDrawer" role="dialog" aria-modal="true" aria-label="Mobile Navigation">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;padding-bottom:12px;border-bottom:1px solid var(--edge);">
+      <img src="images/logo.png" alt="VLSI Insights" style="height:30px;width:auto;max-width:160px;object-fit:contain;">
+      <button type="button" id="drawerCloseBtn" aria-label="Close navigation menu" style="padding:6px;border-radius:4px;color:#475569;cursor:pointer;background:none;border:none;">
+        <i data-lucide="x"></i>
+      </button>
+    </div>
+    <ul class="mobile-nav-list">
+      <li>
+        <a href="index.html" class="mobile-nav-link drawer-close-trigger">Home</a>
+      </li>
+      <li>
+        <button type="button" class="mobile-nav-link" id="mobileServicesToggle" aria-expanded="false">
+          <span>Services</span>
+          <i data-lucide="chevron-down"></i>
+        </button>
+        <div class="mobile-accordion" id="mobileServicesAccordion">
+          <div style="font-size:0.6875rem;font-weight:700;color:var(--trace);text-transform:uppercase;padding:8px 12px 4px;">Engineering Services</div>
+          <a href="vlsi-designs.html" class="drawer-close-trigger"><i data-lucide="cpu"></i> VLSI Related Services</a>
+          <a href="soc-verification.html" class="drawer-close-trigger"><i data-lucide="shield-check"></i> SOC Verification</a>
+          <a href="embedded-systems.html" class="drawer-close-trigger"><i data-lucide="microchip"></i> Embedded Systems</a>
+          <a href="ai-models.html" class="drawer-close-trigger"><i data-lucide="brain"></i> AI Models</a>
+          <a href="web-development.html" class="drawer-close-trigger"><i data-lucide="code-2"></i> Web Development</a>
+          <div style="font-size:0.6875rem;font-weight:700;color:var(--trace);text-transform:uppercase;padding:12px 12px 4px 12px;border-top:1px solid var(--edge);margin-top:4px;">Training &amp; Growth</div>
+          <a href="technical-training.html" class="drawer-close-trigger"><i data-lucide="graduation-cap"></i> Technical Training</a>
+          <a href="marketing-solutions.html" class="drawer-close-trigger"><i data-lucide="trending-up"></i> Marketing Solutions</a>
+        </div>
+      </li>
+      <li>
+        <a href="programs.html" class="mobile-nav-link drawer-close-trigger">Programs</a>
+      </li>
+      <li>
+        <a href="front-end-software.html" class="mobile-nav-link drawer-close-trigger">Front End Software</a>
+      </li>
+      <li>
+        <a href="blog.html" class="mobile-nav-link drawer-close-trigger">Blog</a>
+      </li>
+      <li>
+        <button type="button" class="mobile-nav-link" id="mobileAboutToggle" aria-expanded="false">
+          <span>About</span>
+          <i data-lucide="chevron-down"></i>
+        </button>
+        <div class="mobile-accordion" id="mobileAboutAccordion">
+          <a href="about-company.html" class="drawer-close-trigger"><i data-lucide="building-2"></i> About the Company</a>
+          <a href="about-owner.html" class="drawer-close-trigger"><i data-lucide="user"></i> About the Owner</a>
+          <a href="testimonials.html" class="drawer-close-trigger"><i data-lucide="message-square"></i> Testimonials</a>
+        </div>
+      </li>
+      <li>
+        <a href="index.html#contact" class="mobile-nav-link drawer-close-trigger">Contact</a>
+      </li>
+    </ul>
+    <div style="margin-top:auto;padding-top:20px;border-top:1px solid var(--edge);display:flex;flex-direction:column;gap:10px;">
+      <a href="cart.html" class="drawer-close-trigger" style="display:flex;align-items:center;justify-content:center;gap:8px;padding:12px;background:var(--surface);border:1px solid var(--edge);border-radius:6px;color:var(--text-hi);font-weight:600;text-decoration:none;font-size:0.875rem;">
+        <i data-lucide="shopping-cart" style="width:18px;height:18px;"></i>
+        <span>View Cart</span>
+      </a>
+      <a href="login.html" class="drawer-close-trigger" style="display:flex;align-items:center;justify-content:center;gap:8px;padding:12px;background:var(--trace);color:#FFFFFF;border-radius:6px;font-weight:600;text-decoration:none;font-size:0.875rem;">
+        <i data-lucide="user" style="width:18px;height:18px;"></i>
+        <span>Sign In</span>
+      </a>
+    </div>
+  </aside>
+
+  <!-- HERO -->
+  <section class="cart-hero">
+    <svg class="hero-circuit-watermark" viewBox="0 0 1440 480" fill="none" preserveAspectRatio="none" aria-hidden="true">
+      <path d="M0,120 L280,120 L340,180 L700,180 L760,120 L1100,120 L1160,180 L1440,180" stroke="#94A3B8" stroke-width="1.5" stroke-dasharray="6 4"/>
+      <path d="M0,320 L240,320 L300,260 L620,260 L680,320 L960,320 L1020,260 L1440,260" stroke="#94A3B8" stroke-width="1.5"/>
+      <circle cx="280" cy="120" r="4" fill="#94A3B8"/>
+      <circle cx="700" cy="180" r="4" fill="#94A3B8"/>
+      <circle cx="1100" cy="120" r="4" fill="#94A3B8"/>
+      <circle cx="240" cy="320" r="4" fill="#94A3B8"/>
+      <circle cx="680" cy="320" r="4" fill="#94A3B8"/>
+      <circle cx="1020" cy="260" r="4" fill="#94A3B8"/>
+    </svg>
+    <div class="container">
+      <div class="cart-hero__label">
+        <i data-lucide="shopping-cart" style="width:14px;height:14px;"></i>
+        Your Cart
+      </div>
+      <h1 class="cart-hero__title">Review Your Selection</h1>
+      <p class="cart-hero__sub">Complete your enrollment securely. Powered by Razorpay payment gateway.</p>
+    </div>
+  </section>
+
+  <!-- CART BODY -->
+  <main>
+    <div class="container cart-layout">
+
+      <!-- LEFT: Cart Items -->
+      <section aria-label="Cart items">
+        <div class="cart-panel">
+          <div class="cart-panel__header">
+            <span class="cart-panel__title">Programs Selected</span>
+            <span class="cart-panel__count" id="itemCount">0 items</span>
+          </div>
+          <div id="cartItemsList"></div>
+          <!-- Empty State -->
+          <div class="cart-empty" id="cartEmpty" style="display:none;">
+            <div class="cart-empty__icon">
+              <i data-lucide="shopping-cart" style="width:36px;height:36px;"></i>
+            </div>
+            <div class="cart-empty__title">Your cart is empty</div>
+            <p class="cart-empty__sub">Browse our programs and add the ones that match your learning goals.</p>
+            <a href="programs.html" class="btn-browse">
+              <i data-lucide="grid" style="width:16px;height:16px;"></i>
+              Browse Programs
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <!-- RIGHT: Order Summary -->
+      <aside class="order-summary" id="orderSummaryPanel" aria-label="Order summary">
+        <div class="order-summary__header">
+          <span class="order-summary__title">Order Summary</span>
+        </div>
+        <div class="order-summary__body">
+
+          <!-- Promo -->
+          <div class="promo-row">
+            <input type="text" class="promo-input" id="promoInput" placeholder="Promo code (e.g. VLSI10)" aria-label="Promo code" />
+            <button class="promo-apply-btn" id="promoApplyBtn" type="button">Apply</button>
+          </div>
+          <div class="promo-msg" id="promoMsg" style="display:none;"></div>
+
+          <div class="summary-divider"></div>
+
+          <div class="summary-row">
+            <span>Subtotal</span>
+            <span id="summarySubtotal">&#8377;0</span>
+          </div>
+          <div class="summary-row" id="discountRow" style="display:none;">
+            <span style="color:var(--trace);">Discount</span>
+            <span id="summaryDiscount" style="color:var(--trace);">-&#8377;0</span>
+          </div>
+          <div class="summary-row">
+            <span>GST (18%)</span>
+            <span id="summaryGst">&#8377;0</span>
+          </div>
+          <div class="summary-row summary-row--total">
+            <span>Total</span>
+            <span id="summaryTotal">&#8377;0</span>
+          </div>
+
+          <button class="pay-btn" id="payBtn" type="button" disabled>
+            <div class="spinner"></div>
+            <span class="pay-btn__label">
+              Pay Securely with Razorpay
+            </span>
+          </button>
+
+          <div class="secure-note">
+            <i data-lucide="shield-check" style="width:13px;height:13px;"></i>
+            256-bit SSL encrypted &amp; PCI DSS compliant
+          </div>
+
+          <div class="trust-badges">
+            <span class="trust-badge"><i data-lucide="credit-card" style="width:11px;height:11px;"></i> Cards</span>
+            <span class="trust-badge"><i data-lucide="smartphone" style="width:11px;height:11px;"></i> UPI</span>
+            <span class="trust-badge"><i data-lucide="building" style="width:11px;height:11px;"></i> Net Banking</span>
+            <span class="trust-badge"><i data-lucide="wallet" style="width:11px;height:11px;"></i> Wallets</span>
+          </div>
+
+          <div class="razorpay-note">Powered by Razorpay</div>
+        </div>
+      </aside>
+
+    </div>
+  </main>
+
+  <!-- SUCCESS OVERLAY -->
+  <div class="success-overlay" id="successOverlay" role="dialog" aria-modal="true" aria-label="Payment successful">
+    <div class="success-card">
+      <div class="success-icon">
+        <i data-lucide="check-circle-2" style="width:36px;height:36px;"></i>
+      </div>
+      <div class="success-title">Enrollment Confirmed!</div>
+      <p class="success-sub">
+        Payment successful. You will receive a confirmation email and our team will contact you within 24 hours with onboarding details.
+      </p>
+      <div class="success-id" id="successPaymentId">Processing...</div>
+      <div class="success-actions">
+        <a href="index.html" class="btn-primary-full">
+          <i data-lucide="home" style="width:16px;height:16px;"></i>
+          Go to Homepage
+        </a>
+        <a href="programs.html" class="btn-ghost-full">Browse More Programs</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="footer" role="contentinfo">
+    <!-- Watermark Circuit Trace -->
+    <svg class="footer-watermark" viewBox="0 0 1200 400" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <path d="M0 200 H160 L200 160 H300 L340 200 H500 L540 140 H700 L740 200 H900 L940 150 H1200" stroke="var(--trace)" stroke-width="1.5" />
+      <circle cx="200" cy="160" r="4" fill="var(--trace)" />
+      <circle cx="340" cy="200" r="4" fill="var(--trace)" />
+      <circle cx="540" cy="140" r="4" fill="var(--trace)" />
+    </svg>
+    <div class="container">
+      <div class="footer-grid">
+        <!-- Col 1: Brand -->
+        <div class="footer-brand">
+          <a href="index.html" class="nav-logo" aria-label="VLSI Insights">
+            <img src="images/logo.png" alt="VLSI Insights" class="nav-logo-img">
+          </a>
+          <p class="footer-desc">Bridging academia and the semiconductor industry through practical engineering mastery, verified tape-out methodologies, and industry-grade training.</p>
+          <div class="footer-socials">
+            <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" class="footer-social-link" aria-label="LinkedIn"><i data-lucide="linkedin"></i></a>
+            <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" class="footer-social-link" aria-label="YouTube"><i data-lucide="youtube"></i></a>
+            <a href="https://github.com" target="_blank" rel="noopener noreferrer" class="footer-social-link" aria-label="GitHub"><i data-lucide="github"></i></a>
+            <a href="https://wa.me/919810191592" target="_blank" rel="noopener noreferrer" class="footer-social-link" aria-label="WhatsApp"><i data-lucide="message-circle"></i></a>
+          </div>
+        </div>
+
+        <!-- Col 2: Services -->
+        <div>
+          <h4 class="footer-col-title">Services</h4>
+          <ul class="footer-links">
+            <li><a href="vlsi-designs.html" class="footer-link">VLSI Designs</a></li>
+            <li><a href="soc-verification.html" class="footer-link">SOC Verification</a></li>
+            <li><a href="embedded-systems.html" class="footer-link">Embedded Systems</a></li>
+            <li><a href="ai-models.html" class="footer-link">AI Models</a></li>
+            <li><a href="web-development.html" class="footer-link">Web Development</a></li>
+            <li><a href="technical-training.html" class="footer-link">Technical Training</a></li>
+            <li><a href="marketing-solutions.html" class="footer-link">Marketing Solutions</a></li>
+          </ul>
+        </div>
+
+        <!-- Col 3: Company -->
+        <div>
+          <h4 class="footer-col-title">Company</h4>
+          <ul class="footer-links">
+            <li><a href="about-company.html" class="footer-link">About Company</a></li>
+            <li><a href="about-owner.html" class="footer-link">About Founder</a></li>
+            <li><a href="programs.html" class="footer-link">Curriculum &amp; Programs</a></li>
+            <li><a href="front-end-software.html" class="footer-link">Front-End Software</a></li>
+            <li><a href="blog.html" class="footer-link">Technical Blog</a></li>
+            <li><a href="testimonials.html" class="footer-link">Testimonials</a></li>
+          </ul>
+        </div>
+
+        <!-- Col 4: Contact -->
+        <div>
+          <h4 class="footer-col-title">Get in Touch</h4>
+          <ul class="footer-links" style="margin-bottom: 16px;">
+            <li><a href="mailto:info@vlsiinsights.com" class="footer-link">info@vlsiinsights.com</a></li>
+            <li><a href="tel:+919810191592" class="footer-link">+91 98101 91592</a></li>
+          </ul>
+          <a href="https://wa.me/919810191592?text=Hello%2C%20I%20want%20to%20enquire%20about%20the%20Job%20Oriented%20Program." class="whatsapp-cta" target="_blank" rel="noopener noreferrer">
+            <i data-lucide="message-circle"></i>
+            Chat on WhatsApp
+          </a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <div>&copy; <span id="footerYear">2026</span> VLSI Insights. All rights reserved.</div>
+        <div class="footer-bottom-links">
+          <a href="index.html" class="footer-link">Home</a>
+          <a href="programs.html" class="footer-link">Programs</a>
+          <a href="front-end-software.html" class="footer-link">EDA Tools</a>
+          <a href="index.html#contact" class="footer-link">Contact</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // ================================================================
+    // CONFIG
+    // ================================================================
+    const footerYearEl = document.getElementById('footerYear');
+    if (footerYearEl) footerYearEl.textContent = new Date().getFullYear();
+
+    // IMPORTANT: Replace with your actual Razorpay Key ID
+    // Test keys start with rzp_test_, Live keys with rzp_live_
+    const RAZORPAY_KEY = 'rzp_test_YourKeyHere';
+
+    const fmt = (n) => '\u20B9' + Math.round(n).toLocaleString('en-IN');
+
+    const PROMO_CODES = {
+      'VLSI10':  { type: 'pct',  value: 10,   label: '10% off' },
+      'EARLY20': { type: 'pct',  value: 20,   label: '20% off' },
+      'FLAT5K':  { type: 'flat', value: 5000, label: '\u20B95,000 off' },
+    };
+
+    let appliedPromo = null;
+
+    // ================================================================
+    // STORAGE
+    // ================================================================
+    function getCart() {
+      return JSON.parse(localStorage.getItem('vlsi_cart') || '[]');
+    }
+    function saveCart(cart) {
+      localStorage.setItem('vlsi_cart', JSON.stringify(cart));
+    }
+    function updateItem(id, qty) {
+      const cart = getCart();
+      const idx = cart.findIndex(i => i.id === id);
+      if (idx === -1) return;
+      if (qty <= 0) { cart.splice(idx, 1); } else { cart[idx].qty = qty; }
+      saveCart(cart);
+      renderCart();
+    }
+
+    // ================================================================
+    // CALCULATIONS
+    // ================================================================
+    function calcTotals(cart) {
+      const subtotal = cart.reduce((s, i) => s + (i.price || 0) * (i.qty || 1), 0);
+      let discount = 0;
+      if (appliedPromo) {
+        if (appliedPromo.type === 'pct') discount = Math.round(subtotal * appliedPromo.value / 100);
+        else discount = Math.min(appliedPromo.value, subtotal);
+      }
+      const afterDiscount = subtotal - discount;
+      const gst = Math.round(afterDiscount * 0.18);
+      return { subtotal, discount, gst, total: afterDiscount + gst };
+    }
+
+    // ================================================================
+    // RENDER
+    // ================================================================
+    function renderCart() {
+      const cart = getCart();
+      const list  = document.getElementById('cartItemsList');
+      const empty = document.getElementById('cartEmpty');
+      const payBtn = document.getElementById('payBtn');
+      const countEl = document.getElementById('itemCount');
+
+      // Update all badges
+      const totalQty = cart.reduce((s, i) => s + (i.qty || 1), 0);
+      document.querySelectorAll('.cart-badge').forEach(b => {
+        b.textContent = totalQty;
+        b.setAttribute('data-count', totalQty);
+      });
+
+      if (cart.length === 0) {
+        list.innerHTML = '';
+        empty.style.display = '';
+        payBtn.disabled = true;
+        if (countEl) countEl.textContent = '0 items';
+        updateSummary(cart);
+        lucide.createIcons();
+        return;
+      }
+
+      empty.style.display = 'none';
+      if (countEl) countEl.textContent = cart.length + ' item' + (cart.length !== 1 ? 's' : '');
+      payBtn.disabled = false;
+
+      list.innerHTML = cart.map(item => {
+        const lineTotal = (item.price || 0) * (item.qty || 1);
+        const priceTxt = lineTotal > 0 ? fmt(lineTotal) : (item.priceLabel || 'Contact Us');
+        return '<div class="cart-item" data-id="' + item.id + '">' +
+          '<div class="cart-item__icon"><i data-lucide="cpu" style="width:22px;height:22px;"></i></div>' +
+          '<div class="cart-item__body">' +
+            '<div class="cart-item__name">' + item.name + '</div>' +
+            '<div class="cart-item__price">' + (item.priceLabel || fmt(item.price || 0)) + '</div>' +
+            '<div class="cart-item__qty-row">' +
+              '<button class="qty-btn" data-action="dec" data-id="' + item.id + '" aria-label="Decrease">\u2212</button>' +
+              '<span class="qty-display">' + (item.qty || 1) + '</span>' +
+              '<button class="qty-btn" data-action="inc" data-id="' + item.id + '" aria-label="Increase">+</button>' +
+              '<button class="cart-item__remove" data-action="remove" data-id="' + item.id + '" aria-label="Remove">' +
+                '<i data-lucide="trash-2" style="width:12px;height:12px;"></i> Remove' +
+              '</button>' +
+            '</div>' +
+          '</div>' +
+          '<div class="cart-item__subtotal">' + priceTxt + '</div>' +
+        '</div>';
+      }).join('');
+
+      updateSummary(cart);
+      lucide.createIcons();
+    }
+
+    function updateSummary(cart) {
+      const { subtotal, discount, gst, total } = calcTotals(cart);
+      document.getElementById('summarySubtotal').textContent = fmt(subtotal);
+      document.getElementById('summaryGst').textContent = fmt(gst);
+      document.getElementById('summaryTotal').textContent = fmt(total);
+      const discRow = document.getElementById('discountRow');
+      if (discount > 0) {
+        discRow.style.display = '';
+        document.getElementById('summaryDiscount').textContent = '-' + fmt(discount);
+      } else {
+        discRow.style.display = 'none';
+      }
+    }
+
+    // ================================================================
+    // PROMO
+    // ================================================================
+    document.getElementById('promoApplyBtn').addEventListener('click', function() {
+      const code = document.getElementById('promoInput').value.trim().toUpperCase();
+      const msgEl = document.getElementById('promoMsg');
+      msgEl.style.display = '';
+      if (PROMO_CODES[code]) {
+        appliedPromo = PROMO_CODES[code];
+        msgEl.textContent = '\u2713 "' + code + '" applied \u2014 ' + appliedPromo.label;
+        msgEl.className = 'promo-msg success';
+      } else {
+        appliedPromo = null;
+        msgEl.textContent = 'Invalid promo code. Try VLSI10 or EARLY20.';
+        msgEl.className = 'promo-msg';
+      }
+      updateSummary(getCart());
+    });
+
+    // ================================================================
+    // QTY / REMOVE EVENTS
+    // ================================================================
+    document.getElementById('cartItemsList').addEventListener('click', function(e) {
+      var btn = e.target.closest('[data-action]');
+      if (!btn) return;
+      var id = btn.dataset.id;
+      var cart = getCart();
+      var item = cart.find(function(i) { return i.id === id; });
+      if (!item) return;
+      var action = btn.dataset.action;
+      if (action === 'inc')    updateItem(id, (item.qty || 1) + 1);
+      if (action === 'dec')    updateItem(id, (item.qty || 1) - 1);
+      if (action === 'remove') updateItem(id, 0);
+    });
+
+    // ================================================================
+    // RAZORPAY PAYMENT
+    // ================================================================
+    document.getElementById('payBtn').addEventListener('click', function() {
+      var cart = getCart();
+      if (!cart.length) return;
+      var totals = calcTotals(cart);
+      var payBtn = document.getElementById('payBtn');
+      payBtn.classList.add('loading');
+      payBtn.disabled = true;
+
+      var description = cart.map(function(i) { return i.name + ' x' + (i.qty || 1); }).join(', ');
+
+      var options = {
+        key: RAZORPAY_KEY,
+        amount: totals.total * 100,  // in paise (1 INR = 100 paise)
+        currency: 'INR',
+        name: 'VLSI Insights',
+        description: description,
+        image: 'images/logo.png',
+        theme: { color: 'var(--trace)' },
+        prefill: { name: '', email: '', contact: '' },
+        notes: { programs: description, source: 'website_cart' },
+        handler: function(response) {
+          onPaymentSuccess(response);
+        },
+        modal: {
+          ondismiss: function() {
+            payBtn.classList.remove('loading');
+            payBtn.disabled = false;
+          }
+        }
+      };
+
+      try {
+        var rzp = new Razorpay(options);
+        rzp.on('payment.failed', function(response) {
+          payBtn.classList.remove('loading');
+          payBtn.disabled = false;
+          alert('Payment failed: ' + (response.error.description || 'Please try again.'));
+        });
+        rzp.open();
+      } catch (err) {
+        payBtn.classList.remove('loading');
+        payBtn.disabled = false;
+        alert('Could not open payment window. Please check your internet connection.\n\nError: ' + err.message);
+      }
+    });
+
+    function onPaymentSuccess(response) {
+      localStorage.removeItem('vlsi_cart');
+      var overlay = document.getElementById('successOverlay');
+      var idEl = document.getElementById('successPaymentId');
+      if (idEl) idEl.textContent = 'Payment ID: ' + (response.razorpay_payment_id || 'TXN-' + Date.now());
+      overlay.classList.add('visible');
+      document.getElementById('payBtn').classList.remove('loading');
+      document.getElementById('payBtn').disabled = true;
+      lucide.createIcons();
+    }
+
+    // ================================================================
+    // INIT
+    // ================================================================
+    renderCart();
+    lucide.createIcons();
+
+    // Mobile Drawer and Dropdown Accordions
+    const hamburgerBtn = document.getElementById('hamburgerBtn');
+    const mobileDrawer = document.getElementById('mobileDrawer');
+    const drawerOverlay = document.getElementById('drawerOverlay');
+    const drawerCloseBtn = document.getElementById('drawerCloseBtn');
+    const drawerTriggers = document.querySelectorAll('.drawer-close-trigger');
+
+    function toggleDrawer(open) {
+      const isOpen = open ?? !mobileDrawer.classList.contains('open');
+      mobileDrawer.classList.toggle('open', isOpen);
+      drawerOverlay.classList.toggle('active', isOpen);
+      hamburgerBtn.setAttribute('aria-expanded', isOpen);
+      document.body.style.overflow = isOpen ? 'hidden' : '';
+    }
+
+    if (hamburgerBtn) hamburgerBtn.addEventListener('click', () => toggleDrawer());
+    if (drawerOverlay) drawerOverlay.addEventListener('click', () => toggleDrawer(false));
+    if (drawerCloseBtn) drawerCloseBtn.addEventListener('click', () => toggleDrawer(false));
+    drawerTriggers.forEach(btn => btn.addEventListener('click', () => toggleDrawer(false)));
+
+    // Mobile Nav Accordions
+    const mobileServicesToggle = document.getElementById('mobileServicesToggle');
+    const mobileServicesAccordion = document.getElementById('mobileServicesAccordion');
+    const mobileAboutToggle = document.getElementById('mobileAboutToggle');
+    const mobileAboutAccordion = document.getElementById('mobileAboutAccordion');
+
+    if (mobileServicesToggle && mobileServicesAccordion) {
+      mobileServicesToggle.addEventListener('click', () => {
+        const isOpen = mobileServicesAccordion.classList.toggle('open');
+        mobileServicesToggle.setAttribute('aria-expanded', isOpen);
+        const chevron = mobileServicesToggle.querySelector('svg');
+        if (chevron) chevron.style.transform = isOpen ? 'rotate(180deg)' : 'rotate(0deg)';
+      });
+    }
+
+    if (mobileAboutToggle && mobileAboutAccordion) {
+      mobileAboutToggle.addEventListener('click', () => {
+        const isOpen = mobileAboutAccordion.classList.toggle('open');
+        mobileAboutToggle.setAttribute('aria-expanded', isOpen);
+        const chevron = mobileAboutToggle.querySelector('svg');
+        if (chevron) chevron.style.transform = isOpen ? 'rotate(180deg)' : 'rotate(0deg)';
+      });
+    }
+
+    // Desktop Dropdown Click / Hover Management
+    const desktopServicesItem = document.getElementById('desktopServicesItem');
+    const desktopServicesBtn = document.getElementById('desktopServicesBtn');
+    const desktopAboutItem = document.getElementById('desktopAboutItem');
+    const desktopAboutBtn = document.getElementById('desktopAboutBtn');
+
+    function setupDesktopDropdown(item, btn) {
+      if (!item || !btn) return;
+      let closeTimer = null;
+
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const isOpen = item.classList.toggle('open');
+        btn.setAttribute('aria-expanded', isOpen);
+      });
+
+      item.addEventListener('mouseenter', () => {
+        if (closeTimer) {
+          clearTimeout(closeTimer);
+          closeTimer = null;
+        }
+      });
+
+      item.addEventListener('mouseleave', () => {
+        closeTimer = setTimeout(() => {
+          item.classList.remove('open');
+          btn.setAttribute('aria-expanded', 'false');
+        }, 180);
+      });
+    }
+
+    setupDesktopDropdown(desktopServicesItem, desktopServicesBtn);
+    setupDesktopDropdown(desktopAboutItem, desktopAboutBtn);
+
+    document.addEventListener('click', (e) => {
+      if (desktopServicesItem && !desktopServicesItem.contains(e.target)) {
+        desktopServicesItem.classList.remove('open');
+        desktopServicesBtn.setAttribute('aria-expanded', 'false');
+      }
+      if (desktopAboutItem && !desktopAboutItem.contains(e.target)) {
+        desktopAboutItem.classList.remove('open');
+        desktopAboutBtn.setAttribute('aria-expanded', 'false');
+      }
+    });
+  </script>
+
+  <!-- Floating WhatsApp Chat Widget -->
+  <aside class="floating-whatsapp" aria-label="WhatsApp Support">
+    <a href="https://api.whatsapp.com/send/?phone=919810191592&text=Hello%2C+I+want+to+enquire+about+the+Job+Oriented+Program.&type=phone_number&app_absent=0" 
+       target="_blank" 
+       rel="noopener noreferrer" 
+       class="floating-whatsapp__btn" 
+       aria-label="Chat on WhatsApp with VLSI Insights">
+      <span class="floating-whatsapp__badge" aria-label="1 new notification">1</span>
+      <img src="images/whatsapp-icon.png" alt="WhatsApp" class="floating-whatsapp__img" width="36" height="36" loading="lazy" decoding="async">
+      <span class="floating-whatsapp__tooltip">Chat on WhatsApp</span>
+    </a>
+  </aside>
+  <script>
+    (function() {
+      function updateCartBadge() {
+        try {
+          const items = JSON.parse(localStorage.getItem('vlsi_cart') || '[]');
+          const count = items.reduce((s, i) => s + (i.qty || 1), 0);
+          document.querySelectorAll('.cart-badge').forEach(b => {
+            b.textContent = count;
+            b.setAttribute('data-count', count);
+            b.setAttribute('data-visible', count > 0 ? 'true' : 'false');
+            b.style.display = count > 0 ? 'inline-flex' : 'none';
+          });
+        } catch(e) {}
+      }
+      updateCartBadge();
+      window.addEventListener('storage', updateCartBadge);
+    })();
+  </script>
+  <script src="js/main.js" defer></script>
+</body>
+</html>
+
+
+
+

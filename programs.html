@@ -1,0 +1,3923 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Programs | VLSI Insights</title>
+  <meta name="description"
+    content="Explore 11 industry-calibrated semiconductor training programs at VLSI Insights. From RTL Design, SystemVerilog UVM, and FPGA Prototyping to Full-Stack Job Oriented Tracks.">
+  <link rel="canonical" href="programs.html">
+
+  <!-- Google Fonts: Space Grotesk (Headings) + Inter (Body) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+    rel="stylesheet">
+
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js" defer></script>
+
+  <!-- Site-wide CSS -->
+  <link rel="stylesheet" href="css/navbar.css">
+  <link rel="stylesheet" href="css/global.css">
+
+
+  <style>
+    /* -------------------------------------------------------------------------- */
+    /* CSS DESIGN TOKENS - CLEAN MINIMALIST LIGHT THEME                           */
+    /* -------------------------------------------------------------------------- */
+    :root {
+      --void: #FFFFFF;
+      --substrate: #FAFAFA;
+      --surface: var(--substrate);
+      --card: #FFFFFF;
+      --card-hover: #FFFFFF;
+      --edge: #E2E8F0;
+      --border: #E2E8F0;
+      --edge-highlight: #CBD5E1;
+      --trace: #00A887;
+      --focus: #00A887;
+      --trace-glow: rgba(0, 168, 135, 0.12);
+      --copper: #C2410C;
+      --copper-glow: rgba(194, 65, 12, 0.08);
+      --text-hi: #0F172A;
+      --text: #334155;
+      --text-mid: #475569;
+      --muted: #64748B;
+      --text-dim: #64748B;
+      --danger: #DC2626;
+      --success: #059669;
+
+      --font-display: 'Space Grotesk', -apple-system, sans-serif;
+      --font-body: 'Inter', -apple-system, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+
+      --space-1: 4px;
+      --space-2: 8px;
+      --space-3: 12px;
+      --space-4: 16px;
+      --space-5: 20px;
+      --space-6: 24px;
+      --space-8: 32px;
+      --space-10: 40px;
+      --space-12: 48px;
+      --space-16: 64px;
+      --space-20: 80px;
+      --space-24: 96px;
+      --space-32: 128px;
+
+      --dur-fast: 150ms;
+      --dur-base: 250ms;
+      --dur-slow: 400ms;
+      --dur-drawer: 350ms;
+      --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      background: var(--substrate);
+      color: var(--text);
+    }
+
+    body {
+      background: var(--substrate);
+      color: var(--text);
+      font-family: var(--font-body);
+      font-size: 1rem;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    img,
+    svg {
+      display: block;
+      max-width: 100%;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button {
+      font: inherit;
+      border: none;
+      background: none;
+      cursor: pointer;
+    }
+
+    :focus-visible {
+      outline: 2px solid var(--focus);
+      outline-offset: 2px;
+    }
+
+    .skip-link {
+      position: absolute;
+      top: -60px;
+      left: 16px;
+      background: var(--text-hi);
+      color: #FFFFFF;
+      padding: 10px 18px;
+      font-weight: 600;
+      z-index: 9999;
+      border-radius: 4px;
+      transition: top var(--dur-fast) ease;
+    }
+
+    .skip-link:focus {
+      top: 16px;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 var(--space-6);
+    }
+
+    @media (min-width: 1024px) {
+      .container {
+        padding: 0 var(--space-12);
+      }
+    }
+
+    /* -------------------------------------------------------------------------- */
+    /* NAVIGATION BAR                                                             */
+    /* Navbar styles are defined in css/navbar.css  no inline overrides needed */
+
+    .drawer-close {
+      align-self: flex-end;
+      width: 44px;
+      height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-mid);
+      margin-bottom: var(--space-4);
+    }
+
+    .drawer-close:hover {
+      color: var(--text-hi);
+    }
+
+    .drawer-nav-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-4);
+    }
+
+    .drawer-nav-item {
+      border-bottom: 1px solid var(--edge);
+      padding-bottom: var(--space-3);
+    }
+
+    .drawer-nav-link {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      min-height: 44px;
+      font-family: var(--font-display);
+      font-size: 1.125rem;
+      font-weight: 600;
+      color: var(--text-hi);
+      text-align: left;
+    }
+
+    .drawer-nav-link svg {
+      transition: transform var(--dur-fast) ease;
+    }
+
+    .drawer-accordion {
+      display: none;
+      flex-direction: column;
+      gap: var(--space-2);
+      padding: var(--space-3) 0 var(--space-2) var(--space-3);
+    }
+
+    .drawer-accordion.open {
+      display: flex;
+    }
+
+    .drawer-sublink {
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+      min-height: 40px;
+      font-size: 0.875rem;
+      color: var(--text-mid);
+    }
+
+    .drawer-sublink:hover {
+      color: var(--trace);
+    }
+
+    /* -------------------------------------------------------------------------- */
+    /* BUTTONS & BADGES                                                           */
+    /* -------------------------------------------------------------------------- */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-2);
+      padding: 12px 24px;
+      font-family: var(--font-body);
+      font-weight: 600;
+      font-size: 0.9375rem;
+      border-radius: 4px;
+      min-height: 46px;
+      transition: background var(--dur-fast) ease, border-color var(--dur-fast) ease, color var(--dur-fast) ease, transform var(--dur-fast) ease;
+      cursor: pointer;
+    }
+
+    .btn:active {
+      transform: scale(0.98);
+    }
+
+    .btn-primary {
+      background: #0F172A;
+      color: #FFFFFF;
+      border: 1px solid #0F172A;
+    }
+
+    .btn-primary:hover {
+      background: #1E293B;
+      border-color: #1E293B;
+      transform: translateY(-2px);
+      
+    }
+
+    .btn-secondary {
+      background: #FFFFFF;
+      color: var(--text-hi);
+      border: 1px solid var(--edge-highlight);
+    }
+
+    .btn-secondary:hover {
+      border-color: var(--trace);
+      color: var(--trace);
+      background: rgba(0, 168, 135, 0.04);
+      transform: translateY(-2px);
+    }
+
+    .badge-copper {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 12px;
+      background: rgba(194, 65, 12, 0.08);
+      border: 1px solid rgba(194, 65, 12, 0.28);
+      color: #C2410C;
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      
+      border-radius: 4px;
+    }
+
+    .badge-teal {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 3px 10px;
+      background: rgba(0, 168, 135, 0.08);
+      border: 1px solid rgba(0, 168, 135, 0.28);
+      color: var(--trace);
+      font-family: var(--font-mono);
+      font-size: 0.6875rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      
+      border-radius: 3px;
+    }
+
+    .badge-duration {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 3px 10px;
+      background: var(--surface);
+      border: 1px solid var(--edge);
+      color: var(--text-mid);
+      font-family: var(--font-mono);
+      font-size: 0.6875rem;
+      border-radius: 3px;
+    }
+
+    /* -------------------------------------------------------------------------- */
+    /* SECTION HEADINGS SCROLL REVEAL                                             */
+    /* -------------------------------------------------------------------------- */
+    .section-heading-group {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.6s var(--ease-out-expo), transform 0.6s var(--ease-out-expo);
+      margin-bottom: var(--space-12);
+    }
+
+    .section-heading-group.revealed {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .section-label {
+      display: inline-block;
+      font-family: var(--font-mono);
+      font-size: 0.8125rem;
+      color: var(--trace);
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      margin-bottom: var(--space-2);
+    }
+
+    .section-title {
+      font-family: var(--font-display);
+      font-size: clamp(1.75rem, 3.5vw, 2.5rem);
+      font-weight: 700;
+      color: var(--text-hi);
+      letter-spacing: -0.02em;
+      line-height: 1.2;
+      margin-bottom: var(--space-3);
+    }
+
+    .section-subtitle {
+      font-size: 1rem;
+      color: var(--text-mid);
+      max-width: 680px;
+      line-height: 1.6;
+    }
+
+    /* -------------------------------------------------------------------------- */
+    /* 1. HERO SECTION (50vh)                                                     */
+    /* -------------------------------------------------------------------------- */
+    .programs-hero {
+      position: relative;
+      min-height: 50vh;
+      display: flex;
+      align-items: center;
+      padding: var(--space-20) 0 var(--space-16);
+      background: #FFFFFF;
+      overflow: hidden;
+      border-bottom: 1px solid var(--edge);
+    }
+
+    .hero-circuit-watermark {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      opacity: 0.25;
+      z-index: 1;
+    }
+
+    .badge-teal,
+    .badge-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 14px;
+      border-radius: 9999px;
+      background: rgba(0, 168, 135, 0.08);
+      border: 1px solid rgba(0, 168, 135, 0.25);
+      color: var(--trace);
+      font-size: 0.8125rem;
+      font-weight: 600;
+      margin-bottom: 16px;
+    }
+
+    .programs-hero__content {
+      position: relative;
+      z-index: 2;
+      max-width: 820px;
+    }
+
+    .hero-title {
+      font-family: var(--font-display);
+      font-size: clamp(2.2rem, 4.5vw, 3.5rem);
+      font-weight: 700;
+      color: var(--text-hi);
+      line-height: 1.15;
+      letter-spacing: -0.03em;
+      margin: var(--space-3) 0 var(--space-4);
+    }
+
+    .hero-subtitle {
+      font-size: clamp(1rem, 1.8vw, 1.15rem);
+      color: var(--text-mid);
+      line-height: 1.7;
+      margin-bottom: var(--space-8);
+      max-width: 720px;
+    }
+
+    .hero-ctas {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-4);
+    }
+
+    /* -------------------------------------------------------------------------- */
+    /* 2. LIVE OFFER BANNER                                                       */
+    /* -------------------------------------------------------------------------- */
+    .offer-banner {
+      background: var(--surface);
+      border-top: 1px solid var(--edge);
+      border-bottom: 1px solid var(--edge);
+      padding: var(--space-6) 0;
+    }
+
+    .offer-banner__inner {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-5);
+      align-items: flex-start;
+      justify-content: space-between;
+    }
+
+    @media (min-width: 768px) {
+      .offer-banner__inner {
+        flex-direction: row;
+        align-items: center;
+      }
+    }
+
+    .offer-banner__left {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-2);
+    }
+
+    .offer-banner__headline {
+      font-family: var(--font-display);
+      font-size: 1.125rem;
+      font-weight: 600;
+      color: var(--text-hi);
+    }
+
+    .offer-banner__sub {
+      font-size: 0.875rem;
+      color: var(--text-mid);
+    }
+
+    .countdown-timer {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+    }
+
+    .countdown-tile {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-width: 64px;
+      padding: var(--space-2) var(--space-3);
+      background: #FFFFFF;
+      border: 1px solid var(--edge);
+      border-radius: 6px;
+      
+    }
+
+    .countdown-num {
+      font-family: var(--font-display);
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--text-hi);
+      line-height: 1.1;
+    }
+
+    .countdown-lbl {
+      font-family: var(--font-mono);
+      font-size: 0.625rem;
+      color: var(--text-dim);
+      
+      letter-spacing: 0.06em;
+      margin-top: 2px;
+    }
+
+    .countdown-separator {
+      font-family: var(--font-display);
+      font-size: 1.25rem;
+      color: var(--edge-highlight);
+      font-weight: 700;
+    }
+
+    /* -------------------------------------------------------------------------- */
+    /* 3. PROGRAM FILTER & GRID                                                   */
+    /* -------------------------------------------------------------------------- */
+    .programs-section {
+      padding: var(--space-20) 0;
+    }
+
+    .filter-pill-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-2);
+      margin-bottom: var(--space-10);
+      overflow-x: auto;
+      padding-bottom: var(--space-2);
+    }
+
+    .filter-pill {
+      padding: 8px 18px;
+      background: #FFFFFF;
+      border: 1px solid var(--edge);
+      color: var(--text-mid);
+      font-family: var(--font-body);
+      font-weight: 500;
+      font-size: 0.875rem;
+      border-radius: 40px;
+      transition: all var(--dur-fast) ease;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .filter-pill:hover {
+      border-color: var(--edge-highlight);
+      color: var(--text-hi);
+      background: var(--substrate);
+    }
+
+    .filter-pill.active {
+      background: var(--trace); border-color: var(--trace);
+      color: #FFFFFF;
+      font-weight: 600;
+    }
+
+    .programs-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: var(--space-6);
+    }
+
+    @media (min-width: 768px) {
+      .programs-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (min-width: 1100px) {
+      .programs-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    .program-card {
+      position: relative;
+      background: var(--card);
+      border: 1px solid var(--edge);
+      border-radius: 8px;
+      padding: var(--space-6);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      
+      transition: border-color var(--dur-fast) ease, transform var(--dur-fast) ease;
+    }
+
+    .program-card:hover {
+      border-color: var(--trace);
+      transform: translateY(-3px);
+      
+    }
+
+    .program-card.hidden {
+      display: none !important;
+    }
+
+    .program-card__header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: var(--space-4);
+    }
+
+    .program-card__icon-box {
+      width: 44px;
+      height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0, 168, 135, 0.08);
+      border: 1px solid rgba(0, 168, 135, 0.2);
+      border-radius: 8px;
+      color: var(--trace);
+      margin-bottom: var(--space-3);
+    }
+
+    .program-card__icon-box svg {
+      width: 22px;
+      height: 22px;
+    }
+
+    .program-card__title {
+      font-family: var(--font-display);
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--text-hi);
+      line-height: 1.3;
+      margin-bottom: var(--space-3);
+    }
+
+    .program-card__desc {
+      font-size: 0.875rem;
+      color: var(--text-mid);
+      line-height: 1.6;
+      margin-bottom: var(--space-5);
+    }
+
+    .program-card__topics {
+      list-style: none;
+      margin-bottom: var(--space-6);
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .program-card__topic-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      font-size: 0.8125rem;
+      color: var(--text);
+      line-height: 1.4;
+    }
+
+    .program-card__topic-item svg {
+      width: 14px;
+      height: 14px;
+      color: var(--trace);
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .program-card__footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-3);
+      padding-top: var(--space-4);
+      border-top: 1px solid var(--surface);
+    }
+
+    .view-curriculum-btn {
+      font-family: var(--font-body);
+      font-size: 0.8125rem;
+      font-weight: 600;
+      color: var(--trace);
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      cursor: pointer;
+      transition: color var(--dur-fast) ease;
+    }
+
+    .view-curriculum-btn:hover {
+      color: #008269;
+      text-decoration: underline;
+    }
+
+    .enroll-card-btn {
+      padding: 7px 16px;
+      background: #FFFFFF;
+      border: 1px solid var(--trace);
+      color: var(--trace);
+      font-family: var(--font-body);
+      font-size: 0.8125rem;
+      font-weight: 600;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all var(--dur-fast) ease;
+    }
+
+    .enroll-card-btn:hover {
+      background: var(--trace);
+      color: #FFFFFF;
+    }
+
+    .add-to-cart-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 34px;
+      height: 34px;
+      padding: 0;
+      background: var(--trace);
+      color: #FFFFFF;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all var(--dur-fast) ease;
+      flex-shrink: 0;
+    }
+
+    .add-to-cart-btn:hover {
+      background: #008269;
+      transform: scale(1.08);
+    }
+
+    .add-to-cart-btn.added {
+      background: var(--void);
+    }
+
+    /* Cart Toast */
+    .cart-toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 20px;
+      background: var(--void);
+      color: #FFFFFF;
+      font-size: 0.875rem;
+      font-weight: 500;
+      border-radius: 8px;
+      
+      z-index: 9999;
+      transform: translateY(100px);
+      opacity: 0;
+      transition: all 0.35s var(--ease-out-expo);
+      pointer-events: none;
+    }
+
+    .cart-toast.visible {
+      transform: translateY(0);
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .cart-toast a {
+      color: var(--trace);
+      font-weight: 600;
+      text-decoration: underline;
+    }
+
+    .badge-price {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 3px 8px;
+      background: rgba(194, 65, 12, 0.08);
+      border: 1px solid rgba(194, 65, 12, 0.28);
+      color: #C2410C;
+      font-family: var(--font-mono);
+      font-size: 0.6875rem;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      border-radius: 3px;
+    }
+
+    .view-brochure-btn {
+      font-family: var(--font-body);
+      font-size: 0.78125rem;
+      font-weight: 600;
+      color: #C2410C;
+      background: rgba(194, 65, 12, 0.08);
+      border: 1px solid rgba(194, 65, 12, 0.25);
+      padding: 4px 10px;
+      border-radius: 4px;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      cursor: pointer;
+      transition: all var(--dur-fast) ease;
+    }
+
+    .view-brochure-btn:hover {
+      background: #C2410C;
+      border-color: #C2410C;
+      color: #FFFFFF;
+      transform: translateY(-1px);
+    }
+
+    /* Brochure Lightbox Modal */
+    .brochure-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.65);
+      backdrop-filter: blur(8px);
+      z-index: 1050;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+
+    .brochure-backdrop.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .brochure-modal {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0.95);
+      width: 92%;
+      max-width: 840px;
+      max-height: 92vh;
+      background: #FFFFFF;
+      border: 1px solid var(--edge);
+      border-radius: 8px;
+      
+      z-index: 1060;
+      display: flex;
+      flex-direction: column;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s var(--ease-out-expo), transform 0.3s var(--ease-out-expo);
+      overflow: hidden;
+    }
+
+    .brochure-modal.open {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translate(-50%, -50%) scale(1);
+    }
+
+    .brochure-modal__header {
+      padding: var(--space-4) var(--space-6);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--edge);
+      background: var(--substrate);
+    }
+
+    .brochure-modal__title {
+      font-family: var(--font-display);
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--text-hi);
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+    }
+
+    .brochure-modal__actions {
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+    }
+
+    .brochure-modal__close {
+      background: #FFFFFF;
+      border: 1px solid var(--edge);
+      color: var(--text-mid);
+      width: 36px;
+      height: 36px;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all var(--dur-fast) ease;
+    }
+
+    .brochure-modal__close:hover {
+      border-color: var(--edge-highlight);
+      color: var(--text-hi);
+      background: var(--surface);
+    }
+
+    .brochure-modal__body {
+      padding: var(--space-4) var(--space-6);
+      overflow-y: auto;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: var(--surface);
+      max-height: 72vh;
+    }
+
+    .brochure-modal__img {
+      max-width: 100%;
+      height: auto;
+      max-height: 70vh;
+      border-radius: 6px;
+      border: 1px solid var(--edge);
+      
+      object-fit: contain;
+    }
+
+    .brochure-modal__footer {
+      padding: var(--space-4) var(--space-6);
+      border-top: 1px solid var(--edge);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: var(--substrate);
+      flex-wrap: wrap;
+      gap: var(--space-3);
+    }
+
+    /* Brochures Showcase Section */
+    .brochures-gallery-section {
+      padding: var(--space-16) 0 var(--space-20);
+      background: var(--surface);
+      border-top: 1px solid var(--edge);
+      border-bottom: 1px solid var(--edge);
+    }
+
+    .brochures-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: var(--space-6);
+    }
+
+    @media (min-width: 640px) {
+      .brochures-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (min-width: 1024px) {
+      .brochures-grid {
+        grid-template-columns: repeat(5, 1fr);
+      }
+    }
+
+    .brochure-card {
+      background: var(--card);
+      border: 1px solid var(--edge);
+      border-radius: 8px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: all var(--dur-fast) ease;
+      
+    }
+
+    .brochure-card:hover {
+      border-color: #C2410C;
+      transform: translateY(-3px);
+      
+    }
+
+    .brochure-card__thumb-wrap {
+      position: relative;
+      background: var(--surface);
+      aspect-ratio: 1 / 1.35;
+      overflow: hidden;
+      cursor: pointer;
+    }
+
+    .brochure-card__thumb {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: top center;
+      transition: transform var(--dur-base) ease, filter var(--dur-base) ease;
+    }
+
+    .brochure-card:hover .brochure-card__thumb {
+      transform: scale(1.03);
+    }
+
+    .brochure-card__overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.35);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity var(--dur-fast) ease;
+    }
+
+    .brochure-card__thumb-wrap:hover .brochure-card__overlay {
+      opacity: 1;
+    }
+
+    .brochure-card__body {
+      padding: var(--space-4);
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      flex-grow: 1;
+      justify-content: space-between;
+    }
+
+    .brochure-card__title {
+      font-family: var(--font-display);
+      font-size: 0.9375rem;
+      font-weight: 700;
+      color: var(--text-hi);
+      line-height: 1.3;
+    }
+
+    .brochure-card__meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-2);
+      margin-top: var(--space-2);
+    }
+
+    .brochure-card__actions {
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+      margin-top: var(--space-3);
+    }
+
+    /* -------------------------------------------------------------------------- */
+    /* 4. CURRICULUM DRAWER (Single Reusable Component)                           */
+    /* -------------------------------------------------------------------------- */
+    .curriculum-drawer {
+      position: fixed;
+      top: 0;
+      right: 0;
+      width: min(92vw, 560px);
+      height: 100vh;
+      height: 100dvh;
+      background: #FFFFFF;
+      border-left: 1px solid var(--edge);
+      
+      transform: translateX(100%);
+      transition: transform var(--dur-drawer) var(--ease-out-expo);
+      z-index: 2500;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .curriculum-drawer.open {
+      transform: translateX(0);
+    }
+
+    .drawer-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.55);
+      backdrop-filter: blur(4px);
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity var(--dur-drawer) ease, visibility var(--dur-drawer);
+      z-index: 2499;
+    }
+
+    .drawer-backdrop.open {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .drawer-header {
+      padding: var(--space-6);
+      border-bottom: 1px solid var(--edge);
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: var(--space-4);
+      background: var(--substrate);
+    }
+
+    .drawer-title {
+      font-family: var(--font-display);
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: var(--text-hi);
+      line-height: 1.25;
+      margin-bottom: var(--space-2);
+    }
+
+    .drawer-meta-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: var(--space-2);
+    }
+
+    .drawer-close-btn {
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-mid);
+      border-radius: 4px;
+      background: #FFFFFF;
+      border: 1px solid var(--edge);
+      flex-shrink: 0;
+      transition: all var(--dur-fast) ease;
+    }
+
+    .drawer-close-btn:hover {
+      color: var(--text-hi);
+      border-color: var(--edge-highlight);
+    }
+
+    .drawer-body {
+      padding: var(--space-6);
+      overflow-y: auto;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-6);
+    }
+
+    .drawer-prereqs {
+      padding: var(--space-4);
+      background: var(--substrate);
+      border: 1px solid var(--edge);
+      border-left: 3px solid var(--trace);
+      border-radius: 0 6px 6px 0;
+      font-size: 0.875rem;
+    }
+
+    .drawer-prereqs-title {
+      font-family: var(--font-display);
+      font-weight: 600;
+      color: var(--text-hi);
+      margin-bottom: 2px;
+    }
+
+    /* Accordion Modules */
+    .module-accordion {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-3);
+    }
+
+    .module-item {
+      border: 1px solid var(--edge);
+      border-radius: 6px;
+      background: #FFFFFF;
+      overflow: hidden;
+      transition: border-color var(--dur-fast) ease;
+    }
+
+    .module-item:hover {
+      border-color: var(--edge-highlight);
+    }
+
+    .module-item.open {
+      border-color: var(--trace);
+    }
+
+    .module-trigger {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: var(--space-4);
+      font-family: var(--font-display);
+      font-weight: 600;
+      font-size: 0.9375rem;
+      color: var(--text-hi);
+      text-align: left;
+      cursor: pointer;
+      background: none;
+    }
+
+    .module-trigger svg {
+      width: 16px;
+      height: 16px;
+      color: var(--trace);
+      transition: transform var(--dur-fast) ease;
+      flex-shrink: 0;
+    }
+
+    .module-item.open .module-trigger svg {
+      transform: rotate(180deg);
+    }
+
+    .module-content {
+      display: none;
+      padding: 0 var(--space-4) var(--space-4);
+      border-top: 1px solid var(--surface);
+      font-size: 0.875rem;
+    }
+
+    .module-item.open .module-content {
+      display: block;
+    }
+
+    .module-topics-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-top: var(--space-3);
+    }
+
+    .module-topics-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      color: var(--text);
+      line-height: 1.4;
+    }
+
+    .module-topics-list li svg {
+      width: 14px;
+      height: 14px;
+      color: var(--trace);
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .drawer-footer {
+      padding: var(--space-4) var(--space-6);
+      border-top: 1px solid var(--edge);
+      background: var(--substrate);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    /* -------------------------------------------------------------------------- */
+    /* 5. LEARNING PATH (HTML/CSS Only)                                           */
+    /* -------------------------------------------------------------------------- */
+    .learning-path-section {
+      padding: var(--space-20) 0;
+      background: #FFFFFF;
+      border-top: 1px solid var(--edge);
+      border-bottom: 1px solid var(--edge);
+    }
+
+    .path-timeline {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-8);
+      margin-top: var(--space-12);
+    }
+
+    @media (min-width: 1024px) {
+      .path-timeline {
+        flex-direction: row;
+        gap: var(--space-4);
+        align-items: flex-start;
+      }
+    }
+
+    /* Dashed Connector Line */
+    .path-timeline::before {
+      content: '';
+      position: absolute;
+      top: 24px;
+      left: 24px;
+      bottom: 24px;
+      width: 2px;
+      border-left: 2px dashed rgba(0, 168, 135, 0.35);
+      z-index: 1;
+    }
+
+    @media (min-width: 1024px) {
+      .path-timeline::before {
+        top: 24px;
+        left: 32px;
+        right: 32px;
+        bottom: auto;
+        width: auto;
+        height: 2px;
+        border-left: none;
+        border-top: 2px dashed rgba(0, 168, 135, 0.35);
+      }
+    }
+
+    .path-step {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-direction: row;
+      gap: var(--space-4);
+      flex: 1;
+    }
+
+    @media (min-width: 1024px) {
+      .path-step {
+        flex-direction: column;
+        gap: var(--space-4);
+      }
+    }
+
+    .path-node {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: #FFFFFF;
+      border: 2px solid var(--trace);
+      color: var(--trace);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-display);
+      font-size: 1rem;
+      font-weight: 700;
+      flex-shrink: 0;
+      
+    }
+
+    .path-info {
+      flex: 1;
+    }
+
+    .path-step-title {
+      font-family: var(--font-display);
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--text-hi);
+      margin-bottom: var(--space-1);
+    }
+
+    .path-step-desc {
+      font-size: 0.8125rem;
+      color: var(--text-mid);
+      line-height: 1.5;
+    }
+
+    /* -------------------------------------------------------------------------- */
+    /* 6. PLACEMENT STATS                                                         */
+    /* -------------------------------------------------------------------------- */
+    .stats-section {
+      padding: var(--space-16) 0;
+      background: var(--surface);
+      border-bottom: 1px solid var(--edge);
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: var(--space-8);
+    }
+
+    @media (min-width: 1024px) {
+      .stats-grid {
+        grid-template-columns: repeat(4, 1fr);
+      }
+    }
+
+    .stat-item {
+      border-left: 2px solid var(--trace);
+      padding-left: var(--space-5);
+    }
+
+    .stat-number {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 3.5vw, 3rem);
+      font-weight: 700;
+      color: var(--text-hi);
+      line-height: 1.1;
+      margin-bottom: var(--space-1);
+    }
+
+    .stat-label {
+      font-family: var(--font-mono);
+      font-size: 0.8125rem;
+      color: var(--text-mid);
+      letter-spacing: 0.05em;
+      
+    }
+
+    /* -------------------------------------------------------------------------- */
+    /* 7. TESTIMONIALS STRIP                                                      */
+    /* -------------------------------------------------------------------------- */
+    .testimonials-section {
+      padding: var(--space-20) 0;
+      background: #FFFFFF;
+    }
+
+    .testimonials-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: var(--space-6);
+    }
+
+    @media (min-width: 768px) {
+      .testimonials-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    .testimonial-card {
+      background: var(--card);
+      border: 1px solid var(--edge);
+      border-radius: 8px;
+      padding: var(--space-6);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      
+      transition: border-color var(--dur-fast) ease, transform var(--dur-fast) ease;
+    }
+
+    .testimonial-card:hover {
+      border-color: var(--trace);
+      transform: translateY(-2px);
+      
+    }
+
+    .testimonial-quote-icon {
+      color: var(--trace);
+      margin-bottom: var(--space-3);
+      opacity: 0.8;
+    }
+
+    .testimonial-text {
+      font-size: 0.9375rem;
+      color: var(--text);
+      line-height: 1.6;
+      margin-bottom: var(--space-6);
+      font-style: italic;
+    }
+
+    .testimonial-author {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+    }
+
+    .testimonial-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: rgba(0, 168, 135, 0.08);
+      border: 1px solid var(--trace);
+      color: var(--trace);
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 0.875rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .testimonial-author-name {
+      font-family: var(--font-display);
+      font-weight: 600;
+      font-size: 0.9375rem;
+      color: var(--text-hi);
+    }
+
+    .testimonial-author-role {
+      font-size: 0.75rem;
+      color: var(--text-dim);
+    }
+
+    /* -------------------------------------------------------------------------- */
+    /* 8. ENROLLMENT FORM & WHATSAPP CTA                                          */
+    /* -------------------------------------------------------------------------- */
+    .enroll-section {
+      padding: var(--space-20) 0 var(--space-24);
+      background: var(--substrate);
+      border-top: 1px solid var(--edge);
+    }
+
+    .enroll-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: var(--space-12);
+    }
+
+    @media (min-width: 1024px) {
+      .enroll-grid {
+        grid-template-columns: 1fr 1.2fr;
+        align-items: flex-start;
+      }
+    }
+
+    .enroll-info-col {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-6);
+    }
+
+    .advisor-bullet {
+      display: flex;
+      align-items: flex-start;
+      gap: var(--space-3);
+    }
+
+    .advisor-bullet svg {
+      width: 20px;
+      height: 20px;
+      color: var(--trace);
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .advisor-bullet-title {
+      font-family: var(--font-display);
+      font-weight: 600;
+      color: var(--text-hi);
+      font-size: 0.9375rem;
+      margin-bottom: 2px;
+    }
+
+    .advisor-bullet-desc {
+      font-size: 0.8125rem;
+      color: var(--text-mid);
+      line-height: 1.5;
+    }
+
+    .enroll-form-card {
+      background: var(--card);
+      border: 1px solid var(--edge);
+      border-radius: 8px;
+      padding: var(--space-8);
+      
+    }
+
+    .form-group {
+      margin-bottom: var(--space-5);
+    }
+
+    .form-label {
+      display: block;
+      font-family: var(--font-body);
+      font-size: 0.8125rem;
+      font-weight: 500;
+      color: var(--text-hi);
+      margin-bottom: 6px;
+    }
+
+    .form-input,
+    .form-select,
+    .form-textarea {
+      width: 100%;
+      padding: 12px 14px;
+      background: #FFFFFF;
+      border: 1px solid #CBD5E1;
+      border-radius: 4px;
+      font-family: var(--font-body);
+      font-size: 0.875rem;
+      color: var(--text-hi);
+      transition: border-color var(--dur-fast) ease;
+    }
+
+    .form-input:focus,
+    .form-select:focus,
+    .form-textarea:focus {
+      border-color: var(--trace);
+      ;
+      outline: none;
+    }
+
+    .form-input.error,
+    .form-select.error,
+    .form-textarea.error {
+      border-color: var(--danger);
+    }
+
+    .error-msg {
+      font-size: 0.75rem;
+      color: var(--danger);
+      margin-top: 4px;
+      min-height: 16px;
+    }
+
+    .form-success-banner {
+      display: none;
+      padding: var(--space-4);
+      background: rgba(5, 150, 105, 0.08);
+      border: 1px solid var(--success);
+      border-radius: 4px;
+      color: #059669;
+      font-size: 0.875rem;
+      margin-bottom: var(--space-5);
+    }
+
+    .form-success-banner.visible {
+      display: block;
+    }
+
+    .whatsapp-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-2);
+      width: 100%;
+      padding: 12px 20px;
+      background: #128C7E;
+      color: #FFFFFF;
+      font-family: var(--font-body);
+      font-weight: 600;
+      font-size: 0.875rem;
+      border-radius: 4px;
+      transition: background var(--dur-fast) ease;
+      margin-top: var(--space-4);
+    }
+
+    .whatsapp-btn:hover {
+      background: #075E54;
+    }
+
+    /* -------------------------------------------------------------------------- */
+    /* GLOBAL FOOTER                                                              */
+    /* -------------------------------------------------------------------------- */
+    .footer {
+      background: var(--surface);
+      border-top: 1px solid var(--edge);
+      padding: var(--space-16) 0 var(--space-8);
+      position: relative;
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: var(--space-10);
+      margin-bottom: var(--space-12);
+    }
+
+    @media (min-width: 768px) {
+      .footer-grid {
+        grid-template-columns: 1.5fr 1fr 1fr 1fr;
+      }
+    }
+
+    .footer-brand {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-4);
+    }
+
+    .footer-col-title {
+      font-family: var(--font-display);
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: var(--text-hi);
+      letter-spacing: 0.04em;
+      
+      margin-bottom: var(--space-4);
+    }
+
+    .footer-links {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-2);
+    }
+
+    .footer-link {
+      font-size: 0.875rem;
+      color: var(--text-mid);
+      transition: color var(--dur-fast) ease;
+    }
+
+    .footer-link:hover {
+      color: var(--trace);
+    }
+
+    .footer-bottom {
+      padding-top: var(--space-8);
+      border-top: 1px solid var(--edge);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-4);
+      align-items: center;
+      justify-content: space-between;
+      font-size: 0.8125rem;
+      color: var(--text-dim);
+    }
+
+    @media (min-width: 768px) {
+      .footer-bottom {
+        flex-direction: row;
+      }
+    }
+
+    /* Floating WhatsApp Chat Widget */
+    .floating-whatsapp {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .floating-whatsapp__btn {
+      position: relative;
+      width: 56px;
+      height: 56px;
+      background: #000000;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      ;
+      transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s ease;
+      text-decoration: none;
+    }
+
+    .floating-whatsapp__btn:hover {
+      transform: scale(1.1) translateY(-3px);
+      ;
+    }
+
+    .floating-whatsapp__btn:active {
+      transform: scale(0.95);
+    }
+
+    .floating-whatsapp__img {
+      width: 36px;
+      height: 36px;
+      object-fit: contain;
+      display: block;
+      transition: transform 0.3s ease;
+    }
+
+    .floating-whatsapp__btn:hover .floating-whatsapp__img {
+      transform: scale(1.05);
+    }
+
+    .floating-whatsapp__badge {
+      position: absolute;
+      top: -2px;
+      right: -2px;
+      width: 20px;
+      height: 20px;
+      background: #EF4444;
+      color: #ffffff;
+      font-size: 11px;
+      font-weight: 700;
+      font-family: inherit;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 2px solid #ffffff;
+      ;
+      animation: pulse-whatsapp-badge 2s infinite;
+    }
+
+    .floating-whatsapp__tooltip {
+      position: absolute;
+      right: 68px;
+      background: #111827;
+      color: #ffffff;
+      padding: 6px 14px;
+      border-radius: 8px;
+      font-size: 0.8125rem;
+      font-weight: 600;
+      white-space: nowrap;
+      pointer-events: none;
+      opacity: 0;
+      transform: translateX(8px);
+      transition: opacity 0.2s ease, transform 0.2s ease;
+      ;
+    }
+
+    .floating-whatsapp__tooltip::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      right: -5px;
+      transform: translateY(-50%);
+      border-width: 5px 0 5px 5px;
+      border-style: solid;
+      border-color: transparent transparent transparent #111827;
+    }
+
+    .floating-whatsapp__btn:hover .floating-whatsapp__tooltip {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    @keyframes pulse-whatsapp-badge {
+
+      0%,
+      100% {
+        transform: scale(1);
+      }
+
+      50% {
+        transform: scale(1.15);
+      }
+    }
+  
+    /* Extracted Component Classes */
+    .mobile-drawer-header-inner { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; padding-bottom: 12px; border-bottom: 1px solid var(--edge); }
+    .mobile-drawer-logo-img { height: 30px; width: auto; max-width: 160px; object-fit: contain; }
+    .mobile-drawer-close-btn { padding: 6px; border-radius: 4px; color: #475569; cursor: pointer; background: none; border: none; }
+    .mobile-drawer-category-label { font-size: 0.6875rem; font-weight: 700; color: var(--trace); text-transform: uppercase; padding: 8px 12px 4px; }
+    .mobile-drawer-category-label--sub { font-size: 0.6875rem; font-weight: 700; color: var(--trace); text-transform: uppercase; padding: 12px 12px 4px 12px; border-top: 1px solid var(--edge); margin-top: 4px; }
+    .mobile-drawer-footer-inner { margin-top: auto; padding-top: 20px; border-top: 1px solid var(--edge); display: flex; flex-direction: column; gap: 10px; }
+    .mobile-drawer-cart-btn { display: flex; align-items: center; justify-content: center; gap: 8px; padding: 12px; background: var(--surface); border: 1px solid var(--edge); border-radius: 6px; color: var(--text-hi); font-weight: 600; text-decoration: none; font-size: 0.875rem; }
+    .mobile-drawer-login-btn { display: flex; align-items: center; justify-content: center; gap: 8px; padding: 12px; background: var(--trace); color: #FFFFFF; border-radius: 6px; font-weight: 600; text-decoration: none; font-size: 0.875rem; }
+    .brochure-card__tag { font-size: 0.6875rem; font-family: var(--font-mono); color: var(--trace); font-weight: 600; }
+    .brochure-preview-cta { padding: 6px 14px; font-size: 0.8125rem; }
+    .brochure-btn-full { flex: 1; justify-content: center; }
+    .brochure-download-btn { padding: 4px 10px; font-size: 0.78125rem; min-height: 32px; }
+    .drawer-prereqs-desc { color: var(--text-mid); }
+    .drawer-section-title { font-family: var(--font-display); font-size: 1rem; color: var(--text-hi); margin-bottom: var(--space-4); }
+    .drawer-actions-row { display: flex; gap: var(--space-2); }
+    .modal-actions-row { display: flex; gap: var(--space-3); }
+    .modal-desc-row { font-size: 0.8125rem; color: var(--text-mid); display: flex; align-items: center; gap: var(--space-2); }
+    .modal-close-btn { padding: 8px 16px; font-size: 0.875rem; min-height: 40px; }
+    .modal-enroll-btn { padding: 8px 20px; font-size: 0.875rem; min-height: 40px; }
+    .checkout-summary-box { padding: var(--space-5); background: #FFFFFF; border: 1px solid var(--edge); border-radius: 8px; margin-top: var(--space-4); }
+    .checkout-summary-title { font-family: var(--font-display); font-weight: 600; color: var(--text-hi); font-size: 0.875rem; }
+    .checkout-summary-sub { font-size: 0.8125rem; color: var(--text-mid); margin: 4px 0 var(--space-3); }
+    .checkout-heading { font-family: var(--font-display); font-size: 1.25rem; font-weight: 700; color: var(--text-hi); margin-bottom: var(--space-2); }
+    .checkout-sub { font-size: 0.875rem; color: var(--text-mid); margin-bottom: var(--space-6); }
+    .checkout-full-width { width: 100%; }
+    .checkout-actions-row { display: flex; gap: var(--space-4); }
+    .icon-xs { width: 13px; height: 13px; }
+    .icon-sm { width: 14px; height: 14px; }
+    .icon-base { width: 16px; height: 16px; }
+    .icon-lg { width: 18px; height: 18px; }
+      .hero-meta-row { display: flex; align-items: center; gap: var(--space-3); }
+    .hero-meta-text { font-size: 0.8125rem; color: var(--trace); font-family: var(--font-mono); }
+    .form-margin-bottom { margin-bottom: var(--space-6); }
+    .checkout-payment-logo { height: 42px; width: auto; }
+    .checkout-payment-desc { font-size: 0.875rem; color: var(--text-mid); line-height: 1.6; }
+    .checkout-help-text { font-size: 0.875rem; color: var(--text-mid); }
+    .checkout-contact-row { margin-top: var(--space-2); }
+    .checkout-wa-link { color: var(--trace); display: inline-flex; align-items: center; gap: 4px; }
+    .color-copper { color: #E69D78; }
+    .drawer-brochure-btn { display: none; padding: 8px 14px; font-size: 0.8125rem; }
+  </style>
+  <link rel="stylesheet" href="css/navbar.css">
+  <link rel="stylesheet" href="css/footer.css">
+  <link rel="stylesheet" href="css/global.css">
+</head>
+
+<body>
+  <a href="#mainContent" class="skip-link">Skip to main content</a>
+
+  <!-- NAVIGATION BAR -->
+  <!-- ========================================================================= -->
+  <!-- NAVIGATION BAR                                                            -->
+  <!-- ========================================================================= -->
+  <!-- ========================================================================= -->
+  <!-- NAVIGATION BAR                                                            -->
+  <!-- ========================================================================= -->
+  <!-- NAVIGATION BAR -->
+  <header class="navbar" role="banner">
+    <div class="container navbar__inner">
+      <!-- Brand Logo -->
+      <a href="index.html" class="nav-logo" aria-label="VLSI Insights Homepage">
+        <img src="images/logo.png" alt="VLSI Insights - Empowering Tomorrow's Technology Today" class="nav-logo-img">
+      </a>
+
+      <!-- Desktop Navigation -->
+      <nav class="nav-links" role="navigation" aria-label="Main Navigation">
+        <div class="nav-item">
+          <a href="index.html" class="nav-link">Home</a>
+        </div>
+
+        <!-- Services Dropdown (Categorized) -->
+        <div class="nav-item" id="desktopServicesItem">
+          <button type="button" class="nav-link" id="desktopServicesBtn" aria-expanded="false" aria-haspopup="true">
+            Services
+            <i data-lucide="chevron-down" class="chevron"></i>
+          </button>
+          <div class="dropdown-panel dropdown-panel--services" role="menu">
+            <div class="dropdown-col">
+              <span class="dropdown-col-heading">Engineering Services</span>
+              <a href="vlsi-designs.html" class="dropdown-item" role="menuitem">
+                <span class="dropdown-item__icon"><i data-lucide="cpu"></i></span>
+                <div>
+                  <div class="dropdown-item__title">VLSI Related Services</div>
+                  <div class="dropdown-item__desc">RTL layout, physical design, and verification.</div>
+                </div>
+              </a>
+              <a href="soc-verification.html" class="dropdown-item" role="menuitem">
+                <span class="dropdown-item__icon"><i data-lucide="shield-check"></i></span>
+                <div>
+                  <div class="dropdown-item__title">SOC Verification</div>
+                  <div class="dropdown-item__desc">UVM functional verification architectures.</div>
+                </div>
+              </a>
+              <a href="embedded-systems.html" class="dropdown-item" role="menuitem">
+                <span class="dropdown-item__icon"><i data-lucide="microchip"></i></span>
+                <div>
+                  <div class="dropdown-item__title">Embedded Systems</div>
+                  <div class="dropdown-item__desc">MCU firmware to real-time operating systems.</div>
+                </div>
+              </a>
+              <a href="ai-models.html" class="dropdown-item" role="menuitem">
+                <span class="dropdown-item__icon"><i data-lucide="brain"></i></span>
+                <div>
+                  <div class="dropdown-item__title">AI Models</div>
+                  <div class="dropdown-item__desc">Edge ML and embedded inference pipelines.</div>
+                </div>
+              </a>
+              <a href="web-development.html" class="dropdown-item" role="menuitem">
+                <span class="dropdown-item__icon"><i data-lucide="code-2"></i></span>
+                <div>
+                  <div class="dropdown-item__title">Web Development</div>
+                  <div class="dropdown-item__desc">Modern engineering web applications and portals.</div>
+                </div>
+              </a>
+            </div>
+
+            <div class="dropdown-col">
+              <span class="dropdown-col-heading">Training &amp; Growth</span>
+              <a href="technical-training.html" class="dropdown-item" role="menuitem">
+                <span class="dropdown-item__icon"><i data-lucide="graduation-cap"></i></span>
+                <div>
+                  <div class="dropdown-item__title">Technical Training</div>
+                  <div class="dropdown-item__desc">Hands-on VLSI &amp; embedded engineering training.</div>
+                </div>
+              </a>
+              <a href="marketing-solutions.html" class="dropdown-item" role="menuitem">
+                <span class="dropdown-item__icon"><i data-lucide="trending-up"></i></span>
+                <div>
+                  <div class="dropdown-item__title">Marketing Solutions</div>
+                  <div class="dropdown-item__desc">Growth strategies for technical enterprises.</div>
+                </div>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div class="nav-item">
+          <a href="programs.html" class="nav-link active" aria-current="page">Programs</a>
+        </div>
+
+        <div class="nav-item">
+          <a href="front-end-software.html" class="nav-link">Front End Software</a>
+        </div>
+
+        <div class="nav-item">
+          <a href="blog.html" class="nav-link">Blog</a>
+        </div>
+
+        <!-- About Dropdown -->
+        <div class="nav-item" id="desktopAboutItem">
+          <button type="button" class="nav-link" id="desktopAboutBtn" aria-expanded="false" aria-haspopup="true">
+            About
+            <i data-lucide="chevron-down" class="chevron"></i>
+          </button>
+          <div class="dropdown-panel" role="menu">
+            <a href="about-company.html" class="dropdown-item" role="menuitem">
+              <span class="dropdown-item__icon"><i data-lucide="building-2"></i></span>
+              <div>
+                <div class="dropdown-item__title">About the Company</div>
+                <div class="dropdown-item__desc">Our story, mission, engineering team, and culture.</div>
+              </div>
+            </a>
+            <a href="about-owner.html" class="dropdown-item" role="menuitem">
+              <span class="dropdown-item__icon"><i data-lucide="user"></i></span>
+              <div>
+                <div class="dropdown-item__title">About the Owner</div>
+                <div class="dropdown-item__desc">Founder profile, journey, expertise, and leadership.</div>
+              </div>
+            </a>
+                      <a href="testimonials.html" class="dropdown-item" role="menuitem">
+              <span class="dropdown-item__icon"><i data-lucide="message-square"></i></span>
+              <div>
+                <div class="dropdown-item__title">Testimonials</div>
+                <div class="dropdown-item__desc">What industry engineers and alumni say about us.</div>
+              </div>
+            </a>
+          </div>
+        </div>
+
+        <div class="nav-item">
+          <a href="index.html#contact" class="nav-link">Contact</a>
+        </div>
+      </nav>
+
+      <!-- Cart Icon + Mobile Hamburger Button -->
+      <div class="navbar__controls">
+        <a href="cart.html" class="nav-cart-btn" aria-label="View Cart" id="cartNavBtn">
+          <i data-lucide="shopping-cart"></i>
+          <span class="cart-badge" id="cartBadge" data-visible="false">0</span>
+        </a>
+        <button type="button" class="nav-hamburger" id="hamburgerBtn" aria-label="Open navigation menu"
+          aria-expanded="false" aria-controls="mobileDrawer">
+          <i data-lucide="menu"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Drawer & Overlay -->
+  <div class="drawer-overlay" id="drawerOverlay"></div>
+  <aside class="mobile-drawer" id="mobileDrawer" role="dialog" aria-modal="true" aria-label="Mobile Navigation">
+    <div
+      class="mobile-drawer-header-inner">
+      <img src="images/logo.png" alt="VLSI Insights"
+        class="mobile-drawer-logo-img">
+      <button type="button" id="drawerCloseBtn" aria-label="Close navigation menu"
+        class="mobile-drawer-close-btn">
+        <i data-lucide="x"></i>
+      </button>
+    </div>
+    <ul class="mobile-nav-list">
+      <li>
+        <a href="index.html" class="mobile-nav-link drawer-close-trigger">Home</a>
+      </li>
+      <li>
+        <button type="button" class="mobile-nav-link" id="mobileServicesToggle" aria-expanded="false">
+          <span>Services</span>
+          <i data-lucide="chevron-down"></i>
+        </button>
+        <div class="mobile-accordion" id="mobileServicesAccordion">
+          <div class="mobile-drawer-category-label">
+            Engineering Services</div>
+          <a href="vlsi-designs.html" class="drawer-close-trigger"><i data-lucide="cpu"></i> VLSI Related Services</a>
+          <a href="soc-verification.html" class="drawer-close-trigger"><i data-lucide="shield-check"></i> SOC
+            Verification</a>
+          <a href="embedded-systems.html" class="drawer-close-trigger"><i data-lucide="microchip"></i> Embedded
+            Systems</a>
+          <a href="ai-models.html" class="drawer-close-trigger"><i data-lucide="brain"></i> AI Models</a>
+          <a href="web-development.html" class="drawer-close-trigger"><i data-lucide="code-2"></i> Web Development</a>
+          <div
+            class="mobile-drawer-category-label--sub">
+            Training &amp; Growth</div>
+          <a href="technical-training.html" class="drawer-close-trigger"><i data-lucide="graduation-cap"></i> Technical
+            Training</a>
+          <a href="marketing-solutions.html" class="drawer-close-trigger"><i data-lucide="trending-up"></i> Marketing
+            Solutions</a>
+        </div>
+      </li>
+      <li>
+        <a href="programs.html" class="mobile-nav-link drawer-close-trigger active">Programs</a>
+      </li>
+      <li>
+        <a href="front-end-software.html" class="mobile-nav-link drawer-close-trigger">Front End Software</a>
+      </li>
+      <li>
+        <a href="blog.html" class="mobile-nav-link drawer-close-trigger">Blog</a>
+      </li>
+      <li>
+        <button type="button" class="mobile-nav-link" id="mobileAboutToggle" aria-expanded="false">
+          <span>About</span>
+          <i data-lucide="chevron-down"></i>
+        </button>
+        <div class="mobile-accordion" id="mobileAboutAccordion">
+          <a href="about-company.html" class="drawer-close-trigger"><i data-lucide="building-2"></i> About the
+            Company</a>
+          <a href="about-owner.html" class="drawer-close-trigger"><i data-lucide="user"></i> About the Owner</a>
+          <a href="testimonials.html" class="drawer-close-trigger"><i data-lucide="message-square"></i> Testimonials</a>
+        </div>
+      </li>
+      <li>
+        <a href="index.html#contact" class="mobile-nav-link drawer-close-trigger">Contact</a>
+      </li>
+    </ul>
+    <div
+      class="mobile-drawer-footer-inner">
+      <a href="cart.html" class="drawer-close-trigger"
+        class="mobile-drawer-cart-btn">
+        <i data-lucide="shopping-cart" class="icon-lg"></i>
+        <span>View Cart</span>
+      </a>
+      <a href="login.html" class="drawer-close-trigger"
+        class="mobile-drawer-login-btn">
+        <i data-lucide="user" class="icon-lg"></i>
+        <span>Sign In</span>
+      </a>
+    </div>
+  </aside>
+
+  <!-- Cart Toast Notification -->
+  <div class="cart-toast" id="cartToast" role="status" aria-live="polite">
+    <i data-lucide="check-circle" class="icon-lg"></i>
+    <span id="cartToastMsg">Added to cart!</span>
+    <a href="cart.html">View Cart </a>
+  </div>
+
+  <main id="mainContent">
+    <!-- ======================================================================= -->
+    <!-- 1. HERO SECTION (50vh, Circuit Trace 12% Opacity, No Photo)             -->
+    <!-- ======================================================================= -->
+    <section class="programs-hero">
+      <svg class="hero-circuit-watermark" viewBox="0 0 1440 480" fill="none" preserveAspectRatio="none" aria-hidden="true">
+        <path d="M0,120 L280,120 L340,180 L700,180 L760,120 L1100,120 L1160,180 L1440,180" stroke="#94A3B8" stroke-width="1.5" stroke-dasharray="6 4"/>
+        <path d="M0,320 L240,320 L300,260 L620,260 L680,320 L960,320 L1020,260 L1440,260" stroke="#94A3B8" stroke-width="1.5"/>
+        <circle cx="280" cy="120" r="4" fill="#94A3B8"/>
+        <circle cx="700" cy="180" r="4" fill="#94A3B8"/>
+        <circle cx="1100" cy="120" r="4" fill="#94A3B8"/>
+        <circle cx="240" cy="320" r="4" fill="#94A3B8"/>
+        <circle cx="680" cy="320" r="4" fill="#94A3B8"/>
+        <circle cx="1020" cy="260" r="4" fill="#94A3B8"/>
+      </svg>
+
+      <div class="container programs-hero__content">
+        <div class="badge-pill">
+          <i data-lucide="graduation-cap" class="icon-sm"></i>
+          <span>Semiconductor &amp; Embedded Education</span>
+        </div>
+        <h1 class="hero-title">Industry-calibrated semiconductor training</h1>
+        <p class="hero-subtitle">From synthesizable RTL design and UVM verification to FPGA prototyping and edge
+          firmware. Bridging classroom fundamentals to tier-1 semiconductor floor readiness.</p>
+        <div class="hero-ctas">
+          <a href="#programsGrid" class="btn btn-primary">Explore Programs</a>
+          <a href="#enroll" class="btn btn-secondary">Enroll in Next Batch</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================================= -->
+    <!-- 2. LIVE OFFER BANNER (Surface Band, Copper Badge, JS Countdown)         -->
+    <!-- ======================================================================= -->
+    <section class="offer-banner" aria-label="Limited Time Offer">
+      <div class="container offer-banner__inner">
+        <div class="offer-banner__left">
+          <div class="hero-meta-row">
+            <span class="badge-copper">Early Enrollment Window</span>
+            <span class="hero-meta-text"> Live Cohort</span>
+          </div>
+          <div class="offer-banner__headline">Next Silicon Batch Starting Soon - Reserved Lab Seats Open</div>
+          <div class="offer-banner__sub">Early registration guarantees personal EDA license server credentials and
+            1-on-1 mentor matching.</div>
+        </div>
+
+        <div class="countdown-timer" id="countdownTimer" aria-label="Time remaining for enrollment">
+          <div class="countdown-tile">
+            <span class="countdown-num" id="cdHours">48</span>
+            <span class="countdown-lbl">Hours</span>
+          </div>
+          <span class="countdown-separator">:</span>
+          <div class="countdown-tile">
+            <span class="countdown-num" id="cdMinutes">00</span>
+            <span class="countdown-lbl">Mins</span>
+          </div>
+          <span class="countdown-separator">:</span>
+          <div class="countdown-tile">
+            <span class="countdown-num" id="cdSeconds">00</span>
+            <span class="countdown-lbl">Secs</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================================= -->
+    <!-- 3. PROGRAM FILTER & 11-PROGRAM GRID                                     -->
+    <!-- ======================================================================= -->
+    <section class="programs-section" id="programsGrid">
+      <div class="container">
+        <div class="section-heading-group">
+          <span class="section-label">Curated Learning Tracks</span>
+          <h2 class="section-title">Semiconductor engineering programs</h2>
+          <p class="section-subtitle">Select your specialization below to filter programs by skill level, hardware
+            discipline, or career placement track.</p>
+        </div>
+
+        <!-- Filter Pill Row -->
+        <div class="filter-pill-row" role="tablist" aria-label="Filter programs by track">
+          <button type="button" class="filter-pill active" data-filter="all" role="tab" aria-selected="true">All
+            Programs (10)</button>
+          <button type="button" class="filter-pill" data-filter="internship" role="tab" aria-selected="false">Internship</button>
+          <button type="button" class="filter-pill" data-filter="6-month" role="tab" aria-selected="false">Mastery</button>
+          <button type="button" class="filter-pill" data-filter="beginner" role="tab"
+            aria-selected="false">Beginners</button>
+          <button type="button" class="filter-pill" data-filter="advanced" role="tab"
+            aria-selected="false">Advance</button>
+          <button type="button" class="filter-pill" data-filter="embedded" role="tab" aria-selected="false">Embedded
+            Systems</button>
+          <button type="button" class="filter-pill" data-filter="fpga" role="tab" aria-selected="false">FPGA's</button>
+        </div>
+
+        <!-- Program Grid Container -->
+        <div class="programs-grid" id="programCardsContainer">
+          <!-- Cards populated dynamically via HTML and managed by classList filter -->
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================================= -->
+    <!-- OFFICIAL COURSE BROCHURES SHOWCASE                                      -->
+    <!-- ======================================================================= -->
+    <section class="brochures-gallery-section" id="brochuresSection" aria-label="Official Training Brochures">
+      <div class="container">
+        <div class="section-heading-group">
+          <span class="section-label">Official Syllabi & Schedules</span>
+          <h2 class="section-title">Download official training brochures</h2>
+          <p class="section-subtitle">Examine in-depth module breakdowns, lab hardware architectures, project
+            requirements, and limited-time fee structures directly from our faculty flyers.</p>
+        </div>
+
+        <div class="brochures-grid">
+          <!-- 1. Digital + Verilog (RTL Design) -->
+          <div class="brochure-card">
+            <div class="brochure-card__thumb-wrap preview-brochure-trigger" data-brochure="images/RTL1-1086x1536.png"
+              data-title="Digital + Verilog Training Program">
+              <img src="images/RTL1-1086x1536.png" alt="Digital + Verilog training program brochure preview"
+                class="brochure-card__thumb" loading="lazy">
+              <div class="brochure-card__overlay">
+                <span class="btn btn-primary brochure-preview-cta">
+                  <i data-lucide="eye" class="icon-sm"></i>
+                  <span>Quick View</span>
+                </span>
+              </div>
+            </div>
+            <div class="brochure-card__body">
+              <div>
+                <div
+                  class="brochure-card__tag">
+                  Beginners Track</div>
+                <h3 class="brochure-card__title">Digital + Verilog Training Program</h3>
+                <div class="brochure-card__meta">
+                  <span class="badge-duration">8 Weeks</span>
+                  <span class="badge-price">35,000/-</span>
+                </div>
+              </div>
+              <div class="brochure-card__actions">
+                <button type="button" class="view-brochure-btn preview-brochure-trigger"
+                  data-brochure="images/RTL1-1086x1536.png" data-title="Digital + Verilog Training Program"
+                  class="view-brochure-btn preview-brochure-trigger brochure-btn-full">
+                  <i data-lucide="eye" class="icon-xs"></i>
+                  <span>Preview</span>
+                </button>
+                <a href="images/RTL1-1086x1536.png" download="VLSI-Insights-RTL-Verilog-Brochure.png"
+                  class="btn btn-secondary brochure-download-btn"
+                  title="Download Flyer">
+                  <i data-lucide="download" class="icon-xs"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <!-- 2. Core VLSI Verification (4 Months) -->
+          <div class="brochure-card">
+            <div class="brochure-card__thumb-wrap preview-brochure-trigger" data-brochure="images/Verification.png"
+              data-title="Core VLSI Verification Training Program">
+              <img src="images/Verification.png" alt="Core VLSI Verification training brochure preview"
+                class="brochure-card__thumb" loading="lazy">
+              <div class="brochure-card__overlay">
+                <span class="btn btn-primary brochure-preview-cta">
+                  <i data-lucide="eye" class="icon-sm"></i>
+                  <span>Quick View</span>
+                </span>
+              </div>
+            </div>
+            <div class="brochure-card__body">
+              <div>
+                <div
+                  class="brochure-card__tag">
+                  Job-Oriented Track</div>
+                <h3 class="brochure-card__title">Core VLSI Verification (SystemVerilog + UVM)</h3>
+                <div class="brochure-card__meta">
+                  <span class="badge-duration">4 Months</span>
+                  <span class="badge-price">40,000/-</span>
+                </div>
+              </div>
+              <div class="brochure-card__actions">
+                <button type="button" class="view-brochure-btn preview-brochure-trigger"
+                  data-brochure="images/Verification.png" data-title="Core VLSI Verification Training Program"
+                  class="view-brochure-btn preview-brochure-trigger brochure-btn-full">
+                  <i data-lucide="eye" class="icon-xs"></i>
+                  <span>Preview</span>
+                </button>
+                <a href="images/Verification.png" download="VLSI-Insights-Verification-Brochure.png"
+                  class="btn btn-secondary brochure-download-btn"
+                  title="Download Flyer">
+                  <i data-lucide="download" class="icon-xs"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <!-- 3. Core VLSI Assertion (1 Month) -->
+          <div class="brochure-card">
+            <div class="brochure-card__thumb-wrap preview-brochure-trigger" data-brochure="images/Assertions.png"
+              data-title="Core VLSI Assertion Training Program">
+              <img src="images/Assertions.png" alt="Core VLSI Assertion training brochure preview"
+                class="brochure-card__thumb" loading="lazy">
+              <div class="brochure-card__overlay">
+                <span class="btn btn-primary brochure-preview-cta">
+                  <i data-lucide="eye" class="icon-sm"></i>
+                  <span>Quick View</span>
+                </span>
+              </div>
+            </div>
+            <div class="brochure-card__body">
+              <div>
+                <div
+                  class="brochure-card__tag">
+                  Advance Track</div>
+                <h3 class="brochure-card__title">Core VLSI Assertion Training (SVA & ABV)</h3>
+                <div class="brochure-card__meta">
+                  <span class="badge-duration">1 Month</span>
+                  <span class="badge-price">25,000/-</span>
+                </div>
+              </div>
+              <div class="brochure-card__actions">
+                <button type="button" class="view-brochure-btn preview-brochure-trigger"
+                  data-brochure="images/Assertions.png" data-title="Core VLSI Assertion Training Program"
+                  class="view-brochure-btn preview-brochure-trigger brochure-btn-full">
+                  <i data-lucide="eye" class="icon-xs"></i>
+                  <span>Preview</span>
+                </button>
+                <a href="images/Assertions.png" download="VLSI-Insights-Assertions-Brochure.png"
+                  class="btn btn-secondary brochure-download-btn"
+                  title="Download Flyer">
+                  <i data-lucide="download" class="icon-xs"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <!-- 4. Basic Level FPGA Training on Artix-7 (3 Months) -->
+          <div class="brochure-card">
+            <div class="brochure-card__thumb-wrap preview-brochure-trigger" data-brochure="images/FPGA.png"
+              data-title="Basic Level FPGA Training on Artix-7">
+              <img src="images/FPGA.png" alt="FPGA Training on Artix-7 brochure preview" class="brochure-card__thumb"
+                loading="lazy">
+              <div class="brochure-card__overlay">
+                <span class="btn btn-primary brochure-preview-cta">
+                  <i data-lucide="eye" class="icon-sm"></i>
+                  <span>Quick View</span>
+                </span>
+              </div>
+            </div>
+            <div class="brochure-card__body">
+              <div>
+                <div
+                  class="brochure-card__tag">
+                  FPGA Track</div>
+                <h3 class="brochure-card__title">FPGA Training on AMD Xilinx Artix-7</h3>
+                <div class="brochure-card__meta">
+                  <span class="badge-duration">3 Months</span>
+                  <span class="badge-price">25,000/-</span>
+                </div>
+              </div>
+              <div class="brochure-card__actions">
+                <button type="button" class="view-brochure-btn preview-brochure-trigger" data-brochure="images/FPGA.png"
+                  data-title="Basic Level FPGA Training on Artix-7" class="view-brochure-btn preview-brochure-trigger brochure-btn-full">
+                  <i data-lucide="eye" class="icon-xs"></i>
+                  <span>Preview</span>
+                </button>
+                <a href="images/FPGA.png" download="VLSI-Insights-FPGA-Artix7-Brochure.png" class="btn btn-secondary"
+                  class="brochure-download-btn" title="Download Flyer">
+                  <i data-lucide="download" class="icon-xs"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <!-- 5. Raspberry Pi Training Program (2 Months) -->
+          <div class="brochure-card">
+            <div class="brochure-card__thumb-wrap preview-brochure-trigger" data-brochure="images/raspberry-pi.png"
+              data-title="Raspberry Pi Training Program">
+              <img src="images/raspberry-pi.png" alt="Raspberry Pi training brochure preview"
+                class="brochure-card__thumb" loading="lazy">
+              <div class="brochure-card__overlay">
+                <span class="btn btn-primary brochure-preview-cta">
+                  <i data-lucide="eye" class="icon-sm"></i>
+                  <span>Quick View</span>
+                </span>
+              </div>
+            </div>
+            <div class="brochure-card__body">
+              <div>
+                <div
+                  class="brochure-card__tag">
+                  Embedded Track</div>
+                <h3 class="brochure-card__title">Raspberry Pi Embedded & IoT Training</h3>
+                <div class="brochure-card__meta">
+                  <span class="badge-duration">2 Months</span>
+                  <span class="badge-price">25,000/-</span>
+                </div>
+              </div>
+              <div class="brochure-card__actions">
+                <button type="button" class="view-brochure-btn preview-brochure-trigger"
+                  data-brochure="images/raspberry-pi.png" data-title="Raspberry Pi Training Program"
+                  class="view-brochure-btn preview-brochure-trigger brochure-btn-full">
+                  <i data-lucide="eye" class="icon-xs"></i>
+                  <span>Preview</span>
+                </button>
+                <a href="images/raspberry-pi.png" download="VLSI-Insights-RaspberryPi-Brochure.png"
+                  class="btn btn-secondary brochure-download-btn"
+                  title="Download Flyer">
+                  <i data-lucide="download" class="icon-xs"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================================= -->
+    <!-- 4. CURRICULUM DRAWER (Single Reusable DOM Component)                     -->
+    <!-- ======================================================================= -->
+    <div class="drawer-backdrop" id="drawerBackdrop" aria-hidden="true"></div>
+    <aside class="curriculum-drawer" id="curriculumDrawer" role="dialog" aria-modal="true"
+      aria-label="Program Curriculum Breakdown">
+      <div class="drawer-header">
+        <div>
+          <h3 class="drawer-title" id="drawerProgramTitle">Program Title</h3>
+          <div class="drawer-meta-row">
+            <span class="badge-teal" id="drawerProgramCategory">Category</span>
+            <span class="badge-duration" id="drawerProgramDuration">Duration</span>
+            <span class="badge-price" id="drawerProgramPrice">Fee</span>
+          </div>
+        </div>
+        <button type="button" class="drawer-close-btn" id="closeDrawerBtn" aria-label="Close curriculum drawer">
+          <i data-lucide="x"></i>
+        </button>
+      </div>
+
+      <div class="drawer-body">
+        <div class="drawer-prereqs">
+          <div class="drawer-prereqs-title">Pre-requisites</div>
+          <div id="drawerProgramPrereqs" class="drawer-prereqs-desc">Fundamental knowledge required.</div>
+        </div>
+
+        <div>
+          <h4
+            class="drawer-section-title">
+            Syllabus & Module Breakdown</h4>
+          <div class="module-accordion" id="drawerModulesContainer">
+            <!-- Accordion items inserted by JS -->
+          </div>
+        </div>
+      </div>
+
+      <div class="drawer-footer">
+        <button type="button" class="view-brochure-btn" id="drawerBrochureBtn"
+          class="view-brochure-btn drawer-brochure-btn">
+          <i data-lucide="file-text" class="icon-sm"></i>
+          <span>View Brochure</span>
+        </button>
+        <div class="drawer-actions-row">
+          <button type="button" class="btn btn-secondary" id="drawerDismissBtn">Close</button>
+          <button type="button" class="btn btn-primary" id="drawerEnrollBtn">Enroll in Program</button>
+        </div>
+      </div>
+    </aside>
+
+    <!-- ======================================================================= -->
+    <!-- BROCHURE LIGHTBOX MODAL (Single Reusable Component)                     -->
+    <!-- ======================================================================= -->
+    <div class="brochure-backdrop" id="brochureBackdrop" aria-hidden="true"></div>
+    <div class="brochure-modal" id="brochureModal" role="dialog" aria-modal="true"
+      aria-label="Official Course Brochure Preview">
+      <div class="brochure-modal__header">
+        <div class="brochure-modal__title">
+          <i data-lucide="file-text" class="icon-lg color-copper"></i>
+          <span id="brochureModalTitle">Official Course Brochure</span>
+        </div>
+        <div class="brochure-modal__actions">
+          <a href="#" id="brochureDownloadDirect" download class="btn btn-secondary brochure-preview-cta">
+            <i data-lucide="download" class="icon-sm"></i>
+            <span>Download Flyer</span>
+          </a>
+          <button type="button" class="brochure-modal__close" id="closeBrochureModalBtn"
+            aria-label="Close brochure preview">
+            <i data-lucide="x"></i>
+          </button>
+        </div>
+      </div>
+      <div class="brochure-modal__body">
+        <img src="" alt="Course Brochure" id="brochureModalImg" class="brochure-modal__img">
+      </div>
+      <div class="brochure-modal__footer">
+        <div
+          class="modal-desc-row">
+          <span class="badge-copper">Official Syllabus</span>
+          <span>Verified industry training schedule & deliverables</span>
+        </div>
+        <div class="modal-actions-row">
+          <button type="button" class="btn btn-secondary" id="brochureDismissBtn" class="btn btn-secondary modal-close-btn">Close</button>
+          <a href="#enroll" class="btn btn-primary" id="brochureEnrollBtn" class="btn btn-primary modal-enroll-btn">Enroll in this Track</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- ======================================================================= -->
+    <!-- 5. LEARNING PATH (6-Step Timeline, HTML/CSS Only)                       -->
+    <!-- ======================================================================= -->
+    <section class="learning-path-section" aria-label="Engineering Learning Path">
+      <div class="container">
+        <div class="section-heading-group">
+          <span class="section-label">Your Engineering Journey</span>
+          <h2 class="section-title">Campus to semiconductor floor</h2>
+          <p class="section-subtitle">A structured, six-stage framework designed to transform theoretical knowledge into
+            verified silicon engineering capability.</p>
+        </div>
+
+        <div class="path-timeline">
+          <!-- Step 1 -->
+          <div class="path-step">
+            <div class="path-node">01</div>
+            <div class="path-info">
+              <h3 class="path-step-title">Orientation & Foundations</h3>
+              <p class="path-step-desc">Establish solid ground in Boolean synthesis, Linux terminal workflows, and basic
+                digital timing concepts.</p>
+            </div>
+          </div>
+
+          <!-- Step 2 -->
+          <div class="path-step">
+            <div class="path-node">02</div>
+            <div class="path-info">
+              <h3 class="path-step-title">RTL & Architecture Labs</h3>
+              <p class="path-step-desc">Design synthesizable state machines, memory controllers, and arithmetic
+                datapaths using clean Verilog HDL.</p>
+            </div>
+          </div>
+
+          <!-- Step 3 -->
+          <div class="path-step">
+            <div class="path-node">03</div>
+            <div class="path-info">
+              <h3 class="path-step-title">EDA Simulation & Debug</h3>
+              <p class="path-step-desc">Simulate designs on industry tools (QuestaSim / VCS), analyze waveforms, and
+                isolate subtle timing races.</p>
+            </div>
+          </div>
+
+          <!-- Step 4 -->
+          <div class="path-step">
+            <div class="path-node">04</div>
+            <div class="path-info">
+              <h3 class="path-step-title">Advanced Protocol Verification</h3>
+              <p class="path-step-desc">Build constrained random UVM environments, integrate SVA assertions, and verify
+                AMBA bus protocols.</p>
+            </div>
+          </div>
+
+          <!-- Step 5 -->
+          <div class="path-step">
+            <div class="path-node">05</div>
+            <div class="path-info">
+              <h3 class="path-step-title">Capstone Silicon Project</h3>
+              <p class="path-step-desc">Architect and verify a comprehensive SoC subsystem (RISC-V / DMA controller)
+                under senior engineering review.</p>
+            </div>
+          </div>
+
+          <!-- Step 6 -->
+          <div class="path-step">
+            <div class="path-node">06</div>
+            <div class="path-info">
+              <h3 class="path-step-title">Placement & Mock Interviews</h3>
+              <p class="path-step-desc">Rigorous 1-on-1 technical interview prep, ATS resume audit, and direct referrals
+                to hiring semiconductor MNCs.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================================= -->
+    <!-- 6. PLACEMENT STATS (IntersectionObserver Animated)                      -->
+    <!-- ======================================================================= -->
+    <section class="stats-section" aria-label="Placement Track Record">
+      <div class="container">
+        <div class="stats-grid">
+          <div class="stat-item">
+            <div class="stat-number" data-target="98" data-suffix="%">98%</div>
+            <div class="stat-label">Placement Success Rate</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number" data-target="200" data-suffix="+">200+</div>
+            <div class="stat-label">Engineers Placed</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number" data-target="45" data-suffix="+">45+</div>
+            <div class="stat-label">Hiring Partners</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number" data-target="6" data-suffix=" LPA">6 LPA</div>
+            <div class="stat-label">Average Starting Package</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <script>
+    (function () {
+      try {
+        function animateStat(el) {
+          var target = parseInt(el.getAttribute('data-target'), 10);
+          var suffix = el.getAttribute('data-suffix') || '';
+          if (isNaN(target)) return;
+          var duration = 1500;
+          var start = null;
+          el.textContent = '0' + suffix;
+          function step(ts) {
+            if (!start) start = ts;
+            var progress = Math.min((ts - start) / duration, 1);
+            var eased = 1 - (1 - progress) * (1 - progress);
+            el.textContent = Math.floor(eased * target) + suffix;
+            if (progress < 1) { requestAnimationFrame(step); }
+            else { el.textContent = target + suffix; }
+          }
+          requestAnimationFrame(step);
+        }
+        var els = document.querySelectorAll('.stat-number[data-target]');
+        if ('IntersectionObserver' in window) {
+          var obs = new IntersectionObserver(function(entries) {
+            entries.forEach(function(e) {
+              if (e.isIntersecting) { animateStat(e.target); obs.unobserve(e.target); }
+            });
+          }, { threshold: 0 });
+          els.forEach(function(el) { obs.observe(el); });
+        } else {
+          els.forEach(animateStat);
+        }
+      } catch(e) {}
+    })();
+    </script>
+
+    <!-- ======================================================================= -->
+    <!-- 7. TESTIMONIALS STRIP                                                   -->
+    <!-- ======================================================================= -->
+    <section class="testimonials-section" aria-label="Student Testimonials">
+      <div class="container">
+        <div class="section-heading-group">
+          <span class="section-label">Alumni Outcomes</span>
+          <h2 class="section-title">Voices from the semiconductor floor</h2>
+          <p class="section-subtitle">Hear how our practical training and rigorous verification labs launched
+            engineering careers at leading design houses.</p>
+        </div>
+
+        <div class="testimonials-grid">
+          <!-- Card 1 -->
+          <div class="testimonial-card">
+            <div>
+              <svg class="testimonial-quote-icon" width="28" height="28" viewBox="0 0 24 24" fill="currentColor">
+                <path
+                  d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" />
+              </svg>
+              <p class="testimonial-text">"The UVM testbench project we built gave me the exact confidence needed during
+                my technical rounds at Qualcomm. I walked into interviews knowing real architecture, not just textbook
+                theory."</p>
+            </div>
+            <div class="testimonial-author">
+              <div class="testimonial-avatar">AK</div>
+              <div>
+                <div class="testimonial-author-name">Anand K.</div>
+                <div class="testimonial-author-role">Verification Engineer @ Qualcomm</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 2 -->
+          <div class="testimonial-card">
+            <div>
+              <svg class="testimonial-quote-icon" width="28" height="28" viewBox="0 0 24 24" fill="currentColor">
+                <path
+                  d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" />
+              </svg>
+              <p class="testimonial-text">"Designing RTL microarchitectures and implementing complex finite state machines
+                with proper clock-domain crossing gave me the exact edge needed during interviews at NXP."</p>
+            </div>
+            <div class="testimonial-author">
+              <div class="testimonial-avatar">PM</div>
+              <div>
+                <div class="testimonial-author-name">Pooja M.</div>
+                <div class="testimonial-author-role">RTL Design engineer @ NXP</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 3 -->
+          <div class="testimonial-card">
+            <div>
+              <svg class="testimonial-quote-icon" width="28" height="28" viewBox="0 0 24 24" fill="currentColor">
+                <path
+                  d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" />
+              </svg>
+              <p class="testimonial-text">"Synthesizing AXI bus protocols on real silicon and verifying multi-clock SoC
+                test suites gave me a massive edge. The mentors are top-tier industry veterans."
+              </p>
+            </div>
+            <div class="testimonial-author">
+              <div class="testimonial-avatar">RS</div>
+              <div>
+                <div class="testimonial-author-name">Rohit S.</div>
+                <div class="testimonial-author-role">SOC verification @ Synopsys</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================================= -->
+    <!-- 8. ENROLLMENT FORM (Two-Column, Program Dropdown, WhatsApp CTA)          -->
+    <!-- ======================================================================= -->
+    <section class="enroll-section" id="enroll">
+      <div class="container">
+        <div class="enroll-grid">
+          <div class="enroll-info-col">
+            <div class="section-heading-group" class="form-margin-bottom">
+              <span class="section-label">Admissions & Counseling</span>
+              <h2 class="section-title">Take your seat in the next cohort</h2>
+              <p class="section-subtitle">Speak directly with our technical admissions advisors to identify the ideal
+                program track for your background and career aspirations.</p>
+            </div>
+
+            <div class="advisor-bullet">
+              <i data-lucide="check-circle-2"></i>
+              <div>
+                <div class="advisor-bullet-title">Curriculum Evaluation & Roadmap</div>
+                <div class="advisor-bullet-desc">We evaluate your current engineering background and suggest customized
+                  project scopes.</div>
+              </div>
+            </div>
+
+            <div class="advisor-bullet">
+              <i data-lucide="server"></i>
+              <div>
+                <div class="advisor-bullet-title">Dedicated Remote EDA Access</div>
+                <div class="advisor-bullet-desc">Every student receives secure VPN access to licensed simulation kernels
+                  and toolchains.</div>
+              </div>
+            </div>
+
+            <div class="advisor-bullet">
+              <i data-lucide="award"></i>
+              <div>
+                <div class="advisor-bullet-title">Placement Assurance Support</div>
+                <div class="advisor-bullet-desc">Career-track programs include comprehensive technical interview mockups
+                  and corporate referrals.</div>
+              </div>
+            </div>
+
+            <div
+              class="checkout-summary-box">
+              <div
+                class="checkout-summary-title">
+                Need instantaneous answers?</div>
+              <div class="checkout-summary-sub">Connect with our
+                lead academic counselor on WhatsApp for instant curriculum packets and batch schedules.</div>
+              <a href="https://wa.me/919810191592?text=Hello%2C%20I%20want%20to%20enquire%20about%20the%20VLSI%20Programs."
+                target="_blank" rel="noopener noreferrer" class="whatsapp-btn">
+                <i data-lucide="message-circle"></i>
+                <span>Chat with Counselor on WhatsApp</span>
+              </a>
+            </div>
+          </div>
+
+          <!-- Form Column -->
+          <div class="enroll-form-card">
+            <h3
+              class="checkout-heading">
+              Program Application Form</h3>
+            <p class="checkout-sub">Fill in your contact
+              coordinates. Our technical advisor will follow up within 24 hours.</p>
+
+            <div class="form-success-banner" id="formSuccess">
+              <strong>Application Submitted!</strong> An academic advisor will reach out to you within one business day
+              with the detailed batch syllabus.
+            </div>
+
+            <form id="enrollForm" novalidate>
+              <div class="form-group">
+                <label for="studentName" class="form-label">Full Name *</label>
+                <input type="text" id="studentName" class="form-input" placeholder="e.g. Rahul Sharma" required>
+                <div class="error-msg" id="nameError"></div>
+              </div>
+
+              <div class="form-group">
+                <label for="studentEmail" class="form-label">Email Address *</label>
+                <input type="email" id="studentEmail" class="form-input" placeholder="e.g. rahul@example.com" required>
+                <div class="error-msg" id="emailError"></div>
+              </div>
+
+              <div class="form-group">
+                <label for="studentPhone" class="form-label">Phone Number (with Country Code) *</label>
+                <input type="tel" id="studentPhone" class="form-input" placeholder="+91 98765 43210" required>
+                <div class="error-msg" id="phoneError"></div>
+              </div>
+
+              <div class="form-group">
+                <label for="programSelect" class="form-label">Select Program Track *</label>
+                <select id="programSelect" class="form-select" required>
+                  <option value="">-- Choose one of the 11 programs --</option>
+                  <!-- Populated dynamically to ensure 100% synchronization -->
+                </select>
+                <div class="error-msg" id="programError"></div>
+              </div>
+
+              <div class="form-group">
+                <label for="studentMessage" class="form-label">Your Background & Goals (Optional)</label>
+                <textarea id="studentMessage" class="form-textarea" rows="3"
+                  placeholder="Tell us your current year of study, degree, or transition goals..."></textarea>
+              </div>
+
+              <button type="submit" class="btn btn-primary" class="checkout-full-width">Submit Enrollment Application</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ========================================================================= -->
+  <!-- FOOTER                                                                    -->
+  <!-- ========================================================================= -->
+  <footer class="footer" role="contentinfo">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="index.html" class="nav-logo" aria-label="VLSI Insights">
+            <img src="images/logo.png"
+              alt="VLSI Insights - Empowering Tomorrow's Technology Today" class="nav-logo-img"
+              class="checkout-payment-logo">
+          </a>
+          <p class="checkout-payment-desc">
+            A premier semiconductor training hub, corporate consultancy, and digital engineering agency based in India.
+            Bridging academia to industrial silicon execution.
+          </p>
+        </div>
+
+        <div>
+          <div class="footer-col-title">Programs</div>
+          <ul class="footer-links">
+            <li><a href="programs.html" class="footer-link">VLSI Mastery Program (6 Months)</a></li>
+            <li><a href="programs.html" class="footer-link">RTL Design & Verification</a></li>
+            <li><a href="programs.html" class="footer-link">Assertions & Functional Coverage</a></li>
+            <li><a href="programs.html" class="footer-link">Artix-7 & Spartan FPGAs</a></li>
+            <li><a href="programs.html" class="footer-link">Arduino & Raspberry Pi</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <div class="footer-col-title">Resources</div>
+          <ul class="footer-links">
+            <li><a href="front-end-software.html" class="footer-link">EDA Software Lab</a></li>
+            <li><a href="about-company.html" class="footer-link">About Company</a></li>
+            <li><a href="about-owner.html" class="footer-link">About Owner</a></li>
+            <li><a href="index.html#solutions" class="footer-link">Digital Growth</a></li>
+            <li><a href="index.html#contact" class="footer-link">Contact Admissions</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <div class="footer-col-title">Contact</div>
+          <ul class="footer-links" class="checkout-help-text">
+            <li>info@vlsiinsights.com</li>
+            <li>+91 98101 91592</li>
+            <li class="checkout-contact-row">
+              <a href="https://wa.me/919810191592" target="_blank" rel="noopener noreferrer"
+                class="checkout-wa-link">
+                <i data-lucide="message-circle" class="icon-sm"></i>
+                <span>Direct WhatsApp Line</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <div>&copy; 2026 VLSI Insights. All rights reserved.</div>
+        <div class="checkout-actions-row">
+          <a href="front-end-software.html" class="footer-link">EDA Tools</a>
+          <a href="about-company.html" class="footer-link">Mission & Values</a>
+          <a href="about-owner.html" class="footer-link">Founder Profile</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ========================================================================= -->
+  <!-- JAVASCRIPT LOGIC                                                          -->
+  <!-- ========================================================================= -->
+  <script>
+    // -------------------------------------------------------------------------
+    // 1. CONFIGURATION & CENTRALIZED DATA OBJECTS
+    // -------------------------------------------------------------------------
+    // Target date for live countdown timer (Configurable constant at top of script block)
+    const OFFER_DEADLINE = new Date('2026-12-31T23:59:59');
+
+    // 9 Updated Industry Programs
+    const programsData = [
+      // 1. 6 Month Program: VLSI Mastery Program , From Classroom Concepts to Chip Design
+      {
+        id: 'vlsi-mastery-program',
+        category: '6-month',
+        categoryLabel: '6 Month Program',
+        icon: 'award',
+        title: 'VLSI Mastery Program',
+        subtitle: 'From Classroom Concepts to Chip Design',
+        duration: '6 Months',
+        level: 'Career Track',
+        price: 'Career Flagship',
+        priceNum: 149999,
+        brochure: 'images/Verification.png',
+        brochureTitle: 'VLSI Mastery & Full Verification Curriculum',
+        description: 'From classroom concepts to chip design. An intensive 6-month career program covering digital fundamentals, synthesizable RTL, UVM verification, and FPGA emulation with placement assistance.',
+        topics: [
+          'Complete Front-End Flow: Digital Architecture to Silicon Emulation',
+          'Synthesizable RTL Design & State Machine Microarchitectures',
+          'Enterprise UVM 1.2 Verification & Assertion-Based Sign-off',
+          'FPGA Hardware Prototyping on Artix-7 & Placement Support'
+        ],
+        prerequisites: 'B.Tech/M.Tech in ECE/EE/CS or working professional transitioning to VLSI.',
+        modules: [
+          {
+            title: 'Module 1: Digital Electronics & Verilog RTL Foundations',
+            topics: ['Combinational & sequential synthesis', 'Blocking vs non-blocking nuances', 'FSM design and timing closure']
+          },
+          {
+            title: 'Module 2: Advanced Computer Architecture & Datapath Design',
+            topics: ['Pipelined CPU architecture & hazard resolution', 'Memory hierarchies, SRAM controllers & bus arbiters', 'Static Timing Analysis (STA) setup/hold constraints']
+          },
+          {
+            title: 'Module 3: SystemVerilog for Verification & SVA Assertions',
+            topics: ['OOP constructs: classes, polymorphism, inheritance', 'Constrained random stimulus & mailboxes', 'Immediate and concurrent SystemVerilog Assertions (SVA)']
+          },
+          {
+            title: 'Module 4: Universal Verification Methodology (UVM 1.2)',
+            topics: ['UVM phases, factory overrides, and config DB', 'Building scalable UVM drivers, monitors, and scoreboards', 'Register Abstraction Layer (RAL) implementation']
+          },
+          {
+            title: 'Module 5: FPGA Prototyping, AXI Interconnect & Vivado Flow',
+            topics: ['Synthesizing RTL onto AMD Xilinx Artix-7 silicon', 'AXI4-Lite and AXI4-Stream system interconnects', 'In-system signal tracing with Vivado ILA logic analyzer']
+          },
+          {
+            title: 'Module 6: Tape-Out Capstone Project & Technical Placement Prep',
+            topics: ['Full-chip SoC verification plan execution and regression sign-off', '100% code & functional coverage closure', '1-on-1 technical mock interviews with Senior Silicon Engineers']
+          }
+        ]
+      },
+
+      // 2. Beginners Programs: RTL Design
+      {
+        id: 'rtl-design',
+        category: 'beginner',
+        categoryLabel: 'Beginners',
+        icon: 'cpu',
+        title: 'RTL Design',
+        subtitle: 'Digital + Verilog Training Program',
+        duration: '8 Weeks',
+        level: 'Foundational',
+        price: '35,000/-',
+        priceNum: 35000,
+        brochure: 'images/RTL1-1086x1536.png',
+        brochureTitle: 'Digital + Verilog Training Program Brochure',
+        description: 'Learn the art of hardware description. Master synthesizable Verilog HDL, synchronous sequential logic, state machine architectures, and combinational datapath design.',
+        topics: [
+          'Digital Electronics Core Concepts & Timing Fundamentals',
+          'Synthesizable Verilog HDL Syntax, Operators & FSM Design',
+          'Industry Projects: SPI and UART Protocol Controllers',
+          'Live Classes, Hands-on Lab Assignments & Certification'
+        ],
+        prerequisites: 'Basic digital electronics and Boolean algebra.',
+        modules: [
+          {
+            title: 'Module 1: Digital Electronics Core Concepts',
+            topics: ['Boolean algebra, logic gates, and gate delay analysis', 'Combinational circuits: adders, multiplexers, decoders', 'Timing parameters: setup time, hold time, propagation delay']
+          },
+          {
+            title: 'Module 2: Synthesizable Verilog HDL Architecture',
+            topics: ['Module hierarchy, ports, nets, and data types', 'Continuous assignments vs procedural always blocks', 'Avoiding inferred latches and race conditions']
+          },
+          {
+            title: 'Module 3: Sequential Logic & FSM Control Units',
+            topics: ['D flip-flops with synchronous vs asynchronous reset', 'Moore vs Mealy finite state machine implementations', 'State encoding trade-offs: Binary, Gray, and One-Hot']
+          },
+          {
+            title: 'Module 4: Real-World Industry Hardware Projects',
+            topics: ['UART Transmitter & Receiver controller with baud rate generator', 'SPI Master/Slave serial bus interface controller', 'Self-checking testbench architecture and waveform verification']
+          }
+        ]
+      },
+
+      // 3. Beginners Programs: Verification
+      {
+        id: 'verification',
+        category: 'beginner',
+        categoryLabel: 'Beginners',
+        icon: 'shield-check',
+        title: 'Verification',
+        subtitle: '4 months, Core VLSI Verification',
+        duration: '4 Months',
+        level: 'Foundational',
+        price: '40,000/-',
+        brochure: 'images/Verification.png',
+        brochureTitle: '4 Months - Core VLSI Verification Brochure',
+        description: 'Complete job-oriented training program. Master SystemVerilog core concepts, UVM testbench architecture, TCL scripting automation, and protocol verification.',
+        topics: [
+          'SystemVerilog Core Concepts: OOP, Constraints & Virtual Interfaces',
+          'Universal Verification Methodology (UVM 1.2) Architecture',
+          'TCL Scripting Basics & Simulation Flow Automation',
+          'Protocol Projects: AXI, AHB, UART, SPI, I2C Verification'
+        ],
+        prerequisites: 'Understanding of Verilog HDL and digital logic concepts.',
+        modules: [
+          {
+            title: 'Module 1: SystemVerilog Core Verification Concepts',
+            topics: ['OOP concepts in SystemVerilog: classes, encapsulation, inheritance', 'Randomization techniques and constraint solving', 'Inter-process communication (IPC) with mailboxes, semaphores & events', 'Interfaces and virtual interfaces for clean DUT abstraction']
+          },
+          {
+            title: 'Module 2: Universal Verification Methodology (UVM)',
+            topics: ['UVM components, phased execution, and factory overrides', 'Sequences, sequence items, and hierarchical sequencers', 'Building scalable drivers, monitors, agents, and environments', 'Scoreboard design and functional coverage integration']
+          },
+          {
+            title: 'Module 3: Scripting & Automation for Verification Flows',
+            topics: ['TCL scripting fundamentals for simulation control', 'Automating compilation, elaboration, and batch runs in Questa/VCS', 'Regression scripting concepts, seed sweeps, and log parsing']
+          },
+          {
+            title: 'Module 4: Protocol-Based Industry Verification Projects',
+            topics: ['AMBA AXI4 / AHB protocol testbench architecture', 'UART / SPI / I2C peripheral functional verification', '100% code and functional coverage sign-off closure']
+          }
+        ]
+      },
+
+      // 4. Advance Programs: Assertions
+      {
+        id: 'assertions',
+        category: 'advanced',
+        categoryLabel: 'Advance',
+        icon: 'check-circle-2',
+        title: 'Assertions',
+        subtitle: '1 month, SVA and assertion-based verification',
+        duration: '1 Month',
+        level: 'Advanced',
+        price: '25,000/-',
+        brochure: 'images/Assertions.png',
+        brochureTitle: '1 Month - Core VLSI Assertion Training Brochure',
+        description: 'Complete job-oriented training program. Master SystemVerilog Assertions (SVA), concurrent sequences, temporal logic, and formal assertion-based verification (ABV).',
+        topics: [
+          'Basics of SystemVerilog Assertion (SVA) Syntax & Clocking',
+          'Immediate vs Concurrent Assertions & Temporal Sequences',
+          'Assertion Control: Action Blocks, Clocking Blocks & Testbench Use',
+          'Real-World Assertion-Based Verification (ABV) Projects'
+        ],
+        prerequisites: 'Working knowledge of SystemVerilog or Verilog RTL.',
+        modules: [
+          {
+            title: 'Module 1: Introduction to Assertions & SVA Fundamentals',
+            topics: ['Role of assertions in simulation and formal verification', 'Immediate assertions vs deferred immediate assertions', 'Basics of SystemVerilog Assertion (SVA) syntax and execution semantics']
+          },
+          {
+            title: 'Module 2: Concurrent Assertions & Temporal Sequences',
+            topics: ['Sampled value functions: $rose, $fell, $stable, $past', 'Cycle delay operators (##n, ##[min:max]) and consecutive repetition', 'Sequence operators: and, intersect, within, throughout']
+          },
+          {
+            title: 'Module 3: Assertion Control & Testbench Architecture Integration',
+            topics: ['Overlapped (|->) vs non-overlapped (|=>) implication', 'Assertion control: action blocks, severity levels ($error, $fatal)', 'Binding SVA checkers to RTL without modifying source design files']
+          },
+          {
+            title: 'Module 4: Coverage with Assertions & Real-World Projects',
+            topics: ['Cover properties: measuring assertion hits and coverage holes', 'Writing protocol checkers for AMBA bus standards', 'Best practices for debugging assertion failures in waveform viewers']
+          }
+        ]
+      },
+
+      // 5. Advance Programs: Functional Coverage
+      {
+        id: 'functional-coverage',
+        category: 'advanced',
+        categoryLabel: 'Advance',
+        icon: 'target',
+        title: 'Functional Coverage',
+        subtitle: 'Coverage-Driven Verification & Closure',
+        duration: '6 Weeks',
+        level: 'Advanced',
+        price: 'Specialized Track',
+        brochure: 'images/Verification.png',
+        brochureTitle: 'Coverage-Driven Verification Curriculum',
+        description: 'Achieve 100% verification sign-off. Learn coverage-driven verification (CDV), covergroups, coverpoints, cross-coverage, and coverage metric closure.',
+        topics: [
+          'Code Coverage (Line, Branch, Condition, FSM) vs Functional Coverage',
+          'Covergroup Syntax, Sample Events & Options',
+          'Coverpoints, Transitions, Wildcard Bins & Cross-Coverage',
+          'Coverage Database Merging, Analysis & Sign-off Closure'
+        ],
+        prerequisites: 'SystemVerilog testbench knowledge.',
+        modules: [
+          {
+            title: 'Module 1: Foundations of Coverage-Driven Verification (CDV)',
+            topics: ['Measuring verification completeness mathematically', 'Mapping verification matrix points to functional coverage models', 'Code coverage vs functional coverage holes']
+          },
+          {
+            title: 'Module 2: Defining Covergroups, Coverpoints & Explicit Bins',
+            topics: ['Covergroup instantiation in classes and packages', 'Specifying value bins, auto_bin_max, and default bins', 'Transition bins and sequence coverage patterns']
+          },
+          {
+            title: 'Module 3: Cross Coverage, Conditional Sampling & Illegal Bins',
+            topics: ['Cross coverage between multiple coverpoints', 'Filtering illegal combinations with ignore_bins and illegal_bins', 'Conditional coverage sampling using iff constructs']
+          },
+          {
+            title: 'Module 4: Unified Coverage Database (UCDB) & Sign-Off Analysis',
+            topics: ['Saving and merging UCDB coverage databases across multiple regression seeds', 'Coverage hole analysis and targeted constraint tuning', 'Executive coverage sign-off metrics and reporting']
+          }
+        ]
+      },
+
+      // 6. Embedded Systems: Arduino
+      {
+        id: 'arduino',
+        category: 'embedded',
+        categoryLabel: 'Embedded Systems',
+        icon: 'microchip',
+        title: 'Arduino',
+        subtitle: 'Microcontroller Architecture & Prototyping',
+        duration: '4 Weeks',
+        level: 'Specialized',
+        price: 'Foundational Track',
+        brochure: null,
+        description: 'Hands-on physical computing and embedded prototyping. Master microcontroller architecture, C/C++ programming, sensor interfacing, and actuator control.',
+        topics: [
+          'ATmega Microcontroller Architecture & Memory Map',
+          'Digital/Analog I/O, Timers, Interrupts & PWM Signals',
+          'Sensor Integration (Ultrasonic, Temp/Humidity, Accelerometers)',
+          'Communication Protocols: UART, I2C, and SPI Interfacing'
+        ],
+        prerequisites: 'Basic programming concepts and curiosity for hardware.',
+        modules: [
+          {
+            title: 'Module 1: Microcontroller Fundamentals & Architecture',
+            topics: ['Harvard architecture, flash memory, SRAM, and EEPROM', 'AVR core registers and execution pipeline', 'Arduino toolchain, bootloaders, and ISP programming']
+          },
+          {
+            title: 'Module 2: GPIO Interfacing, Pushbuttons & Actuators',
+            topics: ['Digital read/write, pin mode configurations, pull-up resistors', 'Software and hardware button debouncing techniques', 'Relay control, transistor switches, and DC motor drivers']
+          },
+          {
+            title: 'Module 3: Analog Sensing, ADC & PWM Signals',
+            topics: ['10-bit successive approximation ADC operation', 'Sensor calibration, voltage dividers, and noise filtering', 'Hardware PWM generation for LED dimming and servo motors']
+          },
+          {
+            title: 'Module 4: Communication Protocols & Practical Projects',
+            topics: ['Hardware UART serial data framing and baud rates', 'I2C master/slave bus communication with OLED displays', 'SPI bus interfacing for high-speed SD card logging']
+          }
+        ]
+      },
+
+      // 7. Embedded Systems: Raspberry Pi
+      {
+        id: 'raspberry-pi',
+        category: 'embedded',
+        categoryLabel: 'Embedded Systems',
+        icon: 'layers',
+        title: 'Raspberry Pi',
+        subtitle: '2 months, Raspberry Pi and embedded IoT',
+        duration: '2 Months',
+        level: 'Specialized',
+        price: '25,000/-',
+        brochure: 'images/raspberry-pi.png',
+        brochureTitle: '2 Months - Raspberry Pi Training Program Brochure',
+        description: 'Learn | Build | Automate | Innovate. Comprehensive training on single-board computer architecture, Linux OS, Python GPIO, sensor bus protocols, and edge IoT.',
+        topics: [
+          'Linux OS & Command Line Basics, Shell Automation',
+          'GPIO Programming with Python (gpiozero & RPi.GPIO)',
+          'I2C, SPI, UART Communication & Sensor/Module Interfacing',
+          'Camera & Display Integration, Edge IoT & MQTT Dashboards'
+        ],
+        prerequisites: 'Basic Python programming and fundamental electronics.',
+        modules: [
+          {
+            title: 'Module 1: Introduction to Raspberry Pi & Linux Environment',
+            topics: ['ARM SoC architecture, memory layout, and peripheral buses', 'Headless setup, Linux OS installation, and SSH command line basics', 'Linux filesystem, permissions, and package management (APT)']
+          },
+          {
+            title: 'Module 2: Python GPIO Programming & Hardware Interfacing',
+            topics: ['Controlling LEDs, pushbuttons, relays, and motor drivers with Python', 'Reading digital & analog sensors (temperature, ultrasonic, motion)', 'Software debouncing and hardware interrupt handling']
+          },
+          {
+            title: 'Module 3: Communication Protocols & Peripherals',
+            topics: ['I2C protocol communication with OLED displays and RTC modules', 'SPI protocol high-speed sensor reading', 'UART serial telemetry with microcontrollers and GPS modules']
+          },
+          {
+            title: 'Module 4: Camera Integration, Edge IoT & Automation',
+            topics: ['Camera module interfacing, live streaming, and image capture', 'Publishing sensor telemetry over MQTT to cloud brokers', 'Python automation scripts and running background systemd services']
+          }
+        ]
+      },
+
+      // 8. FPGA's: Artix-7
+      {
+        id: 'artix-7',
+        category: 'fpga',
+        categoryLabel: 'FPGA',
+        icon: 'hard-drive',
+        title: 'Artix-7',
+        subtitle: '3 Months - Basic Level FPGA Training on Artix-7',
+        duration: '3 Months',
+        level: 'Specialized',
+        price: '25,000/-',
+        brochure: 'images/FPGA.png',
+        brochureTitle: '3 Months - Basic Level FPGA Training on Artix-7 Brochure',
+        description: 'Online & offline training available. Master AMD Xilinx Artix-7 architecture, synthesizable Verilog, Vivado ML design flow, XDC timing constraints, and Vivado ILA.',
+        topics: [
+          'FPGA/CPLD Architecture: 7-Series CLB, LUT6, BRAM & DSP48',
+          'Digital Design Fundamentals & Synthesizable Verilog HDL',
+          'Vivado Tool Flow: Synthesis, Implementation & Bitstream',
+          'In-System Real-Time Debugging with Vivado ILA Logic Analyzer'
+        ],
+        prerequisites: 'Verilog HDL and digital circuit foundations.',
+        modules: [
+          {
+            title: 'Module 1: FPGA/CPLD Architecture (Artix-7 Based)',
+            topics: ['Configurable Logic Blocks (CLBs), 6-input LUTs, and carry chains', 'Block RAM (36Kb BRAM) configurations and dual-port FIFO modes', 'DSP48E1 slices for high-speed multiply-accumulate operations']
+          },
+          {
+            title: 'Module 2: Digital Design Fundamentals & RTL Coding',
+            topics: ['Verilog HDL and RTL design basics for FPGA synthesis', 'Synchronous reset strategies and metastability filters', 'Finite State Machine (FSM) architecture and state encoding']
+          },
+          {
+            title: 'Module 3: Vivado ML Tool Flow & Timing Closure',
+            topics: ['Vivado project and Tcl non-project execution modes', 'Physical constraints (XDC), clock definitions (create_clock), and I/O delays', 'Timing slack analysis (setup/hold) and resource utilization reports']
+          },
+          {
+            title: 'Module 4: Hardware Prototyping & Vivado ILA Debugging',
+            topics: ['Instantiating Integrated Logic Analyzer (ILA) cores in Vivado', 'Capturing in-system signal waves during live hardware execution', 'Real-world FPGA design projects on Artix-7 development boards']
+          }
+        ]
+      },
+
+      // 9. FPGA's: Spartan
+      {
+        id: 'spartan',
+        category: 'fpga',
+        categoryLabel: 'FPGA',
+        icon: 'zap',
+        title: 'Spartan',
+        subtitle: 'Cost-Optimized FPGA Design & Board Bring-up',
+        duration: '3 Months',
+        level: 'Specialized',
+        price: '25,000/-',
+        brochure: 'images/FPGA.png',
+        brochureTitle: 'FPGA Architecture & Implementation Brochure',
+        description: 'Cost-optimized hardware implementation. Master Xilinx Spartan FPGA architectures (Spartan-6 / Spartan-7), resource-efficient design, and board interfacing.',
+        topics: [
+          'Spartan FPGA Architecture & Logic Cell Utilization',
+          'ISE / Vivado Toolchain Flows for Spartan Silicon',
+          'Serial Communication (UART/SPI) Hardware Controllers',
+          'Seven-Segment Displays, VGA Controllers & Board Peripherals'
+        ],
+        prerequisites: 'Basic Verilog HDL or digital electronics knowledge.',
+        modules: [
+          {
+            title: 'Module 1: Spartan FPGA Architecture & Hardware Resources',
+            topics: ['Spartan-6 vs Spartan-7 architectural comparisons', 'Logic cells, slice architecture, and distributed RAM', 'Clock distribution networks and Digital Clock Managers (DCM)']
+          },
+          {
+            title: 'Module 2: Logic Synthesis & Resource Optimization',
+            topics: ['Minimizing LUT utilization through clean coding styles', 'Pipelining high-fanout nets for timing optimization', 'Pin assignment (UCF/XDC) and I/O standard configurations (LVCMOS)']
+          },
+          {
+            title: 'Module 3: Peripheral Controllers from Scratch in Verilog',
+            topics: ['Baud-rate generator and UART transmitter/receiver state machines', 'Seven-segment display time-multiplexed controller', 'VGA timing generator and 640x480 pixel frame buffer']
+          },
+          {
+            title: 'Module 4: Board Bring-up, Bitstream Download & Testing',
+            topics: ['JTAG configuration and onboard SPI flash PROM programming', 'Hardware debugging using logic analyzers and oscilloscopes', 'Capstone: Building a complete digital controller on Spartan hardware']
+          }
+        ]
+      },
+
+      // 10. Fee Based Internship
+      {
+        id: 'fee-based-internship',
+        category: 'internship',
+        categoryLabel: 'Internship',
+        icon: 'briefcase',
+        title: 'Fee-Based Industry Internship',
+        subtitle: '3 to 6 months, real-world industry internship',
+        duration: '3 - 6 Months',
+        level: 'Industry Level',
+        price: '25,000/-',
+        brochure: 'images/RTL1-1086x1536.png',
+        brochureTitle: 'Fee Based Internship Program Syllabus',
+        description: 'Comprehensive tape-out oriented internship program designed for students and fresh graduates. Work on production-grade RTL design, UVM verification environments, and real semiconductor IP with industry mentor evaluations and placement assistance.',
+        topics: [
+          'Industry Mentor-Led RTL Microarchitecture & Verification Projects',
+          'SystemVerilog / UVM Constrained-Random Testbench Design',
+          'Real Silicon Bus Protocol Implementation (AXI, APB, SPI)',
+          'Verified Tape-Out Signoff & Professional Certificate of Completion'
+        ],
+        prerequisites: 'Basic knowledge of Digital Electronics and Verilog HDL.',
+        modules: [
+          {
+            title: 'Phase 1: Advanced RTL Design & Coding Standards',
+            topics: ['Synthesizable RTL coding conventions and FSM microarchitectures', 'Clock domain crossing (CDC) techniques and reset strategies', 'Static timing analysis (STA) setup/hold constraints in EDA environments']
+          },
+          {
+            title: 'Phase 2: Comprehensive Testbench & Verification Workflow',
+            topics: ['Constrained-random test vector generation and assertion checking', 'Universal Verification Methodology (UVM) layered architecture', 'Functional coverage closure metrics and regression debugging']
+          },
+          {
+            title: 'Phase 3: Live Capstone Project Execution',
+            topics: ['Multi-master bus arbiter or DMA controller design & verification', 'End-to-end linting, simulation signoff, and synthesis reporting', 'Weekly sprint code reviews with senior semiconductor engineers']
+          },
+          {
+            title: 'Phase 4: Interview Preparation & Placement Mentorship',
+            topics: ['Technical mock interviews covering tier-1 semiconductor MNC questions', 'Resume & portfolio optimization showcasing GitHub tape-out testbenches', 'Direct placement referrals to partner semiconductor design houses']
+          }
+        ]
+      }
+    ];
+
+    // Initialize Lucide Icons
+    lucide.createIcons();
+
+    // -------------------------------------------------------------------------
+    // 2. LIVE COUNTDOWN TIMER
+    // -------------------------------------------------------------------------
+    function initCountdown() {
+      const cdHours = document.getElementById('cdHours');
+      const cdMinutes = document.getElementById('cdMinutes');
+      const cdSeconds = document.getElementById('cdSeconds');
+
+      function updateTimer() {
+        const now = new Date().getTime();
+        const distance = OFFER_DEADLINE.getTime() - now;
+
+        if (distance <= 0) {
+          if (cdHours) cdHours.textContent = '00';
+          if (cdMinutes) cdMinutes.textContent = '00';
+          if (cdSeconds) cdSeconds.textContent = '00';
+          return;
+        }
+
+        const hours = Math.floor(distance / (1000 * 60 * 60));
+        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+        if (cdHours) cdHours.textContent = String(hours).padStart(2, '0');
+        if (cdMinutes) cdMinutes.textContent = String(minutes).padStart(2, '0');
+        if (cdSeconds) cdSeconds.textContent = String(seconds).padStart(2, '0');
+      }
+
+      updateTimer();
+      setInterval(updateTimer, 1000);
+    }
+    initCountdown();
+
+    // -------------------------------------------------------------------------
+    // 3. RENDER PROGRAM CARDS & POPULATE ENROLL DROPDOWN
+    // -------------------------------------------------------------------------
+    const programCardsContainer = document.getElementById('programCardsContainer');
+    const programSelect = document.getElementById('programSelect');
+
+    function renderPrograms() {
+      if (!programCardsContainer) return;
+      programCardsContainer.innerHTML = '';
+
+      programsData.forEach(prog => {
+        // Populate select option
+        if (programSelect) {
+          const opt = document.createElement('option');
+          opt.value = prog.title;
+          opt.textContent = `${prog.title} (${prog.duration})`;
+          programSelect.appendChild(opt);
+        }
+
+        // Generate card DOM
+        const card = document.createElement('div');
+        card.className = 'program-card';
+        card.dataset.category = prog.category;
+        card.id = `card-${prog.id}`;
+
+        const topicsHtml = prog.topics.map(topic => `
+          <li class="program-card__topic-item">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+            <span>${topic}</span>
+          </li>
+        `).join('');
+
+        const subtitleHtml = prog.subtitle ? `
+          <div style="font-size: 0.8125rem; color: var(--trace); font-family: var(--font-mono); font-weight: 600; margin-top: -6px; margin-bottom: var(--space-3);">${prog.subtitle}</div>
+        ` : '';
+
+        const priceHtml = prog.price ? `<span class="badge-price">${prog.price}</span>` : '';
+
+        card.innerHTML = `
+          <div>
+            <div class="program-card__header">
+              <span class="badge-teal">${prog.categoryLabel}</span>
+              <div style="display: flex; align-items: center; gap: 6px;">
+                <span class="badge-duration">${prog.duration}</span>
+                ${priceHtml}
+              </div>
+            </div>
+            <div class="program-card__icon-box">
+              <i data-lucide="${prog.icon}"></i>
+            </div>
+            <h3 class="program-card__title">${prog.title}</h3>
+            ${subtitleHtml}
+            <p class="program-card__desc">${prog.description}</p>
+            <ul class="program-card__topics">
+              ${topicsHtml}
+            </ul>
+          </div>
+          <div class="program-card__footer">
+            <div style="display: flex; align-items: center; gap: 8px;">
+              ${prog.brochure ? `
+              <button type="button" class="view-brochure-btn preview-brochure-trigger" data-brochure="${prog.brochure}" data-title="${prog.brochureTitle || prog.title + ' Brochure'}" title="View Official Flyer">
+                <i data-lucide="file-text" class="icon-xs"></i>
+                <span>Brochure</span>
+              </button>` : ''}
+              <button type="button" class="view-curriculum-btn" data-program-id="${prog.id}">
+                <span>Curriculum</span>
+                <i data-lucide="arrow-right" class="icon-sm"></i>
+              </button>
+            </div>
+            <div style="display:flex;gap:6px;align-items:center;">
+              <button type="button" class="enroll-card-btn" data-program-name="${prog.title}">
+                Enroll
+              </button>
+              <button type="button" class="add-to-cart-btn" 
+                data-program-id="${prog.id}" 
+                data-program-name="${prog.title}"
+                data-program-price="${prog.priceNum || 35000}"
+                data-program-price-label="${prog.price}" title="Add to Cart">
+                <i data-lucide="shopping-cart" style="width:14px;height:14px;"></i>
+              </button>
+            </div>
+          </div>
+        `;
+
+        programCardsContainer.appendChild(card);
+      });
+
+      // Refresh icons for dynamically added cards
+      lucide.createIcons();
+    }
+    renderPrograms();
+
+    // -------------------------------------------------------------------------
+    // 4. PROGRAM FILTER PILL LOGIC (classList Toggle, No DOM Removal)
+    // -------------------------------------------------------------------------
+    const filterPills = document.querySelectorAll('.filter-pill');
+    filterPills.forEach(pill => {
+      pill.addEventListener('click', () => {
+        filterPills.forEach(p => {
+          p.classList.remove('active');
+          p.setAttribute('aria-selected', 'false');
+        });
+        pill.classList.add('active');
+        pill.setAttribute('aria-selected', 'true');
+
+        const filter = pill.dataset.filter;
+        const cards = document.querySelectorAll('.program-card');
+
+        cards.forEach(card => {
+          if (filter === 'all' || card.dataset.category === filter) {
+            card.classList.remove('hidden');
+          } else {
+            card.classList.add('hidden');
+          }
+        });
+      });
+    });
+
+    // -------------------------------------------------------------------------
+    // 5. CURRICULUM DRAWER LOGIC (Single Reusable Element)
+    // -------------------------------------------------------------------------
+    const curriculumDrawer = document.getElementById('curriculumDrawer');
+    const drawerBackdrop = document.getElementById('drawerBackdrop');
+    const closeDrawerBtn = document.getElementById('closeDrawerBtn');
+    const drawerDismissBtn = document.getElementById('drawerDismissBtn');
+    const drawerEnrollBtn = document.getElementById('drawerEnrollBtn');
+
+    const drawerProgramTitle = document.getElementById('drawerProgramTitle');
+    const drawerProgramCategory = document.getElementById('drawerProgramCategory');
+    const drawerProgramDuration = document.getElementById('drawerProgramDuration');
+    const drawerProgramPrereqs = document.getElementById('drawerProgramPrereqs');
+    const drawerModulesContainer = document.getElementById('drawerModulesContainer');
+
+    let activeProgram = null;
+
+    function openCurriculumDrawer(programId) {
+      const prog = programsData.find(p => p.id === programId);
+      if (!prog) return;
+      activeProgram = prog;
+
+      drawerProgramTitle.textContent = prog.subtitle ? `${prog.title} - ${prog.subtitle}` : prog.title;
+      drawerProgramCategory.textContent = prog.categoryLabel;
+      drawerProgramDuration.textContent = prog.duration;
+      const drawerPrice = document.getElementById('drawerProgramPrice');
+      if (drawerPrice) {
+        drawerPrice.textContent = prog.price || 'Enrollment Open';
+      }
+      drawerProgramPrereqs.textContent = prog.prerequisites;
+
+      const drawerBrochureBtn = document.getElementById('drawerBrochureBtn');
+      if (drawerBrochureBtn) {
+        if (prog.brochure) {
+          drawerBrochureBtn.style.display = 'inline-flex';
+          drawerBrochureBtn.dataset.brochure = prog.brochure;
+          drawerBrochureBtn.dataset.title = prog.brochureTitle || `${prog.title} Brochure`;
+        } else {
+          drawerBrochureBtn.style.display = 'none';
+        }
+      }
+
+      // Render modules
+      drawerModulesContainer.innerHTML = '';
+      prog.modules.forEach((mod, idx) => {
+        const item = document.createElement('div');
+        item.className = `module-item ${idx === 0 ? 'open' : ''}`;
+
+        const topicsHtml = mod.topics.map(t => `
+          <li>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="3"></circle>
+            </svg>
+            <span>${t}</span>
+          </li>
+        `).join('');
+
+        item.innerHTML = `
+          <button type="button" class="module-trigger" aria-expanded="${idx === 0 ? 'true' : 'false'}">
+            <span>${mod.title}</span>
+            <i data-lucide="chevron-down"></i>
+          </button>
+          <div class="module-content">
+            <ul class="module-topics-list">
+              ${topicsHtml}
+            </ul>
+          </div>
+        `;
+
+        item.querySelector('.module-trigger').addEventListener('click', () => {
+          const isOpen = item.classList.toggle('open');
+          item.querySelector('.module-trigger').setAttribute('aria-expanded', isOpen);
+        });
+
+        drawerModulesContainer.appendChild(item);
+      });
+
+      lucide.createIcons();
+
+      curriculumDrawer.classList.add('open');
+      drawerBackdrop.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeCurriculumDrawer() {
+      curriculumDrawer.classList.remove('open');
+      drawerBackdrop.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    // -------------------------------------------------------------------------
+    // 5B. BROCHURE MODAL LIGHTBOX LOGIC
+    // -------------------------------------------------------------------------
+    const brochureModal = document.getElementById('brochureModal');
+    const brochureBackdrop = document.getElementById('brochureBackdrop');
+    const closeBrochureModalBtn = document.getElementById('closeBrochureModalBtn');
+    const brochureDismissBtn = document.getElementById('brochureDismissBtn');
+    const brochureModalImg = document.getElementById('brochureModalImg');
+    const brochureModalTitle = document.getElementById('brochureModalTitle');
+    const brochureDownloadDirect = document.getElementById('brochureDownloadDirect');
+    const brochureEnrollBtn = document.getElementById('brochureEnrollBtn');
+
+    function openBrochureModal(brochurePath, title) {
+      if (!brochureModal || !brochurePath) return;
+      brochureModalImg.src = brochurePath;
+      brochureModalImg.alt = title || 'Course Brochure';
+      if (brochureModalTitle) brochureModalTitle.textContent = title || 'Official Course Brochure';
+      if (brochureDownloadDirect) {
+        brochureDownloadDirect.href = brochurePath;
+        brochureDownloadDirect.setAttribute('download', brochurePath.split('/').pop());
+      }
+      if (brochureEnrollBtn && activeProgram) {
+        brochureEnrollBtn.addEventListener('click', () => {
+          closeBrochureModal();
+          if (programSelect) programSelect.value = activeProgram.title;
+        }, { once: true });
+      }
+
+      brochureModal.classList.add('open');
+      brochureBackdrop.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeBrochureModal() {
+      if (!brochureModal) return;
+      brochureModal.classList.remove('open');
+      brochureBackdrop.classList.remove('open');
+      if (!curriculumDrawer.classList.contains('open')) {
+        document.body.style.overflow = '';
+      }
+    }
+
+    if (closeBrochureModalBtn) closeBrochureModalBtn.addEventListener('click', closeBrochureModal);
+    if (brochureDismissBtn) brochureDismissBtn.addEventListener('click', closeBrochureModal);
+    if (brochureBackdrop) brochureBackdrop.addEventListener('click', closeBrochureModal);
+
+    // --------------------------------------------------------------------------
+    // CART HELPERS
+    // --------------------------------------------------------------------------
+    function getAuthUser() {
+      try { return JSON.parse(localStorage.getItem('vlsi_user') || 'null'); } catch { return null; }
+    }
+
+    function addToCart(item) {
+      const cart = JSON.parse(localStorage.getItem('vlsi_cart') || '[]');
+      const existing = cart.find(i => i.id === item.id);
+      if (existing) {
+        existing.qty = (existing.qty || 1) + 1;
+      } else {
+        cart.push({ ...item, qty: 1 });
+      }
+      localStorage.setItem('vlsi_cart', JSON.stringify(cart));
+      // Update badge
+      const count = cart.reduce((s, i) => s + (i.qty || 1), 0);
+      document.querySelectorAll('.cart-badge').forEach(b => {
+        b.textContent = count;
+        b.setAttribute('data-count', count);
+      });
+    }
+
+    function showCartToast(name) {
+      const toast = document.getElementById('cartToast');
+      const msg = document.getElementById('cartToastMsg');
+      if (!toast) return;
+      if (msg) msg.textContent = `"${name}" added to cart!`;
+      lucide.createIcons({ nodes: [toast] });
+      toast.classList.add('visible');
+      clearTimeout(toast._timer);
+      toast._timer = setTimeout(() => toast.classList.remove('visible'), 3500);
+    }
+
+    // Attach card event listeners
+    document.addEventListener('click', (e) => {
+      // Brochure trigger click
+      const brochureTrigger = e.target.closest('.preview-brochure-trigger, .view-brochure-btn, #drawerBrochureBtn');
+      if (brochureTrigger && brochureTrigger.dataset.brochure) {
+        openBrochureModal(brochureTrigger.dataset.brochure, brochureTrigger.dataset.title);
+        return;
+      }
+
+      // Curriculum view button
+      const viewBtn = e.target.closest('.view-curriculum-btn');
+      if (viewBtn) {
+        const progId = viewBtn.dataset.programId;
+        openCurriculumDrawer(progId);
+        return;
+      }
+
+      // Enroll card button
+      const enrollBtn = e.target.closest('.enroll-card-btn');
+      if (enrollBtn) {
+        const progName = enrollBtn.dataset.programName;
+        if (programSelect) programSelect.value = progName;
+        const enrollSec = document.getElementById('enroll');
+        if (enrollSec) enrollSec.scrollIntoView({ behavior: 'smooth' });
+        return;
+      }
+
+      // Add-to-cart button
+      const cartBtn = e.target.closest('.add-to-cart-btn');
+      if (cartBtn) {
+        // ---- AUTH GATE: must be logged in ----
+        const user = getAuthUser();
+        if (!user || !user.loggedIn) {
+          window.location.href = 'login.html?redirect=programs.html';
+          return;
+        }
+        // ---- Auth OK: add to cart ----
+        const id = cartBtn.dataset.programId;
+        const name = cartBtn.dataset.programName;
+        const price = parseInt(cartBtn.dataset.programPrice, 10) || 35000;
+        const priceLabel = cartBtn.dataset.programPriceLabel || '35,000/-';
+        addToCart({ id, name, price, priceLabel, qty: 1 });
+        cartBtn.classList.add('added');
+        setTimeout(() => cartBtn.classList.remove('added'), 1500);
+        showCartToast(name);
+        return;
+      }
+    });
+
+    closeDrawerBtn.addEventListener('click', closeCurriculumDrawer);
+    drawerDismissBtn.addEventListener('click', closeCurriculumDrawer);
+    drawerBackdrop.addEventListener('click', closeCurriculumDrawer);
+
+    drawerEnrollBtn.addEventListener('click', () => {
+      if (activeProgram && programSelect) {
+        programSelect.value = activeProgram.title;
+      }
+      closeCurriculumDrawer();
+      const enrollSec = document.getElementById('enroll');
+      if (enrollSec) enrollSec.scrollIntoView({ behavior: 'smooth' });
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        if (brochureModal && brochureModal.classList.contains('open')) {
+          closeBrochureModal();
+        } else if (curriculumDrawer && curriculumDrawer.classList.contains('open')) {
+          closeCurriculumDrawer();
+        }
+      }
+    });
+
+    // 6. STATS COUNTER ANIMATION — handled by dedicated script after stats section HTML
+
+    // -------------------------------------------------------------------------
+    // 7. SECTION HEADING SCROLL REVEAL
+    // -------------------------------------------------------------------------
+    const headingObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('revealed');
+          headingObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15 });
+
+    document.querySelectorAll('.section-heading-group').forEach(el => headingObserver.observe(el));
+
+    // -------------------------------------------------------------------------
+    // 8. ENROLLMENT FORM CLIENT-SIDE VALIDATION
+    // -------------------------------------------------------------------------
+    const enrollForm = document.getElementById('enrollForm');
+    const formSuccess = document.getElementById('formSuccess');
+
+    if (enrollForm) {
+      enrollForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        let valid = true;
+
+        const nameField = document.getElementById('studentName');
+        const emailField = document.getElementById('studentEmail');
+        const phoneField = document.getElementById('studentPhone');
+        const programField = document.getElementById('programSelect');
+
+        const nameError = document.getElementById('nameError');
+        const emailError = document.getElementById('emailError');
+        const phoneError = document.getElementById('phoneError');
+        const programError = document.getElementById('programError');
+
+        // Name
+        if (!nameField.value.trim()) {
+          nameField.classList.add('error');
+          nameError.textContent = 'Please provide your full name.';
+          valid = false;
+        } else {
+          nameField.classList.remove('error');
+          nameError.textContent = '';
+        }
+
+        // Email
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailField.value.trim() || !emailRegex.test(emailField.value.trim())) {
+          emailField.classList.add('error');
+          emailError.textContent = 'Please provide a valid email address.';
+          valid = false;
+        } else {
+          emailField.classList.remove('error');
+          emailError.textContent = '';
+        }
+
+        // Phone
+        if (!phoneField.value.trim()) {
+          phoneField.classList.add('error');
+          phoneError.textContent = 'Please enter your phone number with country code.';
+          valid = false;
+        } else {
+          phoneField.classList.remove('error');
+          phoneError.textContent = '';
+        }
+
+        // Program
+        if (!programField.value) {
+          programField.classList.add('error');
+          programError.textContent = 'Please select a program track.';
+          valid = false;
+        } else {
+          programField.classList.remove('error');
+          programError.textContent = '';
+        }
+
+        if (valid) {
+          formSuccess.classList.add('visible');
+          enrollForm.reset();
+          setTimeout(() => {
+            formSuccess.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+          }, 100);
+        }
+      });
+    }
+
+    // -------------------------------------------------------------------------
+    // 9. NAVBAR DESKTOP DROPDOWN & MOBILE DRAWER LOGIC
+    // -------------------------------------------------------------------------
+    const hamburgerBtn = document.getElementById('hamburgerBtn');
+    const mobileDrawer = document.getElementById('mobileDrawer');
+    const drawerOverlay = document.getElementById('drawerOverlay');
+    const drawerTriggers = document.querySelectorAll('.drawer-close-trigger');
+
+    function toggleMobileDrawer(open) {
+      const isOpen = open ?? !mobileDrawer.classList.contains('open');
+      mobileDrawer.classList.toggle('open', isOpen);
+      drawerOverlay.classList.toggle('open', isOpen);
+      hamburgerBtn.setAttribute('aria-expanded', isOpen);
+      document.body.style.overflow = isOpen ? 'hidden' : '';
+    }
+
+    hamburgerBtn.addEventListener('click', () => toggleMobileDrawer());
+    drawerOverlay.addEventListener('click', () => toggleMobileDrawer(false));
+    document.getElementById('drawerCloseBtn').addEventListener('click', () => toggleMobileDrawer(false));
+    drawerTriggers.forEach(btn => btn.addEventListener('click', () => toggleMobileDrawer(false)));
+
+    const mobileServicesToggle = document.getElementById('mobileServicesToggle');
+    const mobileServicesAccordion = document.getElementById('mobileServicesAccordion');
+    const mobileAboutToggle = document.getElementById('mobileAboutToggle');
+    const mobileAboutAccordion = document.getElementById('mobileAboutAccordion');
+
+    if (mobileServicesToggle && mobileServicesAccordion) {
+      mobileServicesToggle.addEventListener('click', () => {
+        const isOpen = mobileServicesAccordion.classList.toggle('open');
+        mobileServicesToggle.setAttribute('aria-expanded', isOpen);
+        const icon = mobileServicesToggle.querySelector('svg');
+        if (icon) icon.style.transform = isOpen ? 'rotate(180deg)' : 'rotate(0deg)';
+      });
+    }
+
+    if (mobileAboutToggle && mobileAboutAccordion) {
+      mobileAboutToggle.addEventListener('click', () => {
+        const isOpen = mobileAboutAccordion.classList.toggle('open');
+        mobileAboutToggle.setAttribute('aria-expanded', isOpen);
+        const icon = mobileAboutToggle.querySelector('svg');
+        if (icon) icon.style.transform = isOpen ? 'rotate(180deg)' : 'rotate(0deg)';
+      });
+    }
+
+    // Desktop Dropdown Click / Hover with Debounce Grace Period
+    const desktopServicesItem = document.getElementById('desktopServicesItem');
+    const desktopServicesBtn = document.getElementById('desktopServicesBtn');
+    const desktopAboutItem = document.getElementById('desktopAboutItem');
+    const desktopAboutBtn = document.getElementById('desktopAboutBtn');
+
+    function setupDesktopDropdown(item, btn) {
+      if (!item || !btn) return;
+      let closeTimer = null;
+
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const isOpen = item.classList.toggle('open');
+        btn.setAttribute('aria-expanded', isOpen);
+      });
+
+      item.addEventListener('mouseenter', () => {
+        if (closeTimer) {
+          clearTimeout(closeTimer);
+          closeTimer = null;
+        }
+      });
+
+      item.addEventListener('mouseleave', () => {
+        closeTimer = setTimeout(() => {
+          item.classList.remove('open');
+          btn.setAttribute('aria-expanded', 'false');
+        }, 180);
+      });
+    }
+
+    setupDesktopDropdown(desktopServicesItem, desktopServicesBtn);
+    setupDesktopDropdown(desktopAboutItem, desktopAboutBtn);
+
+    document.addEventListener('click', (e) => {
+      if (desktopServicesItem && !desktopServicesItem.contains(e.target)) {
+        desktopServicesItem.classList.remove('open');
+        desktopServicesBtn.setAttribute('aria-expanded', 'false');
+      }
+      if (desktopAboutItem && !desktopAboutItem.contains(e.target)) {
+        desktopAboutItem.classList.remove('open');
+        desktopAboutBtn.setAttribute('aria-expanded', 'false');
+      }
+    });
+  </script>
+  <!-- Cart Badge Sync -->
+  <script>
+    (function () {
+      function updateCartBadge() {
+        try {
+          const items = JSON.parse(localStorage.getItem('vlsi_cart') || '[]');
+          const count = items.reduce((s, i) => s + (i.qty || 1), 0);
+          document.querySelectorAll('.cart-badge').forEach(b => {
+            b.textContent = count;
+            b.setAttribute('data-count', count);
+            b.setAttribute('data-visible', count > 0 ? 'true' : 'false');
+            b.style.display = count > 0 ? 'inline-flex' : 'none';
+          });
+        } catch (e) { }
+      }
+      updateCartBadge();
+      window.addEventListener('storage', updateCartBadge);
+    })();
+  </script>
+
+  <!-- Floating WhatsApp Chat Widget -->
+  <aside class="floating-whatsapp" aria-label="WhatsApp Support">
+    <a href="https://api.whatsapp.com/send/?phone=919810191592&text=Hello%2C+I+want+to+enquire+about+the+Job+Oriented+Program.&type=phone_number&app_absent=0"
+      target="_blank" rel="noopener noreferrer" class="floating-whatsapp__btn"
+      aria-label="Chat on WhatsApp with VLSI Insights">
+      <span class="floating-whatsapp__badge" aria-label="1 new notification">1</span>
+      <img src="images/whatsapp-icon.png" alt="WhatsApp" class="floating-whatsapp__img" width="36" height="36" loading="lazy" decoding="async">
+      <span class="floating-whatsapp__tooltip">Chat on WhatsApp</span>
+    </a>
+  </aside>
+  <script src="js/main.js" defer></script>
+</body>
+
+</html>

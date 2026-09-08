@@ -1,0 +1,37 @@
+# Netlify Redirects & Rewrites
+
+# Static assets and pages requested from /blog/ virtual subpath
+/blog/css/*          /css/:splat             200
+/blog/images/*       /images/:splat          200
+/blog/js/*           /js/:splat              200
+/blog/*.html         /:splat.html            200
+
+# Blog & Article Dynamic Routing
+/blog/:slug         /post.html              200
+/blog               /blog.html              200
+/blogs              /blog.html              200
+/post               /post.html              200
+
+# Clean URLs (serve .html files without .html in URL)
+/cart               /cart.html              200
+/programs           /programs.html          200
+/login              /login.html             200
+/front-end-software /front-end-software.html 200
+/software           /front-end-software.html 200
+/about-company      /about-company.html     200
+/about-owner        /about-owner.html       200
+/testimonials       /testimonials.html      200
+/technical-blogs    /technical-blogs.html   200
+/vlsi-designs       /vlsi-designs.html      200
+/soc-verification   /soc-verification.html  200
+/embedded-systems   /embedded-systems.html  200
+/ai-models          /ai-models.html         200
+/web-development    /web-development.html   200
+/technical-training /technical-training.html 200
+/marketing-solutions /marketing-solutions.html 200
+/marketing-solution /marketing-solutions.html 200
+
+# Route aliases to proper pages and sections
+/about              /about-company.html     302
+/solutions          /marketing-solutions.html 302
+/contact            /index.html#contact     302
