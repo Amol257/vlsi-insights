@@ -16,7 +16,7 @@
     rel="stylesheet" />
 
   <!-- Lucide Icons CDN -->
-  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js" defer></script>
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
 
   <!-- Master Navbar Stylesheet (single source of truth across all pages) -->
   <link rel="stylesheet" href="css/navbar.css">
@@ -667,11 +667,9 @@
     }
 
     @media (max-width: 992px) {
-
-      .floating-chip--1,
-      .floating-chip--4,
+      .floating-chip-element,
       .silicon-die-graphic {
-        display: none;
+        display: none !important;
       }
     }
 
@@ -702,31 +700,55 @@
 
     .headline-line {
       display: block;
-      opacity: 0;
-      transform: translateY(20px);
-      transition: opacity 500ms var(--ease-out-expo), transform 500ms var(--ease-out-expo);
+      opacity: 1;
+      animation: heroFadeUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
     }
+
+    #heroLine1 { animation-delay: 0.05s; }
+    #heroLine2 { animation-delay: 0.18s; }
+    #heroLine3 { animation-delay: 0.30s; }
 
     .headline-line--sub {
       color: var(--trace);
     }
 
     .hero-body {
-      opacity: 0;
+      opacity: 1;
       font-size: 0.9875rem;
       line-height: 1.65;
       color: var(--text-mid);
       margin-bottom: var(--space-6);
       max-width: 480px;
-      transition: opacity 500ms ease;
+      animation: heroFadeUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.40s both;
     }
 
     .hero-ctas {
-      opacity: 0;
+      opacity: 1;
       display: flex;
       flex-wrap: wrap;
       gap: var(--space-3);
-      transition: opacity 500ms ease;
+      animation: heroFadeUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.50s both;
+    }
+
+    @keyframes heroFadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(16px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .headline-line,
+      .hero-body,
+      .hero-ctas {
+        animation: none !important;
+        opacity: 1 !important;
+        transform: none !important;
+      }
     }
 
     /* -------------------------------------------------------------------------- */
@@ -893,13 +915,37 @@
     }
 
     @media (max-width: 991px) {
+      .hero-section {
+        min-height: auto;
+        padding: 32px 0 44px;
+      }
+
       .hero-grid {
         grid-template-columns: 1fr;
-        gap: 32px;
+        gap: 28px;
+      }
+
+      .hero-content {
+        max-width: 100%;
+      }
+
+      .hero-headline {
+        font-size: clamp(2rem, 7.5vw, 2.65rem);
+        margin-bottom: var(--space-4);
+      }
+
+      .hero-body {
+        font-size: 0.95rem;
+        line-height: 1.6;
+        margin-bottom: var(--space-5);
       }
 
       .hero-slider-track {
         height: 320px;
+      }
+
+      .hero-scroll-indicator {
+        display: none;
       }
     }
 
@@ -3049,8 +3095,15 @@
   <!-- JAVASCRIPT LOGIC                                                          -->
   <!-- ========================================================================= -->
   <script>
-    // Initialize Lucide Icons
-    lucide.createIcons();
+    // Initialize Lucide Icons safely
+    function initLucide() {
+      if (typeof lucide !== 'undefined' && lucide.createIcons) {
+        lucide.createIcons();
+      }
+    }
+    initLucide();
+    document.addEventListener('DOMContentLoaded', initLucide);
+    window.addEventListener('load', initLucide);
 
     // Check reduced motion preference
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -3153,19 +3206,11 @@
     const body = document.getElementById('heroBody');
     const ctas = document.getElementById('heroCtas');
 
-    if (!prefersReducedMotion) {
-      setTimeout(() => { if (line1) { line1.style.opacity = '1'; line1.style.transform = 'translateY(0)'; } }, 100);
-      setTimeout(() => { if (line2) { line2.style.opacity = '1'; line2.style.transform = 'translateY(0)'; } }, 250);
-      setTimeout(() => { if (line3) { line3.style.opacity = '1'; line3.style.transform = 'translateY(0)'; } }, 400);
-      setTimeout(() => { if (body) { body.style.opacity = '1'; } }, 550);
-      setTimeout(() => { if (ctas) { ctas.style.opacity = '1'; } }, 700);
-    } else {
-      if (line1) { line1.style.opacity = '1'; line1.style.transform = 'none'; }
-      if (line2) { line2.style.opacity = '1'; line2.style.transform = 'none'; }
-      if (line3) { line3.style.opacity = '1'; line3.style.transform = 'none'; }
-      if (body) { body.style.opacity = '1'; }
-      if (ctas) { ctas.style.opacity = '1'; }
-    }
+    if (line1) { line1.style.opacity = '1'; }
+    if (line2) { line2.style.opacity = '1'; }
+    if (line3) { line3.style.opacity = '1'; }
+    if (body) { body.style.opacity = '1'; }
+    if (ctas) { ctas.style.opacity = '1'; }
 
     // --------------------------------------------------------------------------
     // HERO 3-SERVICES SLIDESHOW CONTROLLER

@@ -17,7 +17,7 @@
     rel="stylesheet">
 
   <!-- Lucide Icons CDN -->
-  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js" defer></script>
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
 
   <!-- Site-wide CSS -->
   <link rel="stylesheet" href="css/navbar.css">
@@ -3311,8 +3311,10 @@
       }
     ];
 
-    // Initialize Lucide Icons
-    lucide.createIcons();
+    // Initialize Lucide Icons safely
+    if (typeof lucide !== 'undefined' && lucide.createIcons) {
+      lucide.createIcons();
+    }
 
     // -------------------------------------------------------------------------
     // 2. LIVE COUNTDOWN TIMER
