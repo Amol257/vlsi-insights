@@ -158,7 +158,10 @@ button {
   width: 100%;
   max-width: 1280px;
   margin: 0 auto;
-  padding: 0 var(--space-6);
+  padding: 0 16px;
+}
+@media (min-width: 640px) {
+  .container { padding: 0 var(--space-6); }
 }
 @media (min-width: 1024px) {
   .container { padding: 0 var(--space-12); }
@@ -876,6 +879,11 @@ button {
   position: fixed;
   bottom: 24px; right: 24px;
   z-index: 9999;
+}
+@media (max-width: 640px) {
+  .floating-whatsapp {
+    bottom: 16px; right: 16px;
+  }
 }
 .floating-whatsapp__btn {
   position: relative;

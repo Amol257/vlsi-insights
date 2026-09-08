@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -341,6 +341,77 @@
     @media (min-width: 1024px) {
       .blogs-grid {
         grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    @media (max-width: 768px) {
+      .blog-hero {
+        padding: 28px 0 24px;
+      }
+
+      .section-heading {
+        font-size: clamp(1.6rem, 6vw, 2.2rem);
+        margin-bottom: 8px;
+      }
+
+      .section-subtitle {
+        font-size: 0.95rem;
+        line-height: 1.5;
+      }
+
+      .blog-controls-section {
+        padding: 20px 0 16px;
+      }
+
+      .search-bar-wrap {
+        margin-bottom: 16px;
+      }
+
+      .category-pills-row {
+        display: flex;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        padding-bottom: 8px;
+        margin-bottom: 20px;
+        gap: 8px;
+        scrollbar-width: none;
+      }
+
+      .category-pills-row::-webkit-scrollbar {
+        display: none;
+      }
+
+      .cat-pill {
+        padding: 6px 14px;
+        font-size: 0.8125rem;
+        flex-shrink: 0;
+      }
+
+      .blog-feed-section {
+        padding-bottom: 40px;
+      }
+
+      .blogs-grid {
+        gap: 20px;
+      }
+
+      .blog-card__thumb-wrap {
+        height: 190px;
+      }
+
+      .blog-card__content {
+        padding: 16px;
+      }
+
+      .blog-card__title {
+        font-size: 1.125rem;
+        margin-bottom: 8px;
+      }
+
+      .blog-card__excerpt {
+        font-size: 0.875rem;
+        margin-bottom: 12px;
       }
     }
 
@@ -1447,51 +1518,6 @@
       updateCartBadge();
       window.addEventListener('storage', updateCartBadge);
 
-      // Mobile Drawer & Dropdown Logic
-      const hamburgerBtn = document.getElementById('hamburgerBtn');
-      const mobileDrawer = document.getElementById('mobileDrawer');
-      const drawerOverlay = document.getElementById('drawerOverlay');
-      const drawerCloseBtn = document.getElementById('drawerCloseBtn');
-
-      function openDrawer() {
-        if (mobileDrawer) mobileDrawer.classList.add('open');
-        if (drawerOverlay) drawerOverlay.classList.add('active');
-        document.body.style.overflow = 'hidden';
-      }
-
-      function closeDrawer() {
-        if (mobileDrawer) mobileDrawer.classList.remove('open');
-        if (drawerOverlay) drawerOverlay.classList.remove('active');
-        document.body.style.overflow = '';
-      }
-
-      if (hamburgerBtn) hamburgerBtn.addEventListener('click', openDrawer);
-      if (drawerCloseBtn) drawerCloseBtn.addEventListener('click', closeDrawer);
-      if (drawerOverlay) drawerOverlay.addEventListener('click', closeDrawer);
-
-      document.querySelectorAll('.drawer-close-trigger').forEach(trigger => {
-        trigger.addEventListener('click', closeDrawer);
-      });
-
-      const mobileServicesToggle = document.getElementById('mobileServicesToggle');
-      const mobileServicesAccordion = document.getElementById('mobileServicesAccordion');
-      if (mobileServicesToggle && mobileServicesAccordion) {
-        mobileServicesToggle.addEventListener('click', () => {
-          const isOpen = mobileServicesAccordion.classList.contains('open');
-          mobileServicesAccordion.classList.toggle('open');
-          mobileServicesToggle.setAttribute('aria-expanded', !isOpen);
-        });
-      }
-
-      const mobileAboutToggle = document.getElementById('mobileAboutToggle');
-      const mobileAboutAccordion = document.getElementById('mobileAboutAccordion');
-      if (mobileAboutToggle && mobileAboutAccordion) {
-        mobileAboutToggle.addEventListener('click', () => {
-          const isOpen = mobileAboutAccordion.classList.contains('open');
-          mobileAboutAccordion.classList.toggle('open');
-          mobileAboutToggle.setAttribute('aria-expanded', !isOpen);
-        });
-      }
 
       // Initialize
       document.addEventListener('DOMContentLoaded', () => {

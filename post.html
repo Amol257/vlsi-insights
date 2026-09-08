@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -235,7 +235,7 @@
     .post-title {
       font-family: var(--font-display);
       font-weight: var(--weight-bold);
-      font-size: clamp(2rem, 5vw, 3rem);
+      font-size: clamp(1.75rem, 4vw, 2.75rem);
       color: var(--text-hi);
       line-height: var(--leading-tight);
       letter-spacing: -0.02em;
@@ -263,12 +263,122 @@
 
     .post-featured-image {
       width: 100%;
-      max-height: 480px;
+      max-height: 440px;
       object-fit: cover;
       border-radius: 8px;
       border: 1px solid var(--edge);
-      margin-bottom: var(--space-10);
+      margin-bottom: var(--space-8);
       background: var(--surface);
+    }
+
+    /* Mobile Responsive Post Styling */
+    @media (max-width: 768px) {
+      .post-main-section {
+        padding: 16px 0 36px;
+      }
+
+      .post-layout-grid {
+        gap: 20px;
+      }
+
+      .breadcrumb {
+        margin-bottom: 12px;
+        font-size: 0.8125rem;
+      }
+
+      .breadcrumb-current {
+        max-width: 140px;
+      }
+
+      .post-header {
+        margin-bottom: 16px;
+      }
+
+      .post-category-badge {
+        margin-bottom: 10px;
+        padding: 3px 10px;
+      }
+
+      .post-title {
+        font-size: clamp(1.35rem, 5.5vw, 1.85rem);
+        line-height: 1.25;
+        letter-spacing: -0.015em;
+        margin-bottom: 12px;
+        word-break: break-word;
+      }
+
+      .post-meta-row {
+        font-size: 0.8125rem;
+        gap: 6px;
+        margin-bottom: 16px;
+      }
+
+      .meta-dot {
+        margin: 0 4px;
+      }
+
+      .post-featured-image {
+        max-height: 220px;
+        border-radius: 6px;
+        margin-bottom: 16px;
+        aspect-ratio: 16 / 9;
+      }
+
+      .post-body {
+        font-size: 1rem;
+        line-height: 1.7;
+      }
+
+      .post-body p {
+        margin-bottom: 1.15rem;
+      }
+
+      .post-body h2 {
+        font-size: 1.35rem;
+        margin-top: 1.8rem;
+        margin-bottom: 0.75rem;
+        line-height: 1.3;
+      }
+
+      .post-body h3 {
+        font-size: 1.15rem;
+        margin-top: 1.4rem;
+        margin-bottom: 0.5rem;
+        line-height: 1.35;
+      }
+
+      .post-body ul,
+      .post-body ol {
+        padding-left: 1.25rem;
+        margin-bottom: 1.25rem;
+      }
+
+      .post-body pre {
+        padding: 14px;
+        margin: 1.25rem -16px;
+        border-radius: 0;
+        font-size: 0.8125rem;
+      }
+
+      .post-body blockquote {
+        padding: 12px 14px;
+        margin: 1.25rem 0;
+      }
+
+      .post-body table {
+        display: block;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+      }
+
+      .post-body figcaption {
+        font-size: 0.8125rem;
+        color: var(--text-lo);
+        margin-top: 6px;
+        margin-bottom: 16px;
+        text-align: center;
+        display: block;
+      }
     }
 
     /* -------------------------------------------------------------------------- */
@@ -1603,51 +1713,7 @@
       updateCartBadge();
       window.addEventListener('storage', updateCartBadge);
 
-      // Mobile Drawer & Dropdown Logic
-      const hamburgerBtn = document.getElementById('hamburgerBtn');
-      const mobileDrawer = document.getElementById('mobileDrawer');
-      const drawerOverlay = document.getElementById('drawerOverlay');
-      const drawerCloseBtn = document.getElementById('drawerCloseBtn');
 
-      function openDrawer() {
-        if (mobileDrawer) mobileDrawer.classList.add('open');
-        if (drawerOverlay) drawerOverlay.classList.add('active');
-        document.body.style.overflow = 'hidden';
-      }
-
-      function closeDrawer() {
-        if (mobileDrawer) mobileDrawer.classList.remove('open');
-        if (drawerOverlay) drawerOverlay.classList.remove('active');
-        document.body.style.overflow = '';
-      }
-
-      if (hamburgerBtn) hamburgerBtn.addEventListener('click', openDrawer);
-      if (drawerCloseBtn) drawerCloseBtn.addEventListener('click', closeDrawer);
-      if (drawerOverlay) drawerOverlay.addEventListener('click', closeDrawer);
-
-      document.querySelectorAll('.drawer-close-trigger').forEach(trigger => {
-        trigger.addEventListener('click', closeDrawer);
-      });
-
-      const mobileServicesToggle = document.getElementById('mobileServicesToggle');
-      const mobileServicesAccordion = document.getElementById('mobileServicesAccordion');
-      if (mobileServicesToggle && mobileServicesAccordion) {
-        mobileServicesToggle.addEventListener('click', () => {
-          const isOpen = mobileServicesAccordion.classList.contains('open');
-          mobileServicesAccordion.classList.toggle('open');
-          mobileServicesToggle.setAttribute('aria-expanded', !isOpen);
-        });
-      }
-
-      const mobileAboutToggle = document.getElementById('mobileAboutToggle');
-      const mobileAboutAccordion = document.getElementById('mobileAboutAccordion');
-      if (mobileAboutToggle && mobileAboutAccordion) {
-        mobileAboutToggle.addEventListener('click', () => {
-          const isOpen = mobileAboutAccordion.classList.contains('open');
-          mobileAboutAccordion.classList.toggle('open');
-          mobileAboutToggle.setAttribute('aria-expanded', !isOpen);
-        });
-      }
 
       // Initialize
       document.addEventListener('DOMContentLoaded', () => {

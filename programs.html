@@ -3803,46 +3803,7 @@
     // -------------------------------------------------------------------------
     // 9. NAVBAR DESKTOP DROPDOWN & MOBILE DRAWER LOGIC
     // -------------------------------------------------------------------------
-    const hamburgerBtn = document.getElementById('hamburgerBtn');
-    const mobileDrawer = document.getElementById('mobileDrawer');
-    const drawerOverlay = document.getElementById('drawerOverlay');
-    const drawerTriggers = document.querySelectorAll('.drawer-close-trigger');
 
-    function toggleMobileDrawer(open) {
-      const isOpen = open ?? !mobileDrawer.classList.contains('open');
-      mobileDrawer.classList.toggle('open', isOpen);
-      drawerOverlay.classList.toggle('open', isOpen);
-      hamburgerBtn.setAttribute('aria-expanded', isOpen);
-      document.body.style.overflow = isOpen ? 'hidden' : '';
-    }
-
-    hamburgerBtn.addEventListener('click', () => toggleMobileDrawer());
-    drawerOverlay.addEventListener('click', () => toggleMobileDrawer(false));
-    document.getElementById('drawerCloseBtn').addEventListener('click', () => toggleMobileDrawer(false));
-    drawerTriggers.forEach(btn => btn.addEventListener('click', () => toggleMobileDrawer(false)));
-
-    const mobileServicesToggle = document.getElementById('mobileServicesToggle');
-    const mobileServicesAccordion = document.getElementById('mobileServicesAccordion');
-    const mobileAboutToggle = document.getElementById('mobileAboutToggle');
-    const mobileAboutAccordion = document.getElementById('mobileAboutAccordion');
-
-    if (mobileServicesToggle && mobileServicesAccordion) {
-      mobileServicesToggle.addEventListener('click', () => {
-        const isOpen = mobileServicesAccordion.classList.toggle('open');
-        mobileServicesToggle.setAttribute('aria-expanded', isOpen);
-        const icon = mobileServicesToggle.querySelector('svg');
-        if (icon) icon.style.transform = isOpen ? 'rotate(180deg)' : 'rotate(0deg)';
-      });
-    }
-
-    if (mobileAboutToggle && mobileAboutAccordion) {
-      mobileAboutToggle.addEventListener('click', () => {
-        const isOpen = mobileAboutAccordion.classList.toggle('open');
-        mobileAboutToggle.setAttribute('aria-expanded', isOpen);
-        const icon = mobileAboutToggle.querySelector('svg');
-        if (icon) icon.style.transform = isOpen ? 'rotate(180deg)' : 'rotate(0deg)';
-      });
-    }
 
     // Desktop Dropdown Click / Hover with Debounce Grace Period
     const desktopServicesItem = document.getElementById('desktopServicesItem');
