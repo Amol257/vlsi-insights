@@ -274,7 +274,9 @@
     /* Mobile Responsive Post Styling */
     @media (max-width: 768px) {
       .post-main-section {
-        padding: 16px 0 36px;
+        padding-top: 16px;
+        padding-bottom: 90px;
+        /* Horizontal padding is provided by .container class — do NOT override it here */
       }
 
       .post-layout-grid {
@@ -282,12 +284,13 @@
       }
 
       .breadcrumb {
-        margin-bottom: 12px;
+        margin-bottom: 10px;
         font-size: 0.8125rem;
       }
 
-      .breadcrumb-current {
-        max-width: 140px;
+      .breadcrumb-current,
+      .breadcrumb-sep:last-of-type {
+        display: none;
       }
 
       .post-header {
@@ -295,22 +298,22 @@
       }
 
       .post-category-badge {
-        margin-bottom: 10px;
+        margin-bottom: 8px;
         padding: 3px 10px;
       }
 
       .post-title {
-        font-size: clamp(1.35rem, 5.5vw, 1.85rem);
-        line-height: 1.25;
+        font-size: clamp(1.2rem, 5vw, 1.55rem);
+        line-height: 1.3;
         letter-spacing: -0.015em;
-        margin-bottom: 12px;
+        margin-bottom: 10px;
         word-break: break-word;
       }
 
       .post-meta-row {
         font-size: 0.8125rem;
         gap: 6px;
-        margin-bottom: 16px;
+        margin-bottom: 14px;
       }
 
       .meta-dot {
@@ -325,23 +328,27 @@
       }
 
       .post-body {
-        font-size: 1rem;
-        line-height: 1.7;
+        font-size: 0.975rem;
+        line-height: 1.75;
+        color: #334155;
       }
 
+      /* No extra padding-right needed — container provides horizontal space */
+
       .post-body p {
-        margin-bottom: 1.15rem;
+        margin-bottom: 1.25rem;
+        letter-spacing: 0.005em;
       }
 
       .post-body h2 {
-        font-size: 1.35rem;
+        font-size: 1.25rem;
         margin-top: 1.8rem;
         margin-bottom: 0.75rem;
         line-height: 1.3;
       }
 
       .post-body h3 {
-        font-size: 1.15rem;
+        font-size: 1.1rem;
         margin-top: 1.4rem;
         margin-bottom: 0.5rem;
         line-height: 1.35;
@@ -378,6 +385,22 @@
         margin-bottom: 16px;
         text-align: center;
         display: block;
+      }
+
+      .floating-whatsapp {
+        bottom: 16px;
+        right: 12px;
+      }
+
+      .floating-whatsapp__btn {
+        width: 44px;
+        height: 44px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+      }
+
+      .floating-whatsapp__img {
+        width: 26px;
+        height: 26px;
       }
     }
 
@@ -1609,24 +1632,24 @@
           featuredImg.style.display = 'none';
         }
 
-        // 3. Post Body (with deduplication of opening featured image)
+        // 3. Post Body (with deduplication of opening featured image and orphaned caption/title lines)
         let contentHtml = (post.content && post.content.rendered) || '<p>No content provided for this article.</p>';
 
-        if (featuredUrl) {
-          try {
-            const tempDiv = document.createElement('div');
-            tempDiv.innerHTML = contentHtml;
+        try {
+          const tempDiv = document.createElement('div');
+          tempDiv.innerHTML = contentHtml;
 
-            function getBaseImgName(url) {
-              if (!url) return '';
-              const filename = url.split('/').pop().split('?')[0];
-              return filename.replace(/(-\d+x\d+|-scaled)(\.[a-z]+)$/i, '$2').toLowerCase();
-            }
+          function getBaseImgName(url) {
+            if (!url) return '';
+            const filename = url.split('/').pop().split('?')[0];
+            return filename.replace(/(-\d+x\d+|-scaled)(\.[a-z]+)$/i, '$2').toLowerCase();
+          }
 
-            const featBase = getBaseImgName(featuredUrl);
+          const featBase = featuredUrl ? getBaseImgName(featuredUrl) : '';
+
+          // Deduplicate leading featured image in body
+          if (featBase) {
             const allImages = tempDiv.querySelectorAll('img');
-
-            // Check if any of the leading images (before major body sections) duplicate the featured image
             for (let i = 0; i < Math.min(allImages.length, 3); i++) {
               const img = allImages[i];
               const bodyBase = getBaseImgName(img.getAttribute('src') || '');
@@ -1636,10 +1659,47 @@
                 break;
               }
             }
-            contentHtml = tempDiv.innerHTML;
-          } catch(err) {
-            console.warn('Error deduplicating body image:', err);
           }
+
+          // Strip orphaned opening captions in parentheses, duplicate titles, or empty elements at the top of content
+          const normTitle = title.trim().toLowerCase();
+          let iter = 0;
+          while (tempDiv.firstElementChild && iter < 8) {
+            iter++;
+            const el = tempDiv.firstElementChild;
+            const text = el.textContent.trim();
+            const lower = text.toLowerCase();
+
+            // 1. Empty elements
+            if (!text && !el.querySelector('img, iframe, svg')) {
+              el.remove();
+              continue;
+            }
+
+            // 2. Orphaned parenthesized subtitle / caption (e.g. "(How to Get Your First VLSI Job)")
+            if (/^\s*\([^\)]+\)\s*$/.test(text)) {
+              el.remove();
+              continue;
+            }
+
+            // 3. Leading h1 or h2 that duplicates the post title
+            if (/^h[1-3]$/i.test(el.tagName) && (lower === normTitle || normTitle.startsWith(lower) || lower.startsWith(normTitle))) {
+              el.remove();
+              continue;
+            }
+
+            // 4. Leading paragraph that is an exact duplicate of the post title
+            if (el.tagName.toLowerCase() === 'p' && (lower === normTitle || (lower.startsWith('(') && lower.endsWith(')')))) {
+              el.remove();
+              continue;
+            }
+
+            break;
+          }
+
+          contentHtml = tempDiv.innerHTML;
+        } catch(err) {
+          console.warn('Error sanitizing post body content:', err);
         }
 
         bodyContent.innerHTML = contentHtml;

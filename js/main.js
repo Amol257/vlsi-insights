@@ -11,7 +11,7 @@
     }
 
     // 2. Mobile Navigation Drawer
-    const hamburgerBtn = document.getElementById('hamburgerBtn');
+    let hamburgerBtn = document.getElementById('hamburgerBtn');
     const mobileDrawer = document.getElementById('mobileDrawer');
     const drawerOverlay = document.getElementById('drawerOverlay');
     const drawerCloseBtn = document.getElementById('drawerCloseBtn');
@@ -68,22 +68,14 @@
     let drawerStateBeforeClick = false;
 
     if (hamburgerBtn) {
-      // Capture phase runs before any inline page listeners
-      hamburgerBtn.addEventListener('click', (e) => {
-        drawerStateBeforeClick = mobileDrawer ? mobileDrawer.classList.contains('open') : false;
-      }, true);
-
-      // Bubble phase runs after inline page listeners, enforcing the intended state
+      const cleanHamburger = hamburgerBtn.cloneNode(true);
+      hamburgerBtn.parentNode.replaceChild(cleanHamburger, hamburgerBtn);
+      hamburgerBtn = cleanHamburger;
       hamburgerBtn.addEventListener('click', (e) => {
         e.preventDefault();
-        setTimeout(() => {
-          if (!drawerStateBeforeClick) {
-            openDrawer();
-          } else {
-            closeDrawer(true);
-          }
-        }, 0);
-      }, false);
+        e.stopPropagation();
+        toggleDrawer();
+      });
     }
 
     if (drawerOverlay) {
@@ -107,31 +99,22 @@
     });
 
     // 3. Mobile Navigation Accordions
-    const mobileServicesToggle = document.getElementById('mobileServicesToggle');
-    const mobileServicesAccordion = document.getElementById('mobileServicesAccordion');
-    if (mobileServicesToggle && mobileServicesAccordion) {
-      mobileServicesToggle.onclick = function(e) {
+    function setupAccordion(toggleBtn, accordionEl) {
+      if (!toggleBtn || !accordionEl) return;
+      const cleanToggle = toggleBtn.cloneNode(true);
+      toggleBtn.parentNode.replaceChild(cleanToggle, toggleBtn);
+      cleanToggle.addEventListener('click', (e) => {
         e.preventDefault();
         e.stopPropagation();
-        const isOpen = mobileServicesAccordion.classList.toggle('open');
-        mobileServicesToggle.setAttribute('aria-expanded', String(isOpen));
-        const icon = mobileServicesToggle.querySelector('svg, i');
+        const isOpen = accordionEl.classList.toggle('open');
+        cleanToggle.setAttribute('aria-expanded', String(isOpen));
+        const icon = cleanToggle.querySelector('svg, i');
         if (icon) icon.style.transform = isOpen ? 'rotate(180deg)' : 'rotate(0deg)';
-      };
+      });
     }
 
-    const mobileAboutToggle = document.getElementById('mobileAboutToggle');
-    const mobileAboutAccordion = document.getElementById('mobileAboutAccordion');
-    if (mobileAboutToggle && mobileAboutAccordion) {
-      mobileAboutToggle.onclick = function(e) {
-        e.preventDefault();
-        e.stopPropagation();
-        const isOpen = mobileAboutAccordion.classList.toggle('open');
-        mobileAboutToggle.setAttribute('aria-expanded', String(isOpen));
-        const icon = mobileAboutToggle.querySelector('svg, i');
-        if (icon) icon.style.transform = isOpen ? 'rotate(180deg)' : 'rotate(0deg)';
-      };
-    }
+    setupAccordion(document.getElementById('mobileServicesToggle'), document.getElementById('mobileServicesAccordion'));
+    setupAccordion(document.getElementById('mobileAboutToggle'), document.getElementById('mobileAboutAccordion'));
 
     // 4. Cart Badge Synchronization
     function updateCartBadge() {

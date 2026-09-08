@@ -595,7 +595,17 @@ header.navbar .nav-hamburger svg,
 
 .mobile-accordion.open,
 .mobile-accordion[style*="display: flex"] {
-  display: flex;
+  display: flex !important;
+}
+
+.mobile-nav-link svg,
+.mobile-nav-link i {
+  transition: transform 0.25s ease;
+}
+
+.mobile-nav-link[aria-expanded="true"] svg,
+.mobile-nav-link[aria-expanded="true"] i {
+  transform: rotate(180deg) !important;
 }
 
 .mobile-accordion a {
