@@ -112,10 +112,23 @@ header.navbar .nav-links,
   padding: 0;
 }
 
+@media (max-width: 1023px) {
+  header.navbar .nav-links,
+  .navbar .nav-links,
+  .nav-links {
+    display: none !important;
+  }
+  header.navbar .dropdown-panel,
+  .navbar .dropdown-panel,
+  .dropdown-panel {
+    display: none !important;
+  }
+}
+
 @media (min-width: 1024px) {
   header.navbar .nav-links,
   .navbar .nav-links {
-    display: flex;
+    display: flex !important;
   }
 }
 

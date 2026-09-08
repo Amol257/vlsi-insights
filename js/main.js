@@ -116,6 +116,54 @@
     setupAccordion(document.getElementById('mobileServicesToggle'), document.getElementById('mobileServicesAccordion'));
     setupAccordion(document.getElementById('mobileAboutToggle'), document.getElementById('mobileAboutAccordion'));
 
+    // 3b. Desktop Dropdown Click Toggles & Outside-Click Handling
+    const desktopServicesBtn = document.getElementById('desktopServicesBtn');
+    const desktopServicesItem = document.getElementById('desktopServicesItem');
+    const desktopAboutBtn = document.getElementById('desktopAboutBtn');
+    const desktopAboutItem = document.getElementById('desktopAboutItem');
+
+    function setupDesktopDropdown(btn, item, otherItem, otherBtn) {
+      if (!btn || !item) return;
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        if (otherItem) {
+          otherItem.classList.remove('open');
+          if (otherBtn) otherBtn.setAttribute('aria-expanded', 'false');
+        }
+        const isOpen = item.classList.toggle('open');
+        btn.setAttribute('aria-expanded', String(isOpen));
+      });
+    }
+
+    setupDesktopDropdown(desktopServicesBtn, desktopServicesItem, desktopAboutItem, desktopAboutBtn);
+    setupDesktopDropdown(desktopAboutBtn, desktopAboutItem, desktopServicesItem, desktopServicesBtn);
+
+    document.addEventListener('click', (e) => {
+      if (desktopServicesItem && !desktopServicesItem.contains(e.target)) {
+        desktopServicesItem.classList.remove('open');
+        if (desktopServicesBtn) desktopServicesBtn.setAttribute('aria-expanded', 'false');
+      }
+      if (desktopAboutItem && !desktopAboutItem.contains(e.target)) {
+        desktopAboutItem.classList.remove('open');
+        if (desktopAboutBtn) desktopAboutBtn.setAttribute('aria-expanded', 'false');
+      }
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        if (desktopServicesItem) {
+          desktopServicesItem.classList.remove('open');
+          if (desktopServicesBtn) desktopServicesBtn.setAttribute('aria-expanded', 'false');
+        }
+        if (desktopAboutItem) {
+          desktopAboutItem.classList.remove('open');
+          if (desktopAboutBtn) desktopAboutBtn.setAttribute('aria-expanded', 'false');
+        }
+        closeDrawer(true);
+      }
+    });
+
     // 4. Cart Badge Synchronization
     function updateCartBadge() {
       try {

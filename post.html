@@ -25,11 +25,13 @@
   <link rel="stylesheet" href="css/global.css">
 
   <style>
-    /* Baseline defense against FOUC or delayed external stylesheets */
-    .dropdown-panel { display: none !important; }
-    .dropdown-panel.open, .dropdown-panel.show { display: block !important; }
-    .mobile-drawer { display: none !important; }
-    .mobile-drawer.open { display: block !important; }
+    /* Mobile-only suppression so desktop hover dropdowns work naturally */
+    @media (max-width: 1023px) {
+      .nav-links,
+      .dropdown-panel {
+        display: none !important;
+      }
+    }
 
     /* -------------------------------------------------------------------------- */
     /* CSS DESIGN SYSTEM TOKENS - MATCHING INDEX.HTML & DESIGN.MD                 */
@@ -148,13 +150,24 @@
     .container {
       width: 100%;
       max-width: 1280px;
-      margin: 0 auto;
-      padding: 0 var(--space-6);
+      margin-left: auto;
+      margin-right: auto;
+      padding-left: var(--space-6);
+      padding-right: var(--space-6);
+      box-sizing: border-box;
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        padding-left: 20px;
+        padding-right: 20px;
+      }
     }
 
     @media (min-width: 1024px) {
       .container {
-        padding: 0 var(--space-12);
+        padding-left: var(--space-12);
+        padding-right: var(--space-12);
       }
     }
 
@@ -164,15 +177,19 @@
     .post-main-section {
       padding-top: var(--space-8);
       padding-bottom: var(--space-20);
-      /* NO left/right padding here — inherited from .container on the same element */
       flex-grow: 1;
+      width: 100%;
+      box-sizing: border-box;
     }
 
     .post-layout-grid {
       display: grid;
-      grid-template-columns: 1fr;
+      grid-template-columns: minmax(0, 1fr);
       gap: var(--space-12);
       position: relative;
+      width: 100%;
+      max-width: 100%;
+      box-sizing: border-box;
     }
 
     @media (min-width: 1024px) {
@@ -180,6 +197,13 @@
         grid-template-columns: minmax(0, 1fr) 260px;
         align-items: start;
       }
+    }
+
+    .post-article-col {
+      min-width: 0;
+      max-width: 100%;
+      width: 100%;
+      box-sizing: border-box;
     }
 
     /* Breadcrumbs */
@@ -364,9 +388,12 @@
 
       .post-body pre {
         padding: 14px;
-        margin: 1.25rem -16px;
-        border-radius: 0;
+        margin: 1.25rem 0;
+        border-radius: 6px;
         font-size: 0.8125rem;
+        max-width: 100%;
+        overflow-x: auto;
+        box-sizing: border-box;
       }
 
       .post-body blockquote {
@@ -413,7 +440,19 @@
       color: var(--text-mid);
       font-size: 1.125rem;
       line-height: 1.8;
+      width: 100%;
       max-width: 100%;
+      min-width: 0;
+      overflow-wrap: break-word;
+      word-wrap: break-word;
+      word-break: break-word;
+      box-sizing: border-box;
+    }
+
+    /* Force all direct and nested children of post-body to stay within bounds */
+    .post-body * {
+      max-width: 100%;
+      box-sizing: border-box;
     }
 
     .post-body p {
@@ -423,6 +462,9 @@
       color: var(--text-mid);
       line-height: 1.8;
       margin-bottom: 1.5rem;
+      width: 100%;
+      overflow-wrap: break-word;
+      word-wrap: break-word;
     }
 
     .post-body h2 {
@@ -434,6 +476,9 @@
       margin-bottom: 1rem;
       line-height: var(--leading-snug);
       scroll-margin-top: 80px;
+      width: 100%;
+      overflow-wrap: break-word;
+      word-wrap: break-word;
     }
 
     .post-body h3 {
@@ -445,12 +490,17 @@
       margin-bottom: 0.75rem;
       line-height: var(--leading-snug);
       scroll-margin-top: 80px;
+      width: 100%;
+      overflow-wrap: break-word;
+      word-wrap: break-word;
     }
 
     .post-body a {
       color: var(--trace);
       text-decoration: none;
       transition: text-decoration 0.15s ease;
+      overflow-wrap: break-word;
+      word-break: break-word;
     }
 
     .post-body a:hover {
@@ -473,7 +523,7 @@
       border-radius: 8px;
       margin: 2rem 0;
       color: var(--text-hi);
-      
+      width: 100%;
     }
 
     .post-body blockquote p {
@@ -484,6 +534,7 @@
     .post-body ol {
       margin-bottom: 1.5rem;
       padding-left: 1.5rem;
+      width: 100%;
     }
 
     .post-body ul li,
@@ -506,19 +557,23 @@
       padding: 2px 6px;
       font-size: 0.9em;
       border: 1px solid var(--edge);
+      overflow-wrap: break-word;
+      word-break: break-word;
     }
 
     .post-body pre {
       background: var(--layer);
       border: 1px solid var(--edge);
       border-radius: 8px;
-      padding: 24px;
+      padding: 20px;
       overflow-x: auto;
       font-family: var(--font-mono);
       color: var(--text-mid);
       font-size: 0.875rem;
       line-height: 1.6;
       margin: 2rem 0;
+      width: 100%;
+      box-sizing: border-box;
     }
 
     .post-body pre code {
@@ -528,20 +583,77 @@
       color: inherit;
     }
 
-    .post-body img {
+    .post-body figure {
+      margin: 2rem 0;
+      width: 100%;
       max-width: 100%;
-      height: auto;
+      box-sizing: border-box;
+    }
+
+    .post-body img,
+    .post-body figure img {
+      max-width: 100% !important;
+      height: auto !important;
       border-radius: 8px;
       border: 1px solid var(--edge);
-      margin: 2rem auto;
+      margin: 1.5rem auto;
       display: block;
     }
 
-    .post-body table {
+    /* Responsive WordPress Iframe & Video Embeds */
+    .post-body iframe,
+    .post-body embed,
+    .post-body object,
+    .post-body video {
+      width: 100% !important;
+      max-width: 100% !important;
+      border-radius: 8px;
+      box-sizing: border-box;
+    }
+
+    .post-body .wp-block-embed,
+    .post-body .wp-block-embed__wrapper {
+      position: relative;
       width: 100%;
+      max-width: 100%;
+      overflow: hidden;
+      margin: 1.5rem 0;
+      box-sizing: border-box;
+    }
+
+    .post-body .wp-block-embed-youtube .wp-block-embed__wrapper,
+    .post-body .wp-embed-aspect-16-9 .wp-block-embed__wrapper,
+    .post-body .wp-block-embed.wp-has-aspect-ratio .wp-block-embed__wrapper {
+      position: relative;
+      width: 100%;
+      padding-bottom: 56.25%; /* 16:9 ratio */
+      height: 0;
+      overflow: hidden;
+    }
+
+    .post-body .wp-block-embed-youtube iframe,
+    .post-body .wp-embed-aspect-16-9 iframe,
+    .post-body .wp-block-embed.wp-has-aspect-ratio iframe {
+      position: absolute !important;
+      top: 0 !important;
+      left: 0 !important;
+      width: 100% !important;
+      height: 100% !important;
+      border: 0;
+      border-radius: 8px;
+    }
+
+    .post-body table,
+    .post-body .wp-block-table {
+      width: 100% !important;
+      max-width: 100% !important;
       border-collapse: collapse;
       margin: 2rem 0;
       font-size: 0.9375rem;
+      display: block;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      box-sizing: border-box;
     }
 
     .post-body th,
