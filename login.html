@@ -15,6 +15,7 @@
   <!-- Supabase JS Client & Shared Config -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="js/supabase.js"></script>
+  <script src="js/profiles.js"></script>
 
   <!-- Global & Navbar Styles -->
   <link rel="stylesheet" href="css/navbar.css">
@@ -1301,8 +1302,14 @@
             return;
           }
 
-          // Case B: Session established immediately
+          // Case B: Session established immediately (auto-confirm enabled)
           if (data && data.session) {
+            await upsertProfile(client, {
+              id:        data.session.user.id,
+              email:     data.session.user.email,
+              full_name: fullName,
+              phone
+            });
             showSuccess('Account created and signed in! Redirecting...');
             const params = new URLSearchParams(window.location.search);
             let redirect = params.get('redirect') || 'index.html';
@@ -1313,8 +1320,16 @@
             return;
           }
 
-          // Case C: User created with autoconfirm enabled (auto-sign in)
+          // Case C: User created, attempt auto-sign in
           if (data && data.user) {
+            // Save profile immediately (user ID known even before session)
+            await upsertProfile(client, {
+              id:        data.user.id,
+              email:     data.user.email || email,
+              full_name: fullName,
+              phone
+            });
+
             showSuccess('Account created successfully! Signing you in...');
             const { error: autoSignInError } = await client.auth.signInWithPassword({
               email,

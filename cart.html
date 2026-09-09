@@ -12,6 +12,7 @@
   <!-- Supabase JS Client & Config -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="js/supabase.js"></script>
+  <script src="js/profiles.js"></script>
   <!-- Razorpay Checkout SDK -->
   <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 
@@ -1820,6 +1821,17 @@
 
             if (data && data.user && !data.session) {
               await sb.auth.signInWithPassword({ email, password });
+            }
+
+            // Upsert into profiles table for dashboard visibility
+            const { data: { session: newSession } } = await sb.auth.getSession();
+            if (newSession && newSession.user) {
+              await upsertProfile(sb, {
+                id:        newSession.user.id,
+                email:     newSession.user.email || email,
+                full_name: fullName,
+                phone
+              });
             }
           }
           onAuthSuccessComplete();

@@ -12,6 +12,7 @@
   <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="js/supabase.js"></script>
+  <script src="js/profiles.js"></script>
   <link rel="stylesheet" href="css/navbar.css">
   <link rel="stylesheet" href="css/global.css">
 
@@ -412,6 +413,17 @@
           submitBtn.disabled = false;
           submitBtn.innerHTML = '<i data-lucide="check-circle"></i><span>Save &amp; Continue</span>';
           return;
+        }
+
+        // Also write to the profiles table so it's visible in Supabase dashboard
+        const { data: { session } } = await client.auth.getSession();
+        if (session && session.user) {
+          await upsertProfile(client, {
+            id:        session.user.id,
+            email:     session.user.email,
+            full_name: session.user.user_metadata?.full_name || '',
+            phone
+          });
         }
 
         showSuccess('Phone number saved! Redirecting...');
