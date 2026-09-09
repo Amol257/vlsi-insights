@@ -6,7 +6,14 @@ var sb = null;
 try {
   var sbLib = (typeof window !== 'undefined' && window.supabase) || (typeof supabase !== 'undefined' ? supabase : null);
   if (sbLib && typeof sbLib.createClient === 'function') {
-    sb = sbLib.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    sb = sbLib.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+      auth: {
+        detectSessionInUrl: true,
+        flowType: 'pkce',
+        persistSession: true,
+        autoRefreshToken: true
+      }
+    });
     if (typeof window !== 'undefined') {
       window.sb = sb;
       window.SUPABASE_URL = SUPABASE_URL;

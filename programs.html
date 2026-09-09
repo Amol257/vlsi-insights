@@ -4233,7 +4233,7 @@
         try {
           const redirectUrl = window.location.protocol === 'file:'
             ? 'https://vlsiinsights.com/auth-callback.html'
-            : new URL('cart.html', window.location.href).href;
+            : new URL('auth-callback.html', window.location.href).href;
 
           const { error } = await sb.auth.signInWithOAuth({
             provider: 'google',

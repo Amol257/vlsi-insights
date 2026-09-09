@@ -321,8 +321,12 @@
     // Listen to Supabase auth state change for live nav sync
     const sbClient = (typeof window !== 'undefined' && window.sb) || (typeof sb !== 'undefined' ? sb : null);
     if (sbClient && sbClient.auth) {
-      sbClient.auth.onAuthStateChange(() => {
-        updateNavAuth();
+      sbClient.auth.onAuthStateChange((event, session) => {
+        // Fire on sign-in (including after Google OAuth PKCE code exchange),
+        // token refresh, and sign-out to keep navbar in sync
+        if (event === 'SIGNED_IN' || event === 'TOKEN_REFRESHED' || event === 'SIGNED_OUT' || event === 'USER_UPDATED') {
+          updateNavAuth();
+        }
       });
     }
   }
