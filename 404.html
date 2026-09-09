@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -461,44 +461,6 @@
   <script>
     lucide.createIcons();
 
-    // Mobile Drawer
-    const hamburgerBtn = document.getElementById('hamburgerBtn');
-    const mobileDrawer = document.getElementById('mobileDrawer');
-    const drawerOverlay = document.getElementById('drawerOverlay');
-    const drawerCloseBtn = document.getElementById('drawerCloseBtn');
-
-    function toggleDrawer(open) {
-      const isOpen = open ?? !mobileDrawer.classList.contains('open');
-      mobileDrawer.classList.toggle('open', isOpen);
-      drawerOverlay.classList.toggle('active', isOpen);
-      hamburgerBtn.setAttribute('aria-expanded', isOpen);
-      document.body.style.overflow = isOpen ? 'hidden' : '';
-    }
-
-    hamburgerBtn.addEventListener('click', () => toggleDrawer());
-    drawerOverlay.addEventListener('click', () => toggleDrawer(false));
-    if (drawerCloseBtn) drawerCloseBtn.addEventListener('click', () => toggleDrawer(false));
-    document.querySelectorAll('.drawer-close-trigger').forEach(btn => btn.addEventListener('click', () => toggleDrawer(false)));
-
-    // Services accordion
-    const mobileServicesToggle = document.getElementById('mobileServicesToggle');
-    const mobileServicesAccordion = document.getElementById('mobileServicesAccordion');
-    if (mobileServicesToggle) {
-      mobileServicesToggle.addEventListener('click', () => {
-        const isOpen = mobileServicesAccordion.classList.toggle('open');
-        mobileServicesToggle.setAttribute('aria-expanded', isOpen);
-      });
-    }
-
-    // About accordion
-    const mobileAboutToggle = document.getElementById('mobileAboutToggle');
-    const mobileAboutAccordion = document.getElementById('mobileAboutAccordion');
-    if (mobileAboutToggle) {
-      mobileAboutToggle.addEventListener('click', () => {
-        const isOpen = mobileAboutAccordion.classList.toggle('open');
-        mobileAboutToggle.setAttribute('aria-expanded', isOpen);
-      });
-    }
 
     // Cart badge
     (function() {

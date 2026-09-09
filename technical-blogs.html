@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -1044,57 +1044,6 @@
       // Cart badge synced by universal updateCartBadge()
     } catch(e) {}
 
-    // Universal Mobile Drawer & Dropdown Logic
-    const hamburgerBtn = document.getElementById('hamburgerBtn');
-    const mobileDrawer = document.getElementById('mobileDrawer');
-    const drawerOverlay = document.getElementById('drawerOverlay');
-    const drawerCloseBtn = document.getElementById('drawerCloseBtn');
-
-    function openDrawer() {
-      if (mobileDrawer) mobileDrawer.classList.add('open');
-      if (drawerOverlay) drawerOverlay.classList.add('active');
-      document.body.style.overflow = 'hidden';
-    }
-
-    function closeDrawer() {
-      if (mobileDrawer) mobileDrawer.classList.remove('open');
-      if (drawerOverlay) drawerOverlay.classList.remove('active');
-      document.body.style.overflow = '';
-    }
-
-    if (hamburgerBtn) hamburgerBtn.addEventListener('click', openDrawer);
-    if (drawerCloseBtn) drawerCloseBtn.addEventListener('click', closeDrawer);
-    if (drawerOverlay) drawerOverlay.addEventListener('click', closeDrawer);
-
-    document.querySelectorAll('.drawer-close-trigger').forEach(el => {
-      el.addEventListener('click', closeDrawer);
-    });
-
-    const sToggle = document.getElementById('mobileServicesToggle');
-    const sAcc = document.getElementById('mobileServicesAccordion');
-    if (sToggle && sAcc) {
-      sToggle.addEventListener('click', function(e) {
-        e.preventDefault();
-        const exp = sToggle.getAttribute('aria-expanded') === 'true';
-        sToggle.setAttribute('aria-expanded', !exp);
-        sAcc.style.display = exp ? 'none' : 'flex';
-        const icon = sToggle.querySelector('[data-lucide="chevron-down"], svg');
-        if (icon) icon.style.transform = exp ? 'none' : 'rotate(180deg)';
-      });
-    }
-
-    const aToggle = document.getElementById('mobileAboutToggle');
-    const aAcc = document.getElementById('mobileAboutAccordion');
-    if (aToggle && aAcc) {
-      aToggle.addEventListener('click', function(e) {
-        e.preventDefault();
-        const exp = aToggle.getAttribute('aria-expanded') === 'true';
-        aToggle.setAttribute('aria-expanded', !exp);
-        aAcc.style.display = exp ? 'none' : 'flex';
-        const icon = aToggle.querySelector('[data-lucide="chevron-down"], svg');
-        if (icon) icon.style.transform = exp ? 'none' : 'rotate(180deg)';
-      });
-    }
   </script>
   <script>
     (function() {

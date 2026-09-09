@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -44,42 +44,6 @@
     button { font: inherit; border: none; background: none; cursor: pointer; }
     input { font: inherit; }
     img { display: block; max-width: 100%; }
-
-    /* ============================================================ */
-    /* NAVBAR & CONTAINER */
-    /* Navbar styles are defined in css/navbar.css — no inline overrides needed */
-    .mobile-drawer {
-      position: fixed; top: 0; right: 0; bottom: 0;
-      width: 320px; max-width: 85vw;
-      background: #FFFFFF;
-      z-index: 2000;
-      transform: translateX(100%);
-      transition: transform 300ms cubic-bezier(0.16, 1, 0.3, 1);
-      
-      display: flex; flex-direction: column;
-      padding: 24px 20px;
-      overflow-y: auto;
-    }
-    .mobile-drawer.open { transform: translateX(0); }
-    .mobile-nav-list { list-style: none; display: flex; flex-direction: column; gap: 4px; }
-    .mobile-nav-link {
-      display: flex; align-items: center; justify-content: space-between;
-      width: 100%; padding: 12px 14px;
-      color: var(--text-hi); font-size: 0.9375rem; font-weight: 600;
-      text-decoration: none; border-radius: 6px;
-      background: none; border: none; text-align: left; cursor: pointer;
-    }
-    .mobile-nav-link:hover { background: var(--substrate); color: var(--trace); }
-    .mobile-accordion {
-      display: none; flex-direction: column; gap: 2px; padding: 4px 0 8px 16px;
-    }
-    .mobile-accordion.open { display: flex; }
-    .mobile-accordion a {
-      display: flex; align-items: center; gap: 8px;
-      padding: 8px 12px; font-size: 0.875rem; color: var(--text-mid);
-      text-decoration: none; border-radius: 4px;
-    }
-    .mobile-accordion a:hover { color: var(--trace); background: var(--surface); }
 
     /* ============================================================ */
     /* PAGE WRAPPER */
@@ -1209,95 +1173,7 @@
       alert('Password reset link sent to ' + email + '\n\n(Demo: check your registered account in localStorage)');
     });
 
-    // ================================================================
-    // NAVBAR & MOBILE DRAWER SCRIPTS
-    // ================================================================
-    const hamburgerBtn = document.getElementById('hamburgerBtn');
-    const mobileDrawer = document.getElementById('mobileDrawer');
-    const drawerOverlay = document.getElementById('drawerOverlay');
-    const drawerTriggers = document.querySelectorAll('.drawer-close-trigger');
-    const drawerCloseBtn = document.getElementById('drawerCloseBtn');
 
-    function toggleDrawer(open) {
-      if (!mobileDrawer) return;
-      const isOpen = open ?? !mobileDrawer.classList.contains('open');
-      mobileDrawer.classList.toggle('open', isOpen);
-      if (drawerOverlay) drawerOverlay.classList.toggle('open', isOpen);
-      if (hamburgerBtn) hamburgerBtn.setAttribute('aria-expanded', isOpen);
-      document.body.style.overflow = isOpen ? 'hidden' : '';
-    }
-
-    if (hamburgerBtn) hamburgerBtn.addEventListener('click', () => toggleDrawer());
-    if (drawerOverlay) drawerOverlay.addEventListener('click', () => toggleDrawer(false));
-    if (drawerCloseBtn) drawerCloseBtn.addEventListener('click', () => toggleDrawer(false));
-    drawerTriggers.forEach(btn => btn.addEventListener('click', () => toggleDrawer(false)));
-
-    const mobileServicesToggle = document.getElementById('mobileServicesToggle');
-    const mobileServicesAccordion = document.getElementById('mobileServicesAccordion');
-    const mobileAboutToggle = document.getElementById('mobileAboutToggle');
-    const mobileAboutAccordion = document.getElementById('mobileAboutAccordion');
-
-    if (mobileServicesToggle && mobileServicesAccordion) {
-      mobileServicesToggle.addEventListener('click', () => {
-        const isOpen = mobileServicesAccordion.classList.toggle('open');
-        mobileServicesToggle.setAttribute('aria-expanded', isOpen);
-        const chevron = mobileServicesToggle.querySelector('svg');
-        if (chevron) chevron.style.transform = isOpen ? 'rotate(180deg)' : 'rotate(0deg)';
-      });
-    }
-
-    if (mobileAboutToggle && mobileAboutAccordion) {
-      mobileAboutToggle.addEventListener('click', () => {
-        const isOpen = mobileAboutAccordion.classList.toggle('open');
-        mobileAboutToggle.setAttribute('aria-expanded', isOpen);
-        const chevron = mobileAboutToggle.querySelector('svg');
-        if (chevron) chevron.style.transform = isOpen ? 'rotate(180deg)' : 'rotate(0deg)';
-      });
-    }
-
-    const desktopServicesItem = document.getElementById('desktopServicesItem');
-    const desktopServicesBtn = document.getElementById('desktopServicesBtn');
-    const desktopAboutItem = document.getElementById('desktopAboutItem');
-    const desktopAboutBtn = document.getElementById('desktopAboutBtn');
-
-    function setupDesktopDropdown(item, btn) {
-      if (!item || !btn) return;
-      let closeTimer = null;
-
-      btn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        const isOpen = item.classList.toggle('open');
-        btn.setAttribute('aria-expanded', isOpen);
-      });
-
-      item.addEventListener('mouseenter', () => {
-        if (closeTimer) {
-          clearTimeout(closeTimer);
-          closeTimer = null;
-        }
-      });
-
-      item.addEventListener('mouseleave', () => {
-        closeTimer = setTimeout(() => {
-          item.classList.remove('open');
-          btn.setAttribute('aria-expanded', 'false');
-        }, 180);
-      });
-    }
-
-    setupDesktopDropdown(desktopServicesItem, desktopServicesBtn);
-    setupDesktopDropdown(desktopAboutItem, desktopAboutBtn);
-
-    document.addEventListener('click', (e) => {
-      if (desktopServicesItem && !desktopServicesItem.contains(e.target)) {
-        desktopServicesItem.classList.remove('open');
-        desktopServicesBtn.setAttribute('aria-expanded', 'false');
-      }
-      if (desktopAboutItem && !desktopAboutItem.contains(e.target)) {
-        desktopAboutItem.classList.remove('open');
-        desktopAboutBtn.setAttribute('aria-expanded', 'false');
-      }
-    });
 
     function syncBadge() {
       try {

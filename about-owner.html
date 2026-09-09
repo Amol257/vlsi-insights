@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -1608,94 +1608,6 @@
   <script>
     lucide.createIcons();
 
-    // Mobile Navigation & Drawer
-    const hamburgerBtn = document.getElementById('hamburgerBtn');
-    const mobileDrawer = document.getElementById('mobileDrawer');
-    const drawerOverlay = document.getElementById('drawerOverlay');
-    const drawerTriggers = document.querySelectorAll('.drawer-close-trigger');
-
-    function toggleDrawer(open) {
-      const isOpen = open ?? !mobileDrawer.classList.contains('open');
-      mobileDrawer.classList.toggle('open', isOpen);
-      drawerOverlay.classList.toggle('open', isOpen);
-      hamburgerBtn.setAttribute('aria-expanded', isOpen);
-      document.body.style.overflow = isOpen ? 'hidden' : '';
-    }
-
-    const drawerCloseBtn = document.getElementById('drawerCloseBtn');
-    if (drawerCloseBtn) drawerCloseBtn.addEventListener('click', () => toggleDrawer(false));
-    hamburgerBtn.addEventListener('click', () => toggleDrawer());
-    drawerOverlay.addEventListener('click', () => toggleDrawer(false));
-    drawerTriggers.forEach(btn => btn.addEventListener('click', () => toggleDrawer(false)));
-
-    // Mobile Navigation Dropdown Accordions
-    const mobileServicesToggle = document.getElementById('mobileServicesToggle');
-    const mobileServicesAccordion = document.getElementById('mobileServicesAccordion');
-    const mobileAboutToggle = document.getElementById('mobileAboutToggle');
-    const mobileAboutAccordion = document.getElementById('mobileAboutAccordion');
-
-    if (mobileServicesToggle && mobileServicesAccordion) {
-      mobileServicesToggle.addEventListener('click', () => {
-        const isOpen = mobileServicesAccordion.classList.toggle('open');
-        mobileServicesToggle.setAttribute('aria-expanded', isOpen);
-        const chevron = mobileServicesToggle.querySelector('svg');
-        if (chevron) chevron.style.transform = isOpen ? 'rotate(180deg)' : 'rotate(0deg)';
-      });
-    }
-
-    if (mobileAboutToggle && mobileAboutAccordion) {
-      mobileAboutToggle.addEventListener('click', () => {
-        const isOpen = mobileAboutAccordion.classList.toggle('open');
-        mobileAboutToggle.setAttribute('aria-expanded', isOpen);
-        const chevron = mobileAboutToggle.querySelector('svg');
-        if (chevron) chevron.style.transform = isOpen ? 'rotate(180deg)' : 'rotate(0deg)';
-      });
-    }
-
-    // Desktop Dropdown Click / Hover Management
-    const desktopServicesItem = document.getElementById('desktopServicesItem');
-    const desktopServicesBtn = document.getElementById('desktopServicesBtn');
-    const desktopAboutItem = document.getElementById('desktopAboutItem');
-    const desktopAboutBtn = document.getElementById('desktopAboutBtn');
-
-    function setupDesktopDropdown(item, btn) {
-      if (!item || !btn) return;
-      let closeTimer = null;
-
-      btn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        const isOpen = item.classList.toggle('open');
-        btn.setAttribute('aria-expanded', isOpen);
-      });
-
-      item.addEventListener('mouseenter', () => {
-        if (closeTimer) {
-          clearTimeout(closeTimer);
-          closeTimer = null;
-        }
-      });
-
-      item.addEventListener('mouseleave', () => {
-        closeTimer = setTimeout(() => {
-          item.classList.remove('open');
-          btn.setAttribute('aria-expanded', 'false');
-        }, 180);
-      });
-    }
-
-    setupDesktopDropdown(desktopServicesItem, desktopServicesBtn);
-    setupDesktopDropdown(desktopAboutItem, desktopAboutBtn);
-
-    document.addEventListener('click', (e) => {
-      if (desktopServicesItem && !desktopServicesItem.contains(e.target)) {
-        desktopServicesItem.classList.remove('open');
-        desktopServicesBtn.setAttribute('aria-expanded', 'false');
-      }
-      if (desktopAboutItem && !desktopAboutItem.contains(e.target)) {
-        desktopAboutItem.classList.remove('open');
-        desktopAboutBtn.setAttribute('aria-expanded', 'false');
-      }
-    });
 
     // Scroll-triggered section headings (IntersectionObserver, fires once)
     const headingObserver = new IntersectionObserver((entries) => {

@@ -11,16 +11,13 @@
     }
 
     // 2. Mobile Navigation Drawer
-    let hamburgerBtn = document.getElementById('hamburgerBtn');
+    const hamburgerBtn = document.getElementById('hamburgerBtn');
     const mobileDrawer = document.getElementById('mobileDrawer');
     const drawerOverlay = document.getElementById('drawerOverlay');
     const drawerCloseBtn = document.getElementById('drawerCloseBtn');
 
-    let lastOpenTime = 0;
-
     function openDrawer() {
       if (!mobileDrawer) return;
-      lastOpenTime = Date.now();
       mobileDrawer.classList.add('open');
       if (drawerOverlay) {
         drawerOverlay.classList.add('active');
@@ -34,7 +31,6 @@
 
     function closeDrawer(force) {
       if (!mobileDrawer) return;
-      if (!force && (Date.now() - lastOpenTime < 350)) return;
       mobileDrawer.classList.remove('open');
       if (drawerOverlay) {
         drawerOverlay.classList.remove('active');
@@ -54,7 +50,7 @@
         closeDrawer(true);
       } else {
         if (mobileDrawer.classList.contains('open')) {
-          closeDrawer(false);
+          closeDrawer(true);
         } else {
           openDrawer();
         }
@@ -65,52 +61,53 @@
     window.closeDrawer = closeDrawer;
     window.toggleDrawer = toggleDrawer;
 
-    let drawerStateBeforeClick = false;
-
     if (hamburgerBtn) {
-      const cleanHamburger = hamburgerBtn.cloneNode(true);
-      hamburgerBtn.parentNode.replaceChild(cleanHamburger, hamburgerBtn);
-      hamburgerBtn = cleanHamburger;
-      hamburgerBtn.addEventListener('click', (e) => {
+      hamburgerBtn.onclick = (e) => {
         e.preventDefault();
         e.stopPropagation();
         toggleDrawer();
-      });
+      };
     }
 
     if (drawerOverlay) {
-      drawerOverlay.onclick = function(e) {
+      drawerOverlay.onclick = (e) => {
         e.preventDefault();
         closeDrawer(true);
       };
     }
 
     if (drawerCloseBtn) {
-      drawerCloseBtn.onclick = function(e) {
+      drawerCloseBtn.onclick = (e) => {
         e.preventDefault();
         closeDrawer(true);
       };
     }
 
     document.querySelectorAll('.drawer-close-trigger').forEach(trigger => {
-      trigger.onclick = function() {
+      trigger.onclick = () => {
         closeDrawer(true);
       };
+    });
+
+    // Auto-close drawer on viewport resize to desktop (>= 1024px)
+    window.addEventListener('resize', () => {
+      if (window.innerWidth >= 1024 && mobileDrawer && mobileDrawer.classList.contains('open')) {
+        closeDrawer(true);
+      }
     });
 
     // 3. Mobile Navigation Accordions
     function setupAccordion(toggleBtn, accordionEl) {
       if (!toggleBtn || !accordionEl) return;
-      const cleanToggle = toggleBtn.cloneNode(true);
-      toggleBtn.parentNode.replaceChild(cleanToggle, toggleBtn);
-      cleanToggle.addEventListener('click', (e) => {
+      // Clear any conflicting inline display styles
+      accordionEl.style.removeProperty('display');
+      toggleBtn.onclick = (e) => {
         e.preventDefault();
         e.stopPropagation();
         const isOpen = accordionEl.classList.toggle('open');
-        cleanToggle.setAttribute('aria-expanded', String(isOpen));
-        const icon = cleanToggle.querySelector('svg, i');
-        if (icon) icon.style.transform = isOpen ? 'rotate(180deg)' : 'rotate(0deg)';
-      });
+        toggleBtn.setAttribute('aria-expanded', String(isOpen));
+        accordionEl.style.removeProperty('display');
+      };
     }
 
     setupAccordion(document.getElementById('mobileServicesToggle'), document.getElementById('mobileServicesAccordion'));

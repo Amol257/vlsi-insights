@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -1936,94 +1936,6 @@
 
     document.querySelectorAll('.section-heading-group').forEach(el => headingObserver.observe(el));
 
-    // -------------------------------------------------------------------------
-    // 6. NAVBAR DESKTOP DROPDOWN & MOBILE DRAWER LOGIC
-    // -------------------------------------------------------------------------
-    const hamburgerBtn = document.getElementById('hamburgerBtn');
-    const mobileDrawer = document.getElementById('mobileDrawer');
-    const drawerOverlay = document.getElementById('drawerOverlay');
-    const drawerTriggers = document.querySelectorAll('.drawer-close-trigger');
-
-    function toggleMobileDrawer(open) {
-      const isOpen = open ?? !mobileDrawer.classList.contains('open');
-      mobileDrawer.classList.toggle('open', isOpen);
-      drawerOverlay.classList.toggle('open', isOpen);
-      hamburgerBtn.setAttribute('aria-expanded', isOpen);
-      document.body.style.overflow = isOpen ? 'hidden' : '';
-    }
-
-    hamburgerBtn.addEventListener('click', () => toggleMobileDrawer());
-    drawerOverlay.addEventListener('click', () => toggleMobileDrawer(false));
-    document.getElementById('drawerCloseBtn').addEventListener('click', () => toggleMobileDrawer(false));
-    drawerTriggers.forEach(btn => btn.addEventListener('click', () => toggleMobileDrawer(false)));
-
-    const mobileServicesToggle = document.getElementById('mobileServicesToggle');
-    const mobileServicesAccordion = document.getElementById('mobileServicesAccordion');
-    const mobileAboutToggle = document.getElementById('mobileAboutToggle');
-    const mobileAboutAccordion = document.getElementById('mobileAboutAccordion');
-
-    if (mobileServicesToggle && mobileServicesAccordion) {
-      mobileServicesToggle.addEventListener('click', () => {
-        const isOpen = mobileServicesAccordion.classList.toggle('open');
-        mobileServicesToggle.setAttribute('aria-expanded', isOpen);
-        const icon = mobileServicesToggle.querySelector('svg');
-        if (icon) icon.style.transform = isOpen ? 'rotate(180deg)' : 'rotate(0deg)';
-      });
-    }
-
-    if (mobileAboutToggle && mobileAboutAccordion) {
-      mobileAboutToggle.addEventListener('click', () => {
-        const isOpen = mobileAboutAccordion.classList.toggle('open');
-        mobileAboutToggle.setAttribute('aria-expanded', isOpen);
-        const icon = mobileAboutToggle.querySelector('svg');
-        if (icon) icon.style.transform = isOpen ? 'rotate(180deg)' : 'rotate(0deg)';
-      });
-    }
-
-    // Desktop Dropdown
-    const desktopServicesItem = document.getElementById('desktopServicesItem');
-    const desktopServicesBtn = document.getElementById('desktopServicesBtn');
-    const desktopAboutItem = document.getElementById('desktopAboutItem');
-    const desktopAboutBtn = document.getElementById('desktopAboutBtn');
-
-    function setupDesktopDropdown(item, btn) {
-      if (!item || !btn) return;
-      let closeTimer = null;
-
-      btn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        const isOpen = item.classList.toggle('open');
-        btn.setAttribute('aria-expanded', isOpen);
-      });
-
-      item.addEventListener('mouseenter', () => {
-        if (closeTimer) {
-          clearTimeout(closeTimer);
-          closeTimer = null;
-        }
-      });
-
-      item.addEventListener('mouseleave', () => {
-        closeTimer = setTimeout(() => {
-          item.classList.remove('open');
-          btn.setAttribute('aria-expanded', 'false');
-        }, 180);
-      });
-    }
-
-    setupDesktopDropdown(desktopServicesItem, desktopServicesBtn);
-    setupDesktopDropdown(desktopAboutItem, desktopAboutBtn);
-
-    document.addEventListener('click', (e) => {
-      if (desktopServicesItem && !desktopServicesItem.contains(e.target)) {
-        desktopServicesItem.classList.remove('open');
-        desktopServicesBtn.setAttribute('aria-expanded', 'false');
-      }
-      if (desktopAboutItem && !desktopAboutItem.contains(e.target)) {
-        desktopAboutItem.classList.remove('open');
-        desktopAboutBtn.setAttribute('aria-expanded', 'false');
-      }
-    });
   </script>
   <!-- SOFTWARE DOWNLOAD & SETUP MODAL -->
   <div class="software-modal-backdrop" id="softwareModalBackdrop" role="dialog" aria-modal="true" aria-labelledby="softwareModalTitle">
