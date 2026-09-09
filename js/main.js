@@ -220,76 +220,81 @@
     }
 
     // 6. Supabase Nav Authentication State
-    async function updateNavAuth() {
-      const client = (typeof window !== 'undefined' && window.sb) || (typeof sb !== 'undefined' ? sb : null);
-      if (!client || !client.auth) return;
-      try {
-        const { data: { session } } = await client.auth.getSession();
-        const signInLink = document.getElementById('navSignInLink');
-        const userMenu = document.getElementById('navUserMenu');
-        const userNameEl = document.getElementById('navUserName');
+    function applyNavAuth(session) {
+      const signInLink      = document.getElementById('navSignInLink');
+      const userMenu        = document.getElementById('navUserMenu');
+      const userNameEl      = document.getElementById('navUserName');
+      const avatarEl        = document.getElementById('navUserAvatar');
+      const mobileSignInLink = document.getElementById('mobileSignInLink');
+      const mobileUserMenu  = document.getElementById('mobileUserMenu');
+      const mobileUserName  = document.getElementById('mobileUserName');
+      const mobileAvatarEl  = document.getElementById('mobileUserAvatar');
 
-        // Mobile counterparts
-        const mobileSignInLink = document.getElementById('mobileSignInLink');
-        const mobileUserMenu = document.getElementById('mobileUserMenu');
-        const mobileUserName = document.getElementById('mobileUserName');
+      if (session && session.user) {
+        const name    = session.user.user_metadata?.full_name || session.user.email.split('@')[0];
+        const initial = name.charAt(0).toUpperCase();
 
-        if (session && session.user) {
-          if (signInLink) {
-            signInLink.hidden = true;
-            signInLink.style.display = 'none';
-          }
-          if (mobileSignInLink) {
-            mobileSignInLink.hidden = true;
-            mobileSignInLink.style.display = 'none';
-          }
+        if (signInLink)      { signInLink.hidden = true;  signInLink.style.display = 'none'; }
+        if (mobileSignInLink){ mobileSignInLink.hidden = true; mobileSignInLink.style.display = 'none'; }
 
-          const name = session.user.user_metadata?.full_name
-            || session.user.email.split('@')[0];
-          const initial = (name && name.length > 0) ? name.charAt(0).toUpperCase() : 'U';
+        if (userMenu)        { userMenu.hidden = false; userMenu.style.display = 'inline-flex'; }
+        if (userNameEl)      { userNameEl.textContent = name; }
+        if (avatarEl)        { avatarEl.textContent   = initial; }
 
-          if (userMenu) {
-            userMenu.hidden = false;
-            userMenu.style.display = 'inline-flex';
-            if (userNameEl) userNameEl.textContent = name;
-            const avatarEl = document.getElementById('navUserAvatar');
-            if (avatarEl) avatarEl.textContent = initial;
-          }
-          if (mobileUserMenu) {
-            mobileUserMenu.hidden = false;
-            mobileUserMenu.style.display = 'flex';
-            if (mobileUserName) mobileUserName.textContent = name;
-            const mobileAvatarEl = document.getElementById('mobileUserAvatar');
-            if (mobileAvatarEl) mobileAvatarEl.textContent = initial;
-          }
-        } else {
-          if (signInLink) {
-            signInLink.hidden = false;
-            signInLink.style.display = 'inline-flex';
-          }
-          if (mobileSignInLink) {
-            mobileSignInLink.hidden = false;
-            mobileSignInLink.style.display = 'flex';
-          }
-          if (userMenu) {
-            userMenu.hidden = true;
-            userMenu.style.display = 'none';
-          }
-          if (mobileUserMenu) {
-            mobileUserMenu.hidden = true;
-            mobileUserMenu.style.display = 'none';
-          }
-        }
-
-        if (typeof lucide !== 'undefined' && lucide.createIcons) {
-          lucide.createIcons();
-        }
-      } catch (err) {
-        console.error('Error updating nav auth:', err);
+        if (mobileUserMenu)  { mobileUserMenu.hidden = false; mobileUserMenu.style.display = 'flex'; }
+        if (mobileUserName)  { mobileUserName.textContent = name; }
+        if (mobileAvatarEl)  { mobileAvatarEl.textContent = initial; }
+      } else {
+        if (signInLink)      { signInLink.hidden = false; signInLink.style.display = 'inline-flex'; }
+        if (mobileSignInLink){ mobileSignInLink.hidden = false; mobileSignInLink.style.display = 'flex'; }
+        if (userMenu)        { userMenu.hidden = true; userMenu.style.display = 'none'; }
+        if (mobileUserMenu)  { mobileUserMenu.hidden = true; mobileUserMenu.style.display = 'none'; }
       }
+
+      if (typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons();
     }
 
-    updateNavAuth();
+    // Wait until window.sb is ready (CDN may load async), then wire up auth
+    function initNavAuth() {
+      const client = (typeof window !== 'undefined' && window.sb) || (typeof sb !== 'undefined' ? sb : null);
+      if (!client || !client.auth) {
+        // Retry up to 20 times × 50 ms = 1 second max
+        let tries = 0;
+        const poll = setInterval(() => {
+          const c = (typeof window !== 'undefined' && window.sb) || (typeof sb !== 'undefined' ? sb : null);
+          if (c && c.auth) {
+            clearInterval(poll);
+            wireNavAuth(c);
+          } else if (++tries >= 20) {
+            clearInterval(poll);
+          }
+        }, 50);
+        return;
+      }
+      wireNavAuth(client);
+    }
+
+    function wireNavAuth(client) {
+      // Register listener FIRST so we never miss INITIAL_SESSION
+      client.auth.onAuthStateChange((event, session) => {
+        if (
+          event === 'INITIAL_SESSION' ||
+          event === 'SIGNED_IN'       ||
+          event === 'TOKEN_REFRESHED' ||
+          event === 'SIGNED_OUT'      ||
+          event === 'USER_UPDATED'
+        ) {
+          applyNavAuth(session);
+        }
+      });
+
+      // Explicit fallback: call getSession() in case INITIAL_SESSION already fired
+      client.auth.getSession().then(({ data: { session } }) => {
+        applyNavAuth(session);
+      }).catch(() => {});
+    }
+
+    initNavAuth();
 
     // Hook navbar Sign In buttons to in-page auth modal if present on the page
     const handleSignInClick = (e) => {
@@ -308,33 +313,13 @@
       if (client && client.auth) {
         try { await client.auth.signOut(); } catch (err) {}
       }
-      try {
-        localStorage.removeItem('sb-riipijrgucqigndcjwre-auth-token');
-      } catch (err) {}
-      updateNavAuth();
+      try { localStorage.removeItem('sb-riipijrgucqigndcjwre-auth-token'); } catch (err) {}
+      applyNavAuth(null);
       window.location.reload();
     };
 
     document.getElementById('signOutBtn')?.addEventListener('click', handleSignOut);
     document.getElementById('mobileSignOutBtn')?.addEventListener('click', handleSignOut);
-
-    // Listen to Supabase auth state change for live nav sync.
-    // INITIAL_SESSION fires when an existing session is restored from storage on page load.
-    // SIGNED_IN fires after OAuth code exchange completes.
-    const sbClient = (typeof window !== 'undefined' && window.sb) || (typeof sb !== 'undefined' ? sb : null);
-    if (sbClient && sbClient.auth) {
-      sbClient.auth.onAuthStateChange((event, session) => {
-        if (
-          event === 'INITIAL_SESSION' ||
-          event === 'SIGNED_IN' ||
-          event === 'TOKEN_REFRESHED' ||
-          event === 'SIGNED_OUT' ||
-          event === 'USER_UPDATED'
-        ) {
-          updateNavAuth();
-        }
-      });
-    }
   }
 
   if (document.readyState === 'loading') {
@@ -343,3 +328,4 @@
     initApp();
   }
 })();
+
