@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Complete Your Profile | VLSI Insights</title>
+  <meta name="description" content="One last step — add your phone number to complete your VLSI Insights profile.">
+  <meta name="robots" content="noindex">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/supabase.js"></script>
+  <link rel="stylesheet" href="css/navbar.css">
+  <link rel="stylesheet" href="css/global.css">
+
+  <style>
+    :root {
+      --substrate:   #FAFAFA;
+      --layer:       #FFFFFF;
+      --edge:        #E2E8F0;
+      --edge-strong: #CBD5E1;
+      --trace:       #00A887;
+      --trace-hover: #008f72;
+      --text-hi:     #0F172A;
+      --text-mid:    #475569;
+      --text-lo:     #64748B;
+      --error:       #DC2626;
+      --font-display:'Space Grotesk', -apple-system, sans-serif;
+      --font-body:   'Inter', -apple-system, sans-serif;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: var(--font-body);
+      background-color: var(--substrate);
+      color: var(--text-mid);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Circuit watermark */
+    .page-main {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 48px 16px 64px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-circuit-watermark {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      opacity: 0.2;
+      z-index: 0;
+    }
+
+    .profile-container {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: 420px;
+    }
+
+    .profile-card {
+      background: var(--layer);
+      border: 1px solid var(--edge);
+      border-radius: 12px;
+      padding: 36px 32px 30px;
+      box-shadow: 0 20px 40px -15px rgba(15, 23, 42, 0.08), 0 0 0 1px rgba(15, 23, 42, 0.03);
+    }
+
+    .card-icon {
+      width: 52px;
+      height: 52px;
+      background: rgba(0, 168, 135, 0.08);
+      border: 1.5px solid rgba(0, 168, 135, 0.2);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 20px;
+    }
+
+    .card-icon svg {
+      width: 24px;
+      height: 24px;
+      color: var(--trace);
+    }
+
+    .card-title {
+      font-family: var(--font-display);
+      font-size: 1.375rem;
+      font-weight: 700;
+      color: var(--text-hi);
+      text-align: center;
+      margin-bottom: 8px;
+    }
+
+    .card-subtitle {
+      font-size: 0.875rem;
+      color: var(--text-mid);
+      text-align: center;
+      line-height: 1.55;
+      margin-bottom: 28px;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-label {
+      display: block;
+      font-size: 0.8125rem;
+      font-weight: 600;
+      color: var(--text-hi);
+      margin-bottom: 6px;
+    }
+
+    .form-label .hint {
+      font-weight: 500;
+      color: var(--trace);
+      font-size: 0.75rem;
+    }
+
+    .form-input {
+      width: 100%;
+      padding: 11px 14px;
+      background: #FFFFFF;
+      border: 1.5px solid var(--edge);
+      border-radius: 8px;
+      color: var(--text-hi);
+      font-family: inherit;
+      font-size: 0.875rem;
+      outline: none;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .form-input:focus {
+      border-color: var(--trace);
+      box-shadow: 0 0 0 3px rgba(0, 168, 135, 0.15);
+    }
+
+    .form-input::placeholder { color: #94A3B8; }
+
+    .form-hint {
+      font-size: 0.75rem;
+      color: var(--text-lo);
+      margin-top: 5px;
+    }
+
+    .btn-submit {
+      width: 100%;
+      padding: 12px 16px;
+      background: var(--trace);
+      color: #FFFFFF;
+      border: none;
+      border-radius: 8px;
+      font-family: var(--font-display);
+      font-size: 0.9375rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.2s ease, transform 0.15s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .btn-submit:hover:not(:disabled) {
+      background: var(--trace-hover);
+      transform: translateY(-1px);
+    }
+
+    .btn-submit:disabled {
+      opacity: 0.65;
+      cursor: not-allowed;
+    }
+
+    .alert {
+      padding: 10px 14px;
+      border-radius: 7px;
+      font-size: 0.8125rem;
+      font-weight: 500;
+      margin-bottom: 16px;
+      display: none;
+    }
+
+    .alert-error {
+      background: rgba(220, 38, 38, 0.06);
+      border: 1px solid rgba(220, 38, 38, 0.2);
+      color: var(--error);
+    }
+
+    .alert-success {
+      background: rgba(0, 168, 135, 0.06);
+      border: 1px solid rgba(0, 168, 135, 0.2);
+      color: var(--trace);
+    }
+
+    .skip-link {
+      display: block;
+      text-align: center;
+      margin-top: 16px;
+      font-size: 0.8125rem;
+      color: var(--text-lo);
+    }
+
+    .skip-link a {
+      color: var(--text-lo);
+      text-decoration: underline;
+      text-underline-offset: 2px;
+      cursor: pointer;
+    }
+
+    .skip-link a:hover { color: var(--text-mid); }
+  </style>
+</head>
+<body>
+
+  <!-- Standard Navbar (minimal — no dropdowns needed on this transitional page) -->
+  <header class="navbar" role="banner">
+    <div class="container navbar__inner">
+      <a href="index.html" class="nav-logo" aria-label="VLSI Insights Homepage">
+        <img src="images/logo.png" alt="VLSI Insights" class="nav-logo-img">
+      </a>
+      <div class="navbar__controls">
+        <a href="cart.html" class="nav-cart-btn" aria-label="View Cart" id="cartNavBtn">
+          <i data-lucide="shopping-cart"></i>
+          <span class="cart-badge" id="cartBadge" data-visible="false">0</span>
+        </a>
+        <div class="nav-user-menu" id="navUserMenu" hidden>
+          <div class="nav-user-dropdown">
+            <div class="nav-user-pill" tabindex="0" role="button" aria-haspopup="true" aria-expanded="false">
+              <span class="nav-user-avatar" id="navUserAvatar">U</span>
+              <span class="nav-user-name" id="navUserName"></span>
+              <i data-lucide="chevron-down" class="user-chevron"></i>
+            </div>
+            <div class="user-dropdown-panel" role="menu">
+              <button type="button" class="sign-out-btn" id="signOutBtn" aria-label="Sign Out" role="menuitem">
+                <i data-lucide="log-out"></i>
+                <span>Sign Out</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="page-main" role="main">
+
+    <!-- Circuit watermark SVG -->
+    <svg class="hero-circuit-watermark" viewBox="0 0 1200 500" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <g stroke="#00A887" fill="none" stroke-width="1.5" opacity="0.6">
+        <path d="M0,120 L180,120 L220,80 L400,80"/>
+        <path d="M400,80 L400,40 L500,40"/>
+        <circle cx="400" cy="80" r="4" fill="#00A887"/>
+        <circle cx="220" cy="80" r="4" fill="#00A887"/>
+        <path d="M600,200 L750,200 L800,150 L950,150 L1000,200 L1200,200"/>
+        <circle cx="750" cy="200" r="4" fill="#00A887"/>
+        <circle cx="1000" cy="200" r="4" fill="#00A887"/>
+        <path d="M100,300 L250,300 L300,350 L500,350"/>
+        <path d="M300,350 L300,420 L450,420"/>
+        <circle cx="300" cy="350" r="4" fill="#00A887"/>
+        <path d="M700,400 L850,400 L900,350 L1100,350"/>
+        <circle cx="850" cy="400" r="4" fill="#00A887"/>
+        <path d="M50,450 L200,450 L250,400 L400,400 L450,450 L600,450"/>
+        <circle cx="250" cy="400" r="3" fill="#00A887"/>
+        <circle cx="450" cy="450" r="3" fill="#00A887"/>
+        <path d="M1050,50 L1050,250"/>
+        <circle cx="1050" cy="50" r="4" fill="#00A887"/>
+        <circle cx="1050" cy="250" r="4" fill="#00A887"/>
+      </g>
+    </svg>
+
+    <div class="profile-container">
+      <div class="profile-card">
+
+        <div class="card-icon">
+          <i data-lucide="smartphone"></i>
+        </div>
+
+        <h1 class="card-title">One last step</h1>
+        <p class="card-subtitle">
+          Please add your phone number to complete your profile.<br>
+          We use it to keep you updated about your programs.
+        </p>
+
+        <div class="alert alert-error" id="alertError"></div>
+        <div class="alert alert-success" id="alertSuccess"></div>
+
+        <form id="phoneForm" novalidate>
+          <div class="form-group">
+            <label for="phoneInput" class="form-label">
+              Phone Number <span class="hint">(with country code)</span>
+            </label>
+            <input
+              type="tel"
+              id="phoneInput"
+              class="form-input"
+              placeholder="e.g. +91 98765 43210"
+              autocomplete="tel"
+              required
+            >
+            <p class="form-hint">Include your country code, e.g. +91 for India, +1 for US.</p>
+          </div>
+
+          <button type="submit" class="btn-submit" id="submitBtn">
+            <i data-lucide="check-circle"></i>
+            <span>Save &amp; Continue</span>
+          </button>
+        </form>
+
+        <p class="skip-link">
+          <a href="#" id="skipLink">Skip for now</a>
+        </p>
+
+      </div>
+    </div>
+  </main>
+
+  <script>
+    if (typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons();
+
+    function getRedirect() {
+      try {
+        const params = new URLSearchParams(window.location.search);
+        const r = params.get('redirect');
+        if (r && !r.includes('complete-profile')) return r;
+        if (sessionStorage.getItem('pending_cart_item')) return 'cart.html';
+      } catch (e) {}
+      return 'index.html';
+    }
+
+    const alertError   = document.getElementById('alertError');
+    const alertSuccess = document.getElementById('alertSuccess');
+    const submitBtn    = document.getElementById('submitBtn');
+    const phoneInput   = document.getElementById('phoneInput');
+
+    function showError(msg) {
+      alertError.textContent = msg;
+      alertError.style.display = 'block';
+      alertSuccess.style.display = 'none';
+    }
+
+    function showSuccess(msg) {
+      alertSuccess.textContent = msg;
+      alertSuccess.style.display = 'block';
+      alertError.style.display = 'none';
+    }
+
+    // Verify user is signed in
+    (async () => {
+      const client = window.sb;
+      if (!client) return;
+      const { data: { session } } = await client.auth.getSession();
+      if (!session) {
+        // Not signed in — redirect to login
+        window.location.href = 'login.html';
+        return;
+      }
+
+      // If they already have a phone, skip straight through
+      if (session.user.user_metadata?.phone) {
+        window.location.href = getRedirect();
+        return;
+      }
+    })();
+
+    document.getElementById('phoneForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const phone = phoneInput.value.trim();
+
+      if (!phone) {
+        showError('Please enter your phone number.');
+        return;
+      }
+
+      if (!/[\d]{7,}/.test(phone.replace(/[\s\-()]/g, ''))) {
+        showError('Please enter a valid phone number with country code (e.g. +91 98765 43210).');
+        return;
+      }
+
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = '<span>Saving...</span>';
+
+      const client = window.sb;
+      if (!client) {
+        showError('Authentication error. Please refresh the page.');
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = '<i data-lucide="check-circle"></i><span>Save &amp; Continue</span>';
+        return;
+      }
+
+      try {
+        const { error } = await client.auth.updateUser({
+          data: { phone }
+        });
+
+        if (error) {
+          showError(error.message);
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = '<i data-lucide="check-circle"></i><span>Save &amp; Continue</span>';
+          return;
+        }
+
+        showSuccess('Phone number saved! Redirecting...');
+        setTimeout(() => {
+          window.location.href = getRedirect();
+        }, 700);
+
+      } catch (err) {
+        showError(err.message || 'An error occurred. Please try again.');
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = '<i data-lucide="check-circle"></i><span>Save &amp; Continue</span>';
+      }
+    });
+
+    document.getElementById('skipLink').addEventListener('click', (e) => {
+      e.preventDefault();
+      window.location.href = getRedirect();
+    });
+  </script>
+  <script src="js/main.js" defer></script>
+</body>
+</html>

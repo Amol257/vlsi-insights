@@ -184,17 +184,32 @@
 
     // Auth callback listener
     if (typeof sb !== 'undefined' && sb.auth) {
-      function getRedirectTarget() {
-        try {
-          if (sessionStorage.getItem('pending_cart_item')) return 'cart.html';
-        } catch (e) {}
-        return 'index.html';
+      function getRedirectTarget(session) {
+        const hasPendingCart = (() => {
+          try { return !!sessionStorage.getItem('pending_cart_item'); } catch (e) { return false; }
+        })();
+
+        // Check if user has a phone number in their profile
+        const hasPhone = !!(
+          session &&
+          session.user &&
+          (session.user.user_metadata?.phone ||
+           session.user.phone)
+        );
+
+        if (!hasPhone) {
+          // Redirect to complete-profile, passing intended destination as ?redirect=
+          const dest = hasPendingCart ? 'cart.html' : 'index.html';
+          return `complete-profile.html?redirect=${encodeURIComponent(dest)}`;
+        }
+
+        return hasPendingCart ? 'cart.html' : 'index.html';
       }
 
       // 1. Listen for state change (standard Supabase OAuth flow)
       sb.auth.onAuthStateChange((event, session) => {
         if (event === 'SIGNED_IN' && session) {
-          window.location.href = getRedirectTarget();
+          window.location.href = getRedirectTarget(session);
         }
       });
 
@@ -202,7 +217,7 @@
       (async () => {
         const { data: { session } } = await sb.auth.getSession();
         if (session) {
-          window.location.href = getRedirectTarget();
+          window.location.href = getRedirectTarget(session);
         }
       })();
     }

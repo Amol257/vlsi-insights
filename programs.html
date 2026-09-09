@@ -2900,7 +2900,6 @@
         </form>
 
         <!-- VIEW 2: REGISTER / SIGN UP FORM (Initially hidden) -->
-        <form id="modalSignUpForm" class="auth-modal-form" style="display: none;" novalidate>
           <div class="auth-input-group">
             <label for="modalSuName">Full Name</label>
             <div class="auth-input-wrap">
@@ -2929,6 +2928,13 @@
             <label for="modalSuConfirm">Confirm Password</label>
             <div class="auth-input-wrap">
               <input type="password" id="modalSuConfirm" class="auth-input" placeholder="Confirm password" autocomplete="new-password" required />
+            </div>
+          </div>
+
+          <div class="auth-input-group">
+            <label for="modalSuPhone">Phone Number <span style="color:#00A887;font-size:0.75rem;">(with country code)</span></label>
+            <div class="auth-input-wrap">
+              <input type="tel" id="modalSuPhone" class="auth-input" placeholder="e.g. +91 98765 43210" autocomplete="tel" required />
             </div>
           </div>
 
@@ -4298,12 +4304,13 @@
         clearModalAlerts();
 
         const fullName = document.getElementById('modalSuName').value.trim();
-        const email = document.getElementById('modalSuEmail').value.trim();
+        const email    = document.getElementById('modalSuEmail').value.trim();
         const password = document.getElementById('modalSuPassword').value;
-        const confirm = document.getElementById('modalSuConfirm').value;
+        const confirm  = document.getElementById('modalSuConfirm').value;
+        const phone    = document.getElementById('modalSuPhone').value.trim();
 
-        if (!fullName || !email || !password || !confirm) {
-          showModalError('Please fill in all fields.');
+        if (!fullName || !email || !password || !confirm || !phone) {
+          showModalError('Please fill in all fields, including your phone number.');
           return;
         }
 
@@ -4317,6 +4324,11 @@
           return;
         }
 
+        if (!/[\d]{7,}/.test(phone.replace(/[\s\-()]/g, ''))) {
+          showModalError('Please enter a valid phone number with country code (e.g. +91 98765 43210).');
+          return;
+        }
+
         modalSuSubmitBtn.disabled = true;
         modalSuSubmitBtn.innerHTML = '<span>Creating Account...</span>';
 
@@ -4326,7 +4338,7 @@
               email,
               password,
               options: {
-                data: { full_name: fullName }
+                data: { full_name: fullName, phone }
               }
             });
 
