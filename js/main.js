@@ -318,13 +318,19 @@
     document.getElementById('signOutBtn')?.addEventListener('click', handleSignOut);
     document.getElementById('mobileSignOutBtn')?.addEventListener('click', handleSignOut);
 
-    // Listen to Supabase auth state change for live nav sync
+    // Listen to Supabase auth state change for live nav sync.
+    // INITIAL_SESSION fires when an existing session is restored from storage on page load.
+    // SIGNED_IN fires after OAuth code exchange completes.
     const sbClient = (typeof window !== 'undefined' && window.sb) || (typeof sb !== 'undefined' ? sb : null);
     if (sbClient && sbClient.auth) {
       sbClient.auth.onAuthStateChange((event, session) => {
-        // Fire on sign-in (including after Google OAuth PKCE code exchange),
-        // token refresh, and sign-out to keep navbar in sync
-        if (event === 'SIGNED_IN' || event === 'TOKEN_REFRESHED' || event === 'SIGNED_OUT' || event === 'USER_UPDATED') {
+        if (
+          event === 'INITIAL_SESSION' ||
+          event === 'SIGNED_IN' ||
+          event === 'TOKEN_REFRESHED' ||
+          event === 'SIGNED_OUT' ||
+          event === 'USER_UPDATED'
+        ) {
           updateNavAuth();
         }
       });
