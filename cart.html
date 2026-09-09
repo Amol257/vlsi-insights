@@ -9,6 +9,9 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@700&display=swap" rel="stylesheet" />
   <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+  <!-- Supabase JS Client & Config -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/supabase.js"></script>
   <!-- Razorpay Checkout SDK -->
   <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 
@@ -90,51 +93,7 @@
     }
     .mobile-accordion a:hover { color: var(--trace); background: var(--surface); }
 
-    /* User pill */
-    .nav-user-pill {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 6px 12px 6px 6px;
-      background: #FFF;
-      border: 1px solid var(--edge);
-      border-radius: 20px;
-      font-size: 0.8125rem;
-      font-weight: 600;
-      color: var(--text-hi);
-      text-decoration: none;
-    }
-    .nav-user-pill:hover { border-color: var(--trace); }
 
-    .nav-user-avatar {
-      width: 28px; height: 28px;
-      background: var(--trace);
-      color: #FFF;
-      font-size: 0.75rem;
-      font-weight: 700;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-      
-    }
-
-    .nav-logout-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-      padding: 6px 10px;
-      font-size: 0.75rem;
-      font-weight: 600;
-      color: var(--text-lo);
-      border: 1px solid var(--edge);
-      border-radius: 4px;
-      background: #FFF;
-      cursor: pointer;
-      transition: all var(--dur-fast) ease;
-    }
-    .nav-logout-btn:hover { border-color: var(--error); color: var(--error); }
 
     /* ============================================================ */
     /* PAGE HERO                                                     */
@@ -561,7 +520,312 @@
     @keyframes pulse-whatsapp-badge {
       0%, 100% { transform: scale(1); }
       50% { transform: scale(1.15); }
-    }</style>
+    }
+
+    /* ==========================================================================
+       In-Page Auth Popup Modal (Direct Login / Register on Same Page)
+       ========================================================================== */
+    .auth-modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.55);
+      backdrop-filter: blur(5px);
+      -webkit-backdrop-filter: blur(5px);
+      z-index: 3000;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.25s ease, visibility 0.25s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+    }
+
+    .auth-modal-backdrop.open {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .auth-modal-card {
+      position: relative;
+      width: 100%;
+      max-width: 440px;
+      background: #FFFFFF;
+      border: 1px solid #E2E8F0;
+      border-radius: 16px;
+      padding: 36px 32px 28px;
+      box-shadow: 0 25px 60px -15px rgba(15, 23, 42, 0.25), 0 0 0 1px rgba(15, 23, 42, 0.05);
+      transform: scale(0.94);
+      opacity: 0;
+      transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.25s ease;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+
+    .auth-modal-backdrop.open .auth-modal-card {
+      transform: scale(1);
+      opacity: 1;
+    }
+
+    .auth-modal-close-btn {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      background: transparent;
+      border: none;
+      color: #94A3B8;
+      cursor: pointer;
+      padding: 6px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: color 0.15s, background 0.15s;
+    }
+
+    .auth-modal-close-btn:hover {
+      color: #0F172A;
+      background: #F1F5F9;
+    }
+
+    .auth-modal-header {
+      margin-bottom: 20px;
+      text-align: left;
+    }
+
+    .auth-modal-title {
+      font-family: var(--font-display, 'Space Grotesk', sans-serif);
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #0F172A;
+      letter-spacing: -0.015em;
+      margin-bottom: 4px;
+    }
+
+    .auth-modal-subtitle {
+      font-size: 0.875rem;
+      color: #64748B;
+      line-height: 1.45;
+    }
+
+    .auth-modal-form {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .auth-input-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      text-align: left;
+    }
+
+    .auth-input-group label {
+      font-size: 0.8125rem;
+      font-weight: 600;
+      color: #334155;
+    }
+
+    .auth-input-wrap {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .auth-input {
+      width: 100%;
+      height: 46px;
+      padding: 0 14px;
+      background: #FFFFFF;
+      border: 1.5px solid #CBD5E1;
+      border-radius: 8px;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.9375rem;
+      color: #0F172A;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .auth-input:focus {
+      outline: none;
+      border-color: #00A887;
+      box-shadow: 0 0 0 3px rgba(0, 168, 135, 0.12);
+    }
+
+    .auth-input::placeholder {
+      color: #94A3B8;
+      font-size: 0.875rem;
+    }
+
+    .auth-pw-toggle {
+      position: absolute;
+      right: 12px;
+      background: none;
+      border: none;
+      color: #94A3B8;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 4px;
+    }
+
+    .auth-pw-toggle:hover {
+      color: #0F172A;
+    }
+
+    .auth-social-section {
+      margin: 6px 0 4px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .auth-social-label {
+      font-size: 0.8125rem;
+      color: #64748B;
+      font-weight: 500;
+    }
+
+    .auth-social-buttons {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .auth-google-btn {
+      width: 44px;
+      height: 44px;
+      background: #FFFFFF;
+      border: 1.5px solid #E2E8F0;
+      border-radius: 8px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: border-color 0.2s, box-shadow 0.2s, transform 0.15s;
+    }
+
+    .auth-google-btn:hover {
+      border-color: #CBD5E1;
+      box-shadow: 0 2px 8px rgba(15, 23, 42, 0.08);
+      transform: translateY(-1px);
+    }
+
+
+
+    .auth-helper-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 0.8125rem;
+      margin-top: 2px;
+    }
+
+    .auth-remember-label {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      color: #475569;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .auth-remember-label input[type="checkbox"] {
+      accent-color: #00A887;
+      width: 15px;
+      height: 15px;
+      cursor: pointer;
+    }
+
+    .auth-forgot-link {
+      color: #C2410C;
+      font-weight: 500;
+      text-decoration: none;
+      transition: color 0.15s;
+    }
+
+    .auth-forgot-link:hover {
+      text-decoration: underline;
+    }
+
+    .auth-submit-btn {
+      width: 100%;
+      height: 48px;
+      background: #00A887;
+      color: #FFFFFF;
+      border: none;
+      border-radius: 8px;
+      font-family: var(--font-display, 'Space Grotesk', sans-serif);
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: background 0.2s, transform 0.15s;
+      margin-top: 6px;
+    }
+
+    .auth-submit-btn:hover {
+      background: #008f72;
+    }
+
+    .auth-submit-btn:disabled {
+      opacity: 0.65;
+      cursor: not-allowed;
+    }
+
+    .auth-footer-switch {
+      text-align: center;
+      font-size: 0.875rem;
+      color: #64748B;
+      margin-top: 18px;
+    }
+
+    .auth-switch-btn {
+      background: none;
+      border: none;
+      color: #00A887;
+      font-weight: 700;
+      cursor: pointer;
+      padding: 0 4px;
+      font-family: inherit;
+      font-size: inherit;
+      text-decoration: none;
+    }
+
+    .auth-switch-btn:hover {
+      text-decoration: underline;
+    }
+
+    .auth-modal-alert {
+      padding: 10px 12px;
+      border-radius: 6px;
+      font-size: 0.8125rem;
+      display: none;
+      align-items: center;
+      gap: 8px;
+      line-height: 1.4;
+      text-align: left;
+    }
+
+    .auth-modal-alert.error {
+      display: flex;
+      background: rgba(220, 38, 38, 0.08);
+      border: 1px solid rgba(220, 38, 38, 0.25);
+      color: #DC2626;
+    }
+
+    .auth-modal-alert.success {
+      display: flex;
+      background: rgba(0, 168, 135, 0.1);
+      border: 1px solid rgba(0, 168, 135, 0.3);
+      color: #00A887;
+    }
+  </style>
   <link rel="stylesheet" href="css/navbar.css">
 </head>
 <body>
@@ -703,12 +967,23 @@
         </div>
       </nav>
 
-      <!-- Cart Icon + Mobile Hamburger Button -->
+      <!-- Cart Icon + Auth Controls + Mobile Hamburger Button -->
       <div class="navbar__controls">
         <a href="cart.html" class="nav-cart-btn" aria-label="View Cart" id="cartNavBtn">
           <i data-lucide="shopping-cart"></i>
           <span class="cart-badge" id="cartBadge" data-visible="false">0</span>
         </a>
+        <a href="login.html" class="nav-signin-btn" id="navSignInLink">Sign In</a>
+        <div class="nav-user-menu" id="navUserMenu" hidden>
+          <div class="nav-user-pill">
+            <span class="nav-user-avatar" id="navUserAvatar">U</span>
+            <span class="nav-user-name" id="navUserName"></span>
+          </div>
+          <button type="button" class="sign-out-btn" id="signOutBtn" aria-label="Sign Out">
+            <i data-lucide="log-out"></i>
+            <span>Sign Out</span>
+          </button>
+        </div>
         <button type="button" class="nav-hamburger" id="hamburgerBtn" aria-label="Open navigation menu" aria-expanded="false" aria-controls="mobileDrawer">
           <i data-lucide="menu"></i>
         </button>
@@ -770,15 +1045,25 @@
         <a href="index.html#contact" class="mobile-nav-link drawer-close-trigger">Contact</a>
       </li>
     </ul>
-    <div style="margin-top:auto;padding-top:20px;border-top:1px solid var(--edge);display:flex;flex-direction:column;gap:10px;">
-      <a href="cart.html" class="drawer-close-trigger" style="display:flex;align-items:center;justify-content:center;gap:8px;padding:12px;background:var(--surface);border:1px solid var(--edge);border-radius:6px;color:var(--text-hi);font-weight:600;text-decoration:none;font-size:0.875rem;">
+    <div class="mobile-drawer-footer-inner" style="margin-top:auto;padding-top:20px;border-top:1px solid var(--edge);display:flex;flex-direction:column;gap:10px;">
+      <a href="cart.html" class="drawer-close-trigger mobile-drawer-cart-btn" style="display:flex;align-items:center;justify-content:center;gap:8px;padding:12px;background:var(--surface);border:1px solid var(--edge);border-radius:6px;color:var(--text-hi);font-weight:600;text-decoration:none;font-size:0.875rem;">
         <i data-lucide="shopping-cart" style="width:18px;height:18px;"></i>
         <span>View Cart</span>
       </a>
-      <a href="login.html" class="drawer-close-trigger" style="display:flex;align-items:center;justify-content:center;gap:8px;padding:12px;background:var(--trace);color:#FFFFFF;border-radius:6px;font-weight:600;text-decoration:none;font-size:0.875rem;">
+      <a href="login.html" class="drawer-close-trigger mobile-drawer-login-btn" id="mobileSignInLink" style="display:flex;align-items:center;justify-content:center;gap:8px;padding:12px;background:var(--trace);color:#FFFFFF;border-radius:6px;font-weight:600;text-decoration:none;font-size:0.875rem;">
         <i data-lucide="user" style="width:18px;height:18px;"></i>
         <span>Sign In</span>
       </a>
+      <div id="mobileUserMenu" class="mobile-user-card" hidden>
+        <div style="display:flex;align-items:center;gap:8px;min-width:0;">
+          <span class="nav-user-avatar" id="mobileUserAvatar">U</span>
+          <span id="mobileUserName" class="mobile-user-name"></span>
+        </div>
+        <button type="button" class="sign-out-btn" id="mobileSignOutBtn" aria-label="Sign Out">
+          <i data-lucide="log-out"></i>
+          <span>Sign Out</span>
+        </button>
+      </div>
     </div>
   </aside>
 
@@ -908,6 +1193,131 @@
         </a>
         <a href="programs.html" class="btn-ghost-full">Browse More Programs</a>
       </div>
+    </div>
+  </div>
+
+  <!-- ======================================================================= -->
+  <!-- IN-PAGE AUTH MODAL (Login / Register on same page as per reference)     -->
+  <!-- ======================================================================= -->
+  <div class="auth-modal-backdrop" id="authModalBackdrop" aria-hidden="true">
+    <div class="auth-modal-card" id="authModalCard" role="dialog" aria-modal="true" aria-labelledby="authModalTitle">
+      <button type="button" class="auth-modal-close-btn" id="authModalCloseBtn" aria-label="Close modal">
+        <i data-lucide="x" style="width: 20px; height: 20px;"></i>
+      </button>
+
+      <!-- Dynamic Header -->
+      <div class="auth-modal-header">
+        <h2 class="auth-modal-title" id="authModalTitle">Hi, Welcome back!</h2>
+        <p class="auth-modal-subtitle" id="authModalSubtitle">Sign in to complete your checkout and enrollment.</p>
+      </div>
+
+      <!-- Alert Error/Success inside modal -->
+      <div id="modalAlertError" class="auth-modal-alert error" role="alert">
+        <i data-lucide="alert-circle" style="width: 16px; height: 16px; flex-shrink: 0;"></i>
+        <span id="modalErrorText"></span>
+      </div>
+      <div id="modalAlertSuccess" class="auth-modal-alert success" role="status">
+        <i data-lucide="check-circle-2" style="width: 16px; height: 16px; flex-shrink: 0;"></i>
+        <span id="modalSuccessText"></span>
+      </div>
+
+      <!-- VIEW 1: SIGN IN FORM -->
+      <form id="modalSignInForm" class="auth-modal-form" novalidate>
+        <div class="auth-input-group">
+          <label for="modalSiEmail">Username or Email Address</label>
+          <div class="auth-input-wrap">
+            <input type="email" id="modalSiEmail" class="auth-input" placeholder="name@example.com" autocomplete="email" required />
+          </div>
+        </div>
+
+        <div class="auth-input-group">
+          <label for="modalSiPassword">Password</label>
+          <div class="auth-input-wrap">
+            <input type="password" id="modalSiPassword" class="auth-input" placeholder="Password" autocomplete="current-password" required />
+            <button type="button" class="auth-pw-toggle" id="modalSiPwToggle" aria-label="Toggle password visibility">
+              <i data-lucide="eye" style="width: 18px; height: 18px;"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- Social Login Section -->
+        <div class="auth-social-section">
+          <span class="auth-social-label">Login with your Google account</span>
+          <div class="auth-social-buttons" style="justify-content: center;">
+            <button type="button" class="auth-google-btn" id="modalGoogleBtn" aria-label="Sign in with Google" title="Login with Google">
+              <svg width="22" height="22" viewBox="0 0 24 24">
+                <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/>
+                <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- Remember me & Forgot Password -->
+        <div class="auth-helper-row">
+          <label class="auth-remember-label">
+            <input type="checkbox" id="modalRememberMe" checked />
+            <span>Keep me signed in</span>
+          </label>
+          <a href="login.html#forgot" class="auth-forgot-link" id="modalForgotLink">Forgot Password?</a>
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit" class="auth-submit-btn" id="modalSiSubmitBtn">
+          <span>Sign In</span>
+        </button>
+
+        <!-- Toggle to Register -->
+        <div class="auth-footer-switch">
+          Don't have an account? <button type="button" class="auth-switch-btn" id="switchToSignUpBtn">Register Now</button>
+        </div>
+      </form>
+
+      <!-- VIEW 2: REGISTER / SIGN UP FORM (Initially hidden) -->
+      <form id="modalSignUpForm" class="auth-modal-form" style="display: none;" novalidate>
+        <div class="auth-input-group">
+          <label for="modalSuName">Full Name</label>
+          <div class="auth-input-wrap">
+            <input type="text" id="modalSuName" class="auth-input" placeholder="e.g. Rahul Sharma" autocomplete="name" required />
+          </div>
+        </div>
+
+        <div class="auth-input-group">
+          <label for="modalSuEmail">Email Address</label>
+          <div class="auth-input-wrap">
+            <input type="email" id="modalSuEmail" class="auth-input" placeholder="name@example.com" autocomplete="email" required />
+          </div>
+        </div>
+
+        <div class="auth-input-group">
+          <label for="modalSuPassword">Password (min 6 chars)</label>
+          <div class="auth-input-wrap">
+            <input type="password" id="modalSuPassword" class="auth-input" placeholder="Password" autocomplete="new-password" required />
+            <button type="button" class="auth-pw-toggle" id="modalSuPwToggle" aria-label="Toggle password visibility">
+              <i data-lucide="eye" style="width: 18px; height: 18px;"></i>
+            </button>
+          </div>
+        </div>
+
+        <div class="auth-input-group">
+          <label for="modalSuConfirm">Confirm Password</label>
+          <div class="auth-input-wrap">
+            <input type="password" id="modalSuConfirm" class="auth-input" placeholder="Confirm password" autocomplete="new-password" required />
+          </div>
+        </div>
+
+        <button type="submit" class="auth-submit-btn" id="modalSuSubmitBtn">
+          <span>Create Account</span>
+        </button>
+
+        <!-- Toggle to Sign In -->
+        <div class="auth-footer-switch">
+          Already have an account? <button type="button" class="auth-switch-btn" id="switchToSignInBtn">Sign In</button>
+        </div>
+      </form>
+
     </div>
   </div>
 
@@ -1148,11 +1558,281 @@
     });
 
     // ================================================================
+    // IN-PAGE AUTH MODAL (Login / Register on Same Page for Checkout)
+    // ================================================================
+    async function getAuthUser() {
+      if (typeof sb !== 'undefined' && sb.auth) {
+        try {
+          const { data: { session } } = await sb.auth.getSession();
+          return session ? session.user : null;
+        } catch (e) {
+          return null;
+        }
+      }
+      return null;
+    }
+
+    const authModalBackdrop = document.getElementById('authModalBackdrop');
+    const authModalCard = document.getElementById('authModalCard');
+    const authModalCloseBtn = document.getElementById('authModalCloseBtn');
+    const authModalTitle = document.getElementById('authModalTitle');
+    const authModalSubtitle = document.getElementById('authModalSubtitle');
+
+    const modalAlertError = document.getElementById('modalAlertError');
+    const modalAlertSuccess = document.getElementById('modalAlertSuccess');
+    const modalErrorText = document.getElementById('modalErrorText');
+    const modalSuccessText = document.getElementById('modalSuccessText');
+
+    const modalSignInForm = document.getElementById('modalSignInForm');
+    const modalSignUpForm = document.getElementById('modalSignUpForm');
+    const modalSiSubmitBtn = document.getElementById('modalSiSubmitBtn');
+    const modalSuSubmitBtn = document.getElementById('modalSuSubmitBtn');
+
+    const switchToSignUpBtn = document.getElementById('switchToSignUpBtn');
+    const switchToSignInBtn = document.getElementById('switchToSignInBtn');
+    const modalSiPwToggle = document.getElementById('modalSiPwToggle');
+    const modalSuPwToggle = document.getElementById('modalSuPwToggle');
+    const modalGoogleBtn = document.getElementById('modalGoogleBtn');
+
+    function showModalError(msg) {
+      if (modalAlertSuccess) modalAlertSuccess.style.display = 'none';
+      if (modalErrorText) modalErrorText.textContent = msg;
+      if (modalAlertError) modalAlertError.style.display = 'flex';
+      if (window.lucide) lucide.createIcons();
+    }
+
+    function showModalSuccess(msg) {
+      if (modalAlertError) modalAlertError.style.display = 'none';
+      if (modalSuccessText) modalSuccessText.textContent = msg;
+      if (modalAlertSuccess) modalAlertSuccess.style.display = 'flex';
+      if (window.lucide) lucide.createIcons();
+    }
+
+    function clearModalAlerts() {
+      if (modalAlertError) modalAlertError.style.display = 'none';
+      if (modalAlertSuccess) modalAlertSuccess.style.display = 'none';
+    }
+
+    function openAuthModal() {
+      clearModalAlerts();
+      if (modalSignInForm) modalSignInForm.style.display = 'flex';
+      if (modalSignUpForm) modalSignUpForm.style.display = 'none';
+      if (authModalTitle) authModalTitle.textContent = 'Hi, Welcome back!';
+      if (authModalSubtitle) authModalSubtitle.textContent = 'Sign in to complete your checkout and enrollment.';
+      if (authModalBackdrop) {
+        authModalBackdrop.classList.add('open');
+        document.body.style.overflow = 'hidden';
+        if (window.lucide) lucide.createIcons();
+      }
+    }
+    window.openAuthModal = openAuthModal;
+
+    function closeAuthModal() {
+      if (authModalBackdrop) {
+        authModalBackdrop.classList.remove('open');
+        document.body.style.overflow = '';
+      }
+    }
+
+    if (authModalCloseBtn) authModalCloseBtn.addEventListener('click', closeAuthModal);
+    if (authModalBackdrop) {
+      authModalBackdrop.addEventListener('click', (e) => {
+        if (e.target === authModalBackdrop) closeAuthModal();
+      });
+    }
+
+    if (switchToSignUpBtn) {
+      switchToSignUpBtn.addEventListener('click', () => {
+        clearModalAlerts();
+        modalSignInForm.style.display = 'none';
+        modalSignUpForm.style.display = 'flex';
+        authModalTitle.textContent = 'Create Your Account';
+        authModalSubtitle.textContent = 'Join VLSI Insights to enroll in semiconductor tracks.';
+        if (window.lucide) lucide.createIcons();
+      });
+    }
+
+    if (switchToSignInBtn) {
+      switchToSignInBtn.addEventListener('click', () => {
+        clearModalAlerts();
+        modalSignUpForm.style.display = 'none';
+        modalSignInForm.style.display = 'flex';
+        authModalTitle.textContent = 'Hi, Welcome back!';
+        authModalSubtitle.textContent = 'Sign in to complete your checkout and enrollment.';
+        if (window.lucide) lucide.createIcons();
+      });
+    }
+
+    if (modalSiPwToggle) {
+      modalSiPwToggle.addEventListener('click', () => {
+        const input = document.getElementById('modalSiPassword');
+        if (!input) return;
+        const isPw = input.type === 'password';
+        input.type = isPw ? 'text' : 'password';
+        modalSiPwToggle.innerHTML = isPw
+          ? '<i data-lucide="eye-off" style="width: 18px; height: 18px;"></i>'
+          : '<i data-lucide="eye" style="width: 18px; height: 18px;"></i>';
+        if (window.lucide) lucide.createIcons();
+      });
+    }
+
+    if (modalSuPwToggle) {
+      modalSuPwToggle.addEventListener('click', () => {
+        const input = document.getElementById('modalSuPassword');
+        if (!input) return;
+        const isPw = input.type === 'password';
+        input.type = isPw ? 'text' : 'password';
+        modalSuPwToggle.innerHTML = isPw
+          ? '<i data-lucide="eye-off" style="width: 18px; height: 18px;"></i>'
+          : '<i data-lucide="eye" style="width: 18px; height: 18px;"></i>';
+        if (window.lucide) lucide.createIcons();
+      });
+    }
+
+    function onAuthSuccessComplete() {
+      showModalSuccess('Signed in! Proceeding to payment...');
+      setTimeout(() => {
+        closeAuthModal();
+        document.getElementById('payBtn').click();
+      }, 400);
+    }
+
+    if (modalGoogleBtn) {
+      modalGoogleBtn.addEventListener('click', async () => {
+        clearModalAlerts();
+        if (typeof sb === 'undefined' || !sb.auth) {
+          showModalError('Authentication client is initializing. Please try again in a moment.');
+          return;
+        }
+        try {
+          const redirectUrl = window.location.protocol === 'file:'
+            ? 'https://vlsiinsights.com/auth-callback.html'
+            : new URL('cart.html', window.location.href).href;
+
+          const { error } = await sb.auth.signInWithOAuth({
+            provider: 'google',
+            options: { redirectTo: redirectUrl }
+          });
+          if (error) showModalError(error.message);
+        } catch (err) {
+          showModalError(err.message || 'Error connecting to Google authentication.');
+        }
+      });
+    }
+
+    if (modalSignInForm) {
+      modalSignInForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        clearModalAlerts();
+
+        const email = document.getElementById('modalSiEmail').value.trim();
+        const password = document.getElementById('modalSiPassword').value;
+
+        if (!email || !password) {
+          showModalError('Please enter both your email address and password.');
+          return;
+        }
+
+        modalSiSubmitBtn.disabled = true;
+        modalSiSubmitBtn.innerHTML = '<span>Signing In...</span>';
+
+        try {
+          if (typeof sb !== 'undefined' && sb.auth) {
+            const { error } = await sb.auth.signInWithPassword({ email, password });
+            if (error) {
+              modalSiSubmitBtn.disabled = false;
+              modalSiSubmitBtn.innerHTML = '<span>Sign In</span>';
+              showModalError(error.message);
+              return;
+            }
+          }
+          onAuthSuccessComplete();
+        } catch (err) {
+          modalSiSubmitBtn.disabled = false;
+          modalSiSubmitBtn.innerHTML = '<span>Sign In</span>';
+          showModalError(err.message || 'An unexpected error occurred. Please try again.');
+        }
+      });
+    }
+
+    if (modalSignUpForm) {
+      modalSignUpForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        clearModalAlerts();
+
+        const fullName = document.getElementById('modalSuName').value.trim();
+        const email = document.getElementById('modalSuEmail').value.trim();
+        const password = document.getElementById('modalSuPassword').value;
+        const confirm = document.getElementById('modalSuConfirm').value;
+
+        if (!fullName || !email || !password || !confirm) {
+          showModalError('Please fill in all fields.');
+          return;
+        }
+
+        if (password !== confirm) {
+          showModalError('Passwords do not match.');
+          return;
+        }
+
+        if (password.length < 6) {
+          showModalError('Password must be at least 6 characters.');
+          return;
+        }
+
+        modalSuSubmitBtn.disabled = true;
+        modalSuSubmitBtn.innerHTML = '<span>Creating Account...</span>';
+
+        try {
+          if (typeof sb !== 'undefined' && sb.auth) {
+            const { data, error } = await sb.auth.signUp({
+              email,
+              password,
+              options: {
+                data: { full_name: fullName }
+              }
+            });
+
+            if (error) {
+              modalSuSubmitBtn.disabled = false;
+              modalSuSubmitBtn.innerHTML = '<span>Create Account</span>';
+              showModalError(error.message);
+              return;
+            }
+
+            if (data && data.user && !data.session) {
+              await sb.auth.signInWithPassword({ email, password });
+            }
+          }
+          onAuthSuccessComplete();
+        } catch (err) {
+          modalSuSubmitBtn.disabled = false;
+          modalSuSubmitBtn.innerHTML = '<span>Create Account</span>';
+          showModalError(err.message || 'An error occurred while creating your account.');
+        }
+      });
+    }
+
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape' && authModalBackdrop && authModalBackdrop.classList.contains('open')) {
+        closeAuthModal();
+      }
+    });
+
+    // ================================================================
     // RAZORPAY PAYMENT
     // ================================================================
-    document.getElementById('payBtn').addEventListener('click', function() {
+    document.getElementById('payBtn').addEventListener('click', async function() {
       var cart = getCart();
       if (!cart.length) return;
+
+      // ---- AUTH GATE: Must be logged in to purchase ----
+      const user = await getAuthUser();
+      if (!user) {
+        openAuthModal();
+        return;
+      }
+
       var totals = calcTotals(cart);
       var payBtn = document.getElementById('payBtn');
       payBtn.classList.add('loading');
@@ -1168,8 +1848,12 @@
         description: description,
         image: 'images/logo.png',
         theme: { color: 'var(--trace)' },
-        prefill: { name: '', email: '', contact: '' },
-        notes: { programs: description, source: 'website_cart' },
+        prefill: { 
+          name: (user.user_metadata && user.user_metadata.full_name) || '', 
+          email: user.email || '', 
+          contact: '' 
+        },
+        notes: { programs: description, source: 'website_cart', user_id: user.id },
         handler: function(response) {
           onPaymentSuccess(response);
         },
@@ -1210,6 +1894,28 @@
     // ================================================================
     // INIT
     // ================================================================
+    try {
+      const pendingRaw = sessionStorage.getItem('pending_cart_item');
+      if (pendingRaw) {
+        const pendingItem = JSON.parse(pendingRaw);
+        sessionStorage.removeItem('pending_cart_item');
+        if (pendingItem && pendingItem.id) {
+          const curCart = JSON.parse(localStorage.getItem('vlsi_cart') || '[]');
+          const exists = curCart.find(x => x.id === pendingItem.id);
+          if (!exists) {
+            curCart.push({
+              id: pendingItem.id,
+              name: pendingItem.name,
+              price: Number(pendingItem.price),
+              qty: 1
+            });
+            localStorage.setItem('vlsi_cart', JSON.stringify(curCart));
+            window.dispatchEvent(new Event('storage'));
+          }
+        }
+      }
+    } catch(e) {}
+
     renderCart();
     lucide.createIcons();
 

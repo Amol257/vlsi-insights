@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Authenticating | VLSI Insights</title>
+  <meta name="description" content="Completing your secure authentication with VLSI Insights.">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+
+  <!-- Supabase JS Client & Config -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/supabase.js"></script>
+
+  <!-- Site Styles -->
+  <link rel="stylesheet" href="css/navbar.css">
+  <link rel="stylesheet" href="css/global.css">
+
+  <style>
+    :root {
+      --bg-dark: #090D16;
+      --card-bg: #111827;
+      --card-border: #1F2937;
+      --text-main: #F9FAFB;
+      --text-muted: #9CA3AF;
+      --primary-teal: #00A887;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      font-family: 'Inter', -apple-system, sans-serif;
+      margin: 0;
+    }
+
+    .callback-main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 20px;
+      text-align: center;
+      position: relative;
+    }
+
+    /* Ambient glow */
+    .callback-main::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 500px;
+      height: 350px;
+      background: radial-gradient(circle, rgba(0, 168, 135, 0.15) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .callback-card {
+      position: relative;
+      z-index: 1;
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      padding: 48px 36px;
+      max-width: 400px;
+      width: 100%;
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .teal-spinner {
+      width: 48px;
+      height: 48px;
+      border: 3px solid rgba(0, 168, 135, 0.2);
+      border-top-color: var(--primary-teal);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      margin-bottom: 24px;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .teal-spinner {
+        animation: none;
+        border-style: dotted;
+      }
+    }
+
+    .callback-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--text-main);
+      margin-bottom: 8px;
+    }
+
+    .callback-desc {
+      font-size: 0.875rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    .callback-redirect-hint {
+      margin-top: 20px;
+      font-size: 0.75rem;
+      color: #6B7280;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Standardized Master Navbar -->
+  <header class="navbar" role="banner">
+    <div class="container navbar__inner">
+      <a href="index.html" class="nav-logo" aria-label="VLSI Insights Homepage">
+        <img src="images/logo.png" alt="VLSI Insights" class="nav-logo-img">
+      </a>
+
+      <nav class="nav-links" role="navigation" aria-label="Main Navigation">
+        <div class="nav-item"><a href="index.html" class="nav-link">Home</a></div>
+        <div class="nav-item"><a href="programs.html" class="nav-link">Programs</a></div>
+        <div class="nav-item"><a href="front-end-software.html" class="nav-link">Front End Software</a></div>
+        <div class="nav-item"><a href="blog.html" class="nav-link">Blog</a></div>
+        <div class="nav-item"><a href="about-company.html" class="nav-link">About</a></div>
+        <div class="nav-item"><a href="index.html#contact" class="nav-link">Contact</a></div>
+      </nav>
+
+      <div class="navbar__controls">
+        <a href="cart.html" class="nav-cart-btn" aria-label="View Cart" id="cartNavBtn">
+          <i data-lucide="shopping-cart"></i>
+          <span class="cart-badge" id="cartBadge" data-visible="false">0</span>
+        </a>
+        <a href="login.html" class="nav-signin-btn" id="navSignInLink">Sign In</a>
+        <div class="nav-user-menu" id="navUserMenu" hidden>
+          <div class="nav-user-pill">
+            <span class="nav-user-avatar" id="navUserAvatar">U</span>
+            <span class="nav-user-name" id="navUserName"></span>
+          </div>
+          <button type="button" class="sign-out-btn" id="signOutBtn" aria-label="Sign Out">
+            <i data-lucide="log-out"></i>
+            <span>Sign Out</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Centered Dark Screen Content -->
+  <main class="callback-main" role="main">
+    <div class="callback-card">
+      <div class="teal-spinner" aria-hidden="true"></div>
+      <h1 class="callback-title">Signing you in...</h1>
+      <p class="callback-desc">Verifying your credentials and establishing your secure session. You will be redirected momentarily.</p>
+      <div class="callback-redirect-hint">Taking too long? <a href="index.html" style="color:var(--primary-teal);text-decoration:none;">Click here to return home</a></div>
+    </div>
+  </main>
+
+  <script>
+    // Initialize Lucide Icons
+    if (typeof lucide !== 'undefined' && lucide.createIcons) {
+      lucide.createIcons();
+    }
+
+    // Auth callback listener
+    if (typeof sb !== 'undefined' && sb.auth) {
+      function getRedirectTarget() {
+        try {
+          if (sessionStorage.getItem('pending_cart_item')) return 'cart.html';
+        } catch (e) {}
+        return 'index.html';
+      }
+
+      // 1. Listen for state change (standard Supabase OAuth flow)
+      sb.auth.onAuthStateChange((event, session) => {
+        if (event === 'SIGNED_IN' && session) {
+          window.location.href = getRedirectTarget();
+        }
+      });
+
+      // 2. Also check if session is already established from the redirect URL fragment/code
+      (async () => {
+        const { data: { session } } = await sb.auth.getSession();
+        if (session) {
+          window.location.href = getRedirectTarget();
+        }
+      })();
+    }
+  </script>
+  <script src="js/main.js" defer></script>
+</body>
+</html>

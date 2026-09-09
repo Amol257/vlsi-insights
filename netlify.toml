@@ -87,6 +87,11 @@
   status = 200
 
 [[redirects]]
+  from = "/auth/callback"
+  to = "/auth-callback.html"
+  status = 200
+
+[[redirects]]
   from = "/front-end-software"
   to = "/front-end-software.html"
   status = 200

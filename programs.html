@@ -19,6 +19,10 @@
   <!-- Lucide Icons CDN -->
   <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
 
+  <!-- Supabase JS Client & Config -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/supabase.js"></script>
+
   <!-- Site-wide CSS -->
   <link rel="stylesheet" href="css/navbar.css">
   <link rel="stylesheet" href="css/global.css">
@@ -764,6 +768,309 @@
       color: var(--trace);
       font-weight: 600;
       text-decoration: underline;
+    }
+
+    /* ==========================================================================
+       In-Page Auth Popup Modal (Direct Login / Register on Same Page)
+       ========================================================================== */
+    .auth-modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.55);
+      backdrop-filter: blur(5px);
+      -webkit-backdrop-filter: blur(5px);
+      z-index: 3000;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.25s ease, visibility 0.25s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+    }
+
+    .auth-modal-backdrop.open {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .auth-modal-card {
+      position: relative;
+      width: 100%;
+      max-width: 440px;
+      background: #FFFFFF;
+      border: 1px solid #E2E8F0;
+      border-radius: 16px;
+      padding: 36px 32px 28px;
+      box-shadow: 0 25px 60px -15px rgba(15, 23, 42, 0.25), 0 0 0 1px rgba(15, 23, 42, 0.05);
+      transform: scale(0.94);
+      opacity: 0;
+      transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.25s ease;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+
+    .auth-modal-backdrop.open .auth-modal-card {
+      transform: scale(1);
+      opacity: 1;
+    }
+
+    .auth-modal-close-btn {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      background: transparent;
+      border: none;
+      color: #94A3B8;
+      cursor: pointer;
+      padding: 6px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: color 0.15s, background 0.15s;
+    }
+
+    .auth-modal-close-btn:hover {
+      color: #0F172A;
+      background: #F1F5F9;
+    }
+
+    .auth-modal-header {
+      margin-bottom: 20px;
+      text-align: left;
+    }
+
+    .auth-modal-title {
+      font-family: var(--font-display, 'Space Grotesk', sans-serif);
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #0F172A;
+      letter-spacing: -0.015em;
+      margin-bottom: 4px;
+    }
+
+    .auth-modal-subtitle {
+      font-size: 0.875rem;
+      color: #64748B;
+      line-height: 1.45;
+    }
+
+    .auth-modal-form {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .auth-input-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      text-align: left;
+    }
+
+    .auth-input-group label {
+      font-size: 0.8125rem;
+      font-weight: 600;
+      color: #334155;
+    }
+
+    .auth-input-wrap {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .auth-input {
+      width: 100%;
+      height: 46px;
+      padding: 0 14px;
+      background: #FFFFFF;
+      border: 1.5px solid #CBD5E1;
+      border-radius: 8px;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.9375rem;
+      color: #0F172A;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .auth-input:focus {
+      outline: none;
+      border-color: #00A887;
+      box-shadow: 0 0 0 3px rgba(0, 168, 135, 0.12);
+    }
+
+    .auth-input::placeholder {
+      color: #94A3B8;
+      font-size: 0.875rem;
+    }
+
+    .auth-pw-toggle {
+      position: absolute;
+      right: 12px;
+      background: none;
+      border: none;
+      color: #94A3B8;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 4px;
+    }
+
+    .auth-pw-toggle:hover {
+      color: #0F172A;
+    }
+
+    .auth-social-section {
+      margin: 6px 0 4px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .auth-social-label {
+      font-size: 0.8125rem;
+      color: #64748B;
+      font-weight: 500;
+    }
+
+    .auth-social-buttons {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .auth-google-btn {
+      width: 44px;
+      height: 44px;
+      background: #FFFFFF;
+      border: 1.5px solid #E2E8F0;
+      border-radius: 8px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: border-color 0.2s, box-shadow 0.2s, transform 0.15s;
+    }
+
+    .auth-google-btn:hover {
+      border-color: #CBD5E1;
+      box-shadow: 0 2px 8px rgba(15, 23, 42, 0.08);
+      transform: translateY(-1px);
+    }
+
+
+    .auth-helper-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 0.8125rem;
+      margin-top: 2px;
+    }
+
+    .auth-remember-label {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      color: #475569;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .auth-remember-label input[type="checkbox"] {
+      accent-color: #00A887;
+      width: 15px;
+      height: 15px;
+      cursor: pointer;
+    }
+
+    .auth-forgot-link {
+      color: #C2410C;
+      font-weight: 500;
+      text-decoration: none;
+      transition: color 0.15s;
+    }
+
+    .auth-forgot-link:hover {
+      text-decoration: underline;
+    }
+
+    .auth-submit-btn {
+      width: 100%;
+      height: 48px;
+      background: #00A887;
+      color: #FFFFFF;
+      border: none;
+      border-radius: 8px;
+      font-family: var(--font-display, 'Space Grotesk', sans-serif);
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: background 0.2s, transform 0.15s;
+      margin-top: 6px;
+    }
+
+    .auth-submit-btn:hover {
+      background: #008f72;
+    }
+
+    .auth-submit-btn:disabled {
+      opacity: 0.65;
+      cursor: not-allowed;
+    }
+
+    .auth-footer-switch {
+      text-align: center;
+      font-size: 0.875rem;
+      color: #64748B;
+      margin-top: 18px;
+    }
+
+    .auth-switch-btn {
+      background: none;
+      border: none;
+      color: #00A887;
+      font-weight: 700;
+      cursor: pointer;
+      padding: 0 4px;
+      font-family: inherit;
+      font-size: inherit;
+      text-decoration: none;
+    }
+
+    .auth-switch-btn:hover {
+      text-decoration: underline;
+    }
+
+    .auth-modal-alert {
+      padding: 10px 12px;
+      border-radius: 6px;
+      font-size: 0.8125rem;
+      display: none;
+      align-items: center;
+      gap: 8px;
+      line-height: 1.4;
+      text-align: left;
+    }
+
+    .auth-modal-alert.error {
+      display: flex;
+      background: rgba(220, 38, 38, 0.08);
+      border: 1px solid rgba(220, 38, 38, 0.25);
+      color: #DC2626;
+    }
+
+    .auth-modal-alert.success {
+      display: flex;
+      background: rgba(0, 168, 135, 0.1);
+      border: 1px solid rgba(0, 168, 135, 0.3);
+      color: #00A887;
     }
 
     .badge-price {
@@ -1994,6 +2301,17 @@
           <i data-lucide="shopping-cart"></i>
           <span class="cart-badge" id="cartBadge" data-visible="false">0</span>
         </a>
+        <a href="login.html" class="nav-signin-btn" id="navSignInLink">Sign In</a>
+        <div class="nav-user-menu" id="navUserMenu" hidden>
+          <div class="nav-user-pill">
+            <span class="nav-user-avatar" id="navUserAvatar">U</span>
+            <span class="nav-user-name" id="navUserName"></span>
+          </div>
+          <button type="button" class="sign-out-btn" id="signOutBtn" aria-label="Sign Out">
+            <i data-lucide="log-out"></i>
+            <span>Sign Out</span>
+          </button>
+        </div>
         <button type="button" class="nav-hamburger" id="hamburgerBtn" aria-label="Open navigation menu"
           aria-expanded="false" aria-controls="mobileDrawer">
           <i data-lucide="menu"></i>
@@ -2069,16 +2387,24 @@
     </ul>
     <div
       class="mobile-drawer-footer-inner">
-      <a href="cart.html" class="drawer-close-trigger"
-        class="mobile-drawer-cart-btn">
+      <a href="cart.html" class="drawer-close-trigger mobile-drawer-cart-btn">
         <i data-lucide="shopping-cart" class="icon-lg"></i>
         <span>View Cart</span>
       </a>
-      <a href="login.html" class="drawer-close-trigger"
-        class="mobile-drawer-login-btn">
+      <a href="login.html" class="drawer-close-trigger mobile-drawer-login-btn" id="mobileSignInLink">
         <i data-lucide="user" class="icon-lg"></i>
         <span>Sign In</span>
       </a>
+      <div id="mobileUserMenu" class="mobile-user-card" hidden>
+        <div style="display:flex;align-items:center;gap:8px;min-width:0;">
+          <span class="nav-user-avatar" id="mobileUserAvatar">U</span>
+          <span id="mobileUserName" class="mobile-user-name"></span>
+        </div>
+        <button type="button" class="sign-out-btn" id="mobileSignOutBtn" aria-label="Sign Out">
+          <i data-lucide="log-out"></i>
+          <span>Sign Out</span>
+        </button>
+      </div>
     </div>
   </aside>
 
@@ -2486,6 +2812,131 @@
           <button type="button" class="btn btn-secondary" id="brochureDismissBtn" class="btn btn-secondary modal-close-btn">Close</button>
           <a href="#enroll" class="btn btn-primary" id="brochureEnrollBtn" class="btn btn-primary modal-enroll-btn">Enroll in this Track</a>
         </div>
+      </div>
+    </div>
+
+    <!-- ======================================================================= -->
+    <!-- IN-PAGE AUTH MODAL (Login / Register on same page as per reference)     -->
+    <!-- ======================================================================= -->
+    <div class="auth-modal-backdrop" id="authModalBackdrop" aria-hidden="true">
+      <div class="auth-modal-card" id="authModalCard" role="dialog" aria-modal="true" aria-labelledby="authModalTitle">
+        <button type="button" class="auth-modal-close-btn" id="authModalCloseBtn" aria-label="Close modal">
+          <i data-lucide="x" style="width: 20px; height: 20px;"></i>
+        </button>
+
+        <!-- Dynamic Header -->
+        <div class="auth-modal-header">
+          <h2 class="auth-modal-title" id="authModalTitle">Hi, Welcome back!</h2>
+          <p class="auth-modal-subtitle" id="authModalSubtitle">Sign in to add this course to your cart and enroll.</p>
+        </div>
+
+        <!-- Alert Error/Success inside modal -->
+        <div id="modalAlertError" class="auth-modal-alert error" role="alert">
+          <i data-lucide="alert-circle" style="width: 16px; height: 16px; flex-shrink: 0;"></i>
+          <span id="modalErrorText"></span>
+        </div>
+        <div id="modalAlertSuccess" class="auth-modal-alert success" role="status">
+          <i data-lucide="check-circle-2" style="width: 16px; height: 16px; flex-shrink: 0;"></i>
+          <span id="modalSuccessText"></span>
+        </div>
+
+        <!-- VIEW 1: SIGN IN FORM -->
+        <form id="modalSignInForm" class="auth-modal-form" novalidate>
+          <div class="auth-input-group">
+            <label for="modalSiEmail">Username or Email Address</label>
+            <div class="auth-input-wrap">
+              <input type="email" id="modalSiEmail" class="auth-input" placeholder="name@example.com" autocomplete="email" required />
+            </div>
+          </div>
+
+          <div class="auth-input-group">
+            <label for="modalSiPassword">Password</label>
+            <div class="auth-input-wrap">
+              <input type="password" id="modalSiPassword" class="auth-input" placeholder="Password" autocomplete="current-password" required />
+              <button type="button" class="auth-pw-toggle" id="modalSiPwToggle" aria-label="Toggle password visibility">
+                <i data-lucide="eye" style="width: 18px; height: 18px;"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- Social Login Section -->
+          <div class="auth-social-section">
+            <span class="auth-social-label">Login with your Google account</span>
+            <div class="auth-social-buttons" style="justify-content: center;">
+              <button type="button" class="auth-google-btn" id="modalGoogleBtn" aria-label="Sign in with Google" title="Login with Google">
+                <svg width="22" height="22" viewBox="0 0 24 24">
+                  <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                  <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                  <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/>
+                  <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+
+          <!-- Remember me & Forgot Password -->
+          <div class="auth-helper-row">
+            <label class="auth-remember-label">
+              <input type="checkbox" id="modalRememberMe" checked />
+              <span>Keep me signed in</span>
+            </label>
+            <a href="login.html#forgot" class="auth-forgot-link" id="modalForgotLink">Forgot Password?</a>
+          </div>
+
+          <!-- Submit Button -->
+          <button type="submit" class="auth-submit-btn" id="modalSiSubmitBtn">
+            <span>Sign In</span>
+          </button>
+
+          <!-- Toggle to Register -->
+          <div class="auth-footer-switch">
+            Don't have an account? <button type="button" class="auth-switch-btn" id="switchToSignUpBtn">Register Now</button>
+          </div>
+        </form>
+
+        <!-- VIEW 2: REGISTER / SIGN UP FORM (Initially hidden) -->
+        <form id="modalSignUpForm" class="auth-modal-form" style="display: none;" novalidate>
+          <div class="auth-input-group">
+            <label for="modalSuName">Full Name</label>
+            <div class="auth-input-wrap">
+              <input type="text" id="modalSuName" class="auth-input" placeholder="e.g. Rahul Sharma" autocomplete="name" required />
+            </div>
+          </div>
+
+          <div class="auth-input-group">
+            <label for="modalSuEmail">Email Address</label>
+            <div class="auth-input-wrap">
+              <input type="email" id="modalSuEmail" class="auth-input" placeholder="name@example.com" autocomplete="email" required />
+            </div>
+          </div>
+
+          <div class="auth-input-group">
+            <label for="modalSuPassword">Password (min 6 chars)</label>
+            <div class="auth-input-wrap">
+              <input type="password" id="modalSuPassword" class="auth-input" placeholder="Password" autocomplete="new-password" required />
+              <button type="button" class="auth-pw-toggle" id="modalSuPwToggle" aria-label="Toggle password visibility">
+                <i data-lucide="eye" style="width: 18px; height: 18px;"></i>
+              </button>
+            </div>
+          </div>
+
+          <div class="auth-input-group">
+            <label for="modalSuConfirm">Confirm Password</label>
+            <div class="auth-input-wrap">
+              <input type="password" id="modalSuConfirm" class="auth-input" placeholder="Confirm password" autocomplete="new-password" required />
+            </div>
+          </div>
+
+          <button type="submit" class="auth-submit-btn" id="modalSuSubmitBtn">
+            <span>Create Account</span>
+          </button>
+
+          <!-- Toggle to Sign In -->
+          <div class="auth-footer-switch">
+            Already have an account? <button type="button" class="auth-switch-btn" id="switchToSignInBtn">Sign In</button>
+          </div>
+        </form>
+
       </div>
     </div>
 
@@ -3606,10 +4057,293 @@
     if (brochureBackdrop) brochureBackdrop.addEventListener('click', closeBrochureModal);
 
     // --------------------------------------------------------------------------
-    // CART HELPERS
+    // IN-PAGE AUTH POPUP MODAL & SEAMLESS CART FLOW
     // --------------------------------------------------------------------------
-    function getAuthUser() {
-      try { return JSON.parse(localStorage.getItem('vlsi_user') || 'null'); } catch { return null; }
+    const authModalBackdrop = document.getElementById('authModalBackdrop');
+    const authModalCard = document.getElementById('authModalCard');
+    const authModalCloseBtn = document.getElementById('authModalCloseBtn');
+    const authModalTitle = document.getElementById('authModalTitle');
+    const authModalSubtitle = document.getElementById('authModalSubtitle');
+
+    const modalAlertError = document.getElementById('modalAlertError');
+    const modalAlertSuccess = document.getElementById('modalAlertSuccess');
+    const modalErrorText = document.getElementById('modalErrorText');
+    const modalSuccessText = document.getElementById('modalSuccessText');
+
+    const modalSignInForm = document.getElementById('modalSignInForm');
+    const modalSignUpForm = document.getElementById('modalSignUpForm');
+    const modalSiSubmitBtn = document.getElementById('modalSiSubmitBtn');
+    const modalSuSubmitBtn = document.getElementById('modalSuSubmitBtn');
+
+    const switchToSignUpBtn = document.getElementById('switchToSignUpBtn');
+    const switchToSignInBtn = document.getElementById('switchToSignInBtn');
+    const modalSiPwToggle = document.getElementById('modalSiPwToggle');
+    const modalSuPwToggle = document.getElementById('modalSuPwToggle');
+    const modalGoogleBtn = document.getElementById('modalGoogleBtn');
+
+    let pendingProgramToCart = null;
+
+    async function getAuthUser() {
+      if (typeof sb !== 'undefined' && sb.auth) {
+        try {
+          const { data: { session } } = await sb.auth.getSession();
+          return session ? session.user : null;
+        } catch (e) {
+          return null;
+        }
+      }
+      return null;
+    }
+
+    function showModalError(msg) {
+      if (modalAlertSuccess) modalAlertSuccess.style.display = 'none';
+      if (modalErrorText) modalErrorText.textContent = msg;
+      if (modalAlertError) modalAlertError.style.display = 'flex';
+      if (window.lucide) lucide.createIcons();
+    }
+
+    function showModalSuccess(msg) {
+      if (modalAlertError) modalAlertError.style.display = 'none';
+      if (modalSuccessText) modalSuccessText.textContent = msg;
+      if (modalAlertSuccess) modalAlertSuccess.style.display = 'flex';
+      if (window.lucide) lucide.createIcons();
+    }
+
+    function clearModalAlerts() {
+      if (modalAlertError) modalAlertError.style.display = 'none';
+      if (modalAlertSuccess) modalAlertSuccess.style.display = 'none';
+    }
+
+    function openAuthModal(item) {
+      if (item) {
+        pendingProgramToCart = item;
+        try {
+          sessionStorage.setItem('pending_cart_item', JSON.stringify(item));
+        } catch (e) {}
+      }
+      clearModalAlerts();
+      // Default to Sign In view
+      if (modalSignInForm) modalSignInForm.style.display = 'flex';
+      if (modalSignUpForm) modalSignUpForm.style.display = 'none';
+      if (authModalTitle) authModalTitle.textContent = 'Hi, Welcome back!';
+      if (authModalSubtitle) {
+        authModalSubtitle.textContent = item && item.name
+          ? `Sign in to add "${item.name}" to your cart and enroll.`
+          : 'Sign in to add courses to your cart and enroll.';
+      }
+
+      if (authModalBackdrop) {
+        authModalBackdrop.classList.add('open');
+        document.body.style.overflow = 'hidden';
+        if (window.lucide) lucide.createIcons();
+      }
+    }
+    // Make accessible to navbar
+    window.openAuthModal = openAuthModal;
+
+    function closeAuthModal() {
+      if (authModalBackdrop) {
+        authModalBackdrop.classList.remove('open');
+        if ((!curriculumDrawer || !curriculumDrawer.classList.contains('open')) &&
+            (!brochureModal || !brochureModal.classList.contains('open'))) {
+          document.body.style.overflow = '';
+        }
+      }
+    }
+
+    if (authModalCloseBtn) authModalCloseBtn.addEventListener('click', closeAuthModal);
+    if (authModalBackdrop) {
+      authModalBackdrop.addEventListener('click', (e) => {
+        if (e.target === authModalBackdrop) closeAuthModal();
+      });
+    }
+
+    // Toggle between Sign In & Sign Up
+    if (switchToSignUpBtn) {
+      switchToSignUpBtn.addEventListener('click', () => {
+        clearModalAlerts();
+        modalSignInForm.style.display = 'none';
+        modalSignUpForm.style.display = 'flex';
+        authModalTitle.textContent = 'Create Your Account';
+        authModalSubtitle.textContent = 'Join VLSI Insights to enroll in semiconductor tracks.';
+        if (window.lucide) lucide.createIcons();
+      });
+    }
+
+    if (switchToSignInBtn) {
+      switchToSignInBtn.addEventListener('click', () => {
+        clearModalAlerts();
+        modalSignUpForm.style.display = 'none';
+        modalSignInForm.style.display = 'flex';
+        authModalTitle.textContent = 'Hi, Welcome back!';
+        authModalSubtitle.textContent = pendingProgramToCart
+          ? `Sign in to add "${pendingProgramToCart.name}" to your cart.`
+          : 'Sign in to add courses to your cart and enroll.';
+        if (window.lucide) lucide.createIcons();
+      });
+    }
+
+    // Password visibility toggles
+    if (modalSiPwToggle) {
+      modalSiPwToggle.addEventListener('click', () => {
+        const input = document.getElementById('modalSiPassword');
+        if (!input) return;
+        const isPw = input.type === 'password';
+        input.type = isPw ? 'text' : 'password';
+        modalSiPwToggle.innerHTML = isPw
+          ? '<i data-lucide="eye-off" style="width: 18px; height: 18px;"></i>'
+          : '<i data-lucide="eye" style="width: 18px; height: 18px;"></i>';
+        if (window.lucide) lucide.createIcons();
+      });
+    }
+
+    if (modalSuPwToggle) {
+      modalSuPwToggle.addEventListener('click', () => {
+        const input = document.getElementById('modalSuPassword');
+        if (!input) return;
+        const isPw = input.type === 'password';
+        input.type = isPw ? 'text' : 'password';
+        modalSuPwToggle.innerHTML = isPw
+          ? '<i data-lucide="eye-off" style="width: 18px; height: 18px;"></i>'
+          : '<i data-lucide="eye" style="width: 18px; height: 18px;"></i>';
+        if (window.lucide) lucide.createIcons();
+      });
+    }
+
+    // Helper: Execute successful auth and redirect to cart.html
+    function onAuthSuccessComplete() {
+      if (pendingProgramToCart) {
+        addToCart(pendingProgramToCart);
+        try { sessionStorage.removeItem('pending_cart_item'); } catch (e) {}
+      }
+      showModalSuccess('Signed in successfully! Redirecting to cart...');
+      setTimeout(() => {
+        window.location.href = 'cart.html';
+      }, 400);
+    }
+
+    // Google Sign In
+    if (modalGoogleBtn) {
+      modalGoogleBtn.addEventListener('click', async () => {
+        clearModalAlerts();
+        if (typeof sb === 'undefined' || !sb.auth) {
+          showModalError('Authentication client is initializing. Please try again in a moment.');
+          return;
+        }
+        try {
+          const redirectUrl = window.location.protocol === 'file:'
+            ? 'https://vlsiinsights.com/auth-callback.html'
+            : new URL('cart.html', window.location.href).href;
+
+          const { error } = await sb.auth.signInWithOAuth({
+            provider: 'google',
+            options: { redirectTo: redirectUrl }
+          });
+          if (error) showModalError(error.message);
+        } catch (err) {
+          showModalError(err.message || 'Error connecting to Google authentication.');
+        }
+      });
+    }
+
+    // Sign In form submit
+    if (modalSignInForm) {
+      modalSignInForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        clearModalAlerts();
+
+        const email = document.getElementById('modalSiEmail').value.trim();
+        const password = document.getElementById('modalSiPassword').value;
+
+        if (!email || !password) {
+          showModalError('Please enter both your email address and password.');
+          return;
+        }
+
+        modalSiSubmitBtn.disabled = true;
+        modalSiSubmitBtn.innerHTML = '<span>Signing In...</span>';
+
+        try {
+          if (typeof sb !== 'undefined' && sb.auth) {
+            const { data, error } = await sb.auth.signInWithPassword({ email, password });
+            if (error) {
+              modalSiSubmitBtn.disabled = false;
+              modalSiSubmitBtn.innerHTML = '<span>Sign In</span>';
+              if (error.message && error.message.toLowerCase().includes('invalid login credentials')) {
+                showModalError('Invalid email or password. Please verify your credentials or register.');
+              } else {
+                showModalError(error.message);
+              }
+              return;
+            }
+          }
+          onAuthSuccessComplete();
+        } catch (err) {
+          modalSiSubmitBtn.disabled = false;
+          modalSiSubmitBtn.innerHTML = '<span>Sign In</span>';
+          showModalError(err.message || 'An unexpected error occurred. Please try again.');
+        }
+      });
+    }
+
+    // Sign Up form submit
+    if (modalSignUpForm) {
+      modalSignUpForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        clearModalAlerts();
+
+        const fullName = document.getElementById('modalSuName').value.trim();
+        const email = document.getElementById('modalSuEmail').value.trim();
+        const password = document.getElementById('modalSuPassword').value;
+        const confirm = document.getElementById('modalSuConfirm').value;
+
+        if (!fullName || !email || !password || !confirm) {
+          showModalError('Please fill in all fields.');
+          return;
+        }
+
+        if (password !== confirm) {
+          showModalError('Passwords do not match.');
+          return;
+        }
+
+        if (password.length < 6) {
+          showModalError('Password must be at least 6 characters.');
+          return;
+        }
+
+        modalSuSubmitBtn.disabled = true;
+        modalSuSubmitBtn.innerHTML = '<span>Creating Account...</span>';
+
+        try {
+          if (typeof sb !== 'undefined' && sb.auth) {
+            const { data, error } = await sb.auth.signUp({
+              email,
+              password,
+              options: {
+                data: { full_name: fullName }
+              }
+            });
+
+            if (error) {
+              modalSuSubmitBtn.disabled = false;
+              modalSuSubmitBtn.innerHTML = '<span>Create Account</span>';
+              showModalError(error.message);
+              return;
+            }
+
+            // If auto-confirm is enabled, sign in immediately
+            if (data && data.user && !data.session) {
+              await sb.auth.signInWithPassword({ email, password });
+            }
+          }
+          onAuthSuccessComplete();
+        } catch (err) {
+          modalSuSubmitBtn.disabled = false;
+          modalSuSubmitBtn.innerHTML = '<span>Create Account</span>';
+          showModalError(err.message || 'An error occurred while creating your account.');
+        }
+      });
     }
 
     function addToCart(item) {
@@ -3626,6 +4360,8 @@
       document.querySelectorAll('.cart-badge').forEach(b => {
         b.textContent = count;
         b.setAttribute('data-count', count);
+        b.setAttribute('data-visible', count > 0 ? 'true' : 'false');
+        b.style.display = count > 0 ? 'inline-flex' : 'none';
       });
     }
 
@@ -3641,7 +4377,7 @@
     }
 
     // Attach card event listeners
-    document.addEventListener('click', (e) => {
+    document.addEventListener('click', async (e) => {
       // Brochure trigger click
       const brochureTrigger = e.target.closest('.preview-brochure-trigger, .view-brochure-btn, #drawerBrochureBtn');
       if (brochureTrigger && brochureTrigger.dataset.brochure) {
@@ -3670,21 +4406,23 @@
       // Add-to-cart button
       const cartBtn = e.target.closest('.add-to-cart-btn');
       if (cartBtn) {
-        // ---- AUTH GATE: must be logged in ----
-        const user = getAuthUser();
-        if (!user || !user.loggedIn) {
-          window.location.href = 'login.html?redirect=programs.html';
-          return;
-        }
-        // ---- Auth OK: add to cart ----
         const id = cartBtn.dataset.programId;
         const name = cartBtn.dataset.programName;
         const price = parseInt(cartBtn.dataset.programPrice, 10) || 35000;
         const priceLabel = cartBtn.dataset.programPriceLabel || '35,000/-';
-        addToCart({ id, name, price, priceLabel, qty: 1 });
-        cartBtn.classList.add('added');
-        setTimeout(() => cartBtn.classList.remove('added'), 1500);
-        showCartToast(name);
+        const item = { id, name, price, priceLabel, qty: 1 };
+
+        // ---- AUTH GATE: Must be logged in to add to cart & purchase ----
+        const user = await getAuthUser();
+        if (!user) {
+          // Open in-page auth popup modal on this exact page!
+          openAuthModal(item);
+          return;
+        }
+
+        // ---- Already authenticated: add to cart & immediately redirect to cart page! ----
+        addToCart(item);
+        window.location.href = 'cart.html';
         return;
       }
     });
@@ -3704,7 +4442,9 @@
 
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') {
-        if (brochureModal && brochureModal.classList.contains('open')) {
+        if (authModalBackdrop && authModalBackdrop.classList.contains('open')) {
+          closeAuthModal();
+        } else if (brochureModal && brochureModal.classList.contains('open')) {
           closeBrochureModal();
         } else if (curriculumDrawer && curriculumDrawer.classList.contains('open')) {
           closeCurriculumDrawer();
@@ -3729,70 +4469,126 @@
     document.querySelectorAll('.section-heading-group').forEach(el => headingObserver.observe(el));
 
     // -------------------------------------------------------------------------
-    // 8. ENROLLMENT FORM CLIENT-SIDE VALIDATION
+    // 8. ENROLLMENT FORM CLIENT-SIDE VALIDATION & SUPABASE SUBMISSION
     // -------------------------------------------------------------------------
     const enrollForm = document.getElementById('enrollForm');
     const formSuccess = document.getElementById('formSuccess');
 
+    function validateEnrollForm() {
+      let valid = true;
+      const nameField = document.getElementById('studentName');
+      const emailField = document.getElementById('studentEmail');
+      const phoneField = document.getElementById('studentPhone');
+      const programField = document.getElementById('programSelect');
+
+      const nameError = document.getElementById('nameError');
+      const emailError = document.getElementById('emailError');
+      const phoneError = document.getElementById('phoneError');
+      const programError = document.getElementById('programError');
+
+      // Name
+      if (!nameField.value.trim()) {
+        nameField.classList.add('error');
+        if (nameError) nameError.textContent = 'Please provide your full name.';
+        valid = false;
+      } else {
+        nameField.classList.remove('error');
+        if (nameError) nameError.textContent = '';
+      }
+
+      // Email
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailField.value.trim() || !emailRegex.test(emailField.value.trim())) {
+        emailField.classList.add('error');
+        if (emailError) emailError.textContent = 'Please provide a valid email address.';
+        valid = false;
+      } else {
+        emailField.classList.remove('error');
+        if (emailError) emailError.textContent = '';
+      }
+
+      // Phone
+      if (!phoneField.value.trim()) {
+        phoneField.classList.add('error');
+        if (phoneError) phoneError.textContent = 'Please enter your phone number with country code.';
+        valid = false;
+      } else {
+        phoneField.classList.remove('error');
+        if (phoneError) phoneError.textContent = '';
+      }
+
+      // Program
+      if (!programField.value) {
+        programField.classList.add('error');
+        if (programError) programError.textContent = 'Please select a program track.';
+        valid = false;
+      } else {
+        programField.classList.remove('error');
+        if (programError) programError.textContent = '';
+      }
+
+      return valid;
+    }
+
+    function showEnrollError(msg) {
+      let errEl = document.getElementById('enrollSubmitError');
+      if (!errEl) {
+        errEl = document.createElement('div');
+        errEl.id = 'enrollSubmitError';
+        errEl.className = 'error-msg form-error';
+        errEl.style.marginTop = '14px';
+        errEl.style.padding = '10px 14px';
+        errEl.style.background = 'rgba(220, 38, 38, 0.08)';
+        errEl.style.border = '1px solid rgba(220, 38, 38, 0.25)';
+        errEl.style.borderRadius = '6px';
+        errEl.style.color = '#DC2626';
+        errEl.style.fontSize = '0.875rem';
+        errEl.style.fontWeight = '500';
+        enrollForm.appendChild(errEl);
+      }
+      errEl.textContent = msg;
+      errEl.style.display = 'block';
+    }
+
     if (enrollForm) {
-      enrollForm.addEventListener('submit', (e) => {
+      enrollForm.addEventListener('submit', async (e) => {
         e.preventDefault();
-        let valid = true;
+        if (!validateEnrollForm()) return;
 
-        const nameField = document.getElementById('studentName');
-        const emailField = document.getElementById('studentEmail');
-        const phoneField = document.getElementById('studentPhone');
-        const programField = document.getElementById('programSelect');
+        const submitBtn = enrollForm.querySelector('[type="submit"]');
+        const origText = submitBtn.textContent;
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Submitting...';
 
-        const nameError = document.getElementById('nameError');
-        const emailError = document.getElementById('emailError');
-        const phoneError = document.getElementById('phoneError');
-        const programError = document.getElementById('programError');
+        const name = document.getElementById('studentName').value.trim();
+        const email = document.getElementById('studentEmail').value.trim();
+        const phone = document.getElementById('studentPhone').value.trim();
+        const program = document.getElementById('programSelect').value;
+        const messageEl = document.getElementById('studentMessage');
+        const message = messageEl ? messageEl.value.trim() : '';
 
-        // Name
-        if (!nameField.value.trim()) {
-          nameField.classList.add('error');
-          nameError.textContent = 'Please provide your full name.';
-          valid = false;
-        } else {
-          nameField.classList.remove('error');
-          nameError.textContent = '';
+        const { error } = await sb.from('enrollment_submissions').insert({
+          name,
+          email,
+          phone,
+          program,
+          message
+        });
+
+        if (error) {
+          submitBtn.disabled = false;
+          submitBtn.textContent = origText;
+          showEnrollError('Something went wrong. Please try again.');
+          return;
         }
 
-        // Email
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!emailField.value.trim() || !emailRegex.test(emailField.value.trim())) {
-          emailField.classList.add('error');
-          emailError.textContent = 'Please provide a valid email address.';
-          valid = false;
-        } else {
-          emailField.classList.remove('error');
-          emailError.textContent = '';
-        }
+        const errEl = document.getElementById('enrollSubmitError');
+        if (errEl) errEl.style.display = 'none';
 
-        // Phone
-        if (!phoneField.value.trim()) {
-          phoneField.classList.add('error');
-          phoneError.textContent = 'Please enter your phone number with country code.';
-          valid = false;
-        } else {
-          phoneField.classList.remove('error');
-          phoneError.textContent = '';
-        }
-
-        // Program
-        if (!programField.value) {
-          programField.classList.add('error');
-          programError.textContent = 'Please select a program track.';
-          valid = false;
-        } else {
-          programField.classList.remove('error');
-          programError.textContent = '';
-        }
-
-        if (valid) {
+        enrollForm.hidden = true;
+        if (formSuccess) {
           formSuccess.classList.add('visible');
-          enrollForm.reset();
+          formSuccess.hidden = false;
           setTimeout(() => {
             formSuccess.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
           }, 100);

@@ -11,6 +11,10 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
 
   <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+
+  <!-- Supabase JS Client & Config -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/supabase.js"></script>
   <link rel="stylesheet" href="css/navbar.css">
   <link rel="stylesheet" href="css/footer.css">
   <link rel="stylesheet" href="css/global.css">
@@ -323,6 +327,17 @@
           <i data-lucide="shopping-cart"></i>
           <span class="cart-badge" id="cartBadge" data-visible="false">0</span>
         </a>
+        <a href="login.html" class="nav-signin-btn" id="navSignInLink">Sign In</a>
+        <div class="nav-user-menu" id="navUserMenu" hidden>
+          <div class="nav-user-pill">
+            <span class="nav-user-avatar" id="navUserAvatar">U</span>
+            <span class="nav-user-name" id="navUserName"></span>
+          </div>
+          <button type="button" class="sign-out-btn" id="signOutBtn" aria-label="Sign Out">
+            <i data-lucide="log-out"></i>
+            <span>Sign Out</span>
+          </button>
+        </div>
         <button type="button" class="nav-hamburger" id="hamburgerBtn" aria-label="Open navigation menu" aria-expanded="false" aria-controls="mobileDrawer">
           <i data-lucide="menu"></i>
         </button>
@@ -372,6 +387,26 @@
       </li>
       <li><a href="index.html#contact" class="mobile-nav-link drawer-close-trigger">Contact</a></li>
     </ul>
+    <div style="margin-top:auto;padding-top:20px;border-top:1px solid var(--edge);display:flex;flex-direction:column;gap:10px;">
+      <a href="cart.html" class="drawer-close-trigger" style="display:flex;align-items:center;justify-content:center;gap:8px;padding:12px;background:var(--surface);border:1px solid var(--edge);border-radius:6px;color:var(--text-hi);font-weight:600;text-decoration:none;font-size:0.875rem;">
+        <i data-lucide="shopping-cart" style="width:18px;height:18px;"></i>
+        <span>View Cart</span>
+      </a>
+      <a href="login.html" class="drawer-close-trigger" id="mobileSignInLink" style="display:flex;align-items:center;justify-content:center;gap:8px;padding:12px;background:var(--trace);color:#FFFFFF;border-radius:6px;font-weight:600;text-decoration:none;font-size:0.875rem;">
+        <i data-lucide="user" style="width:18px;height:18px;"></i>
+        <span>Sign In</span>
+      </a>
+      <div id="mobileUserMenu" class="mobile-user-card" hidden>
+        <div style="display:flex;align-items:center;gap:8px;min-width:0;">
+          <span class="nav-user-avatar" id="mobileUserAvatar">U</span>
+          <span id="mobileUserName" class="mobile-user-name"></span>
+        </div>
+        <button type="button" class="sign-out-btn" id="mobileSignOutBtn" aria-label="Sign Out">
+          <i data-lucide="log-out"></i>
+          <span>Sign Out</span>
+        </button>
+      </div>
+    </div>
   </aside>
 
   <!-- Main Error Content -->

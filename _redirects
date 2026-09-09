@@ -16,6 +16,7 @@
 /cart               /cart.html              200
 /programs           /programs.html          200
 /login              /login.html             200
+/auth/callback      /auth-callback.html     200
 /front-end-software /front-end-software.html 200
 /software           /front-end-software.html 200
 /about-company      /about-company.html     200

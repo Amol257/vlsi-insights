@@ -218,6 +218,113 @@
 
       statNumbers.forEach(el => observer.observe(el));
     }
+
+    // 6. Supabase Nav Authentication State
+    async function updateNavAuth() {
+      const client = (typeof window !== 'undefined' && window.sb) || (typeof sb !== 'undefined' ? sb : null);
+      if (!client || !client.auth) return;
+      try {
+        const { data: { session } } = await client.auth.getSession();
+        const signInLink = document.getElementById('navSignInLink');
+        const userMenu = document.getElementById('navUserMenu');
+        const userNameEl = document.getElementById('navUserName');
+
+        // Mobile counterparts
+        const mobileSignInLink = document.getElementById('mobileSignInLink');
+        const mobileUserMenu = document.getElementById('mobileUserMenu');
+        const mobileUserName = document.getElementById('mobileUserName');
+
+        if (session && session.user) {
+          if (signInLink) {
+            signInLink.hidden = true;
+            signInLink.style.display = 'none';
+          }
+          if (mobileSignInLink) {
+            mobileSignInLink.hidden = true;
+            mobileSignInLink.style.display = 'none';
+          }
+
+          const name = session.user.user_metadata?.full_name
+            || session.user.email.split('@')[0];
+          const initial = (name && name.length > 0) ? name.charAt(0).toUpperCase() : 'U';
+
+          if (userMenu) {
+            userMenu.hidden = false;
+            userMenu.style.display = 'inline-flex';
+            if (userNameEl) userNameEl.textContent = name;
+            const avatarEl = document.getElementById('navUserAvatar');
+            if (avatarEl) avatarEl.textContent = initial;
+          }
+          if (mobileUserMenu) {
+            mobileUserMenu.hidden = false;
+            mobileUserMenu.style.display = 'flex';
+            if (mobileUserName) mobileUserName.textContent = name;
+            const mobileAvatarEl = document.getElementById('mobileUserAvatar');
+            if (mobileAvatarEl) mobileAvatarEl.textContent = initial;
+          }
+        } else {
+          if (signInLink) {
+            signInLink.hidden = false;
+            signInLink.style.display = 'inline-flex';
+          }
+          if (mobileSignInLink) {
+            mobileSignInLink.hidden = false;
+            mobileSignInLink.style.display = 'flex';
+          }
+          if (userMenu) {
+            userMenu.hidden = true;
+            userMenu.style.display = 'none';
+          }
+          if (mobileUserMenu) {
+            mobileUserMenu.hidden = true;
+            mobileUserMenu.style.display = 'none';
+          }
+        }
+
+        if (typeof lucide !== 'undefined' && lucide.createIcons) {
+          lucide.createIcons();
+        }
+      } catch (err) {
+        console.error('Error updating nav auth:', err);
+      }
+    }
+
+    updateNavAuth();
+
+    // Hook navbar Sign In buttons to in-page auth modal if present on the page
+    const handleSignInClick = (e) => {
+      if (typeof window.openAuthModal === 'function') {
+        e.preventDefault();
+        window.openAuthModal();
+      }
+    };
+    document.getElementById('navSignInLink')?.addEventListener('click', handleSignInClick);
+    document.getElementById('mobileSignInLink')?.addEventListener('click', handleSignInClick);
+
+    // Sign out handlers
+    const handleSignOut = async (e) => {
+      if (e) e.preventDefault();
+      const client = (typeof window !== 'undefined' && window.sb) || (typeof sb !== 'undefined' ? sb : null);
+      if (client && client.auth) {
+        try { await client.auth.signOut(); } catch (err) {}
+      }
+      try {
+        localStorage.removeItem('sb-riipijrgucqigndcjwre-auth-token');
+      } catch (err) {}
+      updateNavAuth();
+      window.location.reload();
+    };
+
+    document.getElementById('signOutBtn')?.addEventListener('click', handleSignOut);
+    document.getElementById('mobileSignOutBtn')?.addEventListener('click', handleSignOut);
+
+    // Listen to Supabase auth state change for live nav sync
+    const sbClient = (typeof window !== 'undefined' && window.sb) || (typeof sb !== 'undefined' ? sb : null);
+    if (sbClient && sbClient.auth) {
+      sbClient.auth.onAuthStateChange(() => {
+        updateNavAuth();
+      });
+    }
   }
 
   if (document.readyState === 'loading') {

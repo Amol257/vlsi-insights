@@ -18,6 +18,10 @@
   <!-- Lucide Icons CDN -->
   <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
 
+  <!-- Supabase JS Client & Config -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/supabase.js"></script>
+
   <!-- Master Navbar Stylesheet (single source of truth across all pages) -->
   <link rel="stylesheet" href="css/navbar.css">
   <link rel="stylesheet" href="css/footer.css">
@@ -2080,8 +2084,19 @@
       <div class="navbar__controls">
         <a href="cart.html" class="nav-cart-btn" aria-label="View Cart" id="cartNavBtn">
           <i data-lucide="shopping-cart"></i>
-          <span class="cart-badge" id="cartBadgeIndex" data-visible="false">0</span>
+          <span class="cart-badge" id="cartBadge" data-visible="false">0</span>
         </a>
+        <a href="login.html" class="nav-signin-btn" id="navSignInLink">Sign In</a>
+        <div class="nav-user-menu" id="navUserMenu" hidden>
+          <div class="nav-user-pill">
+            <span class="nav-user-avatar" id="navUserAvatar">U</span>
+            <span class="nav-user-name" id="navUserName"></span>
+          </div>
+          <button type="button" class="sign-out-btn" id="signOutBtn" aria-label="Sign Out">
+            <i data-lucide="log-out"></i>
+            <span>Sign Out</span>
+          </button>
+        </div>
         <button type="button" class="nav-hamburger" id="hamburgerBtn" aria-label="Open navigation menu"
           aria-expanded="false" aria-controls="mobileDrawer">
           <i data-lucide="menu"></i>
@@ -2157,16 +2172,24 @@
     </ul>
     <div
       class="mobile-drawer-footer-inner">
-      <a href="cart.html" class="drawer-close-trigger"
-        class="mobile-drawer-cart-btn">
+      <a href="cart.html" class="drawer-close-trigger mobile-drawer-cart-btn">
         <i data-lucide="shopping-cart" class="icon-lg"></i>
         <span>View Cart</span>
       </a>
-      <a href="login.html" class="drawer-close-trigger"
-        class="mobile-drawer-login-btn">
+      <a href="login.html" class="drawer-close-trigger mobile-drawer-login-btn" id="mobileSignInLink">
         <i data-lucide="user" class="icon-lg"></i>
         <span>Sign In</span>
       </a>
+      <div id="mobileUserMenu" class="mobile-user-card" hidden>
+        <div style="display:flex;align-items:center;gap:8px;min-width:0;">
+          <span class="nav-user-avatar" id="mobileUserAvatar">U</span>
+          <span id="mobileUserName" class="mobile-user-name"></span>
+        </div>
+        <button type="button" class="sign-out-btn" id="mobileSignOutBtn" aria-label="Sign Out">
+          <i data-lucide="log-out"></i>
+          <span>Sign Out</span>
+        </button>
+      </div>
     </div>
   </aside>
 
@@ -3260,73 +3283,105 @@
 
     // 4. Stats Counter Animation — handled by dedicated script after stats section HTML
 
-    // 5. Contact Form Client-side Validation & Inline Success State
+    // 5. Contact Form Client-side Validation & Supabase Submission
     const contactForm = document.getElementById('contactForm');
     const formSuccess = document.getElementById('formSuccess');
 
-    if (contactForm && formSuccess) {
-      contactForm.addEventListener('submit', (e) => {
+    function validateForm() {
+      let valid = true;
+      const nameField = document.getElementById('name');
+      const emailField = document.getElementById('email');
+      const phoneField = document.getElementById('phone');
+      const messageField = document.getElementById('message');
+
+      const nameError = document.getElementById('nameError');
+      const emailError = document.getElementById('emailError');
+      const phoneError = document.getElementById('phoneError');
+      const messageError = document.getElementById('messageError');
+
+      // Validate Name
+      if (!nameField.value.trim()) {
+        nameField.classList.add('error');
+        if (nameError) nameError.textContent = 'Please enter your full name.';
+        valid = false;
+      } else {
+        nameField.classList.remove('error');
+        if (nameError) nameError.textContent = '';
+      }
+
+      // Validate Email
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailField.value.trim()) {
+        emailField.classList.add('error');
+        if (emailError) emailError.textContent = 'Please enter your email address.';
+        valid = false;
+      } else if (!emailRegex.test(emailField.value.trim())) {
+        emailField.classList.add('error');
+        if (emailError) emailError.textContent = 'Please enter a valid email address.';
+        valid = false;
+      } else {
+        emailField.classList.remove('error');
+        if (emailError) emailError.textContent = '';
+      }
+
+      // Validate Phone
+      if (!phoneField.value.trim()) {
+        phoneField.classList.add('error');
+        if (phoneError) phoneError.textContent = 'Please enter your phone number with country code.';
+        valid = false;
+      } else {
+        phoneField.classList.remove('error');
+        if (phoneError) phoneError.textContent = '';
+      }
+
+      // Validate Message
+      if (!messageField.value.trim()) {
+        messageField.classList.add('error');
+        if (messageError) messageError.textContent = 'Please provide details about your enquiry.';
+        valid = false;
+      } else {
+        messageField.classList.remove('error');
+        if (messageError) messageError.textContent = '';
+      }
+
+      return valid;
+    }
+
+    function showFormError(msg) {
+      const messageError = document.getElementById('messageError');
+      if (messageError) {
+        messageError.textContent = msg;
+      } else {
+        alert(msg);
+      }
+    }
+
+    if (contactForm) {
+      contactForm.addEventListener('submit', async (e) => {
         e.preventDefault();
-        let valid = true;
+        if (!validateForm()) return;
 
-        const nameField = document.getElementById('name');
-        const emailField = document.getElementById('email');
-        const phoneField = document.getElementById('phone');
-        const messageField = document.getElementById('message');
+        const submitBtn = contactForm.querySelector('[type="submit"]');
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Sending...';
 
-        const nameError = document.getElementById('nameError');
-        const emailError = document.getElementById('emailError');
-        const phoneError = document.getElementById('phoneError');
-        const messageError = document.getElementById('messageError');
+        const { error } = await sb.from('contact_submissions').insert({
+          name: document.getElementById('name').value.trim(),
+          email: document.getElementById('email').value.trim(),
+          phone: document.getElementById('phone').value.trim(),
+          message: document.getElementById('message').value.trim()
+        });
 
-        // Validate Name
-        if (!nameField.value.trim()) {
-          nameField.classList.add('error');
-          nameError.textContent = 'Please enter your full name.';
-          valid = false;
-        } else {
-          nameField.classList.remove('error');
-          nameError.textContent = '';
+        if (error) {
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Send message';
+          showFormError('Something went wrong. Please try again.');
+          return;
         }
 
-        // Validate Email
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!emailField.value.trim()) {
-          emailField.classList.add('error');
-          emailError.textContent = 'Please enter your email address.';
-          valid = false;
-        } else if (!emailRegex.test(emailField.value.trim())) {
-          emailField.classList.add('error');
-          emailError.textContent = 'Please enter a valid email address.';
-          valid = false;
-        } else {
-          emailField.classList.remove('error');
-          emailError.textContent = '';
-        }
-
-        // Validate Phone
-        if (!phoneField.value.trim()) {
-          phoneField.classList.add('error');
-          phoneError.textContent = 'Please enter your phone number with country code.';
-          valid = false;
-        } else {
-          phoneField.classList.remove('error');
-          phoneError.textContent = '';
-        }
-
-        // Validate Message
-        if (!messageField.value.trim()) {
-          messageField.classList.add('error');
-          messageError.textContent = 'Please provide details about your enquiry.';
-          valid = false;
-        } else {
-          messageField.classList.remove('error');
-          messageError.textContent = '';
-        }
-
-        if (valid) {
-          contactForm.hidden = true;
-          formSuccess.hidden = false;
+        contactForm.hidden = true;
+        if (formSuccess) formSuccess.hidden = false;
+        if (typeof lucide !== 'undefined' && lucide.createIcons) {
           lucide.createIcons();
         }
       });

@@ -14,6 +14,10 @@
   <!-- Lucide Icons -->
   <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
 
+  <!-- Supabase JS Client & Config -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/supabase.js"></script>
+
   <style>
     /* -------------------------------------------------------------------------- */
     /* CSS TOKENS & RESET  CLEAN MINIMALIST LIGHT THEME                          */
@@ -1044,6 +1048,17 @@
           <i data-lucide="shopping-cart"></i>
           <span class="cart-badge" id="cartBadge" data-visible="false">0</span>
         </a>
+        <a href="login.html" class="nav-signin-btn" id="navSignInLink">Sign In</a>
+        <div class="nav-user-menu" id="navUserMenu" hidden>
+          <div class="nav-user-pill">
+            <span class="nav-user-avatar" id="navUserAvatar">U</span>
+            <span class="nav-user-name" id="navUserName"></span>
+          </div>
+          <button type="button" class="sign-out-btn" id="signOutBtn" aria-label="Sign Out">
+            <i data-lucide="log-out"></i>
+            <span>Sign Out</span>
+          </button>
+        </div>
         <button type="button" class="nav-hamburger" id="hamburgerBtn" aria-label="Open navigation menu" aria-expanded="false" aria-controls="mobileDrawer">
           <i data-lucide="menu"></i>
         </button>
@@ -1110,10 +1125,20 @@
         <i data-lucide="shopping-cart" style="width:18px;height:18px;"></i>
         <span>View Cart</span>
       </a>
-      <a href="login.html" class="drawer-close-trigger" style="display:flex;align-items:center;justify-content:center;gap:8px;padding:12px;background:var(--trace);color:#FFFFFF;border-radius:6px;font-weight:600;text-decoration:none;font-size:0.875rem;">
+      <a href="login.html" class="drawer-close-trigger mobile-drawer-login-btn" id="mobileSignInLink" style="display:flex;align-items:center;justify-content:center;gap:8px;padding:12px;background:var(--trace);color:#FFFFFF;border-radius:6px;font-weight:600;text-decoration:none;font-size:0.875rem;">
         <i data-lucide="user" style="width:18px;height:18px;"></i>
         <span>Sign In</span>
       </a>
+      <div id="mobileUserMenu" class="mobile-user-card" hidden>
+        <div style="display:flex;align-items:center;gap:8px;min-width:0;">
+          <span class="nav-user-avatar" id="mobileUserAvatar">U</span>
+          <span id="mobileUserName" class="mobile-user-name"></span>
+        </div>
+        <button type="button" class="sign-out-btn" id="mobileSignOutBtn" aria-label="Sign Out">
+          <i data-lucide="log-out"></i>
+          <span>Sign Out</span>
+        </button>
+      </div>
     </div>
   </aside>
 
