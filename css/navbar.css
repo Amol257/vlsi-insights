@@ -720,23 +720,35 @@ header.navbar .nav-hamburger svg,
 #navUserMenu {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
+  position: relative;
+}
+
+/* Dropdown wrapper — positions the panel below the pill */
+.nav-user-dropdown {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
 }
 
 .nav-user-pill {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  padding: 3px 12px 3px 4px;
+  gap: 7px;
+  padding: 3px 10px 3px 4px;
   background: #FFFFFF;
   border: 1px solid var(--edge, #E2E8F0);
   border-radius: 20px;
   box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
-  transition: border-color 0.2s ease;
+  cursor: pointer;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  user-select: none;
 }
 
-.nav-user-pill:hover {
+.nav-user-pill:hover,
+.nav-user-dropdown:hover .nav-user-pill,
+.nav-user-dropdown:focus-within .nav-user-pill {
   border-color: var(--nav-accent, #00A887);
+  box-shadow: 0 2px 8px rgba(0, 168, 135, 0.12);
 }
 
 .nav-user-avatar {
@@ -760,44 +772,83 @@ header.navbar .nav-hamburger svg,
   font-size: 0.8125rem;
   font-weight: 600;
   color: var(--text-hi, #0F172A);
-  max-width: 140px;
+  max-width: 130px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
-.sign-out-btn,
-#signOutBtn,
-#mobileSignOutBtn {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  padding: 6px 12px;
-  height: 34px;
+/* Chevron icon inside pill */
+.user-chevron {
+  width: 13px;
+  height: 13px;
+  color: var(--text-lo, #64748B);
+  flex-shrink: 0;
+  transition: transform 0.2s ease;
+}
+
+.nav-user-dropdown:hover .user-chevron,
+.nav-user-dropdown:focus-within .user-chevron {
+  transform: rotate(180deg);
+  color: var(--nav-accent, #00A887);
+}
+
+/* Dropdown panel — hidden until hover/focus */
+.user-dropdown-panel {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  min-width: 160px;
   background: #FFFFFF;
   border: 1px solid var(--edge, #E2E8F0);
-  border-radius: 4px;
+  border-radius: 8px;
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.10), 0 1px 4px rgba(15, 23, 42, 0.06);
+  padding: 4px;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-6px);
+  transition: opacity 0.18s ease, transform 0.18s ease, visibility 0.18s;
+  z-index: 1000;
+}
+
+.nav-user-dropdown:hover .user-dropdown-panel,
+.nav-user-dropdown:focus-within .user-dropdown-panel {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+/* Sign Out inside the dropdown panel */
+.sign-out-btn,
+#signOutBtn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 9px 12px;
+  background: transparent;
+  border: none;
+  border-radius: 6px;
   font-family: 'Inter', -apple-system, sans-serif;
-  font-size: 0.75rem;
+  font-size: 0.8125rem;
   font-weight: 600;
-  color: var(--text-lo, #64748B);
+  color: var(--text-mid, #475569);
   cursor: pointer;
-  transition: all 0.2s ease;
+  text-align: left;
+  transition: background 0.15s ease, color 0.15s ease;
 }
 
 .sign-out-btn:hover,
-#signOutBtn:hover,
-#mobileSignOutBtn:hover {
+#signOutBtn:hover {
   color: #DC2626;
-  border-color: rgba(220, 38, 38, 0.35);
-  background: rgba(220, 38, 38, 0.04);
+  background: rgba(220, 38, 38, 0.05);
 }
 
 .sign-out-btn svg,
-#signOutBtn svg,
-#mobileSignOutBtn svg {
-  width: 13px;
-  height: 13px;
+#signOutBtn svg {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
 }
 
 /* Mobile Drawer Auth States */

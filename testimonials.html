@@ -809,14 +809,19 @@
         </a>
         <a href="login.html" class="nav-signin-btn" id="navSignInLink">Sign In</a>
         <div class="nav-user-menu" id="navUserMenu" hidden>
-          <div class="nav-user-pill">
-            <span class="nav-user-avatar" id="navUserAvatar">U</span>
-            <span class="nav-user-name" id="navUserName"></span>
+          <div class="nav-user-dropdown">
+            <div class="nav-user-pill" tabindex="0" role="button" aria-haspopup="true" aria-expanded="false">
+              <span class="nav-user-avatar" id="navUserAvatar">U</span>
+              <span class="nav-user-name" id="navUserName"></span>
+              <i data-lucide="chevron-down" class="user-chevron"></i>
+            </div>
+            <div class="user-dropdown-panel" role="menu">
+              <button type="button" class="sign-out-btn" id="signOutBtn" aria-label="Sign Out" role="menuitem">
+                <i data-lucide="log-out"></i>
+                <span>Sign Out</span>
+              </button>
+            </div>
           </div>
-          <button type="button" class="sign-out-btn" id="signOutBtn" aria-label="Sign Out">
-            <i data-lucide="log-out"></i>
-            <span>Sign Out</span>
-          </button>
         </div>
         <button type="button" class="nav-hamburger" id="hamburgerBtn" aria-label="Open navigation menu" aria-expanded="false" aria-controls="mobileDrawer">
           <i data-lucide="menu"></i>
