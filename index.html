@@ -172,68 +172,13 @@
       outline-offset: 2px;
     }
 
-    .skip-link {
-      position: absolute;
-      top: -60px;
-      left: 16px;
-      background: var(--text-hi);
-      color: #FFFFFF;
-      padding: 10px 18px;
-      font-weight: var(--weight-semibold);
-      z-index: 9999;
-      border-radius: 4px;
-      transition: top var(--dur-fast) ease;
-    }
 
-    .skip-link:focus {
-      top: 16px;
-    }
-
-    .container {
-      width: 100%;
-      max-width: 1280px;
-      margin: 0 auto;
-      padding: 0 var(--space-6);
-    }
-
-    @media (min-width: 1024px) {
-      .container {
-        padding: 0 var(--space-12);
-      }
-    }
 
     /* Navbar styles are in css/navbar.css - do not add inline overrides here */
 
     /* -------------------------------------------------------------------------- */
     /* BUTTONS                                                                    */
     /* -------------------------------------------------------------------------- */
-    .btn-secondary {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: var(--space-2);
-      min-height: 48px;
-      padding: 12px 28px;
-      background: transparent;
-      color: var(--trace);
-      font-family: var(--font-body);
-      font-weight: var(--weight-semibold);
-      font-size: var(--text-base);
-      border: 1px solid var(--trace);
-      border-radius: 4px;
-      cursor: pointer;
-      text-decoration: none;
-      transition: background var(--dur-fast) ease, transform var(--dur-fast) ease;
-    }
-
-    .btn-secondary:hover {
-      background: rgba(0, 168, 135, 0.08);
-      transform: translateY(-2px);
-    }
-
-    .btn-secondary:active {
-      transform: scale(0.98);
-    }
 
     .btn-full {
       width: 100%;
@@ -332,73 +277,46 @@
       align-items: center;
       background-color: #FAFAFA;
       background-image: 
-        radial-gradient(circle at 18% 28%, rgba(0, 168, 135, 0.07) 0%, transparent 48%),
-        radial-gradient(circle at 82% 72%, rgba(37, 99, 235, 0.05) 0%, transparent 45%),
-        linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, rgba(248, 250, 252, 0.94) 100%);
+        radial-gradient(circle at 15% 25%, rgba(0, 168, 135, 0.14) 0%, transparent 55%),
+        radial-gradient(circle at 85% 70%, rgba(37, 99, 235, 0.10) 0%, transparent 50%),
+        radial-gradient(circle at 50% 50%, rgba(0, 217, 174, 0.06) 0%, transparent 60%),
+        linear-gradient(135deg, #FFFFFF 0%, #F8FAFC 100%);
       padding: var(--space-12) 0 var(--space-16);
       overflow: hidden;
       border-bottom: 1px solid var(--edge);
     }
 
-    /* -------------------------------------------------------------------------- */
-    /* HERO SEMICONDUCTOR & VLSI ANIMATED BACKGROUND                              */
-    /* -------------------------------------------------------------------------- */
     .hero-semiconductor-bg {
       position: absolute;
       inset: 0;
-      overflow: hidden;
       pointer-events: none;
+      overflow: hidden;
       z-index: 1;
     }
 
-    /* Ambient Semiconductor Glow Orbs */
     .semi-glow {
       position: absolute;
       border-radius: 50%;
       filter: blur(80px);
-      opacity: 0.18;
-      animation: semiGlowPulse 8s ease-in-out infinite alternate;
-      /* GPU layer promotion — keeps blur computed on its own layer so
-         compositing doesn't re-trigger layout on every animation frame */
-      will-change: transform, opacity;
-      transform: translateZ(0);
+      opacity: 0.15;
     }
 
     .semi-glow--emerald {
-      width: 520px;
-      height: 520px;
-      background: radial-gradient(circle, rgba(0, 168, 135, 0.35) 0%, rgba(0, 168, 135, 0) 70%);
+      width: 580px;
+      height: 580px;
+      background: radial-gradient(circle, rgba(0, 168, 135, 0.45) 0%, rgba(0, 217, 174, 0.2) 40%, rgba(0, 168, 135, 0) 70%);
       top: -120px;
-      left: 8%;
+      left: 6%;
     }
 
     .semi-glow--blue {
-      width: 480px;
-      height: 480px;
-      background: radial-gradient(circle, rgba(37, 99, 235, 0.3) 0%, rgba(37, 99, 235, 0) 70%);
+      width: 520px;
+      height: 520px;
+      background: radial-gradient(circle, rgba(37, 99, 235, 0.38) 0%, rgba(37, 99, 235, 0.15) 45%, rgba(37, 99, 235, 0) 70%);
       bottom: -80px;
-      right: 12%;
-      animation-delay: -4s;
+      right: 10%;
     }
 
-    @keyframes semiGlowPulse {
-      0% {
-        transform: translate3d(0, 0, 0) scale(0.9);
-        opacity: 0.14;
-      }
-
-      50% {
-        transform: translate3d(25px, -20px, 0) scale(1.12);
-        opacity: 0.24;
-      }
-
-      100% {
-        transform: translate3d(-20px, 15px, 0) scale(0.95);
-        opacity: 0.16;
-      }
-    }
-
-    /* SVG Circuit Board Grid & Traces */
     .circuit-traces-svg {
       position: absolute;
       inset: 0;
@@ -407,7 +325,6 @@
       opacity: 0.7;
     }
 
-    /* Moving Signal Pulses along circuit traces */
     .circuit-track {
       stroke: rgba(226, 232, 240, 0.95);
       stroke-width: 1.5;
@@ -420,14 +337,11 @@
       stroke-linecap: round;
       stroke-dasharray: 45 400;
       animation: pulseTravel 6.5s linear infinite;
-      /* will-change on animated SVG paths prevents per-frame repaint */
       will-change: stroke-dashoffset;
     }
 
     .circuit-pulse--emerald {
       stroke: var(--trace);
-      /* drop-shadow filter removed — it caused GPU compositing overhead
-         on every animation frame. Stroke colour is sufficient. */
       stroke-opacity: 0.85;
     }
 
@@ -447,49 +361,21 @@
       0% {
         stroke-dashoffset: 445;
       }
-
       100% {
         stroke-dashoffset: -445;
       }
     }
 
-    /* Blinking & glowing circuit node junctions */
     .circuit-node {
       fill: #FFFFFF;
       stroke: var(--trace);
       stroke-width: 2;
     }
 
-    .circuit-node--pulse {
-      animation: nodeBlink 3.2s ease-in-out infinite alternate;
-    }
-
     .circuit-node--blue {
       stroke: #2563EB;
-      animation-delay: -1.6s;
     }
 
-    @keyframes nodeBlink {
-      0% {
-        r: 3;
-        fill: #FFFFFF;
-        filter: drop-shadow(0 0 1px rgba(0, 168, 135, 0.2));
-      }
-
-      50% {
-        r: 5;
-        fill: var(--trace);
-        filter: drop-shadow(0 0 8px rgba(0, 168, 135, 0.9));
-      }
-
-      100% {
-        r: 3;
-        fill: #FFFFFF;
-        filter: drop-shadow(0 0 1px rgba(0, 168, 135, 0.2));
-      }
-    }
-
-    /* Floating Semiconductor Tech Badges & Chips */
     .floating-chip-element {
       position: absolute;
       display: inline-flex;
@@ -504,7 +390,6 @@
       font-size: 0.75rem;
       font-weight: 700;
       color: var(--text-hi);
-      
       user-select: none;
       pointer-events: none;
       z-index: 1;
@@ -522,30 +407,17 @@
       border-radius: 50%;
       background: var(--trace);
       position: relative;
+      display: inline-block;
     }
 
-    .chip-ping::after {
-      content: '';
-      position: absolute;
-      inset: -3px;
-      border-radius: 50%;
-      border: 1.5px solid var(--trace);
-      animation: pingRing 2s cubic-bezier(0, 0, 0.2, 1) infinite;
+    .chip-ping--blue {
+      background: #2563EB;
     }
 
-    @keyframes pingRing {
-      0% {
-        transform: scale(0.8);
-        opacity: 1;
-      }
-
-      100% {
-        transform: scale(2.4);
-        opacity: 0;
-      }
+    .chip-ping--copper {
+      background: #D97706;
     }
 
-    /* Floating positions & gentle drift keyframes */
     .floating-chip--1 {
       top: 12%;
       left: 46%;
@@ -571,46 +443,25 @@
     }
 
     @keyframes floatChip1 {
-      0% {
-        transform: translate(0, 0);
-      }
-
-      100% {
-        transform: translate(-14px, -18px);
-      }
+      0% { transform: translate(0, 0); }
+      100% { transform: translate(-14px, -18px); }
     }
 
     @keyframes floatChip2 {
-      0% {
-        transform: translate(0, 0);
-      }
-
-      100% {
-        transform: translate(15px, -16px);
-      }
+      0% { transform: translate(0, 0); }
+      100% { transform: translate(15px, -16px); }
     }
 
     @keyframes floatChip3 {
-      0% {
-        transform: translate(0, 0);
-      }
-
-      100% {
-        transform: translate(-16px, 15px);
-      }
+      0% { transform: translate(0, 0); }
+      100% { transform: translate(-16px, 15px); }
     }
 
     @keyframes floatChip4 {
-      0% {
-        transform: translate(0, 0);
-      }
-
-      100% {
-        transform: translate(16px, 14px);
-      }
+      0% { transform: translate(0, 0); }
+      100% { transform: translate(16px, 14px); }
     }
 
-    /* Semiconductor Silicon IC Die graphic in background */
     .silicon-die-graphic {
       position: absolute;
       width: 260px;
@@ -721,12 +572,39 @@
 
     .hero-ctas .btn-primary {
       position: relative;
-      box-shadow: 0 4px 16px -4px rgba(0, 168, 135, 0.4);
+      background: linear-gradient(135deg, #00A887 0%, #00876c 50%, #00755e 100%);
+      border: 1px solid rgba(0, 217, 174, 0.4);
+      box-shadow: 0 4px 20px -4px rgba(0, 168, 135, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.25);
       transition: all 0.25s ease;
+      z-index: 1;
+    }
+
+    .hero-ctas .btn-primary::before {
+      content: '';
+      position: absolute;
+      inset: -2px;
+      border-radius: 6px;
+      background: linear-gradient(135deg, #00D9AE, #00A887, #2563EB, #00D9AE);
+      background-size: 300% 300%;
+      z-index: -1;
+      opacity: 0.6;
+      animation: btnGradientShift 4s ease infinite;
+      transition: opacity 0.25s ease;
+    }
+
+    @keyframes btnGradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .hero-ctas .btn-primary:hover::before {
+      opacity: 1;
+      animation-duration: 2s;
     }
 
     .hero-ctas .btn-primary:hover {
-      box-shadow: 0 8px 24px -4px rgba(0, 168, 135, 0.55);
+      box-shadow: 0 8px 26px -4px rgba(0, 168, 135, 0.65), 0 0 18px rgba(0, 217, 174, 0.35);
       transform: translateY(-2px);
     }
 
@@ -1030,12 +908,14 @@
     }
 
     /* -------------------------------------------------------------------------- */
-    /* SERVICES STRIP                                                             */
-    /* -------------------------------------------------------------------------- */
     .services-section {
       padding: var(--section-y) 0;
-      background: var(--surface);
+      background-color: var(--surface);
+      background-image: 
+        radial-gradient(circle at 1px 1px, rgba(0, 168, 135, 0.04) 1px, transparent 0);
+      background-size: 32px 32px;
       border-bottom: 1px solid var(--edge);
+      position: relative;
     }
 
     .services-grid {
@@ -1061,10 +941,17 @@
       background: var(--layer);
       border: 1px solid var(--edge);
       border-radius: 8px;
-      transition: border-color 0.25s ease, transform 0.25s var(--ease-out-expo), box-shadow 0.25s ease;
+      transition: border-color 0.25s ease, transform 0.35s var(--ease-out-expo), box-shadow 0.25s ease, opacity 0.5s var(--ease-out-expo);
       display: flex;
       flex-direction: column;
       position: relative;
+      opacity: 0;
+      transform: translateY(24px);
+    }
+
+    .service-tile.is-visible {
+      opacity: 1;
+      transform: translateY(0);
     }
 
     .service-tile:hover {
@@ -1145,7 +1032,14 @@
       border: 1px solid var(--edge);
       border-radius: 8px;
       overflow: hidden;
-      transition: border-color 0.25s ease, transform 0.25s var(--ease-out-expo), box-shadow 0.25s ease;
+      transition: border-color 0.25s ease, transform 0.35s var(--ease-out-expo), box-shadow 0.25s ease, opacity 0.5s var(--ease-out-expo);
+      opacity: 0;
+      transform: translateY(24px);
+    }
+
+    .program-card.is-visible {
+      opacity: 1;
+      transform: translateY(0);
     }
 
     .program-card__corner {
@@ -1273,12 +1167,15 @@
     }
 
     /* -------------------------------------------------------------------------- */
-    /* WHY VLSI INSIGHTS ("OUR APPROACH")                                         */
-    /* -------------------------------------------------------------------------- */
     .why-section {
       padding: var(--section-y) 0;
-      background: var(--substrate);
+      background-color: var(--substrate);
+      background-image: 
+        linear-gradient(to right, rgba(0, 168, 135, 0.03) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(0, 168, 135, 0.03) 1px, transparent 1px);
+      background-size: 40px 40px;
       border-bottom: 1px solid var(--edge);
+      position: relative;
     }
 
     .why-layout {
@@ -1376,18 +1273,20 @@
       top: 12px;
       bottom: 16px;
       left: 7px;
-      width: 2px;
-      background: linear-gradient(180deg, var(--trace) 0%, rgba(0, 168, 135, 0.4) 60%, var(--edge) 100%);
+      width: 3px;
+      background: linear-gradient(180deg, #00D9AE 0%, #00A887 35%, #2563EB 75%, rgba(37, 99, 235, 0.2) 100%);
+      box-shadow: 0 0 8px rgba(0, 168, 135, 0.4);
+      border-radius: 2px;
     }
 
     .journey-step {
       position: relative;
       padding-bottom: var(--space-6);
-      transition: transform 0.2s ease;
+      transition: transform 0.25s var(--ease-out-expo);
     }
 
     .journey-step:hover {
-      transform: translateX(4px);
+      transform: translateX(6px);
     }
 
     .journey-step:last-child {
@@ -1404,12 +1303,13 @@
       background: var(--layer);
       border: 2px solid var(--trace);
       box-shadow: 0 0 6px rgba(0, 168, 135, 0.35);
-      transition: all 0.2s ease;
+      transition: all 0.25s ease;
     }
 
     .journey-step:hover .journey-step__dot {
       background: var(--trace);
-      box-shadow: 0 0 10px var(--trace);
+      box-shadow: 0 0 12px var(--trace), 0 0 0 4px rgba(0, 168, 135, 0.18);
+      transform: scale(1.15);
     }
 
     .journey-step__number {
@@ -1417,6 +1317,7 @@
       font-weight: var(--weight-semibold);
       color: var(--trace);
       margin-bottom: 2px;
+      letter-spacing: 0.05em;
     }
 
     .journey-step__title {
@@ -1431,6 +1332,38 @@
       font-size: var(--text-xs);
       color: var(--text-mid);
       line-height: var(--leading-snug);
+    }
+
+    /* Mobile scroll-snap for roadmap steps */
+    @media (max-width: 640px) {
+      .journey-timeline {
+        display: flex;
+        flex-direction: row;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        padding-left: 0;
+        padding-bottom: var(--space-4);
+        gap: var(--space-4);
+        scrollbar-width: thin;
+      }
+
+      .journey-timeline::before {
+        display: none;
+      }
+
+      .journey-step {
+        flex: 0 0 240px;
+        scroll-snap-align: start;
+        padding: var(--space-4);
+        background: var(--surface);
+        border: 1px solid var(--edge);
+        border-radius: 8px;
+      }
+
+      .journey-step__dot {
+        position: static;
+        margin-bottom: var(--space-2);
+      }
     }
 
     /* -------------------------------------------------------------------------- */
@@ -1599,6 +1532,12 @@
       display: grid;
       grid-template-columns: 1fr;
       gap: var(--space-6);
+    }
+
+    @media (min-width: 768px) {
+      .blog-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
     }
 
     @media (min-width: 1024px) {
@@ -2091,11 +2030,6 @@
     .contact-cta-margin { margin-top: var(--space-4); }
     .footer-brand-margin { margin-bottom: var(--space-4); }
       .chip-ping--blue { background: #2563EB; }
-    .chip-ping--copper { background: #C2410C; }
-    .service-tile { display: flex; flex-direction: column; gap: var(--space-4); padding: var(--space-8); background: #ffffff; border: 1px solid var(--edge); border-radius: 10px; transition: border-color 0.2s, transform 0.2s; }
-    .service-tile:hover { border-color: var(--trace); transform: translateY(-2px); }
-    .service-name { font-size: var(--text-xl); font-family: var(--font-display); font-weight: 700; color: var(--text-hi); }
-    .service-desc { font-size: var(--text-sm); color: var(--text-mid); line-height: 1.65; flex: 1; }
   </style>
 </head>
 
@@ -2415,27 +2349,25 @@
           <path class="circuit-pulse circuit-pulse--emerald"
             d="M 590,-20 L 590,160 L 630,200 L 630,500 L 590,540 L 590,840" />
 
-          <!-- Solder Pads / Circuit Nodes with Pulse Lights -->
-          <circle cx="220" cy="160" r="3.5" class="circuit-node circuit-node--pulse" />
+          <!-- Static Solder Pads / Circuit Junction Nodes -->
+          <circle cx="220" cy="160" r="3.5" class="circuit-node" />
           <circle cx="510" cy="220" r="3.5" class="circuit-node" />
-          <circle cx="760" cy="280" r="4" class="circuit-node circuit-node--pulse" />
-          <circle cx="610" cy="90" r="3.5" class="circuit-node circuit-node--blue circuit-node--pulse" />
+          <circle cx="760" cy="280" r="4" class="circuit-node" />
+          <circle cx="610" cy="90" r="3.5" class="circuit-node circuit-node--blue" />
           <circle cx="980" cy="150" r="4" class="circuit-node circuit-node--blue" />
-          <circle cx="1040" cy="210" r="3.5" class="circuit-node circuit-node--pulse" />
-          <circle cx="160" cy="640" r="3.5" class="circuit-node circuit-node--pulse" />
+          <circle cx="1040" cy="210" r="3.5" class="circuit-node" />
+          <circle cx="160" cy="640" r="3.5" class="circuit-node" />
           <circle cx="480" cy="580" r="4" class="circuit-node" />
-          <circle cx="800" cy="640" r="3.5" class="circuit-node circuit-node--pulse" />
+          <circle cx="800" cy="640" r="3.5" class="circuit-node" />
           <circle cx="860" cy="700" r="3.5" class="circuit-node circuit-node--blue" />
-          <circle cx="1180" cy="640" r="4" class="circuit-node circuit-node--blue circuit-node--pulse" />
+          <circle cx="1180" cy="640" r="4" class="circuit-node circuit-node--blue" />
           <circle cx="630" cy="200" r="3.5" class="circuit-node" />
-          <circle cx="630" cy="500" r="3.5" class="circuit-node circuit-node--pulse" />
+          <circle cx="630" cy="500" r="3.5" class="circuit-node" />
           <circle cx="810" cy="150" r="3.5" class="circuit-node circuit-node--blue" />
-          <circle cx="810" cy="480" r="3.5" class="circuit-node circuit-node--blue circuit-node--pulse" />
+          <circle cx="810" cy="480" r="3.5" class="circuit-node circuit-node--blue" />
           <circle cx="330" cy="450" r="3" class="circuit-node" />
           <circle cx="1210" cy="370" r="3" class="circuit-node circuit-node--blue" />
         </svg>
-
-        <!-- Floating VLSI Engineering Badges -->
         <div class="floating-chip-element floating-chip--1">
           <span class="chip-ping"></span>
           <i data-lucide="cpu"></i>
@@ -2464,10 +2396,6 @@
         <div class="hero-grid">
           <!-- Left Column: Content -->
           <div class="hero-content">
-            <div class="section-label--copper" style="margin-bottom: 14px; font-size: 0.8125rem;">
-              <i data-lucide="sparkles" style="width: 14px; height: 14px; display: inline-block; vertical-align: middle; margin-right: 4px;"></i>
-              Semiconductor Engineering &bull; 2026 Cohorts Open
-            </div>
             <h1 class="hero-headline">
               <span class="headline-line" id="heroLine1">Training Minds</span>
               <span class="headline-line" id="heroLine2">Building Future</span>
@@ -2482,6 +2410,14 @@
             <div class="hero-ctas" id="heroCtas">
               <a href="vlsi-designs.html" class="btn-primary">VLSI Design Details</a>
               <a href="programs.html" class="btn-secondary">Explore Programs</a>
+            </div>
+
+            <!-- Cohort Status Badge placed below hero CTAs -->
+            <div style="margin-top: var(--space-5);">
+              <span class="section-label--copper" style="font-size: 0.8125rem; display: inline-flex; align-items: center; gap: 6px; padding: 6px 14px; border-radius: 9999px;">
+                <span class="chip-ping chip-ping--copper" style="width: 8px; height: 8px; position: static; transform: none; display: inline-block;"></span>
+                Semiconductor Engineering &bull; 2026 Cohorts Open
+              </span>
             </div>
           </div>
 
@@ -2587,8 +2523,7 @@
     </div>
 
     <!-- OUR SERVICES — unified 6-card grid matching screenshot design -->
-    <section class="services-section" id="services-vlsi"
-      style="padding: var(--section-y) 0; background: var(--surface); border-bottom: 1px solid var(--edge);">
+    <section class="services-section" id="services-vlsi">
       <div class="container">
 
         <!-- Section heading -->
@@ -3096,7 +3031,11 @@
           }
           grid.innerHTML = posts.map(function (post) {
             const title = stripHtml(post.title.rendered);
-            const excerpt = stripHtml(post.excerpt.rendered).replace(/\[&hellip;\]|\[…\]|\[\.\.\.\]/g, '').trim().slice(0, 160) + '\u2026';
+            let rawExcerpt = stripHtml(post.excerpt.rendered)
+              .replace(/\[&hellip;\]|\[…\]|\[\.\.\.\]/g, '')
+              .replace(/^\s*\([^\)]+\)\s*/g, '')
+              .trim();
+            const excerpt = (rawExcerpt.length > 150 ? rawExcerpt.slice(0, 150) + '\u2026' : rawExcerpt);
             const category = getCategoryName(post);
             const date = formatDate(post.date);
             const rt = readTime(post.content.rendered);
@@ -3654,6 +3593,51 @@
         const walk = (x - startX) * 1.5;
         carousel.scrollLeft = scrollLeft - walk;
       });
+    })();
+  </script>
+  <!-- UI Checklist Enhancements: Stagger Scroll Reveal, Circuit Cursor, Parallax -->
+  <script>
+    (function () {
+      // 1. Staggered Scroll-Reveal for Services and Programs Cards
+      if ('IntersectionObserver' in window) {
+        const revealObserver = new IntersectionObserver((entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('is-visible');
+              revealObserver.unobserve(entry.target);
+            }
+          });
+        }, { threshold: 0.15 });
+
+        // Stagger services
+        document.querySelectorAll('.services-grid .service-tile, .our-services-grid .service-tile').forEach((el, index) => {
+          el.style.transitionDelay = (index * 70) + 'ms';
+          revealObserver.observe(el);
+        });
+
+        // Stagger program cards
+        document.querySelectorAll('.programs-cards .program-card').forEach((el, index) => {
+          el.style.transitionDelay = (index * 90) + 'ms';
+          revealObserver.observe(el);
+        });
+      } else {
+        document.querySelectorAll('.service-tile, .program-card').forEach((el) => {
+          el.classList.add('is-visible');
+        });
+      }
+
+
+
+      // 3. Subtle Hero Parallax on Scroll (Chip die graphic & subtle fade)
+      const dieGraphic = document.querySelector('.silicon-die-graphic');
+      if (dieGraphic && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        window.addEventListener('scroll', () => {
+          const scrollY = window.pageYOffset || document.documentElement.scrollTop;
+          if (scrollY < 800) {
+            dieGraphic.style.transform = 'translate(-50%, calc(-50% + ' + (scrollY * 0.18) + 'px)) rotate(' + (12 + scrollY * 0.04) + 'deg)';
+          }
+        }, { passive: true });
+      }
     })();
   </script>
   <script src="js/main.js" defer></script>

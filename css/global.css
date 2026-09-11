@@ -952,6 +952,20 @@ h1, h2, h3 {
 }
 
 /* --------------------------------------------------------------------------
+   17B. PHOTOGRAPHY MONOCHROME & DUOTONE TINT
+   -------------------------------------------------------------------------- */
+.photo-duotone,
+.duotone-img {
+  filter: grayscale(85%) contrast(105%) brightness(98%);
+  transition: filter var(--dur-base) ease;
+}
+
+.photo-duotone:hover,
+.duotone-img:hover {
+  filter: grayscale(0%) contrast(100%) brightness(100%);
+}
+
+/* --------------------------------------------------------------------------
    18. REDUCED MOTION
    -------------------------------------------------------------------------- */
 @media (prefers-reduced-motion: reduce) {
