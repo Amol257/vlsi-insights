@@ -113,22 +113,16 @@ header.navbar .nav-links,
 }
 
 @media (max-width: 1023px) {
-  header.navbar .nav-links,
-  .navbar .nav-links,
-  .nav-links {
-    display: none !important;
-  }
-  header.navbar .dropdown-panel,
-  .navbar .dropdown-panel,
+  .nav-links,
   .dropdown-panel {
-    display: none !important;
+    display: none;
   }
 }
 
 @media (min-width: 1024px) {
   header.navbar .nav-links,
   .navbar .nav-links {
-    display: flex !important;
+    display: flex;
   }
 }
 
@@ -609,9 +603,8 @@ header.navbar .nav-hamburger svg,
   padding: 4px 0 8px 12px;
 }
 
-.mobile-accordion.open,
-.mobile-accordion[style*="display: flex"] {
-  display: flex !important;
+.mobile-accordion.open {
+  display: flex;
 }
 
 .mobile-nav-link svg,
@@ -621,7 +614,7 @@ header.navbar .nav-hamburger svg,
 
 .mobile-nav-link[aria-expanded="true"] svg,
 .mobile-nav-link[aria-expanded="true"] i {
-  transform: rotate(180deg) !important;
+  transform: rotate(180deg);
 }
 
 .mobile-accordion a {
@@ -685,12 +678,13 @@ header.navbar .nav-hamburger svg,
 /* ==========================================================================
    Supabase Nav Auth Controls
    ========================================================================== */
-[hidden],
+/* [hidden] attribute is natively display:none in all modern browsers.
+   The high-specificity ID selectors below ensure it overrides any inherited display. */
 #navSignInLink[hidden],
 #navUserMenu[hidden],
 #mobileSignInLink[hidden],
 #mobileUserMenu[hidden] {
-  display: none !important;
+  display: none;
 }
 
 .nav-signin-btn,
@@ -701,7 +695,7 @@ header.navbar .nav-hamburger svg,
   padding: 0 16px;
   height: 38px;
   background: var(--trace, #00A887);
-  color: #FFFFFF !important;
+  color: #FFFFFF;
   font-family: 'Inter', -apple-system, sans-serif;
   font-size: 0.8125rem;
   font-weight: 600;
