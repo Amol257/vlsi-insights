@@ -12,7 +12,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@700&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;600;700&display=swap"
     rel="stylesheet" />
 
   <!-- Lucide Icons CDN -->
@@ -207,36 +207,6 @@
     /* -------------------------------------------------------------------------- */
     /* BUTTONS                                                                    */
     /* -------------------------------------------------------------------------- */
-    .btn-primary {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: var(--space-2);
-      min-height: 48px;
-      padding: 12px 28px;
-      background: #0F172A;
-      color: #FFFFFF;
-      font-family: var(--font-body);
-      font-weight: var(--weight-semibold);
-      font-size: var(--text-base);
-      border-radius: 4px;
-      cursor: pointer;
-      text-decoration: none;
-      transition: background var(--dur-fast) ease, transform var(--dur-fast) ease;
-      border: 1px solid #0F172A;
-    }
-
-    .btn-primary:hover {
-      background: #1E293B;
-      border-color: #1E293B;
-      transform: translateY(-2px);
-      
-    }
-
-    .btn-primary:active {
-      transform: scale(0.98);
-    }
-
     .btn-secondary {
       display: inline-flex;
       align-items: center;
@@ -244,22 +214,20 @@
       gap: var(--space-2);
       min-height: 48px;
       padding: 12px 28px;
-      background: #FFFFFF;
-      color: var(--text-hi);
+      background: transparent;
+      color: var(--trace);
       font-family: var(--font-body);
       font-weight: var(--weight-semibold);
       font-size: var(--text-base);
-      border: 1px solid #CBD5E1;
+      border: 1px solid var(--trace);
       border-radius: 4px;
       cursor: pointer;
       text-decoration: none;
-      transition: border-color var(--dur-fast) ease, color var(--dur-fast) ease, background var(--dur-fast) ease, transform var(--dur-fast) ease;
+      transition: background var(--dur-fast) ease, transform var(--dur-fast) ease;
     }
 
     .btn-secondary:hover {
-      border-color: var(--trace);
-      color: var(--trace);
-      background: rgba(0, 168, 135, 0.04);
+      background: rgba(0, 168, 135, 0.08);
       transform: translateY(-2px);
     }
 
@@ -314,11 +282,22 @@
 
     .section-label {
       font-family: var(--font-body);
-      font-weight: var(--weight-semibold);
+      font-weight: var(--weight-medium);
       font-size: var(--text-sm);
       color: var(--trace);
       letter-spacing: var(--tracking-wide);
       margin-bottom: var(--space-2);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .section-label::before {
+      content: '//';
+      font-family: var(--font-mono, monospace);
+      font-size: 0.85em;
+      opacity: 0.7;
+      color: var(--trace);
     }
 
     .section-label--copper {
@@ -339,6 +318,8 @@
       color: var(--text-hi);
       letter-spacing: var(--tracking-tight);
       line-height: var(--leading-tight);
+      text-wrap: balance;
+      position: relative;
     }
 
     /* -------------------------------------------------------------------------- */
@@ -350,7 +331,10 @@
       display: flex;
       align-items: center;
       background-color: #FAFAFA;
-      background-image: linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, rgba(248, 250, 252, 0.94) 100%);
+      background-image: 
+        radial-gradient(circle at 18% 28%, rgba(0, 168, 135, 0.07) 0%, transparent 48%),
+        radial-gradient(circle at 82% 72%, rgba(37, 99, 235, 0.05) 0%, transparent 45%),
+        linear-gradient(135deg, rgba(255, 255, 255, 0.98) 0%, rgba(248, 250, 252, 0.94) 100%);
       padding: var(--space-12) 0 var(--space-16);
       overflow: hidden;
       border-bottom: 1px solid var(--edge);
@@ -732,6 +716,18 @@
       flex-wrap: wrap;
       gap: var(--space-3);
       animation: heroFadeUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.50s both;
+      align-items: center;
+    }
+
+    .hero-ctas .btn-primary {
+      position: relative;
+      box-shadow: 0 4px 16px -4px rgba(0, 168, 135, 0.4);
+      transition: all 0.25s ease;
+    }
+
+    .hero-ctas .btn-primary:hover {
+      box-shadow: 0 8px 24px -4px rgba(0, 168, 135, 0.55);
+      transform: translateY(-2px);
     }
 
     @keyframes heroFadeUp {
@@ -918,6 +914,61 @@
       color: var(--trace);
     }
 
+    /* -------------------------------------------------------------------------- */
+    /* TECH TICKER / MARQUEE STRIP (Below Hero)                                   */
+    /* -------------------------------------------------------------------------- */
+    .tech-ticker-strip {
+      background: #0F172A;
+      color: #E2E8F0;
+      border-bottom: 1px solid var(--edge);
+      overflow: hidden;
+      white-space: nowrap;
+      user-select: none;
+      position: relative;
+      z-index: 5;
+      padding: 12px 0;
+    }
+
+    .tech-ticker-track {
+      display: inline-flex;
+      align-items: center;
+      gap: 36px;
+      animation: tickerScroll 26s linear infinite;
+    }
+
+    .tech-ticker-track:hover {
+      animation-play-state: paused;
+    }
+
+    .ticker-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      font-family: var(--font-display);
+      font-size: 0.875rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      color: #F8FAFC;
+    }
+
+    .ticker-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--trace);
+      box-shadow: 0 0 8px var(--trace);
+      display: inline-block;
+    }
+
+    @keyframes tickerScroll {
+      from {
+        transform: translate3d(0, 0, 0);
+      }
+      to {
+        transform: translate3d(-50%, 0, 0);
+      }
+    }
+
     @media (max-width: 991px) {
       .hero-section {
         min-height: auto;
@@ -1010,16 +1061,16 @@
       background: var(--layer);
       border: 1px solid var(--edge);
       border-radius: 8px;
-      
-      transition: border-color var(--dur-base) ease, transform var(--dur-base) var(--ease-out-expo);
+      transition: border-color 0.25s ease, transform 0.25s var(--ease-out-expo), box-shadow 0.25s ease;
       display: flex;
       flex-direction: column;
+      position: relative;
     }
 
     .service-tile:hover {
       border-color: var(--trace);
       transform: translateY(-3px);
-      
+      box-shadow: 0 12px 24px -10px rgba(0, 168, 135, 0.12), inset 0 0 0 1px rgba(0, 168, 135, 0.15);
     }
 
     .service-icon {
@@ -1093,9 +1144,8 @@
       background: var(--layer);
       border: 1px solid var(--edge);
       border-radius: 8px;
-      
       overflow: hidden;
-      transition: border-color var(--dur-base) ease;
+      transition: border-color 0.25s ease, transform 0.25s var(--ease-out-expo), box-shadow 0.25s ease;
     }
 
     .program-card__corner {
@@ -1110,7 +1160,8 @@
 
     .program-card:hover {
       border-color: var(--trace);
-      
+      transform: translateY(-3px);
+      box-shadow: 0 12px 24px -10px rgba(0, 168, 135, 0.12), inset 0 0 0 1px rgba(0, 168, 135, 0.15);
     }
 
     .program-card:hover .program-card__corner {
@@ -1177,7 +1228,7 @@
     .stats-grid {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
-      gap: var(--space-8);
+      gap: var(--space-6);
     }
 
     @media (min-width: 1024px) {
@@ -1189,7 +1240,20 @@
     .stat-item {
       display: flex;
       flex-direction: column;
-      gap: var(--space-1);
+      gap: var(--space-2);
+      background: var(--layer);
+      border: 1px solid var(--edge);
+      border-top: 3px solid var(--trace);
+      border-radius: 8px;
+      padding: 24px 20px;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+    }
+
+    .stat-item:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px -8px rgba(0, 168, 135, 0.12);
+      border-color: var(--edge-strong);
+      border-top-color: var(--trace);
     }
 
     .stat-number {
@@ -1199,12 +1263,13 @@
       color: var(--text-hi);
       line-height: 1;
       letter-spacing: var(--tracking-tight);
+      font-variant-numeric: tabular-nums;
     }
 
     .stat-label {
       font-size: var(--text-sm);
       color: var(--text-mid);
-      font-weight: var(--weight-normal);
+      font-weight: var(--weight-medium);
     }
 
     /* -------------------------------------------------------------------------- */
@@ -1312,12 +1377,17 @@
       bottom: 16px;
       left: 7px;
       width: 2px;
-      background: var(--edge);
+      background: linear-gradient(180deg, var(--trace) 0%, rgba(0, 168, 135, 0.4) 60%, var(--edge) 100%);
     }
 
     .journey-step {
       position: relative;
       padding-bottom: var(--space-6);
+      transition: transform 0.2s ease;
+    }
+
+    .journey-step:hover {
+      transform: translateX(4px);
     }
 
     .journey-step:last-child {
@@ -1333,6 +1403,13 @@
       border-radius: 50%;
       background: var(--layer);
       border: 2px solid var(--trace);
+      box-shadow: 0 0 6px rgba(0, 168, 135, 0.35);
+      transition: all 0.2s ease;
+    }
+
+    .journey-step:hover .journey-step__dot {
+      background: var(--trace);
+      box-shadow: 0 0 10px var(--trace);
     }
 
     .journey-step__number {
@@ -1357,41 +1434,116 @@
     }
 
     /* -------------------------------------------------------------------------- */
-    /* TESTIMONIALS                                                               */
+    /* TESTIMONIALS (Horizontal Scroll/Drag Carousel with Edge Fade)              */
     /* -------------------------------------------------------------------------- */
     .testimonials-section {
       padding: var(--section-y) 0;
       background: var(--surface);
       border-bottom: 1px solid var(--edge);
+      position: relative;
+    }
+
+    .testimonials-carousel-wrapper {
+      position: relative;
+      margin: var(--space-8) 0;
+    }
+
+    /* Edge fade mask on desktop */
+    .testimonials-carousel-wrapper::before,
+    .testimonials-carousel-wrapper::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 48px;
+      pointer-events: none;
+      z-index: 2;
+    }
+
+    .testimonials-carousel-wrapper::before {
+      left: 0;
+      background: linear-gradient(to right, var(--surface) 0%, transparent 100%);
+    }
+
+    .testimonials-carousel-wrapper::after {
+      right: 0;
+      background: linear-gradient(to left, var(--surface) 0%, transparent 100%);
     }
 
     .testimonials-grid {
-      display: grid;
-      grid-template-columns: 1fr;
+      display: flex;
       gap: var(--space-6);
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+      padding: 12px 4px 24px;
+      cursor: grab;
+      user-select: none;
     }
 
-    @media (min-width: 1024px) {
-      .testimonials-grid {
-        grid-template-columns: repeat(3, 1fr);
-      }
+    .testimonials-grid::-webkit-scrollbar {
+      display: none;
+    }
+
+    .testimonials-grid:active {
+      cursor: grabbing;
     }
 
     .testimonial-card {
+      flex: 0 0 340px;
+      max-width: 360px;
+      scroll-snap-align: start;
       padding: var(--space-8);
       background: var(--layer);
       border: 1px solid var(--edge);
       border-radius: 8px;
-      
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      transition: border-color var(--dur-base) ease;
+      transition: border-color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
+      position: relative;
+    }
+
+    @media (min-width: 768px) {
+      .testimonial-card {
+        flex: 0 0 380px;
+      }
     }
 
     .testimonial-card:hover {
       border-color: var(--trace);
-      
+      transform: translateY(-3px);
+      box-shadow: 0 12px 24px -10px rgba(0, 168, 135, 0.12), inset 0 0 0 1px rgba(0, 168, 135, 0.15);
+    }
+
+    .testimonials-controls {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 10px;
+      margin-top: -12px;
+      margin-bottom: 16px;
+    }
+
+    .testimonial-arrow-btn {
+      width: 36px;
+      height: 36px;
+      border-radius: 6px;
+      border: 1px solid var(--edge);
+      background: var(--layer);
+      color: var(--text-hi);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .testimonial-arrow-btn:hover {
+      border-color: var(--trace);
+      color: var(--trace);
+      background: rgba(0, 168, 135, 0.05);
     }
 
     .quote-icon {
@@ -1460,16 +1612,15 @@
       background: var(--layer);
       border: 1px solid var(--edge);
       border-radius: 8px;
-      
       display: flex;
       flex-direction: column;
-      transition: border-color var(--dur-base) ease, transform var(--dur-base) var(--ease-out-expo);
+      transition: border-color 0.25s ease, transform 0.25s var(--ease-out-expo), box-shadow 0.25s ease;
     }
 
     .blog-card:hover {
       border-color: var(--trace);
       transform: translateY(-3px);
-      
+      box-shadow: 0 12px 24px -10px rgba(0, 168, 135, 0.12), inset 0 0 0 1px rgba(0, 168, 135, 0.15);
     }
 
     .blog-card__badge {
@@ -1635,11 +1786,14 @@
       display: flex;
       flex-direction: column;
       gap: var(--space-5);
-      background: var(--layer);
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
       padding: var(--space-8);
       border: 1px solid var(--edge);
-      border-radius: 8px;
-      
+      border-radius: 12px;
+      box-shadow: 0 20px 35px -15px rgba(15, 23, 42, 0.05), inset 0 0 0 1px rgba(255, 255, 255, 0.8);
+      position: relative;
     }
 
     .form-group {
@@ -2310,6 +2464,10 @@
         <div class="hero-grid">
           <!-- Left Column: Content -->
           <div class="hero-content">
+            <div class="section-label--copper" style="margin-bottom: 14px; font-size: 0.8125rem;">
+              <i data-lucide="sparkles" style="width: 14px; height: 14px; display: inline-block; vertical-align: middle; margin-right: 4px;"></i>
+              Semiconductor Engineering &bull; 2026 Cohorts Open
+            </div>
             <h1 class="hero-headline">
               <span class="headline-line" id="heroLine1">Training Minds</span>
               <span class="headline-line" id="heroLine2">Building Future</span>
@@ -2403,6 +2561,31 @@
       </div>
     </section>
 
+    <!-- TECH TICKER / MARQUEE STRIP -->
+    <div class="tech-ticker-strip" aria-hidden="true">
+      <div class="tech-ticker-track">
+        <span class="ticker-item"><span class="ticker-dot"></span>SystemVerilog &amp; UVM 1.2</span>
+        <span class="ticker-item"><span class="ticker-dot"></span>RTL Architecture &amp; Synthesis</span>
+        <span class="ticker-item"><span class="ticker-dot"></span>STA &amp; Timing Closure</span>
+        <span class="ticker-item"><span class="ticker-dot"></span>5nm / 3nm FinFET PDKs</span>
+        <span class="ticker-item"><span class="ticker-dot"></span>PCIe Gen5 / CXL Protocol</span>
+        <span class="ticker-item"><span class="ticker-dot"></span>DFT &amp; Scan Insertion</span>
+        <span class="ticker-item"><span class="ticker-dot"></span>SoC Interconnect &amp; AXI4/AHB</span>
+        <span class="ticker-item"><span class="ticker-dot"></span>Bare-metal &amp; FreeRTOS Firmware</span>
+        <span class="ticker-item"><span class="ticker-dot"></span>TinyML &amp; Edge Neural Inference</span>
+        <!-- Duplicate set for continuous seamless loop -->
+        <span class="ticker-item"><span class="ticker-dot"></span>SystemVerilog &amp; UVM 1.2</span>
+        <span class="ticker-item"><span class="ticker-dot"></span>RTL Architecture &amp; Synthesis</span>
+        <span class="ticker-item"><span class="ticker-dot"></span>STA &amp; Timing Closure</span>
+        <span class="ticker-item"><span class="ticker-dot"></span>5nm / 3nm FinFET PDKs</span>
+        <span class="ticker-item"><span class="ticker-dot"></span>PCIe Gen5 / CXL Protocol</span>
+        <span class="ticker-item"><span class="ticker-dot"></span>DFT &amp; Scan Insertion</span>
+        <span class="ticker-item"><span class="ticker-dot"></span>SoC Interconnect &amp; AXI4/AHB</span>
+        <span class="ticker-item"><span class="ticker-dot"></span>Bare-metal &amp; FreeRTOS Firmware</span>
+        <span class="ticker-item"><span class="ticker-dot"></span>TinyML &amp; Edge Neural Inference</span>
+      </div>
+    </div>
+
     <!-- OUR SERVICES — unified 6-card grid matching screenshot design -->
     <section class="services-section" id="services-vlsi"
       style="padding: var(--section-y) 0; background: var(--surface); border-bottom: 1px solid var(--edge);">
@@ -2410,7 +2593,7 @@
 
         <!-- Section heading -->
         <div class="section-heading-group" style="margin-bottom: var(--space-12);">
-          <p class="section-label">What We Do</p>
+          <p class="section-label">01 &mdash; What We Do</p>
           <h2 class="section-heading" style="margin-bottom: var(--space-3);">Our Services</h2>
           <p style="color: var(--text-mid); max-width: 560px; font-size: var(--text-base); line-height: 1.65;">
             From silicon front-end architecture and verification to intelligent edge models and digital
@@ -2450,8 +2633,7 @@
           </article>
 
           <!-- VLSI Designs -->
-          <article class="service-tile"
-            style="display:flex;flex-direction:column;gap:var(--space-4);padding:var(--space-8);background:#fff;border:1px solid var(--edge);border-radius:10px;transition:transform 0.2s;">
+          <article id="services-vlsi-card" class="service-tile">
             <div class="service-icon"><i data-lucide="cpu"></i></div>
             <h3 class="service-name">
               VLSI Designs</h3>
@@ -2516,7 +2698,7 @@
           <!-- Left Column -->
           <div class="programs-intro">
             <div class="section-heading-group">
-              <p class="section-label">Learning tracks</p>
+              <p class="section-label">02 &mdash; Learning Tracks</p>
               <h2 class="section-heading">From Campus to Corporate</h2>
             </div>
             <p class="about-body-text">
@@ -2630,7 +2812,7 @@
           <!-- Left Column -->
           <div>
             <div class="section-heading-group">
-              <p class="section-label">Our approach</p>
+              <p class="section-label">03 &mdash; Our Approach</p>
               <h2 class="section-heading">Practical over theoretical</h2>
             </div>
 
@@ -2721,63 +2903,91 @@
     <section class="testimonials-section" id="testimonials">
       <div class="container">
         <div class="section-heading-group">
-          <p class="section-label">What students say</p>
+          <p class="section-label">04 &mdash; Verified Engineers</p>
           <h2 class="section-heading">Straight from the engineers</h2>
         </div>
 
-        <div class="testimonials-grid">
-          <article class="testimonial-card">
-            <div>
-              <div class="quote-icon" aria-hidden="true">&ldquo;</div>
-              <p class="testimonial-quote">
-                The UVM testbench architecture module gave me the exact skills needed to clear the technical rounds at a
-                tier-1 semiconductor MNC.
-              </p>
-            </div>
-            <div>
-              <div class="testimonial-author">Rahul Sharma</div>
-              <div class="testimonial-role">RTL Design engineer &bull; Batch of 2024</div>
-              <div class="testimonial-stars" aria-label="5 out of 5 stars">
-                <i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i
-                  data-lucide="star"></i><i data-lucide="star"></i>
-              </div>
-            </div>
-          </article>
+        <div class="testimonials-controls">
+          <button type="button" class="testimonial-arrow-btn" id="testimonialPrev" aria-label="Previous testimonial">
+            <i data-lucide="chevron-left"></i>
+          </button>
+          <button type="button" class="testimonial-arrow-btn" id="testimonialNext" aria-label="Next testimonial">
+            <i data-lucide="chevron-right"></i>
+          </button>
+        </div>
 
-          <article class="testimonial-card">
-            <div>
-              <div class="quote-icon" aria-hidden="true">&ldquo;</div>
-              <p class="testimonial-quote">
-                Unlike college labs, here we simulated actual multi-clock SoCs. The mentor feedback on timing closure
-                was invaluable.
-              </p>
-            </div>
-            <div>
-              <div class="testimonial-author">Pooja Nair</div>
-              <div class="testimonial-role">Verification Engineer &bull; Batch of 2023</div>
-              <div class="testimonial-stars" aria-label="5 out of 5 stars">
-                <i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i
-                  data-lucide="star"></i><i data-lucide="star"></i>
+        <div class="testimonials-carousel-wrapper">
+          <div class="testimonials-grid" id="testimonialsCarousel">
+            <article class="testimonial-card">
+              <div>
+                <div class="quote-icon" aria-hidden="true">&ldquo;</div>
+                <p class="testimonial-quote">
+                  The UVM testbench architecture module gave me the exact skills needed to clear the technical rounds at a
+                  tier-1 semiconductor MNC.
+                </p>
               </div>
-            </div>
-          </article>
+              <div>
+                <div class="testimonial-author">Rahul Sharma</div>
+                <div class="testimonial-role">RTL Design engineer &bull; Batch of 2024</div>
+                <div class="testimonial-stars" aria-label="5 out of 5 stars">
+                  <i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i
+                    data-lucide="star"></i><i data-lucide="star"></i>
+                </div>
+              </div>
+            </article>
 
-          <article class="testimonial-card">
-            <div>
-              <div class="quote-icon" aria-hidden="true">&ldquo;</div>
-              <p class="testimonial-quote">
-                The hands-on simulation environments and IP integration assignments gave me real confidence to work directly on complex SoC test suites.
-              </p>
-            </div>
-            <div>
-              <div class="testimonial-author">Aniket Deshmukh</div>
-              <div class="testimonial-role">SOC verification &bull; Batch of 2024</div>
-              <div class="testimonial-stars" aria-label="5 out of 5 stars">
-                <i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i
-                  data-lucide="star"></i><i data-lucide="star"></i>
+            <article class="testimonial-card">
+              <div>
+                <div class="quote-icon" aria-hidden="true">&ldquo;</div>
+                <p class="testimonial-quote">
+                  Unlike college labs, here we simulated actual multi-clock SoCs. The mentor feedback on timing closure
+                  was invaluable.
+                </p>
               </div>
-            </div>
-          </article>
+              <div>
+                <div class="testimonial-author">Pooja Nair</div>
+                <div class="testimonial-role">Verification Engineer &bull; Batch of 2023</div>
+                <div class="testimonial-stars" aria-label="5 out of 5 stars">
+                  <i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i
+                    data-lucide="star"></i><i data-lucide="star"></i>
+                </div>
+              </div>
+            </article>
+
+            <article class="testimonial-card">
+              <div>
+                <div class="quote-icon" aria-hidden="true">&ldquo;</div>
+                <p class="testimonial-quote">
+                  The hands-on simulation environments and IP integration assignments gave me real confidence to work directly on complex SoC test suites.
+                </p>
+              </div>
+              <div>
+                <div class="testimonial-author">Aniket Deshmukh</div>
+                <div class="testimonial-role">SOC verification &bull; Batch of 2024</div>
+                <div class="testimonial-stars" aria-label="5 out of 5 stars">
+                  <i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i
+                    data-lucide="star"></i><i data-lucide="star"></i>
+                </div>
+              </div>
+            </article>
+
+            <article class="testimonial-card">
+              <div>
+                <div class="quote-icon" aria-hidden="true">&ldquo;</div>
+                <p class="testimonial-quote">
+                  Learning Python/Perl regression automation alongside Verilog gave me a decisive edge. My placement drive at an EDA MNC went seamlessly.
+                </p>
+              </div>
+              <div>
+                <div class="testimonial-author">Vikas Gupta</div>
+                <div class="testimonial-role">Scripting &amp; Flow Automation &bull; Batch of 2024</div>
+                <div class="testimonial-stars" aria-label="5 out of 5 stars">
+                  <i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i
+                    data-lucide="star"></i><i data-lucide="star"></i>
+                </div>
+              </div>
+            </article>
+          </div>
         </div>
 
         <!-- Read More CTA -->
@@ -2793,7 +3003,7 @@
     <section class="blog-section" id="blog">
       <div class="container">
         <div class="section-heading-group">
-          <p class="section-label">Technical Insights</p>
+          <p class="section-label">05 &mdash; Technical Insights</p>
           <h2 class="section-heading">Latest from the Lab</h2>
         </div>
 
@@ -2894,23 +3104,20 @@
             return [
               '<article class="blog-card">',
               '  <span class="blog-card__badge">' + category + '</span>',
-              '  <h3 class="blog-card__title"><a href="' + url + '" style="color:inherit;text-decoration:none;">' + title + '</a></h3>',
+              '  <h3 class="blog-card__title">' + title + '</h3>',
               '  <p class="blog-card__excerpt">' + excerpt + '</p>',
-              '  <div class="blog-card__meta">',
-              '    <span>' + date + ' &nbsp;&middot;&nbsp; ' + rt + '</span>',
-              '    <a href="' + url + '" class="blog-card__link">Read article</a>',
-              '  </div>',
+              '  <div class="blog-card__meta"><span>' + date + ' &nbsp;&middot;&nbsp; ' + rt + '</span><a href="' + url + '" class="blog-card__link">Read article</a></div>',
               '</article>'
             ].join('\n');
-          }).join('\n');
+          }).join('');
           if (window.lucide) window.lucide.createIcons();
         }
 
         function renderFallback() {
           grid.innerHTML = [
             '<article class="blog-card">',
-            '  <span class="blog-card__badge">VLSI Track</span>',
-            '  <h3 class="blog-card__title">Demystifying UVM: Testbench Architecture for Freshers</h3>',
+            '  <span class="blog-card__badge">VLSI Design</span>',
+            '  <h3 class="blog-card__title">Understanding UVM Architecture: A Beginner\'s Practical Guide</h3>',
             '  <p class="blog-card__excerpt">A comprehensive breakdown of UVM phases, TLM ports, sequences, and virtual sequencers for verification engineers starting their careers.</p>',
             '  <div class="blog-card__meta"><span>6 min read</span><a href="blog.html" class="blog-card__link">Read article</a></div>',
             '</article>',
@@ -2945,7 +3152,7 @@
           <!-- Left Column -->
           <div class="contact-info">
             <div class="section-heading-group">
-              <p class="section-label">Get in touch</p>
+              <p class="section-label">06 &mdash; Direct Engineering Channel</p>
               <h2 class="section-heading">Start a conversation</h2>
             </div>
 
@@ -3405,6 +3612,48 @@
       }
       updateCartBadge();
       window.addEventListener('storage', updateCartBadge);
+    })();
+  </script>
+
+  <!-- Testimonials Carousel Controls & Drag Script -->
+  <script>
+    (function () {
+      const carousel = document.getElementById('testimonialsCarousel');
+      const prevBtn = document.getElementById('testimonialPrev');
+      const nextBtn = document.getElementById('testimonialNext');
+      if (!carousel) return;
+
+      const cardWidth = 380;
+      if (prevBtn) {
+        prevBtn.addEventListener('click', () => {
+          carousel.scrollBy({ left: -cardWidth, behavior: 'smooth' });
+        });
+      }
+      if (nextBtn) {
+        nextBtn.addEventListener('click', () => {
+          carousel.scrollBy({ left: cardWidth, behavior: 'smooth' });
+        });
+      }
+
+      // Drag to scroll functionality
+      let isDown = false;
+      let startX;
+      let scrollLeft;
+
+      carousel.addEventListener('mousedown', (e) => {
+        isDown = true;
+        startX = e.pageX - carousel.offsetLeft;
+        scrollLeft = carousel.scrollLeft;
+      });
+      carousel.addEventListener('mouseleave', () => { isDown = false; });
+      carousel.addEventListener('mouseup', () => { isDown = false; });
+      carousel.addEventListener('mousemove', (e) => {
+        if (!isDown) return;
+        e.preventDefault();
+        const x = e.pageX - carousel.offsetLeft;
+        const walk = (x - startX) * 1.5;
+        carousel.scrollLeft = scrollLeft - walk;
+      });
     })();
   </script>
   <script src="js/main.js" defer></script>

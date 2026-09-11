@@ -24,11 +24,17 @@ header.navbar,
   min-height: 64px;
   max-height: 64px;
   background: #F1F5F9;
-  border-bottom: 1px solid #E2E8F0;
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
+  transition: background-color 0.25s ease, backdrop-filter 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
   width: 100%;
+}
+
+header.navbar.is-scrolled,
+.navbar.is-scrolled {
+  background: rgba(241, 245, 249, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom-color: rgba(226, 232, 240, 0.8);
+  box-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.05);
 }
 
 /* Inner Container */

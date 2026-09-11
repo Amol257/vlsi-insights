@@ -320,6 +320,20 @@
 
     document.getElementById('signOutBtn')?.addEventListener('click', handleSignOut);
     document.getElementById('mobileSignOutBtn')?.addEventListener('click', handleSignOut);
+
+    // Navbar scroll-triggered blur and shadow
+    const navHeader = document.querySelector('header.navbar, .navbar');
+    if (navHeader) {
+      const handleScroll = () => {
+        if (window.scrollY > 30) {
+          navHeader.classList.add('is-scrolled');
+        } else {
+          navHeader.classList.remove('is-scrolled');
+        }
+      };
+      window.addEventListener('scroll', handleScroll, { passive: true });
+      handleScroll();
+    }
   }
 
   if (document.readyState === 'loading') {
