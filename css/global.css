@@ -526,9 +526,9 @@ h1, h2, h3 {
 .journey-panel {
   background: var(--layer);
   border: 1px solid var(--edge);
-  border-radius: 8px;
+  border-radius: 12px;
   padding: var(--space-8);
-  /* NO box-shadow */
+  position: relative;
 }
 .journey-panel__header {
   font-family: var(--font-display);
@@ -536,9 +536,31 @@ h1, h2, h3 {
   font-size: var(--text-lg);
   color: var(--text-hi);
   margin-bottom: var(--space-6);
-  display: flex; align-items: center; gap: var(--space-2);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+.journey-panel__title-wrap {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
 }
 .journey-panel__header svg { width: 18px; height: 18px; color: var(--trace); }
+.journey-swipe-hint {
+  display: none;
+  font-family: var(--font-mono, monospace);
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  color: var(--trace);
+  align-items: center;
+  gap: 4px;
+  opacity: 0.85;
+}
+.journey-timeline-wrapper {
+  position: relative;
+}
 .journey-timeline {
   position: relative;
   display: flex;
@@ -549,10 +571,13 @@ h1, h2, h3 {
   content: '';
   position: absolute;
   top: 12px; bottom: 16px; left: 7px;
-  width: 2px;
-  background: var(--edge);
+  width: 3px;
+  background: linear-gradient(180deg, #00D9AE 0%, #00A887 35%, #2563EB 75%, rgba(37, 99, 235, 0.2) 100%);
+  box-shadow: 0 0 8px rgba(0, 168, 135, 0.4);
+  border-radius: 2px;
 }
-.journey-step { position: relative; padding-bottom: var(--space-6); }
+.journey-step { position: relative; padding-bottom: var(--space-6); transition: transform 0.25s var(--ease-out-expo); }
+.journey-step:hover { transform: translateX(6px); }
 .journey-step:last-child { padding-bottom: 0; }
 .journey-step__dot {
   position: absolute; top: 4px; left: -28px;
@@ -560,10 +585,103 @@ h1, h2, h3 {
   border-radius: 50%;
   background: var(--layer);
   border: 2px solid var(--trace);
+  box-shadow: 0 0 6px rgba(0, 168, 135, 0.35);
+  transition: all 0.25s ease;
 }
-.journey-step__number { font-size: var(--text-xs); font-weight: var(--weight-semibold); color: var(--trace); margin-bottom: 2px; }
-.journey-step__title  { font-family: var(--font-display); font-weight: var(--weight-bold); font-size: var(--text-base); color: var(--text-hi); margin-bottom: 2px; }
+.journey-step:hover .journey-step__dot {
+  background: var(--trace);
+  box-shadow: 0 0 12px var(--trace), 0 0 0 4px rgba(0, 168, 135, 0.18);
+  transform: scale(1.15);
+}
+.journey-step__number { font-size: var(--text-xs); font-weight: var(--weight-semibold); color: var(--trace); margin-bottom: 2px; letter-spacing: 0.05em; }
+.journey-step__title  { font-family: var(--font-display); font-weight: var(--weight-bold); font-size: var(--text-base); color: var(--text-hi); margin-bottom: 4px; }
 .journey-step__desc   { font-size: var(--text-xs); color: var(--text-mid); line-height: var(--leading-snug); }
+
+@media (max-width: 1023px) and (min-width: 641px) {
+  .journey-panel {
+    padding: var(--space-6);
+    max-width: 680px;
+    margin: 0 auto;
+    width: 100%;
+  }
+}
+
+@media (max-width: 640px) {
+  .journey-panel {
+    padding: var(--space-5) var(--space-4);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  .journey-panel__header {
+    margin-bottom: var(--space-4);
+  }
+  .journey-swipe-hint {
+    display: inline-flex;
+  }
+  .journey-timeline-wrapper {
+    position: relative;
+    margin: 0 -4px;
+  }
+  .journey-timeline-wrapper::after {
+    content: '';
+    position: absolute;
+    top: 0; right: 0; bottom: 0;
+    width: 28px;
+    background: linear-gradient(to left, var(--layer) 0%, transparent 100%);
+    pointer-events: none;
+    z-index: 2;
+  }
+  .journey-timeline {
+    display: flex;
+    flex-direction: row;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    padding-left: 4px;
+    padding-right: 20px;
+    padding-top: 2px;
+    padding-bottom: var(--space-3);
+    gap: var(--space-3);
+    scrollbar-width: none;
+  }
+  .journey-timeline::-webkit-scrollbar {
+    display: none;
+  }
+  .journey-timeline::before {
+    display: none;
+  }
+  .journey-step {
+    flex: 0 0 78vw;
+    max-width: 290px;
+    min-width: 240px;
+    scroll-snap-align: start;
+    padding: var(--space-4);
+    background: var(--surface);
+    border: 1px solid var(--edge);
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+  }
+  .journey-step:hover {
+    transform: none;
+  }
+  .journey-step:last-child {
+    padding-bottom: var(--space-4);
+  }
+  .journey-step__dot {
+    position: static;
+    margin-bottom: var(--space-2);
+  }
+  .journey-step__title {
+    font-size: var(--text-sm);
+    line-height: 1.35;
+  }
+  .journey-step__desc {
+    font-size: 11px;
+    line-height: 1.45;
+  }
+}
 
 /* --------------------------------------------------------------------------
    11. TESTIMONIALS — no shadow

@@ -1234,13 +1234,13 @@
       line-height: var(--leading-base);
     }
 
-    /* Static Vertical 5-Step Diagram (HTML/CSS only) */
+    /* Roadmap wrapper and panel */
     .journey-panel {
       background: var(--layer);
       border: 1px solid var(--edge);
-      border-radius: 8px;
+      border-radius: 12px;
       padding: var(--space-8);
-      
+      position: relative;
     }
 
     .journey-panel__header {
@@ -1251,6 +1251,14 @@
       margin-bottom: var(--space-6);
       display: flex;
       align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: var(--space-2);
+    }
+
+    .journey-panel__title-wrap {
+      display: flex;
+      align-items: center;
       gap: var(--space-2);
     }
 
@@ -1258,6 +1266,21 @@
       width: 18px;
       height: 18px;
       color: var(--trace);
+    }
+
+    .journey-swipe-hint {
+      display: none;
+      font-family: var(--font-mono, monospace);
+      font-size: 11px;
+      letter-spacing: 0.04em;
+      color: var(--trace);
+      align-items: center;
+      gap: 4px;
+      opacity: 0.85;
+    }
+
+    .journey-timeline-wrapper {
+      position: relative;
     }
 
     .journey-timeline {
@@ -1325,7 +1348,7 @@
       font-weight: var(--weight-bold);
       font-size: var(--text-base);
       color: var(--text-hi);
-      margin-bottom: 2px;
+      margin-bottom: 4px;
     }
 
     .journey-step__desc {
@@ -1334,17 +1357,66 @@
       line-height: var(--leading-snug);
     }
 
-    /* Mobile scroll-snap for roadmap steps */
+    /* Tablet adjustments (641px - 1023px) */
+    @media (max-width: 1023px) and (min-width: 641px) {
+      .journey-panel {
+        padding: var(--space-6);
+        max-width: 680px;
+        margin: 0 auto;
+        width: 100%;
+      }
+    }
+
+    /* Mobile scroll-snap & responsive layout (<640px) */
     @media (max-width: 640px) {
+      .journey-panel {
+        padding: var(--space-5) var(--space-4);
+        border-radius: 10px;
+        overflow: hidden;
+      }
+
+      .journey-panel__header {
+        margin-bottom: var(--space-4);
+        align-items: center;
+      }
+
+      .journey-swipe-hint {
+        display: inline-flex;
+      }
+
+      .journey-timeline-wrapper {
+        position: relative;
+        margin: 0 -4px;
+      }
+
+      .journey-timeline-wrapper::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        width: 28px;
+        background: linear-gradient(to left, var(--layer) 0%, transparent 100%);
+        pointer-events: none;
+        z-index: 2;
+      }
+
       .journey-timeline {
         display: flex;
         flex-direction: row;
         overflow-x: auto;
         scroll-snap-type: x mandatory;
-        padding-left: 0;
-        padding-bottom: var(--space-4);
-        gap: var(--space-4);
-        scrollbar-width: thin;
+        -webkit-overflow-scrolling: touch;
+        padding-left: 4px;
+        padding-right: 20px;
+        padding-top: 2px;
+        padding-bottom: var(--space-3);
+        gap: var(--space-3);
+        scrollbar-width: none;
+      }
+
+      .journey-timeline::-webkit-scrollbar {
+        display: none;
       }
 
       .journey-timeline::before {
@@ -1352,17 +1424,40 @@
       }
 
       .journey-step {
-        flex: 0 0 240px;
+        flex: 0 0 78vw;
+        max-width: 290px;
+        min-width: 240px;
         scroll-snap-align: start;
         padding: var(--space-4);
         background: var(--surface);
         border: 1px solid var(--edge);
         border-radius: 8px;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+      }
+
+      .journey-step:hover {
+        transform: none;
+      }
+
+      .journey-step:last-child {
+        padding-bottom: var(--space-4);
       }
 
       .journey-step__dot {
         position: static;
         margin-bottom: var(--space-2);
+      }
+
+      .journey-step__title {
+        font-size: var(--text-sm);
+        line-height: 1.35;
+      }
+
+      .journey-step__desc {
+        font-size: 11px;
+        line-height: 1.45;
       }
     }
 
@@ -2784,49 +2879,57 @@
           <!-- Right Column: Static 5-step diagram (HTML/CSS only, no JS) -->
           <div class="journey-panel">
             <div class="journey-panel__header">
-              <i data-lucide="git-commit"></i>
-              <span>Engineering Training Roadmap</span>
+              <div class="journey-panel__title-wrap">
+                <i data-lucide="git-commit"></i>
+                <span>Engineering Training Roadmap</span>
+              </div>
+              <div class="journey-swipe-hint">
+                <span>Swipe</span>
+                <i data-lucide="arrow-right" style="width: 13px; height: 13px;"></i>
+              </div>
             </div>
 
-            <div class="journey-timeline">
-              <div class="journey-step">
-                <div class="journey-step__dot"></div>
-                <div class="journey-step__number">STEP 01</div>
-                <div class="journey-step__title">Baseline Assessment &amp; Track Selection</div>
-                <div class="journey-step__desc">Diagnostic evaluation of digital fundamentals and customized
-                  specialization track mapping.</div>
-              </div>
+            <div class="journey-timeline-wrapper">
+              <div class="journey-timeline">
+                <div class="journey-step">
+                  <div class="journey-step__dot"></div>
+                  <div class="journey-step__number">STEP 01</div>
+                  <div class="journey-step__title">Baseline Assessment &amp; Track Selection</div>
+                  <div class="journey-step__desc">Diagnostic evaluation of digital fundamentals and customized
+                    specialization track mapping.</div>
+                </div>
 
-              <div class="journey-step">
-                <div class="journey-step__dot"></div>
-                <div class="journey-step__number">STEP 02</div>
-                <div class="journey-step__title">RTL &amp; Architecture Core Modules</div>
-                <div class="journey-step__desc">In-depth Verilog/SystemVerilog design, FSM architectures, and clock
-                  domain crossing fundamentals.</div>
-              </div>
+                <div class="journey-step">
+                  <div class="journey-step__dot"></div>
+                  <div class="journey-step__number">STEP 02</div>
+                  <div class="journey-step__title">RTL &amp; Architecture Core Modules</div>
+                  <div class="journey-step__desc">In-depth Verilog/SystemVerilog design, FSM architectures, and clock
+                    domain crossing fundamentals.</div>
+                </div>
 
-              <div class="journey-step">
-                <div class="journey-step__dot"></div>
-                <div class="journey-step__number">STEP 03</div>
-                <div class="journey-step__title">Industry-Standard EDA Tool Labs</div>
-                <div class="journey-step__desc">Hands-on synthesis, functional simulation, and constraint modeling on
-                  production EDA toolsets.</div>
-              </div>
+                <div class="journey-step">
+                  <div class="journey-step__dot"></div>
+                  <div class="journey-step__number">STEP 03</div>
+                  <div class="journey-step__title">Industry-Standard EDA Tool Labs</div>
+                  <div class="journey-step__desc">Hands-on synthesis, functional simulation, and constraint modeling on
+                    production EDA toolsets.</div>
+                </div>
 
-              <div class="journey-step">
-                <div class="journey-step__dot"></div>
-                <div class="journey-step__number">STEP 04</div>
-                <div class="journey-step__title">Capstone SoC / Tape-out Project</div>
-                <div class="journey-step__desc">Building a complete peripheral IP block with comprehensive UVM
-                  verification testbenches.</div>
-              </div>
+                <div class="journey-step">
+                  <div class="journey-step__dot"></div>
+                  <div class="journey-step__number">STEP 04</div>
+                  <div class="journey-step__title">Capstone SoC / Tape-out Project</div>
+                  <div class="journey-step__desc">Building a complete peripheral IP block with comprehensive UVM
+                    verification testbenches.</div>
+                </div>
 
-              <div class="journey-step">
-                <div class="journey-step__dot"></div>
-                <div class="journey-step__number">STEP 05</div>
-                <div class="journey-step__title">Mock Technical Interviews &amp; Placement</div>
-                <div class="journey-step__desc">Rigorous grilling on timing analysis, protocol standards, and placement
-                  drives with partner firms.</div>
+                <div class="journey-step">
+                  <div class="journey-step__dot"></div>
+                  <div class="journey-step__number">STEP 05</div>
+                  <div class="journey-step__title">Mock Technical Interviews &amp; Placement</div>
+                  <div class="journey-step__desc">Rigorous grilling on timing analysis, protocol standards, and placement
+                    drives with partner firms.</div>
+                </div>
               </div>
             </div>
           </div>
