@@ -1079,14 +1079,14 @@
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      background: var(--void);
+      background: var(--trace);
       color: #FFFFFF;
-      padding: 10px 20px;
+      padding: 10px 22px;
       border-radius: 8px;
       font-family: var(--font-body);
       font-size: 0.875rem;
       font-weight: 600;
-      border: 1px solid var(--void);
+      border: 1px solid var(--trace);
       cursor: pointer;
       text-decoration: none;
       transition: all 0.2s ease;
@@ -1094,11 +1094,11 @@
     }
 
     .download-tap-btn:hover {
-      background: var(--trace);
-      border-color: var(--trace);
+      background: var(--trace-hover, #008f72);
+      border-color: var(--trace-hover, #008f72);
       color: #FFFFFF;
       transform: translateY(-2px);
-      
+      box-shadow: 0 4px 14px rgba(0, 168, 135, 0.35);
     }
 
     /* Register with us. Get a Free Demo Banner */
@@ -1738,16 +1738,23 @@
                   <div class="youtube-play-triangle"></div>
                 </div>
                 <div class="video-play-label">
-                  <i data-lucide="play" style="width:14px;height:14px;fill:currentColor;"></i>
-                  <span>Play Tutorial Walkthrough</span>
+                  <svg class="youtube-logo-svg" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" style="vertical-align: middle; margin-right: 2px; flex-shrink: 0;">
+                    <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814z" fill="#FF0000"/>
+                    <path d="M9.545 8.432l6.273 3.568-6.273 3.568V8.432z" fill="#FFFFFF"/>
+                  </svg>
+                  <span>Watch Tutorial Walkthrough</span>
                 </div>
               </div>
             </div>
             <div class="video-quick-bar">
               <span><i data-lucide="video" style="width: 14px; height: 14px; vertical-align: -2px; margin-right: 4px;"></i>QuestaSim Tutorial</span>
-              <a href="https://www.youtube.com/watch?v=gOo57e69_B8" target="_blank" rel="noopener noreferrer">
-                <span>Watch on YouTube</span>
-                <i data-lucide="external-link" style="width: 12px; height: 12px;"></i>
+              <a href="https://www.youtube.com/watch?v=gOo57e69_B8" target="_blank" rel="noopener noreferrer" style="display: inline-flex; align-items: center;">
+                <svg class="youtube-logo-svg" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" style="vertical-align: -3px; margin-right: 4px; flex-shrink: 0;">
+                  <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814z" fill="#FF0000"/>
+                  <path d="M9.545 8.432l6.273 3.568-6.273 3.568V8.432z" fill="#FFFFFF"/>
+                </svg>
+                <span>Watch Tutorial on YouTube</span>
+                <i data-lucide="external-link" style="width: 12px; height: 12px; margin-left: 2px;"></i>
               </a>
             </div>
             <div class="software-info-pane">
@@ -1770,10 +1777,10 @@
                   <span class="download-prompt__label">Official Software</span>
                   <span class="download-prompt__title">Click here to Download</span>
                 </div>
-                <button type="button" class="download-tap-btn tool-download-btn" onclick="openSoftwareModal('questasim')" id="btnQuestasimDownload" aria-label="Tap here to download Questasim">
+                <a href="#request-access" class="download-tap-btn tool-download-btn" onclick="openSoftwareAccess('questasim');" id="btnQuestasimDownload" aria-label="Tap here to request access for Questasim">
                   <span>Tap here</span>
-                  <i data-lucide="download" style="width: 16px; height: 16px;"></i>
-                </button>
+                  <i data-lucide="arrow-down" style="width: 16px; height: 16px;"></i>
+                </a>
               </div>
             </div>
           </article>
@@ -1787,16 +1794,23 @@
                   <div class="youtube-play-triangle"></div>
                 </div>
                 <div class="video-play-label">
-                  <i data-lucide="play" style="width:14px;height:14px;fill:currentColor;"></i>
-                  <span>Play Tutorial Walkthrough</span>
+                  <svg class="youtube-logo-svg" viewBox="0 0 24 24" width="15" height="15" aria-hidden="true" style="vertical-align: middle; margin-right: 2px; flex-shrink: 0;">
+                    <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814z" fill="#FF0000"/>
+                    <path d="M9.545 8.432l6.273 3.568-6.273 3.568V8.432z" fill="#FFFFFF"/>
+                  </svg>
+                  <span>Watch Tutorial Walkthrough</span>
                 </div>
               </div>
             </div>
             <div class="video-quick-bar">
               <span><i data-lucide="video" style="width: 14px; height: 14px; vertical-align: -2px; margin-right: 4px;"></i>ModelSim Tutorial</span>
-              <a href="https://www.youtube.com/watch?v=-U1OzeV9EKg&t=1s" target="_blank" rel="noopener noreferrer">
-                <span>Watch on YouTube</span>
-                <i data-lucide="external-link" style="width: 12px; height: 12px;"></i>
+              <a href="https://www.youtube.com/watch?v=-U1OzeV9EKg&t=1s" target="_blank" rel="noopener noreferrer" style="display: inline-flex; align-items: center;">
+                <svg class="youtube-logo-svg" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" style="vertical-align: -3px; margin-right: 4px; flex-shrink: 0;">
+                  <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814z" fill="#FF0000"/>
+                  <path d="M9.545 8.432l6.273 3.568-6.273 3.568V8.432z" fill="#FFFFFF"/>
+                </svg>
+                <span>Watch Tutorial on YouTube</span>
+                <i data-lucide="external-link" style="width: 12px; height: 12px; margin-left: 2px;"></i>
               </a>
             </div>
             <div class="software-info-pane">
@@ -1819,10 +1833,10 @@
                   <span class="download-prompt__label">Official Software</span>
                   <span class="download-prompt__title">Click here to Download</span>
                 </div>
-                <button type="button" class="download-tap-btn tool-download-btn" onclick="openSoftwareModal('modelsim')" id="btnModelsimDownload" aria-label="Tap here to download Modelsim">
+                <a href="#request-access" class="download-tap-btn tool-download-btn" onclick="openSoftwareAccess('modelsim');" id="btnModelsimDownload" aria-label="Tap here to request access for Modelsim">
                   <span>Tap here</span>
-                  <i data-lucide="download" style="width: 16px; height: 16px;"></i>
-                </button>
+                  <i data-lucide="arrow-down" style="width: 16px; height: 16px;"></i>
+                </a>
               </div>
             </div>
           </article>
@@ -1839,6 +1853,66 @@
             <span>Tap here</span>
             <i data-lucide="arrow-right" style="width: 16px; height: 16px;"></i>
           </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================================= -->
+    <!-- 4. REQUEST SOFTWARE LAB ACCESS FORM                                      -->
+    <!-- ======================================================================= -->
+    <section class="section-py" id="request-access" style="background:var(--surface);border-top:1px solid var(--edge);border-bottom:1px solid var(--edge);padding: 72px 0;">
+      <div class="container" style="max-width:760px;">
+        <div class="section-heading-center" style="text-align:center;margin-bottom:36px;">
+          <div class="section-label" style="font-size:0.8125rem;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:var(--trace);margin-bottom:8px;">Software Lab Access</div>
+          <h2 class="section-title" style="font-family:var(--font-display);font-size:2rem;font-weight:700;color:var(--text-hi);margin-bottom:12px;">Request EDA Software Access</h2>
+          <p class="section-desc" style="color:var(--text-mid);font-size:1rem;line-height:1.6;max-width:620px;margin:0 auto;">
+            Submit your contact information below to receive verified software installation packages, setup documentation, and academic lab credentials for QuestaSim and ModelSim.
+          </p>
+        </div>
+
+        <div style="background:#FFFFFF;border:1px solid var(--edge);border-radius:12px;padding:36px;box-shadow:0 10px 30px rgba(0,0,0,0.04);">
+          <form id="softwareEnquiryForm" onsubmit="handleFormSubmit(event); return false;">
+            <div class="form-grid-2col" style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:20px;">
+              <div>
+                <label style="display:block;font-size:0.875rem;font-weight:600;margin-bottom:6px;color:var(--text-hi);">Full Name *</label>
+                <input type="text" id="swName" name="name" required placeholder="Dr. / Mr. / Ms. John Doe" style="width:100%;height:44px;padding:10px 14px;border:1px solid var(--edge);border-radius:6px;font-size:0.9375rem;">
+              </div>
+              <div>
+                <label style="display:block;font-size:0.875rem;font-weight:600;margin-bottom:6px;color:var(--text-hi);">Email Address *</label>
+                <input type="email" id="swEmail" name="email" required placeholder="john@company.com or student@university.edu" style="width:100%;height:44px;padding:10px 14px;border:1px solid var(--edge);border-radius:6px;font-size:0.9375rem;">
+              </div>
+            </div>
+            <div class="form-grid-2col" style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:20px;">
+              <div>
+                <label style="display:block;font-size:0.875rem;font-weight:600;margin-bottom:6px;color:var(--text-hi);">Phone Number *</label>
+                <input type="tel" id="swPhone" name="phone" required placeholder="+91 98101 91592" style="width:100%;height:44px;padding:10px 14px;border:1px solid var(--edge);border-radius:6px;font-size:0.9375rem;">
+              </div>
+              <div>
+                <label style="display:block;font-size:0.875rem;font-weight:600;margin-bottom:6px;color:var(--text-hi);">Software Required *</label>
+                <select id="swToolSelect" name="tool" style="width:100%;height:44px;padding:10px 14px;border:1px solid var(--edge);border-radius:6px;font-size:0.9375rem;background:#FFF;">
+                  <option value="QuestaSim Advanced Simulation EDA">QuestaSim (Advanced Simulation &amp; UVM)</option>
+                  <option value="ModelSim HDL Simulation Standard">ModelSim (HDL Simulation &amp; Debug)</option>
+                  <option value="Both QuestaSim &amp; ModelSim">Both QuestaSim &amp; ModelSim</option>
+                </select>
+              </div>
+            </div>
+            <div style="margin-bottom:24px;">
+              <label style="display:block;font-size:0.875rem;font-weight:600;margin-bottom:6px;color:var(--text-hi);">College / Organization &amp; Verification Needs</label>
+              <textarea id="swRequirements" name="requirements" rows="3" placeholder="Describe your target simulator setup, coursework needs, or design verification specifications..." style="width:100%;padding:12px 14px;border:1px solid var(--edge);border-radius:6px;font-size:0.9375rem;font-family:var(--font-body);"></textarea>
+            </div>
+            <button type="submit" class="btn-primary" style="width:100%;justify-content:center;font-size:1rem;padding:14px;">
+              <span>Submit Access Request</span>
+              <i data-lucide="send" style="width:16px;height:16px;"></i>
+            </button>
+          </form>
+
+          <div id="formSuccessMessage" style="display:none;text-align:center;padding:24px 0;">
+            <div style="width:52px;height:52px;background:rgba(0,168,135,0.1);color:var(--trace);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;">
+              <i data-lucide="check-circle" style="width:28px;height:28px;"></i>
+            </div>
+            <h3 style="font-family:var(--font-display);font-size:1.25rem;font-weight:700;color:var(--text-hi);margin-bottom:8px;">Access Request Received</h3>
+            <p style="color:var(--text-mid);font-size:0.9375rem;">Our EDA lab coordinators will verify your request and email the software access package within 24 hours.</p>
+          </div>
         </div>
       </div>
     </section>
@@ -2010,20 +2084,7 @@
     document.querySelectorAll('.section-heading-group').forEach(el => headingObserver.observe(el));
 
   </script>
-  <!-- SOFTWARE DOWNLOAD & SETUP MODAL -->
-  <div class="software-modal-backdrop" id="softwareModalBackdrop" role="dialog" aria-modal="true" aria-labelledby="softwareModalTitle">
-    <div class="software-modal-box">
-      <div class="software-modal-header">
-        <h3 class="software-modal-title" id="softwareModalTitle">Download Software</h3>
-        <button type="button" class="software-modal-close" onclick="closeSoftwareModal()" aria-label="Close modal">
-          <i data-lucide="x" style="width: 20px; height: 20px;"></i>
-        </button>
-      </div>
-      <div class="software-modal-body" id="softwareModalBody">
-        <!-- Dynamically injected via JS based on selected tool (QuestaSim / ModelSim) -->
-      </div>
-    </div>
-  </div>
+
 
   <!-- Software Modal Script -->
   <script>
@@ -2042,125 +2103,29 @@
       `;
     }
 
-    const softwareInfoData = {
-      questasim: {
-        title: 'QuestaSim " Download & Access Guide',
-        platform: 'High-Performance Verification & Simulation Engine',
-        steps: [
-          {
-            title: '1. Software Access & Setup',
-            desc: 'Request QuestaSim software binaries and license setup guidance directly through VLSI Insights engineering support.'
-          },
-          {
-            title: '2. Environment Requirements',
-            desc: 'Compatible with 64-bit Windows 10/11 and Enterprise Linux (RHEL/Alma/Rocky 8+). Recommended minimum: 8 GB RAM and 15 GB disk space.'
-          },
-          {
-            title: '3. License Server Configuration',
-            desc: 'Set up your local or network license environment variable: export LM_LICENSE_FILE=port@host or configure the licensing utility.'
-          },
-          {
-            title: '4. Video Tutorial Walkthrough',
-            desc: 'Watch the step-by-step QuestaSim installation and testbench simulation video embedded above for complete end-to-end guidance.'
-          }
-        ],
-        youtubeUrl: 'https://www.youtube.com/watch?v=gOo57e69_B8'
-      },
-      modelsim: {
-        title: 'ModelSim " Download & Access Guide',
-        platform: 'Industry Standard Digital Simulation',
-        steps: [
-          {
-            title: '1. ModelSim Access & Packages',
-            desc: 'Obtain installation packages and environment setup assistance through VLSI Insights training and design programs.'
-          },
-          {
-            title: '2. Supported Operating Systems',
-            desc: 'Compatible with 64-bit Windows 10/11 and Linux. Lightweight footprint (~3 GB) ideal for digital logic, Verilog, and VHDL coursework.'
-          },
-          {
-            title: '3. Testbench Compilation & Waveforms',
-            desc: 'Compile HDL files with vcom and vlog commands or utilize the intuitive GUI project manager to run simulations and inspect signal waveforms.'
-          },
-          {
-            title: '4. Video Tutorial Walkthrough',
-            desc: 'Watch the complete ModelSim walkthrough video embedded above to verify your setup from initial download to waveform debugging.'
-          }
-        ],
-        youtubeUrl: 'https://www.youtube.com/watch?v=-U1OzeV9EKg'
+    function openSoftwareAccess(toolKey) {
+      const toolSelect = document.getElementById('swToolSelect');
+      if (toolSelect) {
+        if (toolKey === 'questasim') {
+          toolSelect.value = 'QuestaSim Advanced Simulation EDA';
+        } else if (toolKey === 'modelsim') {
+          toolSelect.value = 'ModelSim HDL Simulation Standard';
+        }
       }
-    };
-
-    function openSoftwareModal(toolKey) {
-      const data = softwareInfoData[toolKey];
-      if (!data) return;
-      const modalBackdrop = document.getElementById('softwareModalBackdrop');
-      const titleEl = document.getElementById('softwareModalTitle');
-      const bodyEl = document.getElementById('softwareModalBody');
-
-      titleEl.textContent = data.title;
-      bodyEl.innerHTML = `
-        <div style="margin-bottom: 16px; padding: 12px 16px; background: rgba(0, 168, 135, 0.08); border: 1px solid rgba(0, 168, 135, 0.25); border-radius: 8px;">
-          <div style="font-size: 0.75rem; color: var(--trace); font-weight: 700; letter-spacing: 0.05em;">Publisher & Platform</div>
-          <div style="font-size: 1rem; font-weight: 600; color: var(--text-hi);">${data.platform}</div>
-        </div>
-        <div style="margin-bottom: 20px;">
-          ${data.steps.map(step => `
-            <div class="software-guide-step">
-              <div class="software-guide-num">${step.title.charAt(0)}</div>
-              <div class="software-guide-text">
-                <h4>${step.title}</h4>
-                <p>${step.desc}</p>
-              </div>
-            </div>
-          `).join('')}
-        </div>
-        <div class="software-modal-actions">
-          <a href="${data.youtubeUrl}" target="_blank" rel="noopener noreferrer" class="download-tap-btn" style="background:#DC2626; border-color:#DC2626;">
-            <i data-lucide="youtube" style="width: 16px; height: 16px;"></i>
-            <span>Watch Tutorial</span>
-          </a>
-          <a href="contact.html" onclick="closeSoftwareModal()" class="download-tap-btn" style="background:var(--trace); border-color:var(--trace);">
-            <i data-lucide="download" style="width: 16px; height: 16px;"></i>
-            <span>Request Download & Access</span>
-          </a>
-          <a href="contact.html" class="eda-tool-card__btn" style="padding: 10px 18px; font-size: 0.875rem;">
-            <span>Get Free Demo</span>
-            <i data-lucide="arrow-right" style="width: 14px; height: 14px;"></i>
-          </a>
-        </div>
-      `;
-
-      if (window.lucide) {
-        lucide.createIcons();
+      const formSection = document.getElementById('request-access');
+      if (formSection) {
+        formSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        const nameField = document.getElementById('swName');
+        if (nameField) {
+          setTimeout(() => nameField.focus(), 600);
+        }
       }
-
-      modalBackdrop.classList.add('active');
-      document.body.style.overflow = 'hidden';
     }
 
-    function closeSoftwareModal() {
-      const modalBackdrop = document.getElementById('softwareModalBackdrop');
-      if (modalBackdrop) {
-        modalBackdrop.classList.remove('active');
-      }
-      document.body.style.overflow = '';
-    }
-
-    // Modal click outside to close
-    document.addEventListener('click', function(e) {
-      const modalBackdrop = document.getElementById('softwareModalBackdrop');
-      if (modalBackdrop && e.target === modalBackdrop) {
-        closeSoftwareModal();
-      }
-    });
-
-    // Escape key to close modal
-    document.addEventListener('keydown', function(e) {
-      if (e.key === 'Escape') {
-        closeSoftwareModal();
-      }
-    });
+    // Backwards compatibility alias
+    window.openSoftwareAccess = openSoftwareAccess;
+    window.openSoftwareModal = openSoftwareAccess;
+    window.closeSoftwareModal = function() {};
   </script>
 
   <!-- Cart Badge Sync -->
