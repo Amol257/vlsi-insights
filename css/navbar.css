@@ -269,11 +269,16 @@ header.navbar .dropdown-panel,
   padding: 12px;
   opacity: 0;
   visibility: hidden;
-  transform: translateY(6px);
-  transition: opacity 0.18s ease, transform 0.18s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.18s;
+  transform-origin: top left;
+  transform: scale(0.97) translateY(-4px);
+  transition:
+    opacity 0.16s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.16s cubic-bezier(0.16, 1, 0.3, 1),
+    visibility 0.16s;
   pointer-events: none;
   z-index: 1001;
   box-sizing: border-box;
+  box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.08), 0 8px 10px -6px rgba(15, 23, 42, 0.04);
 }
 
 header.navbar .dropdown-panel::before,
@@ -293,7 +298,7 @@ header.navbar .nav-item.open .dropdown-panel,
 .navbar .nav-item.open .dropdown-panel {
   opacity: 1;
   visibility: visible;
-  transform: translateY(0);
+  transform: scale(1) translateY(0);
   pointer-events: auto;
 }
 

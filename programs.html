@@ -4587,43 +4587,69 @@
         e.preventDefault();
         if (!validateEnrollForm()) return;
 
-        const submitBtn = enrollForm.querySelector('[type="submit"]');
-        const origText = submitBtn.textContent;
-        submitBtn.disabled = true;
-        submitBtn.textContent = 'Submitting...';
-
-        const name = document.getElementById('studentName').value.trim();
-        const email = document.getElementById('studentEmail').value.trim();
-        const phone = document.getElementById('studentPhone').value.trim();
-        const program = document.getElementById('programSelect').value;
-        const messageEl = document.getElementById('studentMessage');
-        const message = messageEl ? messageEl.value.trim() : '';
-
-        const { error } = await sb.from('enrollment_submissions').insert({
-          name,
-          email,
-          phone,
-          program,
-          message
-        });
-
-        if (error) {
-          submitBtn.disabled = false;
-          submitBtn.textContent = origText;
-          showEnrollError('Something went wrong. Please try again.');
-          return;
+        const submitBtn = e.target.querySelector('[type="submit"]');
+        const origText = submitBtn ? submitBtn.textContent : 'Submit Application';
+        if (submitBtn) {
+          submitBtn.disabled = true;
+          submitBtn.textContent = 'Submitting...';
         }
 
-        const errEl = document.getElementById('enrollSubmitError');
-        if (errEl) errEl.style.display = 'none';
+        try {
+          const name = document.getElementById('studentName').value.trim();
+          const email = document.getElementById('studentEmail').value.trim();
+          const phone = document.getElementById('studentPhone').value.trim();
+          const program = document.getElementById('programSelect').value;
+          const messageEl = document.getElementById('studentMessage');
+          const message = messageEl ? messageEl.value.trim() : '';
 
-        enrollForm.hidden = true;
-        if (formSuccess) {
-          formSuccess.classList.add('visible');
-          formSuccess.hidden = false;
-          setTimeout(() => {
-            formSuccess.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-          }, 100);
+          const { error } = await sb
+            .from('enrollment_submissions')
+            .insert({
+              name,
+              email,
+              phone,
+              program,
+              message
+            });
+
+          // Always reset button first regardless of outcome
+          if (submitBtn) {
+            submitBtn.disabled = false;
+            submitBtn.textContent = origText;
+          }
+
+          if (error) {
+            showEnrollError('Something went wrong. Please try again.');
+            return;
+          }
+
+          const errEl = document.getElementById('enrollSubmitError');
+          if (errEl) errEl.style.display = 'none';
+
+          // Success
+          enrollForm.style.display = 'none';
+          const successEl = document.getElementById('formSuccess');
+          if (successEl) {
+            successEl.style.display = 'block';
+            successEl.hidden = false;
+            successEl.classList.add('visible');
+            setTimeout(() => {
+              successEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }, 100);
+          } else {
+            // Fallback if formSuccess element is missing
+            enrollForm.insertAdjacentHTML('afterend',
+              '<p style="color:var(--trace);margin-top:16px;font-family:var(--font-body);">' +
+              'Application submitted. We will be in touch shortly.</p>'
+            );
+          }
+        } catch (err) {
+          console.error('Enrollment submission error:', err);
+          if (submitBtn) {
+            submitBtn.disabled = false;
+            submitBtn.textContent = origText;
+          }
+          showEnrollError('Something went wrong. Please try again.');
         }
       });
     }

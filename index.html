@@ -27,6 +27,12 @@
   <link rel="stylesheet" href="css/footer.css">
   <link rel="stylesheet" href="css/global.css">
 
+  <!-- React Bits Components Stylesheets -->
+  <link rel="stylesheet" href="components/MorphSlider/MorphSlider.css">
+  <link rel="stylesheet" href="components/Counter/Counter.css">
+  <link rel="stylesheet" href="components/AnimatedList/AnimatedList.css">
+  <link rel="stylesheet" href="components/BubbleMenu/BubbleMenu.css">
+
   <style>
     /* -------------------------------------------------------------------------- */
     /* CSS DESIGN SYSTEM & TOKENS - CLEAN MINIMALIST LIGHT THEME                  */
@@ -227,10 +233,11 @@
 
     .section-label {
       font-family: var(--font-body);
-      font-weight: var(--weight-medium);
-      font-size: var(--text-sm);
+      font-weight: var(--weight-semibold);
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
       color: var(--trace);
-      letter-spacing: var(--tracking-wide);
       margin-bottom: var(--space-2);
       display: inline-flex;
       align-items: center;
@@ -238,11 +245,13 @@
     }
 
     .section-label::before {
-      content: '//';
-      font-family: var(--font-mono, monospace);
-      font-size: 0.85em;
-      opacity: 0.7;
-      color: var(--trace);
+      content: '';
+      display: inline-block;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--trace);
+      box-shadow: 0 0 6px rgba(0, 168, 135, 0.4);
     }
 
     .section-label--copper {
@@ -1675,12 +1684,17 @@
     }
 
     .solution-item {
-      padding: var(--space-4) var(--space-6);
+      padding: var(--space-5) var(--space-6);
       background: var(--layer);
       border: 1px solid var(--edge);
-      border-left: 4px solid var(--trace);
-      border-radius: 0 8px 8px 0;
-      
+      border-radius: 8px;
+      transition: border-color var(--dur-snappy) var(--ease-out), transform var(--dur-snappy) var(--ease-out);
+    }
+    @media (hover: hover) and (pointer: fine) {
+      .solution-item:hover {
+        border-color: rgba(0, 168, 135, 0.45);
+        transform: translateY(-1px);
+      }
     }
 
     .solution-title {
@@ -2009,23 +2023,198 @@
       }
     }
 
-    /* Our Services 3x2 grid — responsive */
+    /* Semiconductor Asymmetrical Bento Grid */
     .our-services-grid {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(12, 1fr);
       gap: var(--space-6);
     }
 
-    @media (max-width: 991px) {
-      .our-services-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
+    .service-tile--lead {
+      grid-column: span 7;
+      background: linear-gradient(135deg, #FFFFFF 0%, #F8FAFC 100%);
+      border: 1px solid rgba(0, 168, 135, 0.28);
+      position: relative;
+    }
+    .service-tile--lead:hover {
+      border-color: var(--trace);
+      box-shadow: 0 10px 24px -8px rgba(0, 168, 135, 0.15);
+    }
+
+    .service-tile--medium {
+      grid-column: span 5;
+      background: #FFFFFF;
+    }
+
+    .service-tile--standard {
+      grid-column: span 3;
+      background: #FFFFFF;
+    }
+
+    .bento-tech-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin: var(--space-4) 0;
+    }
+
+    .tech-pill {
+      display: inline-flex;
+      align-items: center;
+      font-size: 0.6875rem;
+      font-weight: 600;
+      font-family: var(--font-body);
+      letter-spacing: 0.03em;
+      padding: 3px 8px;
+      border-radius: 4px;
+      background: rgba(15, 23, 42, 0.04);
+      border: 1px solid rgba(15, 23, 42, 0.08);
+      color: var(--text-mid);
+    }
+
+    .service-tile--lead .tech-pill {
+      background: rgba(0, 168, 135, 0.08);
+      border-color: rgba(0, 168, 135, 0.2);
+      color: var(--trace);
+    }
+
+    .bento-flag {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      font-size: 0.6875rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      padding: 4px 10px;
+      border-radius: 9999px;
+      background: rgba(0, 168, 135, 0.1);
+      color: var(--trace);
+      border: 1px solid rgba(0, 168, 135, 0.25);
+    }
+
+    @media (max-width: 1023px) {
+      .service-tile--lead { grid-column: span 12; }
+      .service-tile--medium { grid-column: span 12; }
+      .service-tile--standard { grid-column: span 6; }
     }
 
     @media (max-width: 639px) {
-      .our-services-grid {
-        grid-template-columns: 1fr;
-      }
+      .service-tile--standard { grid-column: span 12; }
+    }
+
+    /* React Bits Component Styling Enhancements */
+    .features-animated-list {
+      width: 100%;
+      position: relative;
+    }
+    .features-animated-list .scroll-list {
+      max-height: 480px;
+      overflow-y: auto;
+      padding: 8px 4px;
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-4);
+      outline: none;
+    }
+    .features-animated-list .animated-list-item-wrapper {
+      cursor: pointer;
+      border-radius: 8px;
+      transition: transform 0.2s var(--ease-out), box-shadow 0.2s ease;
+    }
+    .features-animated-list .animated-list-item-wrapper.selected .feature-item {
+      border-color: var(--trace);
+      background: #FFFFFF;
+      box-shadow: 0 4px 14px rgba(0, 168, 135, 0.12);
+      transform: translateX(4px);
+    }
+    .features-animated-list .top-gradient {
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 36px;
+      background: linear-gradient(to bottom, var(--substrate, #FAFAFA), transparent);
+      pointer-events: none;
+      z-index: 2;
+    }
+    .features-animated-list .bottom-gradient {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 36px;
+      background: linear-gradient(to top, var(--substrate, #FAFAFA), transparent);
+      pointer-events: none;
+      z-index: 2;
+    }
+
+    /* React Bits Counter in Stats */
+    .stat-item .counter-container {
+      display: inline-flex;
+      align-items: baseline;
+      position: relative;
+      line-height: 1;
+    }
+    .stat-item .counter-counter {
+      display: flex;
+      overflow: hidden;
+      line-height: 1;
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: clamp(2.2rem, 3.8vw, 3.5rem);
+      letter-spacing: -0.02em;
+      color: var(--text-hi);
+    }
+    .stat-item .counter-digit {
+      position: relative;
+      width: 1ch;
+      height: 1.15em;
+      overflow: hidden;
+      font-variant-numeric: tabular-nums;
+      display: inline-block;
+    }
+    .stat-item .counter-number {
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 1.15em;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      line-height: 1;
+    }
+    .stat-item .counter-suffix {
+      font-size: clamp(2rem, 3.2vw, 3rem);
+      color: var(--trace);
+      font-weight: 700;
+      margin-left: 2px;
+      line-height: 1;
+    }
+
+    /* MorphSlider Canvas Positioning */
+    .hero-slider-card {
+      position: relative;
+    }
+    .morph-slider-stage {
+      position: absolute;
+      inset: 0;
+      border-radius: 12px;
+      overflow: hidden;
+      z-index: 1;
+    }
+    .morph-slider-canvas {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: cover;
+    }
+    .hero-slider-track {
+      position: relative;
+      z-index: 2;
+      pointer-events: none;
+    }
+    .hero-slide-info {
+      pointer-events: auto;
+    }
+    .hero-slider-footer {
+      position: relative;
+      z-index: 3;
     }
   
     /* Extracted Component Classes */
@@ -2399,29 +2588,6 @@
           <circle cx="330" cy="450" r="3" class="circuit-node" />
           <circle cx="1210" cy="370" r="3" class="circuit-node circuit-node--blue" />
         </svg>
-        <div class="floating-chip-element floating-chip--1">
-          <span class="chip-ping"></span>
-          <i data-lucide="cpu"></i>
-          <span>RTL &rarr; GDSII Flow</span>
-        </div>
-
-        <div class="floating-chip-element floating-chip--2">
-          <span class="chip-ping chip-ping--blue"></span>
-          <i data-lucide="activity"></i>
-          <span>CLK: 1.2 GHz Locked</span>
-        </div>
-
-        <div class="floating-chip-element floating-chip--3">
-          <span class="chip-ping"></span>
-          <i data-lucide="shield-check"></i>
-          <span>UVM 1.2 Verified</span>
-        </div>
-
-        <div class="floating-chip-element floating-chip--4">
-          <span class="chip-ping chip-ping--copper"></span>
-          <i data-lucide="zap"></i>
-          <span>5nm FinFET Ready</span>
-        </div>
       </div>
       <div class="container">
         <div class="hero-grid">
@@ -2559,98 +2725,122 @@
 
         <!-- Section heading -->
         <div class="section-heading-group" style="margin-bottom: var(--space-12);">
-          <p class="section-label">01 &mdash; What We Do</p>
-          <h2 class="section-heading" style="margin-bottom: var(--space-3);">Our Services</h2>
+          <p class="section-label">Specialized Semiconductor Practices</p>
+          <h2 class="section-heading" style="margin-bottom: var(--space-3);">Engineering Solutions</h2>
           <p style="color: var(--text-mid); max-width: 560px; font-size: var(--text-base); line-height: 1.65;">
             From silicon front-end architecture and verification to intelligent edge models and digital
             growth services, we empower engineering minds and technology enterprises.
           </p>
         </div>
 
-        <!-- 3Ã—2 card grid -->
+        <!-- Semiconductor Asymmetrical Bento Grid -->
         <div class="our-services-grid">
 
-          <!-- AI Models -->
-          <article id="services-ai" class="service-tile">
-            <div class="service-icon"><i data-lucide="brain"></i></div>
-            <h3 class="service-name">AI
-              Models</h3>
-            <p class="service-desc">
-              Quantized neural network deployment, TinyML edge inference, and hardware-accelerated computer vision
-              models for microcontrollers and FPGA.
-            </p>
-            <a href="ai-models.html" class="btn-secondary services-grid-card__cta">
-              Explore AI Models <i data-lucide="arrow-right" class="icon-sm"></i>
-            </a>
-          </article>
-
-          <!-- Embedded Systems -->
-          <article id="services-embedded" class="service-tile">
-            <div class="service-icon"><i data-lucide="microchip"></i></div>
-            <h3 class="service-name">
-              Embedded Systems</h3>
-            <p class="service-desc">
-              Bare-metal firmware, FreeRTOS architectures, hardware drivers, and board bring-up across ARM Cortex-M,
-              ESP32, and RISC-V platforms.
-            </p>
-            <a href="embedded-systems.html" class="btn-secondary services-grid-card__cta">
-              Explore Embedded Systems <i data-lucide="arrow-right" class="icon-sm"></i>
-            </a>
-          </article>
-
-          <!-- VLSI Designs -->
-          <article id="services-vlsi-card" class="service-tile">
+          <!-- 1. LEAD BENTO: VLSI Front-End Designs (7 columns) -->
+          <article id="services-vlsi-card" class="service-tile service-tile--lead">
+            <span class="bento-flag">Flagship Practice</span>
             <div class="service-icon"><i data-lucide="cpu"></i></div>
-            <h3 class="service-name">
-              VLSI Designs</h3>
+            <h3 class="service-name">VLSI Front-End &amp; ASIC Design</h3>
             <p class="service-desc">
-              Complete front-end semiconductor engineering from RTL microarchitecture and UVM functional verification to
-              synthesis, STA timing closure, and FPGA hardware prototyping.
+              Production-grade semiconductor engineering from RTL microarchitecture and UVM functional verification to
+              synthesis, STA timing closure, and FPGA hardware emulation.
             </p>
+            <div class="bento-tech-tags">
+              <span class="tech-pill">SystemVerilog</span>
+              <span class="tech-pill">Synopsys DC</span>
+              <span class="tech-pill">Cadence Genus</span>
+              <span class="tech-pill">RTL &rarr; GDSII Flow</span>
+            </div>
             <a href="vlsi-designs.html" class="btn-secondary services-grid-card__cta">
               Explore VLSI Designs <i data-lucide="arrow-right" class="icon-sm"></i>
             </a>
           </article>
 
-          <!-- SOC Verification -->
-          <article id="services-soc" class="service-tile">
+          <!-- 2. MEDIUM BENTO: SOC Verification (5 columns) -->
+          <article id="services-soc" class="service-tile service-tile--medium">
             <div class="service-icon"><i data-lucide="shield-check"></i></div>
-            <h3 class="service-name">SOC
-              Verification</h3>
+            <h3 class="service-name">SOC &amp; IP Verification</h3>
             <p class="service-desc">
-              SystemVerilog/UVM constrained-random testbenches, assertions (SVA), coverage closure, and regression
-              management for complex ASICs.
+              Constrained-random testbenches, assertions (SVA), coverage closure, and regression
+              management for multi-million gate ASICs.
             </p>
+            <div class="bento-tech-tags">
+              <span class="tech-pill">UVM 1.2</span>
+              <span class="tech-pill">SVA Assertions</span>
+              <span class="tech-pill">Functional Coverage</span>
+            </div>
             <a href="soc-verification.html" class="btn-secondary services-grid-card__cta">
               Explore SOC Verification <i data-lucide="arrow-right" class="icon-sm"></i>
             </a>
           </article>
 
-          <!-- Marketing -->
-          <article id="services-marketing" class="service-tile">
-            <div class="service-icon"><i data-lucide="trending-up"></i></div>
-            <h3 class="service-name">
-              Marketing</h3>
+          <!-- 3. MODULAR BENTO: Embedded Systems (3 columns) -->
+          <article id="services-embedded" class="service-tile service-tile--standard">
+            <div class="service-icon"><i data-lucide="microchip"></i></div>
+            <h3 class="service-name">Embedded Systems</h3>
             <p class="service-desc">
-              Specialized digital marketing, IVR telephony systems, and managed communication operations for electronics
-              companies, hardware brands, and technical institutes.
+              Bare-metal firmware, FreeRTOS architectures, hardware drivers, and board bring-up across ARM Cortex-M,
+              ESP32, and RISC-V platforms.
             </p>
-            <a href="marketing-solutions.html" class="btn-secondary services-grid-card__cta">
-              Explore Marketing Solutions <i data-lucide="arrow-right" class="icon-sm"></i>
+            <div class="bento-tech-tags">
+              <span class="tech-pill">ARM Cortex</span>
+              <span class="tech-pill">FreeRTOS</span>
+              <span class="tech-pill">RISC-V</span>
+            </div>
+            <a href="embedded-systems.html" class="btn-secondary services-grid-card__cta">
+              Explore Embedded <i data-lucide="arrow-right" class="icon-sm"></i>
             </a>
           </article>
 
-          <!-- Web Development -->
-          <article id="services-web" class="service-tile">
+          <!-- 4. MODULAR BENTO: AI Models (3 columns) -->
+          <article id="services-ai" class="service-tile service-tile--standard">
+            <div class="service-icon"><i data-lucide="brain"></i></div>
+            <h3 class="service-name">Edge AI &amp; TinyML</h3>
+            <p class="service-desc">
+              Quantized neural network deployment, TinyML edge inference, and hardware-accelerated computer vision
+              models for microcontrollers and FPGA.
+            </p>
+            <div class="bento-tech-tags">
+              <span class="tech-pill">TinyML</span>
+              <span class="tech-pill">Quantization</span>
+              <span class="tech-pill">Edge FPGA</span>
+            </div>
+            <a href="ai-models.html" class="btn-secondary services-grid-card__cta">
+              Explore AI Models <i data-lucide="arrow-right" class="icon-sm"></i>
+            </a>
+          </article>
+
+          <!-- 5. MODULAR BENTO: Marketing Solutions (3 columns) -->
+          <article id="services-marketing" class="service-tile service-tile--standard">
+            <div class="service-icon"><i data-lucide="trending-up"></i></div>
+            <h3 class="service-name">Technical Marketing</h3>
+            <p class="service-desc">
+              Targeted digital marketing, IVR telephony systems, and managed communication operations for electronics
+              companies and technical brands.
+            </p>
+            <div class="bento-tech-tags">
+              <span class="tech-pill">B2B Hardware</span>
+              <span class="tech-pill">IVR Telephony</span>
+            </div>
+            <a href="marketing-solutions.html" class="btn-secondary services-grid-card__cta">
+              Explore Marketing <i data-lucide="arrow-right" class="icon-sm"></i>
+            </a>
+          </article>
+
+          <!-- 6. MODULAR BENTO: Web Development (3 columns) -->
+          <article id="services-web" class="service-tile service-tile--standard">
             <div class="service-icon"><i data-lucide="code-2"></i></div>
-            <h3 class="service-name">Web
-              Development</h3>
+            <h3 class="service-name">Engineering Web Platforms</h3>
             <p class="service-desc">
               Modern, responsive web applications, engineering portals, student learning platforms, and high-conversion
               landing pages built for scale.
             </p>
+            <div class="bento-tech-tags">
+              <span class="tech-pill">Web Platforms</span>
+              <span class="tech-pill">LMS &amp; Portals</span>
+            </div>
             <a href="web-development.html" class="btn-secondary services-grid-card__cta">
-              Explore Web Development <i data-lucide="arrow-right" class="icon-sm"></i>
+              Explore Web Dev <i data-lucide="arrow-right" class="icon-sm"></i>
             </a>
           </article>
 
@@ -2664,7 +2854,7 @@
           <!-- Left Column -->
           <div class="programs-intro">
             <div class="section-heading-group">
-              <p class="section-label">02 &mdash; Learning Tracks</p>
+              <p class="section-label">Silicon Curriculum &amp; Certifications</p>
               <h2 class="section-heading">From Campus to Corporate</h2>
             </div>
             <p class="about-body-text">
@@ -2778,7 +2968,7 @@
           <!-- Left Column -->
           <div>
             <div class="section-heading-group">
-              <p class="section-label">03 &mdash; Our Approach</p>
+              <p class="section-label">Production Tape-Out Methodology</p>
               <h2 class="section-heading">Practical over theoretical</h2>
             </div>
 
@@ -2869,7 +3059,7 @@
     <section class="testimonials-section" id="testimonials">
       <div class="container">
         <div class="section-heading-group">
-          <p class="section-label">04 &mdash; Verified Engineers</p>
+          <p class="section-label">Industry Alumni in Production</p>
           <h2 class="section-heading">Straight from the engineers</h2>
         </div>
 
@@ -2969,7 +3159,7 @@
     <section class="blog-section" id="blog">
       <div class="container">
         <div class="section-heading-group">
-          <p class="section-label">05 &mdash; Technical Insights</p>
+          <p class="section-label">Semiconductor Briefs &amp; Engineering Notes</p>
           <h2 class="section-heading">Latest from the Lab</h2>
         </div>
 
@@ -3122,7 +3312,7 @@
           <!-- Left Column -->
           <div class="contact-info">
             <div class="section-heading-group">
-              <p class="section-label">06 &mdash; Direct Engineering Channel</p>
+              <p class="section-label">Consult With Our Physical Design Leads</p>
               <h2 class="section-heading">Start a conversation</h2>
             </div>
 
@@ -3543,28 +3733,56 @@
         e.preventDefault();
         if (!validateForm()) return;
 
-        const submitBtn = contactForm.querySelector('[type="submit"]');
-        submitBtn.disabled = true;
-        submitBtn.textContent = 'Sending...';
-
-        const { error } = await sb.from('contact_submissions').insert({
-          name: document.getElementById('name').value.trim(),
-          email: document.getElementById('email').value.trim(),
-          phone: document.getElementById('phone').value.trim(),
-          message: document.getElementById('message').value.trim()
-        });
-
-        if (error) {
-          submitBtn.disabled = false;
-          submitBtn.textContent = 'Send message';
-          showFormError('Something went wrong. Please try again.');
-          return;
+        const submitBtn = e.target.querySelector('[type="submit"]');
+        if (submitBtn) {
+          submitBtn.disabled = true;
+          submitBtn.textContent = 'Sending...';
         }
 
-        contactForm.hidden = true;
-        if (formSuccess) formSuccess.hidden = false;
-        if (typeof lucide !== 'undefined' && lucide.createIcons) {
-          lucide.createIcons();
+        try {
+          const { error } = await sb
+            .from('contact_submissions')
+            .insert({
+              name: document.getElementById('name').value.trim(),
+              email: document.getElementById('email').value.trim(),
+              phone: document.getElementById('phone').value.trim(),
+              message: document.getElementById('message').value.trim()
+            });
+
+          // Always reset button first regardless of outcome
+          if (submitBtn) {
+            submitBtn.disabled = false;
+            submitBtn.textContent = 'Send message';
+          }
+
+          if (error) {
+            showFormError('Something went wrong. Please try again.');
+            return;
+          }
+
+          // Success
+          contactForm.style.display = 'none';
+          const successEl = document.getElementById('formSuccess');
+          if (successEl) {
+            successEl.style.display = 'flex';
+            successEl.hidden = false;
+            if (typeof lucide !== 'undefined' && lucide.createIcons) {
+              lucide.createIcons();
+            }
+          } else {
+            // Fallback if formSuccess element is missing
+            contactForm.insertAdjacentHTML('afterend',
+              '<p style="color:var(--trace);margin-top:16px;font-family:var(--font-body);">' +
+              'Message sent. We will be in touch shortly.</p>'
+            );
+          }
+        } catch (err) {
+          console.error('Contact form submission error:', err);
+          if (submitBtn) {
+            submitBtn.disabled = false;
+            submitBtn.textContent = 'Send message';
+          }
+          showFormError('Something went wrong. Please try again.');
         }
       });
     }
@@ -3671,6 +3889,11 @@
       }
     })();
   </script>
+
+  <!-- React Bits Dependencies & Integration -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/ogl@1.0.11/dist/ogl.umd.js"></script>
+  <script src="js/reactbits-integration.js" defer></script>
   <script src="js/main.js" defer></script>
 </body>
 

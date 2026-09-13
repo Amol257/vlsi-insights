@@ -77,10 +77,12 @@
   --space-32:  128px;
   --section-y: clamp(80px, 10vw, 140px);
 
-  /* Animation */
+  /* Animation & Physics Tokens (Emil Kowalski Design Eng) */
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
-  --ease-in-out:   cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-out:      cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out:   cubic-bezier(0.65, 0, 0.35, 1);
   --ease-spring:   cubic-bezier(0.34, 1.56, 0.64, 1);
+  --dur-snappy: 160ms;
   --dur-fast:   150ms;
   --dur-base:   300ms;
   --dur-slow:   600ms;
@@ -230,14 +232,21 @@ h1, h2, h3 {
   text-decoration: none;
   transition:
     filter    var(--dur-fast) ease,
-    transform var(--dur-fast) ease;
+    box-shadow var(--dur-fast) ease,
+    transform var(--dur-snappy) var(--ease-out);
   min-height: 48px;
 }
-.btn-primary:hover {
-  filter: brightness(1.1);
-  transform: translateY(-1px);
+@media (hover: hover) and (pointer: fine) {
+  .btn-primary:hover {
+    filter: brightness(1.08);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 14px rgba(0, 168, 135, 0.25);
+  }
 }
-.btn-primary:active { transform: scale(0.98); }
+.btn-primary:active {
+  transform: scale(0.97) translateY(0);
+  transition: transform var(--dur-snappy) var(--ease-out);
+}
 
 .btn-secondary {
   display: inline-flex;
@@ -256,14 +265,20 @@ h1, h2, h3 {
   text-decoration: none;
   transition:
     background  var(--dur-fast) ease,
-    transform   var(--dur-fast) ease;
+    border-color var(--dur-fast) ease,
+    transform   var(--dur-snappy) var(--ease-out);
   min-height: 48px;
 }
-.btn-secondary:hover {
-  background: rgba(0, 201, 167, 0.08);
-  transform: translateY(-1px);
+@media (hover: hover) and (pointer: fine) {
+  .btn-secondary:hover {
+    background: rgba(0, 168, 135, 0.08);
+    transform: translateY(-1px);
+  }
 }
-.btn-secondary:active { transform: scale(0.98); }
+.btn-secondary:active {
+  transform: scale(0.97) translateY(0);
+  transition: transform var(--dur-snappy) var(--ease-out);
+}
 
 .btn-full {
   width: 100%;
@@ -282,9 +297,15 @@ h1, h2, h3 {
   font-size: var(--text-sm);
   border-radius: 4px;
   text-decoration: none;
-  transition: filter var(--dur-fast) ease;
+  transition: filter var(--dur-fast) ease, transform var(--dur-snappy) var(--ease-out);
 }
-.whatsapp-cta:hover { filter: brightness(1.08); }
+@media (hover: hover) and (pointer: fine) {
+  .whatsapp-cta:hover { filter: brightness(1.08); transform: translateY(-1px); }
+}
+.whatsapp-cta:active {
+  transform: scale(0.97);
+  transition: transform var(--dur-snappy) var(--ease-out);
+}
 
 /* --------------------------------------------------------------------------
    7. SERVICE TILES — no shadow, border-color hover only
@@ -566,7 +587,10 @@ h1, h2, h3 {
   background: var(--layer);
   border: 2px solid var(--trace);
   box-shadow: 0 0 6px rgba(0, 168, 135, 0.35);
-  transition: all 0.25s ease;
+  transition:
+    background var(--dur-snappy) var(--ease-out),
+    box-shadow var(--dur-snappy) var(--ease-out),
+    transform  var(--dur-snappy) var(--ease-out);
 }
 .journey-step:hover .journey-step__dot {
   background: var(--trace);
@@ -775,12 +799,17 @@ h1, h2, h3 {
 }
 .solutions-list { display: flex; flex-direction: column; gap: var(--space-5); }
 .solution-item {
-  padding: var(--space-4) var(--space-6);
+  padding: var(--space-5) var(--space-6);
   background: var(--layer);
   border: 1px solid var(--edge);
-  border-left: 4px solid var(--trace);
-  border-radius: 0 8px 8px 0;
-  /* NO box-shadow */
+  border-radius: 8px;
+  transition: border-color var(--dur-snappy) var(--ease-out), transform var(--dur-snappy) var(--ease-out);
+}
+@media (hover: hover) and (pointer: fine) {
+  .solution-item:hover {
+    border-color: rgba(0, 168, 135, 0.45);
+    transform: translateY(-1px);
+  }
 }
 .solution-title { font-family: var(--font-display); font-weight: var(--weight-bold); font-size: var(--text-base); color: var(--text-hi); margin-bottom: 4px; }
 .solution-desc  { font-size: var(--text-sm); color: var(--text-mid); line-height: var(--leading-base); }
