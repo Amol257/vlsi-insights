@@ -52,22 +52,31 @@ window.handleFormSubmit = async function (e) {
   var name = '';
   var email = '';
   var phone = '';
-  var focusArea = '';
+  var selects = [];
+  var extraFields = [];
   var requirements = '';
 
   inputs.forEach(function (input) {
     var type = (input.type || '').toLowerCase();
     var val = input.value ? input.value.trim() : '';
-    if (type === 'text' && !name) {
-      name = val;
-    } else if (type === 'email') {
+    var fieldName = input.name || input.id || input.getAttribute('placeholder') || '';
+
+    if (type === 'submit' || type === 'button' || type === 'hidden') return;
+
+    if (type === 'email') {
       email = val;
     } else if (type === 'tel') {
       phone = val;
-    } else if (input.tagName.toLowerCase() === 'select') {
-      focusArea = val;
     } else if (input.tagName.toLowerCase() === 'textarea') {
       requirements = val;
+    } else if (input.tagName.toLowerCase() === 'select') {
+      if (val) selects.push(val);
+    } else if (type === 'text') {
+      if (!name && (fieldName.toLowerCase().includes('name') || !fieldName)) {
+        name = val;
+      } else if (val) {
+        extraFields.push((fieldName ? fieldName + ': ' : '') + val);
+      }
     }
   });
 
@@ -92,7 +101,9 @@ window.handleFormSubmit = async function (e) {
     }
 
     var pageTitle = document.title ? document.title.split('|')[0].trim() : 'Service Consultation';
-    var fullMessage = '[' + pageTitle + (focusArea ? ' - ' + focusArea : '') + '] ' + (requirements || 'No additional details provided.');
+    var focusArea = selects.join(' | ');
+    var extraNotes = extraFields.length ? ' [' + extraFields.join(', ') + '] ' : ' ';
+    var fullMessage = '[' + pageTitle + (focusArea ? ' - ' + focusArea : '') + ']' + extraNotes + (requirements || 'No additional details provided.');
 
     var res = await client
       .from('contact_submissions')
