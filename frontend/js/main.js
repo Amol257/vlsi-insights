@@ -251,6 +251,32 @@
         if (mobileUserMenu)  { mobileUserMenu.hidden = true; mobileUserMenu.style.display = 'none'; }
       }
 
+      // 6.b In-page Auth Prompt Banner (front-end-software.html)
+      const authBanner = document.getElementById('authPromptBanner');
+      if (authBanner) {
+        if (session && session.user) {
+          authBanner.hidden = true;
+          authBanner.style.display = 'none';
+        } else {
+          authBanner.hidden = false;
+          authBanner.style.display = 'flex';
+        }
+      }
+
+      // 6.c Auto-populate user info in consultation/software forms if authenticated
+      if (session && session.user) {
+        const userName = session.user.user_metadata?.full_name || '';
+        const userEmail = session.user.email || '';
+        const swNameInput = document.getElementById('swName');
+        const swEmailInput = document.getElementById('swEmail');
+        if (swNameInput && !swNameInput.value && userName) {
+          swNameInput.value = userName;
+        }
+        if (swEmailInput && !swEmailInput.value && userEmail) {
+          swEmailInput.value = userEmail;
+        }
+      }
+
       if (typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons();
     }
 

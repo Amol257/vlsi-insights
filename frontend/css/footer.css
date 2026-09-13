@@ -136,7 +136,7 @@
 .footer-social-link svg {
   width: 18px !important;
   height: 18px !important;
-  stroke: currentColor !important;
+  display: block !important;
 }
 
 /* Column Headings */
