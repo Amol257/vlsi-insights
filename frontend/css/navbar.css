@@ -695,7 +695,42 @@ header.navbar .nav-hamburger svg,
 #navUserMenu[hidden],
 #mobileSignInLink[hidden],
 #mobileUserMenu[hidden] {
-  display: none;
+  display: none !important;
+}
+
+.mobile-drawer-cart-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px;
+  background: var(--surface, #FAFAFA);
+  border: 1px solid var(--edge, #E2E8F0);
+  border-radius: 6px;
+  color: var(--text-hi, #0F172A);
+  font-weight: 600;
+  text-decoration: none;
+  font-size: 0.875rem;
+  transition: border-color 0.2s ease, color 0.2s ease;
+}
+
+.mobile-drawer-login-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px;
+  background: var(--trace, #00A887);
+  color: #FFFFFF;
+  border-radius: 6px;
+  font-weight: 600;
+  text-decoration: none;
+  font-size: 0.875rem;
+  transition: background 0.2s ease;
+}
+
+.mobile-drawer-login-btn:hover {
+  background: var(--trace-hover, #008f72);
 }
 
 .nav-signin-btn,

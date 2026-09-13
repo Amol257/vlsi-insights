@@ -198,7 +198,9 @@
     }
 
     // Auth callback listener
-    if (typeof sb !== 'undefined' && sb.auth) {
+    function handleAuthCallback(client) {
+      if (!client || !client.auth) return;
+
       function getRedirectTarget(session) {
         const hasPendingCart = (() => {
           try { return !!sessionStorage.getItem('pending_cart_item'); } catch (e) { return false; }
@@ -208,12 +210,10 @@
         const hasPhone = !!(
           session &&
           session.user &&
-          (session.user.user_metadata?.phone ||
-           session.user.phone)
+          (session.user.user_metadata?.phone || session.user.phone)
         );
 
         if (!hasPhone) {
-          // Redirect to complete-profile, passing intended destination as ?redirect=
           const dest = hasPendingCart ? 'cart.html' : 'index.html';
           return `complete-profile.html?redirect=${encodeURIComponent(dest)}`;
         }
@@ -222,19 +222,31 @@
       }
 
       // 1. Listen for state change (standard Supabase OAuth flow)
-      sb.auth.onAuthStateChange((event, session) => {
-        if (event === 'SIGNED_IN' && session) {
+      client.auth.onAuthStateChange((event, session) => {
+        if ((event === 'SIGNED_IN' || event === 'INITIAL_SESSION') && session) {
           window.location.href = getRedirectTarget(session);
         }
       });
 
       // 2. Also check if session is already established from the redirect URL fragment/code
       (async () => {
-        const { data: { session } } = await sb.auth.getSession();
-        if (session) {
-          window.location.href = getRedirectTarget(session);
-        }
+        try {
+          const { data: { session } } = await client.auth.getSession();
+          if (session) {
+            window.location.href = getRedirectTarget(session);
+          }
+        } catch (e) {}
       })();
+    }
+
+    const initCallbackClient = (typeof window.getSupabaseClient === 'function' && window.getSupabaseClient()) ||
+                               (window.sb && window.sb.auth ? window.sb : null);
+    if (initCallbackClient) {
+      handleAuthCallback(initCallbackClient);
+    } else {
+      window.addEventListener('supabase:ready', (e) => {
+        handleAuthCallback(e.detail);
+      }, { once: true });
     }
   </script>
   <script src="js/main.js" defer></script>

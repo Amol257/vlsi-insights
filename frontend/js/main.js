@@ -220,40 +220,60 @@
     }
 
     // 6. Supabase Nav Authentication State
+    function getStoredUser() {
+      try {
+        for (let i = 0; i < localStorage.length; i++) {
+          const key = localStorage.key(i);
+          if (key && (key.startsWith('sb-') || key.includes('-auth-token'))) {
+            const raw = localStorage.getItem(key);
+            if (raw) {
+              const parsed = JSON.parse(raw);
+              if (parsed && parsed.user) return parsed.user;
+              if (parsed && parsed.currentSession && parsed.currentSession.user) return parsed.currentSession.user;
+            }
+          }
+        }
+      } catch (e) {}
+      return null;
+    }
+
     function applyNavAuth(session) {
-      const signInLink      = document.getElementById('navSignInLink');
-      const userMenu        = document.getElementById('navUserMenu');
-      const userNameEl      = document.getElementById('navUserName');
-      const avatarEl        = document.getElementById('navUserAvatar');
+      const signInLink       = document.getElementById('navSignInLink');
+      const userMenu         = document.getElementById('navUserMenu');
+      const userNameEl       = document.getElementById('navUserName');
+      const avatarEl         = document.getElementById('navUserAvatar');
       const mobileSignInLink = document.getElementById('mobileSignInLink');
-      const mobileUserMenu  = document.getElementById('mobileUserMenu');
-      const mobileUserName  = document.getElementById('mobileUserName');
-      const mobileAvatarEl  = document.getElementById('mobileUserAvatar');
+      const mobileUserMenu   = document.getElementById('mobileUserMenu');
+      const mobileUserName   = document.getElementById('mobileUserName');
+      const mobileAvatarEl   = document.getElementById('mobileUserAvatar');
 
       if (session && session.user) {
-        const name    = session.user.user_metadata?.full_name || session.user.email.split('@')[0];
-        const initial = name.charAt(0).toUpperCase();
+        const user    = session.user;
+        const name    = (user.user_metadata && user.user_metadata.full_name) ||
+                        (user.email ? user.email.split('@')[0] : '') ||
+                        'User';
+        const initial = (name.charAt(0) || 'U').toUpperCase();
 
-        if (signInLink)      { signInLink.hidden = true;  signInLink.style.display = 'none'; }
-        if (mobileSignInLink){ mobileSignInLink.hidden = true; mobileSignInLink.style.display = 'none'; }
+        if (signInLink)       { signInLink.hidden = true;  signInLink.style.display = 'none'; }
+        if (mobileSignInLink) { mobileSignInLink.hidden = true; mobileSignInLink.style.display = 'none'; }
 
-        if (userMenu)        { userMenu.hidden = false; userMenu.style.display = 'inline-flex'; }
-        if (userNameEl)      { userNameEl.textContent = name; }
-        if (avatarEl)        { avatarEl.textContent   = initial; }
+        if (userMenu)         { userMenu.hidden = false; userMenu.style.display = 'inline-flex'; }
+        if (userNameEl)       { userNameEl.textContent = name; }
+        if (avatarEl)         { avatarEl.textContent   = initial; }
 
-        if (mobileUserMenu)  { mobileUserMenu.hidden = false; mobileUserMenu.style.display = 'flex'; }
-        if (mobileUserName)  { mobileUserName.textContent = name; }
-        if (mobileAvatarEl)  { mobileAvatarEl.textContent = initial; }
+        if (mobileUserMenu)   { mobileUserMenu.hidden = false; mobileUserMenu.style.display = 'flex'; }
+        if (mobileUserName)   { mobileUserName.textContent = name; }
+        if (mobileAvatarEl)   { mobileAvatarEl.textContent = initial; }
       } else {
-        if (signInLink)      { signInLink.hidden = false; signInLink.style.display = 'inline-flex'; }
-        if (mobileSignInLink){ mobileSignInLink.hidden = false; mobileSignInLink.style.display = 'flex'; }
-        if (userMenu)        { userMenu.hidden = true; userMenu.style.display = 'none'; }
-        if (mobileUserMenu)  { mobileUserMenu.hidden = true; mobileUserMenu.style.display = 'none'; }
+        if (signInLink)       { signInLink.hidden = false; signInLink.style.display = 'inline-flex'; }
+        if (mobileSignInLink) { mobileSignInLink.hidden = false; mobileSignInLink.style.display = 'flex'; }
+        if (userMenu)         { userMenu.hidden = true; userMenu.style.display = 'none'; }
+        if (mobileUserMenu)   { mobileUserMenu.hidden = true; mobileUserMenu.style.display = 'none'; }
       }
 
       // 6.b In-page Auth Prompt Banner & EDA Tool Button (front-end-software.html)
       const authBanner = document.getElementById('authPromptBanner');
-      const edaBtn = document.getElementById('btnEdaPlaygroundAccess');
+      const edaBtn     = document.getElementById('btnEdaPlaygroundAccess');
       if (session && session.user) {
         if (authBanner) {
           authBanner.hidden = true;
@@ -282,7 +302,7 @@
 
       // 6.c Auto-populate user info in consultation/software forms if authenticated
       if (session && session.user) {
-        const userName = session.user.user_metadata?.full_name || '';
+        const userName = (session.user.user_metadata && session.user.user_metadata.full_name) || '';
         const userEmail = session.user.email || '';
         const swNameInput = document.getElementById('swName');
         const swEmailInput = document.getElementById('swEmail');
@@ -297,28 +317,77 @@
       if (typeof lucide !== 'undefined' && lucide.createIcons) lucide.createIcons();
     }
 
+    function getSbClient() {
+      if (typeof window.getSupabaseClient === 'function') {
+        const c = window.getSupabaseClient();
+        if (c && c.auth) return c;
+      }
+      if (window.sb && window.sb.auth) return window.sb;
+      if (typeof sb !== 'undefined' && sb && sb.auth) return sb;
+
+      const sbLib = (typeof window !== 'undefined' && window.supabase) || (typeof supabase !== 'undefined' ? supabase : null);
+      if (sbLib && typeof sbLib.createClient === 'function') {
+        const url = window.SUPABASE_URL || 'https://riipijrgucqigndcjwre.supabase.co';
+        const key = window.SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJpaXBpanJndWNxaWduZGNqd3JlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODg5NTk3NjQsImV4cCI6MjEwNDUzNTc2NH0.LD3-e8JT0eS8-sDR1bXqJq4-06MV9G8he2PH-o_3K2M';
+        try {
+          const c = sbLib.createClient(url, key, {
+            auth: {
+              detectSessionInUrl: true,
+              flowType: 'pkce',
+              persistSession: true,
+              autoRefreshToken: true
+            }
+          });
+          window.sb = c;
+          return c;
+        } catch (e) {}
+      }
+      return null;
+    }
+
     // Wait until window.sb is ready (CDN may load async), then wire up auth
     function initNavAuth() {
-      const client = (typeof window !== 'undefined' && window.sb) || (typeof sb !== 'undefined' ? sb : null);
-      if (!client || !client.auth) {
-        // Retry up to 20 times × 50 ms = 1 second max
+      // 1. Immediately hydrate from localStorage (zero-latency, prevents mobile flash of "Sign In")
+      const cachedUser = getStoredUser();
+      if (cachedUser) {
+        applyNavAuth({ user: cachedUser });
+      }
+
+      // 2. Wire live auth listener
+      let wired = false;
+      const tryWire = () => {
+        if (wired) return true;
+        const client = getSbClient();
+        if (client && client.auth) {
+          wired = true;
+          wireNavAuth(client);
+          return true;
+        }
+        return false;
+      };
+
+      if (!tryWire()) {
+        window.addEventListener('supabase:ready', (e) => {
+          if (!wired) {
+            wired = true;
+            wireNavAuth(e.detail || getSbClient());
+          }
+        }, { once: true });
+
         let tries = 0;
         const poll = setInterval(() => {
-          const c = (typeof window !== 'undefined' && window.sb) || (typeof sb !== 'undefined' ? sb : null);
-          if (c && c.auth) {
-            clearInterval(poll);
-            wireNavAuth(c);
-          } else if (++tries >= 20) {
+          tries++;
+          if (tryWire() || tries >= 60) {
             clearInterval(poll);
           }
         }, 50);
-        return;
       }
-      wireNavAuth(client);
     }
 
     function wireNavAuth(client) {
-      // Register listener FIRST so we never miss INITIAL_SESSION
+      if (!client || !client.auth) return;
+
+      // Register listener FIRST so we never miss INITIAL_SESSION or SIGNED_IN
       client.auth.onAuthStateChange((event, session) => {
         if (
           event === 'INITIAL_SESSION' ||
@@ -333,7 +402,17 @@
 
       // Explicit fallback: call getSession() in case INITIAL_SESSION already fired
       client.auth.getSession().then(({ data: { session } }) => {
-        applyNavAuth(session);
+        if (session) {
+          applyNavAuth(session);
+        } else {
+          // Safeguard: Check if localStorage still has user before resetting
+          const cached = getStoredUser();
+          if (cached) {
+            applyNavAuth({ user: cached });
+          } else {
+            applyNavAuth(null);
+          }
+        }
       }).catch(() => {});
     }
 
@@ -352,11 +431,18 @@
     // Sign out handlers
     const handleSignOut = async (e) => {
       if (e) e.preventDefault();
-      const client = (typeof window !== 'undefined' && window.sb) || (typeof sb !== 'undefined' ? sb : null);
+      const client = getSbClient();
       if (client && client.auth) {
         try { await client.auth.signOut(); } catch (err) {}
       }
-      try { localStorage.removeItem('sb-riipijrgucqigndcjwre-auth-token'); } catch (err) {}
+      try {
+        for (let i = 0; i < localStorage.length; i++) {
+          const k = localStorage.key(i);
+          if (k && (k.startsWith('sb-') || k.includes('-auth-token'))) {
+            localStorage.removeItem(k);
+          }
+        }
+      } catch (err) {}
       applyNavAuth(null);
       window.location.reload();
     };
