@@ -690,11 +690,14 @@ header.navbar .nav-hamburger svg,
    Supabase Nav Auth Controls
    ========================================================================== */
 /* [hidden] attribute is natively display:none in all modern browsers.
-   The high-specificity ID selectors below ensure it overrides any inherited display. */
+   The high-specificity ID and class selectors below ensure it overrides any inherited display. */
 #navSignInLink[hidden],
 #navUserMenu[hidden],
 #mobileSignInLink[hidden],
-#mobileUserMenu[hidden] {
+#mobileUserMenu[hidden],
+.nav-signin-btn[hidden],
+.mobile-drawer-login-btn[hidden],
+.mobile-user-card[hidden] {
   display: none !important;
 }
 
@@ -818,6 +821,13 @@ header.navbar .nav-hamburger svg,
   white-space: nowrap;
 }
 
+@media (max-width: 480px) {
+  .nav-user-name,
+  #navUserName {
+    max-width: 70px;
+  }
+}
+
 /* Chevron icon inside pill */
 .user-chevron {
   width: 13px;
@@ -915,5 +925,60 @@ header.navbar .nav-hamburger svg,
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+/* ==========================================================================
+   Mobile Header Responsive Optimizations (< 640px)
+   Prevents horizontal overflow on small screens and ensures clean control spacing
+   ========================================================================== */
+@media (max-width: 639px) {
+  header.navbar .navbar__inner,
+  .navbar .navbar__inner {
+    padding: 0 12px;
+  }
+
+  header.navbar .nav-logo-img,
+  .navbar .nav-logo-img {
+    height: 30px;
+    max-width: 135px;
+  }
+
+  header.navbar .navbar__controls,
+  .navbar .navbar__controls {
+    gap: 8px;
+  }
+
+  header.navbar .nav-cart-btn,
+  .navbar .nav-cart-btn,
+  header.navbar .nav-hamburger,
+  .navbar .nav-hamburger {
+    width: 38px;
+    height: 38px;
+    min-width: 38px;
+  }
+
+  .nav-signin-btn,
+  #navSignInLink {
+    height: 34px;
+    padding: 0 10px;
+    font-size: 0.75rem;
+  }
+
+  .nav-user-pill {
+    padding: 2px 8px 2px 3px;
+    gap: 5px;
+  }
+
+  .nav-user-avatar {
+    width: 24px;
+    height: 24px;
+    font-size: 0.6875rem;
+  }
+
+  .nav-user-name,
+  #navUserName {
+    max-width: 60px;
+    font-size: 0.75rem;
+  }
 }
 

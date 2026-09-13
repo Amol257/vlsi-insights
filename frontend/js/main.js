@@ -18,6 +18,27 @@
 
     function openDrawer() {
       if (!mobileDrawer) return;
+      // Re-assert auth state on drawer open so mobile drawer footer is always 100% fresh
+      const cached = getStoredUser();
+      if (cached) {
+        const mLink = document.getElementById('mobileSignInLink');
+        const mMenu = document.getElementById('mobileUserMenu');
+        if (mLink) {
+          mLink.hidden = true;
+          mLink.style.setProperty('display', 'none', 'important');
+        }
+        if (mMenu) {
+          mMenu.hidden = false;
+          mMenu.style.setProperty('display', 'flex', 'important');
+          const mName = document.getElementById('mobileUserName');
+          const mAv = document.getElementById('mobileUserAvatar');
+          const name = (cached.user_metadata && cached.user_metadata.full_name) ||
+                       (cached.email ? cached.email.split('@')[0] : '') ||
+                       'User';
+          if (mName) mName.textContent = name;
+          if (mAv) mAv.textContent = (name.charAt(0) || 'U').toUpperCase();
+        }
+      }
       mobileDrawer.classList.add('open');
       if (drawerOverlay) {
         drawerOverlay.classList.add('active');
@@ -221,16 +242,51 @@
 
     // 6. Supabase Nav Authentication State
     function getStoredUser() {
+      // 1. Check project-specific token key first
+      const primaryKey = 'sb-riipijrgucqigndcjwre-auth-token';
+      try {
+        const raw = localStorage.getItem(primaryKey);
+        if (raw) {
+          const parsed = JSON.parse(raw);
+          if (parsed && parsed.user) return parsed.user;
+          if (parsed && parsed.currentSession && parsed.currentSession.user) return parsed.currentSession.user;
+          if (parsed && parsed.session && parsed.session.user) return parsed.session.user;
+        }
+      } catch (e) {}
+
+      // 2. Check project-specific user key
+      try {
+        const userRaw = localStorage.getItem('sb-riipijrgucqigndcjwre-auth-token-user');
+        if (userRaw) {
+          const parsedUser = JSON.parse(userRaw);
+          if (parsedUser && (parsedUser.id || parsedUser.email)) return parsedUser;
+        }
+      } catch (e) {}
+
+      // 3. Scan all keys with individual try/catch per key (skipping non-json code-verifiers)
       try {
         for (let i = 0; i < localStorage.length; i++) {
           const key = localStorage.key(i);
-          if (key && (key.startsWith('sb-') || key.includes('-auth-token'))) {
-            const raw = localStorage.getItem(key);
-            if (raw) {
-              const parsed = JSON.parse(raw);
-              if (parsed && parsed.user) return parsed.user;
-              if (parsed && parsed.currentSession && parsed.currentSession.user) return parsed.currentSession.user;
-            }
+          if (!key) continue;
+          if (
+            key.endsWith('-code-verifier') ||
+            key.endsWith('-flows-code-verifier') ||
+            key.endsWith('-provider-token') ||
+            key.endsWith('-refresh-token')
+          ) {
+            continue;
+          }
+          if (key.startsWith('sb-') || key.includes('auth-token') || key.includes('supabase')) {
+            try {
+              const raw = localStorage.getItem(key);
+              if (raw && (raw.startsWith('{') || raw.startsWith('['))) {
+                const parsed = JSON.parse(raw);
+                if (parsed && parsed.user) return parsed.user;
+                if (parsed && parsed.currentSession && parsed.currentSession.user) return parsed.currentSession.user;
+                if (parsed && parsed.session && parsed.session.user) return parsed.session.user;
+                if (parsed && parsed.id && parsed.email) return parsed;
+              }
+            } catch (innerErr) {}
           }
         }
       } catch (e) {}
@@ -247,37 +303,63 @@
       const mobileUserName   = document.getElementById('mobileUserName');
       const mobileAvatarEl   = document.getElementById('mobileUserAvatar');
 
-      if (session && session.user) {
-        const user    = session.user;
+      const user = session && (session.user || (session.email ? session : null));
+      const isValidUser = !!(user && (user.id || user.email));
+
+      if (isValidUser) {
         const name    = (user.user_metadata && user.user_metadata.full_name) ||
                         (user.email ? user.email.split('@')[0] : '') ||
                         'User';
         const initial = (name.charAt(0) || 'U').toUpperCase();
 
-        if (signInLink)       { signInLink.hidden = true;  signInLink.style.display = 'none'; }
-        if (mobileSignInLink) { mobileSignInLink.hidden = true; mobileSignInLink.style.display = 'none'; }
+        if (signInLink) {
+          signInLink.hidden = true;
+          signInLink.style.setProperty('display', 'none', 'important');
+        }
+        if (mobileSignInLink) {
+          mobileSignInLink.hidden = true;
+          mobileSignInLink.style.setProperty('display', 'none', 'important');
+        }
 
-        if (userMenu)         { userMenu.hidden = false; userMenu.style.display = 'inline-flex'; }
-        if (userNameEl)       { userNameEl.textContent = name; }
-        if (avatarEl)         { avatarEl.textContent   = initial; }
+        if (userMenu) {
+          userMenu.hidden = false;
+          userMenu.style.setProperty('display', 'inline-flex', 'important');
+        }
+        if (userNameEl) { userNameEl.textContent = name; }
+        if (avatarEl)   { avatarEl.textContent = initial; }
 
-        if (mobileUserMenu)   { mobileUserMenu.hidden = false; mobileUserMenu.style.display = 'flex'; }
-        if (mobileUserName)   { mobileUserName.textContent = name; }
-        if (mobileAvatarEl)   { mobileAvatarEl.textContent = initial; }
+        if (mobileUserMenu) {
+          mobileUserMenu.hidden = false;
+          mobileUserMenu.style.setProperty('display', 'flex', 'important');
+        }
+        if (mobileUserName) { mobileUserName.textContent = name; }
+        if (mobileAvatarEl) { mobileAvatarEl.textContent = initial; }
       } else {
-        if (signInLink)       { signInLink.hidden = false; signInLink.style.display = 'inline-flex'; }
-        if (mobileSignInLink) { mobileSignInLink.hidden = false; mobileSignInLink.style.display = 'flex'; }
-        if (userMenu)         { userMenu.hidden = true; userMenu.style.display = 'none'; }
-        if (mobileUserMenu)   { mobileUserMenu.hidden = true; mobileUserMenu.style.display = 'none'; }
+        if (signInLink) {
+          signInLink.hidden = false;
+          signInLink.style.removeProperty('display');
+        }
+        if (mobileSignInLink) {
+          mobileSignInLink.hidden = false;
+          mobileSignInLink.style.removeProperty('display');
+        }
+        if (userMenu) {
+          userMenu.hidden = true;
+          userMenu.style.setProperty('display', 'none', 'important');
+        }
+        if (mobileUserMenu) {
+          mobileUserMenu.hidden = true;
+          mobileUserMenu.style.setProperty('display', 'none', 'important');
+        }
       }
 
       // 6.b In-page Auth Prompt Banner & EDA Tool Button (front-end-software.html)
       const authBanner = document.getElementById('authPromptBanner');
       const edaBtn     = document.getElementById('btnEdaPlaygroundAccess');
-      if (session && session.user) {
+      if (isValidUser) {
         if (authBanner) {
           authBanner.hidden = true;
-          authBanner.style.display = 'none';
+          authBanner.style.setProperty('display', 'none', 'important');
         }
         if (edaBtn) {
           edaBtn.href = 'https://edaplayground.com/';
@@ -289,7 +371,7 @@
       } else {
         if (authBanner) {
           authBanner.hidden = false;
-          authBanner.style.display = 'flex';
+          authBanner.style.removeProperty('display');
         }
         if (edaBtn) {
           edaBtn.href = 'login.html?redirect=front-end-software.html';
@@ -301,9 +383,9 @@
       }
 
       // 6.c Auto-populate user info in consultation/software forms if authenticated
-      if (session && session.user) {
-        const userName = (session.user.user_metadata && session.user.user_metadata.full_name) || '';
-        const userEmail = session.user.email || '';
+      if (isValidUser) {
+        const userName = (user.user_metadata && user.user_metadata.full_name) || '';
+        const userEmail = user.email || '';
         const swNameInput = document.getElementById('swName');
         const swEmailInput = document.getElementById('swEmail');
         if (swNameInput && !swNameInput.value && userName) {
@@ -389,23 +471,34 @@
 
       // Register listener FIRST so we never miss INITIAL_SESSION or SIGNED_IN
       client.auth.onAuthStateChange((event, session) => {
-        if (
-          event === 'INITIAL_SESSION' ||
-          event === 'SIGNED_IN'       ||
-          event === 'TOKEN_REFRESHED' ||
-          event === 'SIGNED_OUT'      ||
-          event === 'USER_UPDATED'
-        ) {
+        if (event === 'SIGNED_OUT') {
+          applyNavAuth(null);
+        } else if (session && session.user) {
           applyNavAuth(session);
+        } else if (event === 'INITIAL_SESSION') {
+          if (session && session.user) {
+            applyNavAuth(session);
+          } else {
+            // Safeguard: Do NOT wipe cached user if localStorage has session
+            const cached = getStoredUser();
+            if (cached) {
+              applyNavAuth({ user: cached });
+            } else {
+              applyNavAuth(null);
+            }
+          }
+        } else if (event === 'TOKEN_REFRESHED' || event === 'USER_UPDATED' || event === 'SIGNED_IN') {
+          if (session && session.user) {
+            applyNavAuth(session);
+          }
         }
       });
 
       // Explicit fallback: call getSession() in case INITIAL_SESSION already fired
       client.auth.getSession().then(({ data: { session } }) => {
-        if (session) {
+        if (session && session.user) {
           applyNavAuth(session);
         } else {
-          // Safeguard: Check if localStorage still has user before resetting
           const cached = getStoredUser();
           if (cached) {
             applyNavAuth({ user: cached });
@@ -413,10 +506,33 @@
             applyNavAuth(null);
           }
         }
-      }).catch(() => {});
+      }).catch(() => {
+        const cached = getStoredUser();
+        if (cached) applyNavAuth({ user: cached });
+      });
     }
 
     initNavAuth();
+
+    // Re-check and hydrate auth on pageshow (handles mobile Safari & Chrome BFCache restoration!)
+    window.addEventListener('pageshow', () => {
+      const cached = getStoredUser();
+      if (cached) {
+        applyNavAuth({ user: cached });
+      }
+    });
+
+    // Sync auth changes across tabs/windows
+    window.addEventListener('storage', (e) => {
+      if (e.key && (e.key.startsWith('sb-') || e.key.includes('auth-token'))) {
+        const cached = getStoredUser();
+        if (cached) {
+          applyNavAuth({ user: cached });
+        } else {
+          applyNavAuth(null);
+        }
+      }
+    });
 
     // Hook navbar Sign In buttons to in-page auth modal if present on the page
     const handleSignInClick = (e) => {
