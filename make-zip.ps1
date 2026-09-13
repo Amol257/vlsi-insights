@@ -5,9 +5,9 @@
 Add-Type -AssemblyName System.IO.Compression
 Add-Type -AssemblyName System.IO.Compression.FileSystem
 
-$sourceDir   = "c:\Users\acer\Desktop\Antigravity\VLSI Insights\Website"
+$sourceDir   = "c:\Users\acer\Desktop\Antigravity\VLSI Insights\frontend"
 $outZip      = "c:\Users\acer\Desktop\Antigravity\VLSI Insights\VLSI-Insights-Website.zip"
-$backupZip   = "c:\Users\acer\Desktop\Antigravity\VLSI Insights\backups\VLSI-Insights-Website-v7.zip"
+$backupZip   = "c:\Users\acer\Desktop\Antigravity\VLSI Insights\backups\VLSI-Insights-Website-v8.zip"
 
 function New-ForwardSlashZip($sourceDir, $outPath) {
     # Remove existing file

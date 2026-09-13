@@ -367,11 +367,11 @@
   }
 
   /* ==========================================================================
-     3. ANIMATED LIST INTEGRATION (Approach Features List)
+     3. ANIMATED LIST INTEGRATION (Approach Features List) - Disabled per user request
      ========================================================================== */
   function initAnimatedList() {
-    const featuresList = document.querySelector('.why-layout .features-list');
-    if (!featuresList) return;
+    // Disabled: keeps features list clean and native without jarring hover selection box
+    return;
 
     // Wrap in scroll-list-container
     const items = featuresList.querySelectorAll('.feature-item');

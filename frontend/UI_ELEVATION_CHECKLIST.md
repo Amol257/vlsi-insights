@@ -54,9 +54,9 @@ This checklist combines principles from **Emil Kowalski's Design Engineering** (
 ### Phase 3: Layout Variance & Bento Dynamics (GPT-Taste & Impeccable)
 - [x] **De-templatize "Our Services"**:
   - Replaced uniform 3x2 grid with an Asymmetrical 12-Column Semiconductor Bento Grid:
-    - **Lead 7-span Bento**: *VLSI Front-End & ASIC Design* (Flagship Practice badge + EDA tool stack pills: SystemVerilog, Synopsys DC, Cadence Genus, RTL-to-GDSII).
-    - **Medium 5-span Bento**: *SOC & IP Verification* (UVM 1.2, SVA Assertions, Coverage Closure).
-    - **Modular 3-span Bentos**: *Embedded Systems*, *Edge AI & TinyML*, *Technical Marketing*, *Engineering Web Platforms*.
+    - **Lead 7-span Bento**: *VLSI Related Services* (Flagship Practice badge + EDA tool stack pills: SystemVerilog, Synopsys DC, Cadence Genus, RTL-to-GDSII).
+    - **Medium 5-span Bento**: *SOC Verification* (UVM 1.2, SVA Assertions, Coverage Closure).
+    - **Modular 3-span Bentos**: *Embedded Systems*, *AI Models*, *Marketing Solutions*, *Web Development*.
 - [x] **Hero Visual Upgrade**:
   - Removed floating badge spam orbiting the hero background, keeping crisp, non-distracting silicon circuit lines.
 - [x] **Card & Surface Refinement**:

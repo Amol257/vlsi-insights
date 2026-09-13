@@ -137,6 +137,14 @@
       box-sizing: border-box;
       margin: 0;
       padding: 0;
+      caret-color: transparent;
+    }
+
+    input,
+    textarea,
+    select,
+    [contenteditable="true"] {
+      caret-color: var(--trace, #00A887);
     }
 
     html {
@@ -1712,78 +1720,218 @@
     }
 
     /* -------------------------------------------------------------------------- */
-    /* CONTACT SECTION                                                            */
+    /* CONTACT SECTION — Symmetrical Dual-Card Layout                            */
     /* -------------------------------------------------------------------------- */
     .contact-section {
       padding: var(--section-y) 0;
-      background: var(--substrate);
+      background-color: var(--substrate);
+      background-image: 
+        linear-gradient(to right, rgba(0, 168, 135, 0.03) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(0, 168, 135, 0.03) 1px, transparent 1px);
+      background-size: 32px 32px;
       border-bottom: 1px solid var(--edge);
+      position: relative;
     }
 
     .contact-layout {
       display: grid;
       grid-template-columns: 1fr;
-      gap: var(--space-12);
+      gap: var(--space-8);
+      max-width: 1120px;
+      margin: 0 auto;
+      align-items: stretch;
     }
 
     @media (min-width: 1024px) {
       .contact-layout {
-        grid-template-columns: 420px 1fr;
+        grid-template-columns: 1fr 1.05fr;
+        gap: var(--space-8);
       }
     }
 
-    .contact-info {
+    .contact-card {
+      background: #FFFFFF;
+      border: 1px solid var(--edge);
+      border-radius: 12px;
+      padding: var(--space-8);
+      box-shadow: 0 4px 24px rgba(15, 23, 42, 0.04);
       display: flex;
       flex-direction: column;
+      justify-content: space-between;
+      position: relative;
+      transition: border-color 0.25s ease;
+    }
+
+    @media (min-width: 640px) {
+      .contact-card {
+        padding: var(--space-9);
+      }
+    }
+
+    .contact-card--info {
       gap: var(--space-6);
+    }
+
+    .contact-card__header {
+      display: flex;
+      flex-direction: column;
     }
 
     .contact-copy {
       font-size: var(--text-base);
       color: var(--text-mid);
       line-height: var(--leading-base);
+      margin-top: var(--space-2);
     }
 
-    .contact-details {
+    .contact-channels {
       display: flex;
       flex-direction: column;
-      gap: var(--space-4);
+      gap: var(--space-3);
+      margin: var(--space-2) 0;
     }
 
-    .contact-row {
+    .contact-channel-item {
+      display: flex;
+      align-items: center;
+      gap: var(--space-4);
+      padding: 12px 16px;
+      background: var(--surface);
+      border: 1px solid var(--edge);
+      border-radius: 8px;
+      text-decoration: none;
+      color: inherit;
+      transition: border-color 0.2s ease, background-color 0.2s ease, transform 0.2s ease;
+    }
+
+    a.contact-channel-item:hover {
+      border-color: var(--trace);
+      background: #FFFFFF;
+      transform: translateY(-1px);
+    }
+
+    .contact-channel-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 8px;
+      background: rgba(0, 168, 135, 0.08);
+      border: 1px solid rgba(0, 168, 135, 0.2);
+      color: var(--trace);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .contact-channel-icon svg {
+      width: 18px;
+      height: 18px;
+    }
+
+    .contact-channel-content {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      flex: 1;
+      min-width: 0;
+    }
+
+    .contact-channel-label {
+      font-size: var(--text-xs);
+      color: var(--text-mid);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      font-weight: var(--weight-medium);
+    }
+
+    .contact-channel-val {
+      font-size: var(--text-sm);
+      font-weight: var(--weight-semibold);
+      color: var(--text-hi);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .contact-channel-badge {
+      font-size: var(--text-xs);
+      font-weight: var(--weight-medium);
+      padding: 3px 8px;
+      border-radius: 4px;
+      background: rgba(0, 168, 135, 0.08);
+      color: var(--trace);
+      border: 1px solid rgba(0, 168, 135, 0.2);
+      flex-shrink: 0;
+    }
+
+    .contact-whatsapp-btn {
       display: flex;
       align-items: center;
       gap: var(--space-3);
+      width: 100%;
+      min-height: 48px;
+      padding: 12px 20px;
+      background: #00A887;
+      color: #FFFFFF;
+      font-family: var(--font-body);
+      font-weight: var(--weight-semibold);
       font-size: var(--text-sm);
-      color: var(--text-hi);
-      min-height: 36px;
+      border-radius: 8px;
+      text-decoration: none;
+      transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+      box-shadow: 0 4px 12px rgba(0, 168, 135, 0.2);
     }
 
-    .contact-row svg {
-      width: 18px;
-      height: 18px;
-      color: var(--trace);
-      flex-shrink: 0;
+    .contact-whatsapp-btn:hover {
+      background: #008f72;
+      transform: translateY(-1px);
+      box-shadow: 0 6px 16px rgba(0, 168, 135, 0.3);
+    }
+
+    .contact-whatsapp-btn:active {
+      transform: scale(0.98);
+    }
+
+    .contact-card--form {
+      padding: var(--space-8);
+    }
+
+    @media (min-width: 640px) {
+      .contact-card--form {
+        padding: var(--space-9);
+      }
     }
 
     .contact-form {
       display: flex;
       flex-direction: column;
-      gap: var(--space-5);
-      background: rgba(255, 255, 255, 0.85);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      padding: var(--space-8);
-      border: 1px solid var(--edge);
-      border-radius: 12px;
-      box-shadow: 0 20px 35px -15px rgba(15, 23, 42, 0.05), inset 0 0 0 1px rgba(255, 255, 255, 0.8);
-      position: relative;
+      gap: var(--space-4);
+      height: 100%;
+      justify-content: space-between;
+    }
+
+    .contact-form__header {
+      margin-bottom: var(--space-1);
+    }
+
+    .contact-form__title {
+      font-family: var(--font-display);
+      font-size: var(--text-2xl);
+      font-weight: var(--weight-bold);
+      color: var(--text-hi);
+      margin: 0 0 var(--space-1);
+    }
+
+    .contact-form__subtitle {
+      font-size: var(--text-sm);
+      color: var(--text-mid);
+      margin: 0;
     }
 
     .form-group {
       display: flex;
       flex-direction: column;
-      gap: var(--space-2);
+      gap: 6px;
     }
 
     .form-label {
@@ -1792,22 +1940,27 @@
       color: var(--text-hi);
     }
 
+    .required-star {
+      color: var(--trace);
+    }
+
     .form-input,
     .form-textarea {
       width: 100%;
-      min-height: 48px;
-      background: #FFFFFF;
-      border: 1px solid #CBD5E1;
-      border-radius: 4px;
-      padding: 12px 16px;
+      min-height: 46px;
+      background: var(--surface);
+      border: 1px solid var(--edge);
+      border-radius: 8px;
+      padding: 11px 14px;
       font-family: var(--font-body);
-      font-size: var(--text-base);
+      font-size: var(--text-sm);
       color: var(--text-hi);
-      transition: border-color var(--dur-fast) ease;
+      transition: border-color var(--dur-fast) ease, box-shadow var(--dur-fast) ease, background-color var(--dur-fast) ease;
     }
 
     .form-textarea {
-      min-height: 120px;
+      min-height: 100px;
+      resize: vertical;
     }
 
     .form-input::placeholder,
@@ -1818,19 +1971,34 @@
     .form-input:focus,
     .form-textarea:focus {
       outline: none;
+      background: #FFFFFF;
       border-color: var(--trace);
-      ;
+      box-shadow: 0 0 0 3px rgba(0, 168, 135, 0.12);
     }
 
     .form-input.error,
     .form-textarea.error {
       border-color: var(--error);
+      background: #FFFBFB;
     }
 
     .form-error {
       font-size: var(--text-xs);
       color: var(--error);
-      min-height: 16px;
+      min-height: 14px;
+      line-height: 1.2;
+    }
+
+    .contact-submit-btn {
+      min-height: 48px;
+      border-radius: 8px;
+      font-size: var(--text-sm);
+      font-weight: var(--weight-semibold);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin-top: var(--space-1);
     }
 
     .form-success {
@@ -1839,24 +2007,43 @@
       align-items: center;
       justify-content: center;
       gap: var(--space-4);
-      padding: var(--space-12);
-      background: var(--layer);
-      border: 1px solid rgba(0, 168, 135, 0.4);
-      border-radius: 8px;
+      padding: var(--space-12) var(--space-6);
       text-align: center;
-      
+      height: 100%;
+      min-height: 380px;
     }
 
-    .form-success svg {
-      width: 48px;
-      height: 48px;
+    .form-success__icon-wrap {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      background: rgba(0, 168, 135, 0.1);
+      border: 1px solid rgba(0, 168, 135, 0.3);
       color: var(--trace);
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
-    .form-success p {
+    .form-success__icon-wrap svg {
+      width: 30px;
+      height: 30px;
+    }
+
+    .form-success__title {
       font-family: var(--font-display);
       font-size: var(--text-xl);
+      font-weight: var(--weight-bold);
       color: var(--text-hi);
+      margin: 0;
+    }
+
+    .form-success__desc {
+      font-size: var(--text-sm);
+      color: var(--text-mid);
+      max-width: 380px;
+      line-height: 1.6;
+      margin: 0;
     }
 
     /* -------------------------------------------------------------------------- */
@@ -2104,46 +2291,7 @@
     }
 
     /* React Bits Component Styling Enhancements */
-    .features-animated-list {
-      width: 100%;
-      position: relative;
-    }
-    .features-animated-list .scroll-list {
-      max-height: 480px;
-      overflow-y: auto;
-      padding: 8px 4px;
-      display: flex;
-      flex-direction: column;
-      gap: var(--space-4);
-      outline: none;
-    }
-    .features-animated-list .animated-list-item-wrapper {
-      cursor: pointer;
-      border-radius: 8px;
-      transition: transform 0.2s var(--ease-out), box-shadow 0.2s ease;
-    }
-    .features-animated-list .animated-list-item-wrapper.selected .feature-item {
-      border-color: var(--trace);
-      background: #FFFFFF;
-      box-shadow: 0 4px 14px rgba(0, 168, 135, 0.12);
-      transform: translateX(4px);
-    }
-    .features-animated-list .top-gradient {
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      height: 36px;
-      background: linear-gradient(to bottom, var(--substrate, #FAFAFA), transparent);
-      pointer-events: none;
-      z-index: 2;
-    }
-    .features-animated-list .bottom-gradient {
-      position: absolute;
-      bottom: 0; left: 0; right: 0;
-      height: 36px;
-      background: linear-gradient(to top, var(--substrate, #FAFAFA), transparent);
-      pointer-events: none;
-      z-index: 2;
-    }
+
 
     /* React Bits Counter in Stats */
     .stat-item .counter-container {
@@ -2736,11 +2884,11 @@
         <!-- Semiconductor Asymmetrical Bento Grid -->
         <div class="our-services-grid">
 
-          <!-- 1. LEAD BENTO: VLSI Front-End Designs (7 columns) -->
+          <!-- 1. LEAD BENTO: VLSI Related Services (7 columns) -->
           <article id="services-vlsi-card" class="service-tile service-tile--lead">
             <span class="bento-flag">Flagship Practice</span>
             <div class="service-icon"><i data-lucide="cpu"></i></div>
-            <h3 class="service-name">VLSI Front-End &amp; ASIC Design</h3>
+            <h3 class="service-name">VLSI Related Services</h3>
             <p class="service-desc">
               Production-grade semiconductor engineering from RTL microarchitecture and UVM functional verification to
               synthesis, STA timing closure, and FPGA hardware emulation.
@@ -2759,7 +2907,7 @@
           <!-- 2. MEDIUM BENTO: SOC Verification (5 columns) -->
           <article id="services-soc" class="service-tile service-tile--medium">
             <div class="service-icon"><i data-lucide="shield-check"></i></div>
-            <h3 class="service-name">SOC &amp; IP Verification</h3>
+            <h3 class="service-name">SOC Verification</h3>
             <p class="service-desc">
               Constrained-random testbenches, assertions (SVA), coverage closure, and regression
               management for multi-million gate ASICs.
@@ -2795,7 +2943,7 @@
           <!-- 4. MODULAR BENTO: AI Models (3 columns) -->
           <article id="services-ai" class="service-tile service-tile--standard">
             <div class="service-icon"><i data-lucide="brain"></i></div>
-            <h3 class="service-name">Edge AI &amp; TinyML</h3>
+            <h3 class="service-name">AI Models</h3>
             <p class="service-desc">
               Quantized neural network deployment, TinyML edge inference, and hardware-accelerated computer vision
               models for microcontrollers and FPGA.
@@ -2813,7 +2961,7 @@
           <!-- 5. MODULAR BENTO: Marketing Solutions (3 columns) -->
           <article id="services-marketing" class="service-tile service-tile--standard">
             <div class="service-icon"><i data-lucide="trending-up"></i></div>
-            <h3 class="service-name">Technical Marketing</h3>
+            <h3 class="service-name">Marketing Solutions</h3>
             <p class="service-desc">
               Targeted digital marketing, IVR telephony systems, and managed communication operations for electronics
               companies and technical brands.
@@ -2823,14 +2971,14 @@
               <span class="tech-pill">IVR Telephony</span>
             </div>
             <a href="marketing-solutions.html" class="btn-secondary services-grid-card__cta">
-              Explore Marketing <i data-lucide="arrow-right" class="icon-sm"></i>
+              Explore Marketing Solutions <i data-lucide="arrow-right" class="icon-sm"></i>
             </a>
           </article>
 
           <!-- 6. MODULAR BENTO: Web Development (3 columns) -->
           <article id="services-web" class="service-tile service-tile--standard">
             <div class="service-icon"><i data-lucide="code-2"></i></div>
-            <h3 class="service-name">Engineering Web Platforms</h3>
+            <h3 class="service-name">Web Development</h3>
             <p class="service-desc">
               Modern, responsive web applications, engineering portals, student learning platforms, and high-conversion
               landing pages built for scale.
@@ -3309,81 +3457,109 @@
     <section class="contact-section" id="contact">
       <div class="container">
         <div class="contact-layout">
-          <!-- Left Column -->
-          <div class="contact-info">
-            <div class="section-heading-group">
-              <p class="section-label">Consult With Our Physical Design Leads</p>
-              <h2 class="section-heading">Start a conversation</h2>
+          <!-- Left Column: Direct Channels & Advisory Card -->
+          <div class="contact-card contact-card--info">
+            <div class="contact-card__header">
+              <div class="section-heading-group" style="margin-bottom: var(--space-4);">
+                <p class="section-label">Consult With Our Physical Design Leads</p>
+                <h2 class="section-heading" style="font-size: var(--text-3xl); margin-top: var(--space-2);">Start a conversation</h2>
+              </div>
+              <p class="contact-copy">
+                Reach out for program enquiries, academic partnership discussions, corporate training engagements, or
+                consultation on any of our technical services.
+              </p>
             </div>
 
-            <p class="contact-copy">
-              Reach out for program enquiries, academic partnership discussions, corporate training engagements, or
-              consultation on any of our technical services.
-            </p>
+            <div class="contact-channels">
+              <a href="mailto:info@vlsiinsights.com" class="contact-channel-item">
+                <div class="contact-channel-icon"><i data-lucide="mail"></i></div>
+                <div class="contact-channel-content">
+                  <span class="contact-channel-label">Email Enquiries</span>
+                  <span class="contact-channel-val">info@vlsiinsights.com</span>
+                </div>
+                <span class="contact-channel-badge">&lt; 4 hrs</span>
+              </a>
 
-            <div class="contact-details">
-              <div class="contact-row">
-                <i data-lucide="mail"></i>
-                <a href="mailto:info@vlsiinsights.com">info@vlsiinsights.com</a>
-              </div>
-              <div class="contact-row">
-                <i data-lucide="phone"></i>
-                <a href="tel:+919810191592">+91 98101 91592</a>
-              </div>
-              <div class="contact-row">
-                <i data-lucide="map-pin"></i>
-                <span>Ghaziabad, Delhi NCR, India</span>
+              <a href="tel:+919810191592" class="contact-channel-item">
+                <div class="contact-channel-icon"><i data-lucide="phone"></i></div>
+                <div class="contact-channel-content">
+                  <span class="contact-channel-label">Direct Line / Technical Lead</span>
+                  <span class="contact-channel-val">+91 98101 91592</span>
+                </div>
+                <span class="contact-channel-badge">Mon–Sat</span>
+              </a>
+
+              <div class="contact-channel-item contact-channel-item--static">
+                <div class="contact-channel-icon"><i data-lucide="map-pin"></i></div>
+                <div class="contact-channel-content">
+                  <span class="contact-channel-label">Engineering Design Center</span>
+                  <span class="contact-channel-val">Ghaziabad, Delhi NCR, India</span>
+                </div>
+                <span class="contact-channel-badge">HQ</span>
               </div>
             </div>
 
-            <div class="contact-cta-margin">
+            <div class="contact-card__footer">
               <a href="https://wa.me/919810191592?text=Hello%2C%20I%20want%20to%20enquire%20about%20the%20Job%20Oriented%20Program."
-                class="whatsapp-cta" target="_blank" rel="noopener noreferrer">
+                class="contact-whatsapp-btn" target="_blank" rel="noopener noreferrer">
                 <i data-lucide="message-circle"></i>
-                Chat on WhatsApp
+                <span>Chat directly on WhatsApp</span>
+                <i data-lucide="arrow-up-right" class="icon-sm" style="margin-left: auto;"></i>
               </a>
             </div>
           </div>
 
-          <!-- Right Column: Interactive Contact Form -->
-          <div>
+          <!-- Right Column: Interactive Contact Form Card -->
+          <div class="contact-card contact-card--form">
             <form class="contact-form" id="contactForm" novalidate>
+              <div class="contact-form__header">
+                <h3 class="contact-form__title">Send an Enquiry</h3>
+                <p class="contact-form__subtitle">Our physical design leads will review and respond promptly.</p>
+              </div>
+
               <div class="form-group">
-                <label for="name" class="form-label">Full Name</label>
+                <label for="name" class="form-label">Full Name <span class="required-star">*</span></label>
                 <input type="text" id="name" name="name" class="form-input" placeholder="e.g. Anand Verma" required />
                 <span class="form-error" id="nameError" role="alert"></span>
               </div>
 
               <div class="form-group">
-                <label for="email" class="form-label">Email Address</label>
-                <input type="email" id="email" name="email" class="form-input" placeholder="anand@example.com"
-                  required />
+                <label for="email" class="form-label">Email Address <span class="required-star">*</span></label>
+                <input type="email" id="email" name="email" class="form-input" placeholder="anand@example.com" required />
                 <span class="form-error" id="emailError" role="alert"></span>
               </div>
 
               <div class="form-group">
-                <label for="phone" class="form-label">Phone (with country code)</label>
+                <label for="phone" class="form-label">Phone (with country code) <span class="required-star">*</span></label>
                 <input type="tel" id="phone" name="phone" class="form-input" placeholder="+91 98101 91592" required />
                 <span class="form-error" id="phoneError" role="alert"></span>
               </div>
 
               <div class="form-group">
-                <label for="message" class="form-label">Message or Enquiry Details</label>
+                <label for="message" class="form-label">Message or Enquiry Details <span class="required-star">*</span></label>
                 <textarea id="message" name="message" class="form-textarea" rows="4"
                   placeholder="Tell us about your background or requirements..." required></textarea>
                 <span class="form-error" id="messageError" role="alert"></span>
               </div>
 
-              <button type="submit" class="btn-primary btn-full">Send message</button>
+              <button type="submit" class="btn-primary btn-full contact-submit-btn">
+                <span>Send message</span>
+                <i data-lucide="send" class="icon-sm"></i>
+              </button>
             </form>
 
             <!-- Success State -->
             <div class="form-success" id="formSuccess" hidden>
-              <i data-lucide="check-circle-2"></i>
-              <p>We'll be in touch within one business day.</p>
-              <span class="footer-text-muted">
+              <div class="form-success__icon-wrap">
+                <i data-lucide="check-circle-2"></i>
+              </div>
+              <h3 class="form-success__title">We'll be in touch within one business day.</h3>
+              <p class="form-success__desc">
                 Thank you for reaching out to VLSI Insights. Our engineering coordinator will connect with you shortly.
-              </span>
+              </p>
+              <button type="button" class="btn-secondary" id="sendAnotherMsgBtn" style="margin-top: var(--space-4);">
+                Send another message
+              </button>
             </div>
           </div>
         </div>
@@ -3768,6 +3944,16 @@
             successEl.hidden = false;
             if (typeof lucide !== 'undefined' && lucide.createIcons) {
               lucide.createIcons();
+            }
+
+            const sendAnotherBtn = document.getElementById('sendAnotherMsgBtn');
+            if (sendAnotherBtn) {
+              sendAnotherBtn.onclick = () => {
+                contactForm.reset();
+                contactForm.style.display = 'flex';
+                successEl.style.display = 'none';
+                successEl.hidden = true;
+              };
             }
           } else {
             // Fallback if formSuccess element is missing

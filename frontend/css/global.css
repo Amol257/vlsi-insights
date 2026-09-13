@@ -96,6 +96,11 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  caret-color: transparent;
+}
+
+input, textarea, select, [contenteditable="true"] {
+  caret-color: var(--trace, #00A887);
 }
 
 html {
