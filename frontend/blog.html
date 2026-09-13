@@ -18,6 +18,7 @@
   <!-- Supabase JS Client & Config -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="js/supabase.js"></script>
+  <script src="js/blog-fallback.js"></script>
 
   <!-- Master Standardized Navbar & Footer CSS -->
   <link rel="stylesheet" href="css/navbar.css" />
@@ -798,6 +799,22 @@
       }
     }
   </style>
+
+  <!-- Open Graph / Facebook / LinkedIn / WhatsApp -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="VLSI Insights">
+  <meta property="og:url" content="https://vlsiinsights.com/blog.html">
+  <meta property="og:title" content="Technical Blogs & VLSI Engineering Articles | VLSI Insights">
+  <meta property="og:description" content="In-depth semiconductor guides, RTL design vs DV career comparisons, interview question sets, and ASIC flow tutorials.">
+  <meta property="og:image" content="https://vlsiinsights.com/images/blogs/blog-1.png">
+
+  <!-- Twitter / X Cards -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@VLSIInsights">
+  <meta name="twitter:url" content="https://vlsiinsights.com/blog.html">
+  <meta name="twitter:title" content="Technical Blogs & VLSI Engineering Articles | VLSI Insights">
+  <meta name="twitter:description" content="In-depth semiconductor guides, RTL design vs DV career comparisons, interview question sets, and ASIC flow tutorials.">
+  <meta name="twitter:image" content="https://vlsiinsights.com/images/blogs/blog-1.png">
 </head>
 <body>
 
@@ -1366,9 +1383,81 @@
       }
 
       // -----------------------------------------------------------------------
+      // -----------------------------------------------------------------------
+      // Offline / Static Fallback Renderer
+      // -----------------------------------------------------------------------
+      let usingFallback = false;
+
+      function renderFallbackArticles() {
+        if (!grid) return;
+        grid.innerHTML = '';
+        feedMessage.style.display = 'none';
+        loadMoreWrap.style.display = 'none';
+
+        const fallbackData = window.VLSI_FALLBACK_POSTS || [];
+        let filtered = fallbackData;
+
+        if (currentCategory && currentCategory !== 'all') {
+          const target = String(currentCategory).toLowerCase();
+          filtered = filtered.filter(p => {
+            const catName = (p.category || '').toLowerCase();
+            const termName = (p._embedded && p._embedded['wp:term'] && p._embedded['wp:term'][0] && p._embedded['wp:term'][0][0] && p._embedded['wp:term'][0][0].name || '').toLowerCase();
+            const termSlug = (p._embedded && p._embedded['wp:term'] && p._embedded['wp:term'][0] && p._embedded['wp:term'][0][0] && p._embedded['wp:term'][0][0].slug || '').toLowerCase();
+            const termId = String(p._embedded && p._embedded['wp:term'] && p._embedded['wp:term'][0] && p._embedded['wp:term'][0][0] && p._embedded['wp:term'][0][0].id || '');
+            return catName.includes(target) || termName.includes(target) || termSlug.includes(target) || termId === target;
+          });
+        }
+
+        if (currentSearch && currentSearch.trim()) {
+          const q = currentSearch.trim().toLowerCase();
+          filtered = filtered.filter(p => {
+            const title = (p.title && p.title.rendered || '').toLowerCase();
+            const excerpt = (p.excerpt && p.excerpt.rendered || '').toLowerCase();
+            return title.includes(q) || excerpt.includes(q);
+          });
+        }
+
+        if (filtered.length === 0) {
+          feedMessage.textContent = 'No articles found matching your criteria.';
+          feedMessage.style.display = 'block';
+          return;
+        }
+
+        filtered.forEach(post => {
+          const card = createCardElement(post);
+          grid.appendChild(card);
+        });
+
+        if (window.lucide && typeof window.lucide.createIcons === 'function') {
+          lucide.createIcons();
+        }
+
+        ensureFallbackCategories();
+      }
+
+      function ensureFallbackCategories() {
+        if (!categoryPillsContainer || categoryPillsContainer.children.length > 1) return;
+        const cats = window.VLSI_FALLBACK_CATEGORIES || [];
+        cats.forEach(cat => {
+          if (cat.id === 'all') return;
+          const btn = document.createElement('button');
+          btn.type = 'button';
+          btn.className = 'cat-pill';
+          btn.setAttribute('data-cat-id', cat.id);
+          btn.setAttribute('role', 'tab');
+          btn.setAttribute('aria-selected', 'false');
+          btn.textContent = cat.name;
+          categoryPillsContainer.appendChild(btn);
+        });
+      }
+
       // Fetch Posts API
       // -----------------------------------------------------------------------
       async function fetchPosts(isAppend = false) {
+        if (usingFallback) {
+          renderFallbackArticles();
+          return;
+        }
         if (isFetching) return;
         isFetching = true;
 
@@ -1389,8 +1478,12 @@
           url += `&search=${encodeURIComponent(currentSearch.trim())}`;
         }
 
+        let timeoutId;
         try {
-          const response = await fetch(url);
+          const controller = new AbortController();
+          timeoutId = setTimeout(() => controller.abort(), 3500);
+          const response = await fetch(url, { signal: controller.signal });
+          clearTimeout(timeoutId);
 
           if (!response.ok) {
             // Check for 400 when page exceeds total pages
@@ -1444,13 +1537,10 @@
             }
           }
         } catch(err) {
-          console.error('Error fetching blog articles:', err);
-          if (!isAppend) {
-            grid.innerHTML = '';
-            feedMessage.textContent = 'Could not load articles. Check back shortly.';
-            feedMessage.style.display = 'block';
-          }
-          loadMoreWrap.style.display = 'none';
+          if (typeof timeoutId !== 'undefined') clearTimeout(timeoutId);
+          console.warn('WordPress API unreachable or timed out. Rendering offline fallback articles:', err.message);
+          usingFallback = true;
+          renderFallbackArticles();
         } finally {
           isFetching = false;
         }

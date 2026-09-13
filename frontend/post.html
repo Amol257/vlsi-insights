@@ -22,6 +22,7 @@
   <!-- Supabase JS Client & Config -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="js/supabase.js"></script>
+  <script src="js/blog-fallback.js"></script>
 
   <!-- Master Standardized Navbar & Footer CSS -->
   <link rel="stylesheet" href="css/navbar.css" />
@@ -1082,6 +1083,22 @@
       }
     }
   </style>
+
+  <!-- Open Graph / Facebook / LinkedIn / WhatsApp -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="VLSI Insights">
+  <meta property="og:url" content="https://vlsiinsights.com/post.html">
+  <meta property="og:title" content="Technical Blog Article | VLSI Insights">
+  <meta property="og:description" content="Read deep-dive semiconductor engineering analysis, RTL tutorials, and verification benchmarks on VLSI Insights.">
+  <meta property="og:image" content="https://vlsiinsights.com/images/blogs/blog-6.png">
+
+  <!-- Twitter / X Cards -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:site" content="@VLSIInsights">
+  <meta name="twitter:url" content="https://vlsiinsights.com/post.html">
+  <meta name="twitter:title" content="Technical Blog Article | VLSI Insights">
+  <meta name="twitter:description" content="Read deep-dive semiconductor engineering analysis, RTL tutorials, and verification benchmarks on VLSI Insights.">
+  <meta name="twitter:image" content="https://vlsiinsights.com/images/blogs/blog-6.png">
 </head>
 <body>
 
@@ -1702,7 +1719,46 @@
             }
           }
         } catch(e) {
-          console.warn('Could not fetch related articles:', e);
+          console.warn('Live related articles failed, rendering fallback related articles:', e);
+          const allFallbacks = (window.VLSI_FALLBACK_POSTS || []).filter(p => String(p.id) !== String(currentPostId));
+          const subset = allFallbacks.slice(0, 3);
+          if (subset.length > 0 && relatedGrid) {
+            relatedGrid.innerHTML = '';
+            subset.forEach(post => {
+              const featured = (post._embedded && post._embedded['wp:featuredmedia'] && post._embedded['wp:featuredmedia'][0] && post._embedded['wp:featuredmedia'][0].source_url) || 'images/blogs/blog-1.png';
+              const title = (post.title && post.title.rendered) || '';
+              const catName = post.category || 'Technical Blogs';
+              const excerpt = (post.excerpt && post.excerpt.rendered) || '';
+              const date = post.date ? formatDate(post.date) : '';
+              const read = post.read_time || '6 min read';
+              const link = `/blog/${post.slug || 'article-' + post.id}`;
+
+              const card = document.createElement('article');
+              card.className = 'blog-card';
+              card.innerHTML = `
+                <div class="blog-card__thumb-wrap">
+                  <img src="${featured}" alt="${title}" class="blog-card__thumb" loading="lazy">
+                </div>
+                <div class="blog-card__content">
+                  <span class="blog-card__badge">${catName}</span>
+                  <h3 class="blog-card__title">
+                    <a href="${link}">${title}</a>
+                  </h3>
+                  <p class="blog-card__excerpt">${formatExcerpt(excerpt)}</p>
+                  <div class="blog-card__meta">
+                    <span>${date} &nbsp;&bull;&nbsp; ${read}</span>
+                    <a href="${link}" class="blog-card__link">
+                      <span>Read article</span>
+                      <i data-lucide="arrow-right" style="width: 14px; height: 14px;"></i>
+                    </a>
+                  </div>
+                </div>
+              `;
+              relatedGrid.appendChild(card);
+            });
+            relatedSection.style.display = 'block';
+            if (window.lucide) lucide.createIcons();
+          }
         }
       }
 
@@ -1729,13 +1785,23 @@
           const data = await res.json();
           const post = Array.isArray(data) ? data[0] : data;
           if (!post) {
+            const fallbackPost = window.VLSI_FALLBACK_POSTS && window.VLSI_FALLBACK_POSTS.find(p => p.slug === slug || String(p.id) === String(id));
+            if (fallbackPost) {
+              renderPost(fallbackPost);
+              return;
+            }
             show404();
             return;
           }
 
           renderPost(post);
         } catch(err) {
-          console.error('Error fetching post data:', err);
+          console.warn('WordPress API unreachable. Checking offline fallback catalog for slug:', slug, id, err.message);
+          const fallbackPost = window.VLSI_FALLBACK_POSTS && window.VLSI_FALLBACK_POSTS.find(p => p.slug === slug || String(p.id) === String(id));
+          if (fallbackPost) {
+            renderPost(fallbackPost);
+            return;
+          }
           show404();
         }
       }
