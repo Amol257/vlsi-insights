@@ -367,166 +367,10 @@
   }
 
   /* ==========================================================================
-     3. ANIMATED LIST INTEGRATION (Approach Features List) - Disabled per user request
+     3. ANIMATED LIST INTEGRATION (Approach Features List) - Replaced with native CSS
      ========================================================================== */
   function initAnimatedList() {
-    // Disabled: keeps features list clean and native without jarring hover selection box
-    return;
-
-    // Wrap in scroll-list-container
-    const items = featuresList.querySelectorAll('.feature-item');
-    if (!items.length) return;
-
-    const listContainer = document.createElement('div');
-    listContainer.className = 'scroll-list-container features-animated-list';
-
-    const scrollList = document.createElement('div');
-    scrollList.className = 'scroll-list';
-    scrollList.setAttribute('tabindex', '0');
-    scrollList.setAttribute('role', 'listbox');
-    scrollList.setAttribute('aria-label', 'Methodology Highlights');
-
-    const topGrad = document.createElement('div');
-    topGrad.className = 'top-gradient';
-    topGrad.style.background = 'linear-gradient(to bottom, var(--substrate, #FAFAFA), transparent)';
-
-    const botGrad = document.createElement('div');
-    botGrad.className = 'bottom-gradient';
-    botGrad.style.background = 'linear-gradient(to top, var(--substrate, #FAFAFA), transparent)';
-
-    featuresList.parentNode.insertBefore(listContainer, featuresList);
-    listContainer.appendChild(topGrad);
-    listContainer.appendChild(scrollList);
-    listContainer.appendChild(botGrad);
-
-    let selectedIdx = 0;
-
-    items.forEach((item, idx) => {
-      const animatedWrapper = document.createElement('div');
-      animatedWrapper.className = `animated-list-item-wrapper ${idx === 0 ? 'selected' : ''}`;
-      animatedWrapper.dataset.index = idx;
-      animatedWrapper.style.transition = 'transform 0.22s var(--ease-out, ease), opacity 0.22s ease';
-      animatedWrapper.appendChild(item);
-
-      animatedWrapper.addEventListener('mouseenter', () => {
-        listContainer.querySelectorAll('.animated-list-item-wrapper').forEach(w => w.classList.remove('selected'));
-        animatedWrapper.classList.add('selected');
-        selectedIdx = idx;
-      });
-
-      scrollList.appendChild(animatedWrapper);
-    });
-
-    featuresList.remove();
-
-    // Scroll gradient opacity handler
-    scrollList.addEventListener('scroll', () => {
-      const st = scrollList.scrollTop;
-      const sh = scrollList.scrollHeight;
-      const ch = scrollList.clientHeight;
-      topGrad.style.opacity = Math.min(st / 40, 1);
-      const distFromBottom = sh - (st + ch);
-      botGrad.style.opacity = distFromBottom <= 5 ? 0 : Math.min(distFromBottom / 40, 1);
-    });
-
-    // Arrow navigation
-    scrollList.addEventListener('keydown', (e) => {
-      const wrappers = scrollList.querySelectorAll('.animated-list-item-wrapper');
-      if (e.key === 'ArrowDown') {
-        e.preventDefault();
-        selectedIdx = Math.min(selectedIdx + 1, wrappers.length - 1);
-      } else if (e.key === 'ArrowUp') {
-        e.preventDefault();
-        selectedIdx = Math.max(selectedIdx - 1, 0);
-      } else {
-        return;
-      }
-      wrappers.forEach((w, i) => {
-        w.classList.toggle('selected', i === selectedIdx);
-        if (i === selectedIdx) {
-          w.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-        }
-      });
-    });
-  }
-
-  /* ==========================================================================
-     4. BUBBLE MENU INTEGRATION (Interactive Navigation Pill Launcher)
-     ========================================================================== */
-  function initBubbleMenu() {
-    if (!window.gsap) return;
-
-    // Create Bubble Menu element floating at bottom-right or nav toggle
-    const bubbleRoot = document.createElement('div');
-    bubbleRoot.className = 'bubble-menu-root';
-    bubbleRoot.innerHTML = `
-      <nav class="bubble-menu fixed" aria-label="Interactive Quick Navigation" style="top: auto; bottom: 28px; left: 28px; right: auto; padding: 0; pointer-events: none; z-index: 999;">
-        <button type="button" class="bubble toggle-bubble menu-btn" id="bubbleMenuToggle" aria-label="Toggle Quick Navigation" aria-pressed="false" style="background: var(--trace, #00A887); box-shadow: 0 8px 24px rgba(0,168,135,0.35); pointer-events: auto; width: 50px; height: 50px; border-radius: 50%;">
-          <span class="menu-line" style="background: #ffffff; width: 22px;"></span>
-          <span class="menu-line short" style="background: #ffffff; width: 14px;"></span>
-        </button>
-      </nav>
-      <div id="bubbleOverlay" class="bubble-menu-items fixed" aria-hidden="true" style="display: none; background: rgba(15, 23, 42, 0.75); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); z-index: 998;">
-        <ul class="pill-list" role="menu" aria-label="Quick links" style="max-width: 960px;">
-          <li class="pill-col" role="none"><a class="pill-link" href="index.html" style="--item-rot: -6deg; --pill-bg: #FFFFFF; --pill-color: #0F172A; --hover-bg: #00A887; --hover-color: #fff;"><span class="pill-label">Home</span></a></li>
-          <li class="pill-col" role="none"><a class="pill-link" href="vlsi-designs.html" style="--item-rot: 6deg; --pill-bg: #FFFFFF; --pill-color: #0F172A; --hover-bg: #00A887; --hover-color: #fff;"><span class="pill-label">VLSI Design</span></a></li>
-          <li class="pill-col" role="none"><a class="pill-link" href="programs.html" style="--item-rot: -4deg; --pill-bg: #FFFFFF; --pill-color: #0F172A; --hover-bg: #00A887; --hover-color: #fff;"><span class="pill-label">Programs</span></a></li>
-          <li class="pill-col" role="none"><a class="pill-link" href="#services-vlsi" style="--item-rot: 5deg; --pill-bg: #FFFFFF; --pill-color: #0F172A; --hover-bg: #00A887; --hover-color: #fff;"><span class="pill-label">Services</span></a></li>
-          <li class="pill-col" role="none"><a class="pill-link" href="blog.html" style="--item-rot: -5deg; --pill-bg: #FFFFFF; --pill-color: #0F172A; --hover-bg: #00A887; --hover-color: #fff;"><span class="pill-label">Technical Blog</span></a></li>
-          <li class="pill-col" role="none"><a class="pill-link" href="#contact" style="--item-rot: 4deg; --pill-bg: #FFFFFF; --pill-color: #0F172A; --hover-bg: #00A887; --hover-color: #fff;"><span class="pill-label">Contact</span></a></li>
-        </ul>
-      </div>
-    `;
-    document.body.appendChild(bubbleRoot);
-
-    const toggleBtn = document.getElementById('bubbleMenuToggle');
-    const overlay = document.getElementById('bubbleOverlay');
-    let isOpen = false;
-
-    if (!toggleBtn || !overlay) return;
-
-    toggleBtn.addEventListener('click', () => {
-      isOpen = !isOpen;
-      toggleBtn.classList.toggle('open', isOpen);
-      toggleBtn.setAttribute('aria-pressed', isOpen);
-
-      const bubbles = overlay.querySelectorAll('.pill-link');
-      const labels = overlay.querySelectorAll('.pill-label');
-
-      if (isOpen) {
-        overlay.style.display = 'flex';
-        gsap.killTweensOf([...bubbles, ...labels]);
-        gsap.set(bubbles, { scale: 0, transformOrigin: '50% 50%' });
-        gsap.set(labels, { y: 24, autoAlpha: 0 });
-
-        bubbles.forEach((bubble, i) => {
-          const delay = i * 0.08 + (Math.random() * 0.04 - 0.02);
-          const tl = gsap.timeline({ delay });
-          tl.to(bubble, { scale: 1, duration: 0.45, ease: 'back.out(1.5)' });
-          if (labels[i]) {
-            tl.to(labels[i], { y: 0, autoAlpha: 1, duration: 0.4, ease: 'power3.out' }, '-=0.35');
-          }
-        });
-      } else {
-        gsap.killTweensOf([...bubbles, ...labels]);
-        gsap.to(labels, { y: 20, autoAlpha: 0, duration: 0.18, ease: 'power3.in' });
-        gsap.to(bubbles, {
-          scale: 0,
-          duration: 0.22,
-          ease: 'power3.in',
-          onComplete: () => {
-            overlay.style.display = 'none';
-          }
-        });
-      }
-    });
-
-    // Close on link click
-    overlay.querySelectorAll('.pill-link').forEach(link => {
-      link.addEventListener('click', () => {
-        toggleBtn.click();
-      });
-    });
+    // Features list uses pure CSS transitions with full contrast and no gradient overlays
   }
 
   // Initialize all after DOM is ready
@@ -535,13 +379,11 @@
       initMorphSlider();
       initCounters();
       initAnimatedList();
-      initBubbleMenu();
     });
   } else {
     initMorphSlider();
     initCounters();
     initAnimatedList();
-    initBubbleMenu();
   }
 
 })();

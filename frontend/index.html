@@ -31,7 +31,6 @@
   <link rel="stylesheet" href="components/MorphSlider/MorphSlider.css">
   <link rel="stylesheet" href="components/Counter/Counter.css">
   <link rel="stylesheet" href="components/AnimatedList/AnimatedList.css">
-  <link rel="stylesheet" href="components/BubbleMenu/BubbleMenu.css">
 
   <style>
     /* -------------------------------------------------------------------------- */
@@ -1211,25 +1210,45 @@
     .features-list {
       display: flex;
       flex-direction: column;
-      gap: var(--space-8);
+      gap: var(--space-5);
     }
 
     .feature-item {
       display: flex;
       gap: var(--space-5);
+      padding: var(--space-4) var(--space-4);
+      border-radius: 12px;
+      border: 1px solid transparent;
+      transition: background-color 180ms cubic-bezier(0.16, 1, 0.3, 1),
+                  border-color 180ms cubic-bezier(0.16, 1, 0.3, 1),
+                  transform 180ms cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .feature-item:hover {
+      background: #FFFFFF;
+      border-color: rgba(0, 168, 135, 0.25);
+      transform: translateX(4px);
+      box-shadow: 0 4px 16px rgba(15, 23, 42, 0.04);
     }
 
     .feature-icon-wrap {
-      width: 44px;
-      height: 44px;
-      border-radius: 8px;
+      width: 46px;
+      height: 46px;
+      border-radius: 10px;
       background: rgba(0, 168, 135, 0.08);
-      border: 1px solid rgba(0, 168, 135, 0.25);
+      border: 1px solid rgba(0, 168, 135, 0.22);
       color: var(--trace);
       display: flex;
       align-items: center;
       justify-content: center;
       flex-shrink: 0;
+      transition: background-color 180ms ease, border-color 180ms ease, transform 180ms cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .feature-item:hover .feature-icon-wrap {
+      background: rgba(0, 168, 135, 0.14);
+      border-color: rgba(0, 168, 135, 0.45);
+      transform: scale(1.05);
     }
 
     .feature-icon-wrap svg {
@@ -1243,12 +1262,14 @@
       font-size: var(--text-lg);
       color: var(--text-hi);
       margin-bottom: var(--space-1);
+      letter-spacing: -0.015em;
     }
 
     .feature-desc {
       font-size: var(--text-sm);
       color: var(--text-mid);
-      line-height: var(--leading-base);
+      line-height: var(--leading-relaxed);
+      opacity: 1 !important;
     }
 
     /* Roadmap wrapper and panel */
@@ -1752,36 +1773,66 @@
     .contact-card {
       background: #FFFFFF;
       border: 1px solid var(--edge);
-      border-radius: 12px;
+      border-radius: 14px;
       padding: var(--space-8);
-      box-shadow: 0 4px 24px rgba(15, 23, 42, 0.04);
+      box-shadow: 0 4px 20px rgba(15, 23, 42, 0.04);
       display: flex;
       flex-direction: column;
-      justify-content: space-between;
       position: relative;
-      transition: border-color 0.25s ease;
+      transition: border-color 200ms cubic-bezier(0.16, 1, 0.3, 1), box-shadow 200ms cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     @media (min-width: 640px) {
       .contact-card {
-        padding: var(--space-9);
+        padding: 36px 40px;
       }
     }
 
     .contact-card--info {
-      gap: var(--space-6);
-    }
-
-    .contact-card__header {
       display: flex;
       flex-direction: column;
+      gap: var(--space-6);
+      justify-content: flex-start;
+    }
+
+    .contact-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 5px 12px;
+      background: rgba(0, 168, 135, 0.08);
+      border: 1px solid rgba(0, 168, 135, 0.22);
+      border-radius: 20px;
+      font-size: var(--text-xs);
+      font-weight: var(--weight-medium);
+      color: var(--trace);
+      width: fit-content;
+      margin-bottom: var(--space-2);
+    }
+
+    .contact-status-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--trace);
+      box-shadow: 0 0 8px rgba(0, 168, 135, 0.7);
+    }
+
+    .contact-card__title {
+      font-family: var(--font-display);
+      font-size: clamp(1.75rem, 2.4vw, 2.125rem);
+      font-weight: var(--weight-bold);
+      color: var(--text-hi);
+      letter-spacing: -0.02em;
+      margin: 0 0 var(--space-2);
+      line-height: var(--leading-tight);
     }
 
     .contact-copy {
-      font-size: var(--text-base);
+      font-size: var(--text-sm);
       color: var(--text-mid);
-      line-height: var(--leading-base);
-      margin-top: var(--space-2);
+      line-height: var(--leading-relaxed);
+      margin: 0;
     }
 
     .contact-channels {
@@ -1795,19 +1846,27 @@
       display: flex;
       align-items: center;
       gap: var(--space-4);
-      padding: 12px 16px;
+      padding: 13px 16px;
       background: var(--surface);
       border: 1px solid var(--edge);
-      border-radius: 8px;
+      border-radius: 10px;
       text-decoration: none;
       color: inherit;
-      transition: border-color 0.2s ease, background-color 0.2s ease, transform 0.2s ease;
+      transition: border-color 160ms cubic-bezier(0.16, 1, 0.3, 1),
+                  background-color 160ms cubic-bezier(0.16, 1, 0.3, 1),
+                  transform 160ms cubic-bezier(0.16, 1, 0.3, 1),
+                  box-shadow 160ms cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     a.contact-channel-item:hover {
-      border-color: var(--trace);
+      border-color: rgba(0, 168, 135, 0.4);
       background: #FFFFFF;
-      transform: translateY(-1px);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 14px rgba(15, 23, 42, 0.05);
+    }
+
+    a.contact-channel-item:active {
+      transform: translateY(0) scale(0.99);
     }
 
     .contact-channel-icon {
@@ -1821,6 +1880,12 @@
       align-items: center;
       justify-content: center;
       flex-shrink: 0;
+      transition: transform 160ms ease, background-color 160ms ease;
+    }
+
+    a.contact-channel-item:hover .contact-channel-icon {
+      background: rgba(0, 168, 135, 0.14);
+      transform: scale(1.04);
     }
 
     .contact-channel-icon svg {
@@ -1837,11 +1902,11 @@
     }
 
     .contact-channel-label {
-      font-size: var(--text-xs);
+      font-size: 11px;
       color: var(--text-mid);
       text-transform: uppercase;
-      letter-spacing: 0.04em;
-      font-weight: var(--weight-medium);
+      letter-spacing: 0.05em;
+      font-weight: var(--weight-semibold);
     }
 
     .contact-channel-val {
@@ -1854,51 +1919,74 @@
     }
 
     .contact-channel-badge {
-      font-size: var(--text-xs);
+      font-size: 11px;
       font-weight: var(--weight-medium);
       padding: 3px 8px;
-      border-radius: 4px;
+      border-radius: 5px;
       background: rgba(0, 168, 135, 0.08);
       color: var(--trace);
       border: 1px solid rgba(0, 168, 135, 0.2);
       flex-shrink: 0;
     }
 
-    .contact-whatsapp-btn {
+    .contact-card__footer {
+      margin-top: auto;
+      padding-top: var(--space-4);
+    }
+
+    .contact-advisory-strip {
       display: flex;
       align-items: center;
-      gap: var(--space-3);
-      width: 100%;
-      min-height: 48px;
-      padding: 12px 20px;
-      background: #00A887;
-      color: #FFFFFF;
-      font-family: var(--font-body);
-      font-weight: var(--weight-semibold);
-      font-size: var(--text-sm);
-      border-radius: 8px;
-      text-decoration: none;
-      transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
-      box-shadow: 0 4px 12px rgba(0, 168, 135, 0.2);
+      justify-content: space-between;
+      gap: 10px;
+      padding: 13px 18px;
+      background: var(--surface);
+      border: 1px solid var(--edge);
+      border-radius: 10px;
     }
 
-    .contact-whatsapp-btn:hover {
-      background: #008f72;
-      transform: translateY(-1px);
-      box-shadow: 0 6px 16px rgba(0, 168, 135, 0.3);
+    .contact-advisory-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      font-size: 12px;
+      font-weight: var(--weight-medium);
+      color: var(--text-mid);
     }
 
-    .contact-whatsapp-btn:active {
-      transform: scale(0.98);
+    .contact-advisory-item svg {
+      width: 15px;
+      height: 15px;
+      color: var(--trace);
+      flex-shrink: 0;
+    }
+
+    .contact-advisory-divider {
+      width: 1px;
+      height: 16px;
+      background: var(--edge);
+      flex-shrink: 0;
+    }
+
+    @media (max-width: 480px) {
+      .contact-advisory-strip {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+      }
+      .contact-advisory-divider {
+        display: none;
+      }
     }
 
     .contact-card--form {
       padding: var(--space-8);
+      justify-content: flex-start;
     }
 
     @media (min-width: 640px) {
       .contact-card--form {
-        padding: var(--space-9);
+        padding: 36px 40px;
       }
     }
 
@@ -1907,7 +1995,6 @@
       flex-direction: column;
       gap: var(--space-4);
       height: 100%;
-      justify-content: space-between;
     }
 
     .contact-form__header {
@@ -1919,6 +2006,7 @@
       font-size: var(--text-2xl);
       font-weight: var(--weight-bold);
       color: var(--text-hi);
+      letter-spacing: -0.015em;
       margin: 0 0 var(--space-1);
     }
 
@@ -1926,12 +2014,13 @@
       font-size: var(--text-sm);
       color: var(--text-mid);
       margin: 0;
+      line-height: var(--leading-relaxed);
     }
 
     .form-group {
       display: flex;
       flex-direction: column;
-      gap: 6px;
+      gap: 5px;
     }
 
     .form-label {
@@ -1947,19 +2036,21 @@
     .form-input,
     .form-textarea {
       width: 100%;
-      min-height: 46px;
+      min-height: 44px;
       background: var(--surface);
       border: 1px solid var(--edge);
       border-radius: 8px;
-      padding: 11px 14px;
+      padding: 10px 14px;
       font-family: var(--font-body);
       font-size: var(--text-sm);
       color: var(--text-hi);
-      transition: border-color var(--dur-fast) ease, box-shadow var(--dur-fast) ease, background-color var(--dur-fast) ease;
+      transition: border-color 150ms cubic-bezier(0.16, 1, 0.3, 1),
+                  box-shadow 150ms cubic-bezier(0.16, 1, 0.3, 1),
+                  background-color 150ms cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     .form-textarea {
-      min-height: 100px;
+      min-height: 96px;
       resize: vertical;
     }
 
@@ -1973,7 +2064,7 @@
       outline: none;
       background: #FFFFFF;
       border-color: var(--trace);
-      box-shadow: 0 0 0 3px rgba(0, 168, 135, 0.12);
+      box-shadow: 0 0 0 3px rgba(0, 168, 135, 0.14);
     }
 
     .form-input.error,
@@ -1991,50 +2082,92 @@
 
     .contact-submit-btn {
       min-height: 48px;
-      border-radius: 8px;
+      border-radius: 10px;
       font-size: var(--text-sm);
       font-weight: var(--weight-semibold);
       display: inline-flex;
       align-items: center;
       justify-content: center;
       gap: 8px;
-      margin-top: var(--space-1);
+      background: var(--trace);
+      color: #FFFFFF;
+      border: none;
+      cursor: pointer;
+      margin-top: var(--space-2);
+      transition: background-color 150ms cubic-bezier(0.16, 1, 0.3, 1),
+                  transform 150ms cubic-bezier(0.16, 1, 0.3, 1),
+                  box-shadow 150ms cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: 0 4px 14px rgba(0, 168, 135, 0.22);
     }
 
+    .contact-submit-btn:hover {
+      background: #009376;
+      transform: translateY(-1.5px);
+      box-shadow: 0 6px 18px rgba(0, 168, 135, 0.32);
+    }
+
+    .contact-submit-btn:active {
+      transform: scale(0.985);
+      box-shadow: 0 2px 8px rgba(0, 168, 135, 0.2);
+    }
+
+    /* Success State: Default hidden, overrides user-agent [hidden] with !important */
     .form-success {
-      display: flex;
+      display: none;
       flex-direction: column;
       align-items: center;
       justify-content: center;
       gap: var(--space-4);
-      padding: var(--space-12) var(--space-6);
+      padding: var(--space-10) var(--space-6);
       text-align: center;
       height: 100%;
-      min-height: 380px;
+      min-height: 400px;
+    }
+
+    .form-success[hidden] {
+      display: none !important;
+    }
+
+    .form-success.is-visible {
+      display: flex;
+      animation: successCardIn 260ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    @keyframes successCardIn {
+      from {
+        opacity: 0;
+        transform: scale(0.97) translateY(6px);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+      }
     }
 
     .form-success__icon-wrap {
-      width: 56px;
-      height: 56px;
+      width: 58px;
+      height: 58px;
       border-radius: 50%;
       background: rgba(0, 168, 135, 0.1);
-      border: 1px solid rgba(0, 168, 135, 0.3);
+      border: 1.5px solid rgba(0, 168, 135, 0.35);
       color: var(--trace);
       display: flex;
       align-items: center;
       justify-content: center;
+      box-shadow: 0 0 20px rgba(0, 168, 135, 0.12);
     }
 
     .form-success__icon-wrap svg {
-      width: 30px;
-      height: 30px;
+      width: 28px;
+      height: 28px;
     }
 
     .form-success__title {
       font-family: var(--font-display);
-      font-size: var(--text-xl);
+      font-size: var(--text-2xl);
       font-weight: var(--weight-bold);
       color: var(--text-hi);
+      letter-spacing: -0.015em;
       margin: 0;
     }
 
@@ -2042,8 +2175,32 @@
       font-size: var(--text-sm);
       color: var(--text-mid);
       max-width: 380px;
-      line-height: 1.6;
+      line-height: var(--leading-relaxed);
       margin: 0;
+    }
+
+    #sendAnotherMsgBtn {
+      min-height: 42px;
+      padding: 8px 20px;
+      border-radius: 8px;
+      font-size: var(--text-sm);
+      font-weight: var(--weight-medium);
+      background: var(--surface);
+      border: 1px solid var(--edge);
+      color: var(--text-hi);
+      cursor: pointer;
+      margin-top: var(--space-2);
+      transition: background-color 150ms ease, border-color 150ms ease, transform 150ms cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    #sendAnotherMsgBtn:hover {
+      background: #FFFFFF;
+      border-color: var(--trace);
+      transform: translateY(-1px);
+    }
+
+    #sendAnotherMsgBtn:active {
+      transform: scale(0.98);
     }
 
     /* -------------------------------------------------------------------------- */
@@ -3460,10 +3617,11 @@
           <!-- Left Column: Direct Channels & Advisory Card -->
           <div class="contact-card contact-card--info">
             <div class="contact-card__header">
-              <div class="section-heading-group" style="margin-bottom: var(--space-4);">
-                <p class="section-label">Consult With Our Physical Design Leads</p>
-                <h2 class="section-heading" style="font-size: var(--text-3xl); margin-top: var(--space-2);">Start a conversation</h2>
+              <div class="contact-pill">
+                <span class="contact-status-dot"></span>
+                <span>Direct Lead Consultation</span>
               </div>
+              <h2 class="contact-card__title">Start a conversation</h2>
               <p class="contact-copy">
                 Reach out for program enquiries, academic partnership discussions, corporate training engagements, or
                 consultation on any of our technical services.
@@ -3500,12 +3658,22 @@
             </div>
 
             <div class="contact-card__footer">
-              <a href="https://wa.me/919810191592?text=Hello%2C%20I%20want%20to%20enquire%20about%20the%20Job%20Oriented%20Program."
-                class="contact-whatsapp-btn" target="_blank" rel="noopener noreferrer">
-                <i data-lucide="message-circle"></i>
-                <span>Chat directly on WhatsApp</span>
-                <i data-lucide="arrow-up-right" class="icon-sm" style="margin-left: auto;"></i>
-              </a>
+              <div class="contact-advisory-strip">
+                <div class="contact-advisory-item">
+                  <i data-lucide="clock"></i>
+                  <span>Response &lt; 24h</span>
+                </div>
+                <div class="contact-advisory-divider"></div>
+                <div class="contact-advisory-item">
+                  <i data-lucide="shield-check"></i>
+                  <span>Confidential Review</span>
+                </div>
+                <div class="contact-advisory-divider"></div>
+                <div class="contact-advisory-item">
+                  <i data-lucide="lock"></i>
+                  <span>NDA Protected</span>
+                </div>
+              </div>
             </div>
           </div>
 
@@ -3940,8 +4108,8 @@
           contactForm.style.display = 'none';
           const successEl = document.getElementById('formSuccess');
           if (successEl) {
-            successEl.style.display = 'flex';
             successEl.hidden = false;
+            successEl.classList.add('is-visible');
             if (typeof lucide !== 'undefined' && lucide.createIcons) {
               lucide.createIcons();
             }
@@ -3951,7 +4119,7 @@
               sendAnotherBtn.onclick = () => {
                 contactForm.reset();
                 contactForm.style.display = 'flex';
-                successEl.style.display = 'none';
+                successEl.classList.remove('is-visible');
                 successEl.hidden = true;
               };
             }
