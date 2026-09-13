@@ -251,15 +251,32 @@
         if (mobileUserMenu)  { mobileUserMenu.hidden = true; mobileUserMenu.style.display = 'none'; }
       }
 
-      // 6.b In-page Auth Prompt Banner (front-end-software.html)
+      // 6.b In-page Auth Prompt Banner & EDA Tool Button (front-end-software.html)
       const authBanner = document.getElementById('authPromptBanner');
-      if (authBanner) {
-        if (session && session.user) {
+      const edaBtn = document.getElementById('btnEdaPlaygroundAccess');
+      if (session && session.user) {
+        if (authBanner) {
           authBanner.hidden = true;
           authBanner.style.display = 'none';
-        } else {
+        }
+        if (edaBtn) {
+          edaBtn.href = 'https://edaplayground.com/';
+          edaBtn.target = '_blank';
+          edaBtn.rel = 'noopener noreferrer';
+          edaBtn.setAttribute('aria-label', 'Tap here for EDA Playground tool access');
+          edaBtn.innerHTML = '<span>Tap here</span> <i data-lucide="external-link" style="width: 16px; height: 16px;"></i>';
+        }
+      } else {
+        if (authBanner) {
           authBanner.hidden = false;
           authBanner.style.display = 'flex';
+        }
+        if (edaBtn) {
+          edaBtn.href = 'login.html?redirect=front-end-software.html';
+          edaBtn.removeAttribute('target');
+          edaBtn.removeAttribute('rel');
+          edaBtn.setAttribute('aria-label', 'Sign in to access EDA Playground tool');
+          edaBtn.innerHTML = '<span>Sign in to Access</span> <i data-lucide="lock" style="width: 16px; height: 16px;"></i>';
         }
       }
 
