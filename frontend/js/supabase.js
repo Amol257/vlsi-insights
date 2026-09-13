@@ -25,3 +25,105 @@ try {
 } catch (e) {
   console.error('Error initializing Supabase client:', e);
 }
+
+// Global Handler for Service & Consultation Enquiry Forms
+window.handleFormSubmit = async function (e) {
+  e.preventDefault();
+  var form = e.target;
+  var submitBtn = form.querySelector('button[type="submit"]');
+  var origBtnContent = submitBtn ? submitBtn.innerHTML : '';
+
+  // Find or create error banner
+  var errorEl = form.querySelector('.form-submit-error');
+  if (!errorEl) {
+    errorEl = document.createElement('div');
+    errorEl.className = 'form-submit-error';
+    errorEl.style.cssText = 'color:#b91c1c;background:#fef2f2;border:1px solid #fecaca;border-radius:8px;padding:12px 16px;margin-top:16px;font-size:0.875rem;line-height:1.4;display:none;text-align:left;';
+    form.appendChild(errorEl);
+  }
+  errorEl.style.display = 'none';
+
+  // Extract form inputs generically
+  var inputs = form.querySelectorAll('input, select, textarea');
+  var name = '';
+  var email = '';
+  var phone = '';
+  var focusArea = '';
+  var requirements = '';
+
+  inputs.forEach(function (input) {
+    var type = (input.type || '').toLowerCase();
+    var val = input.value ? input.value.trim() : '';
+    if (type === 'text' && !name) {
+      name = val;
+    } else if (type === 'email') {
+      email = val;
+    } else if (type === 'tel') {
+      phone = val;
+    } else if (input.tagName.toLowerCase() === 'select') {
+      focusArea = val;
+    } else if (input.tagName.toLowerCase() === 'textarea') {
+      requirements = val;
+    }
+  });
+
+  if (!name || !email) {
+    errorEl.textContent = 'Please provide both your name and email address.';
+    errorEl.style.display = 'block';
+    return;
+  }
+
+  if (submitBtn) {
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = '<span>Submitting...</span>';
+  }
+
+  try {
+    var client = window.sb || (typeof supabase !== 'undefined' && typeof supabase.createClient === 'function'
+      ? supabase.createClient(window.SUPABASE_URL, window.SUPABASE_ANON_KEY)
+      : null);
+
+    if (!client) {
+      throw new Error('Database client not ready. Please refresh the page and try again.');
+    }
+
+    var fullMessage = focusArea
+      ? '[Area of Interest: ' + focusArea + '] ' + requirements
+      : requirements;
+
+    var res = await client
+      .from('contact_submissions')
+      .insert({
+        name: name,
+        email: email,
+        phone: phone,
+        message: fullMessage
+      });
+
+    if (res.error) {
+      if (res.error.code === '42501') {
+        throw new Error('Supabase RLS Policy: Anonymous INSERT is disabled on table "contact_submissions". Please add an INSERT policy for anon users in the Supabase dashboard.');
+      }
+      throw res.error;
+    }
+
+    // Success: Hide form and display success card
+    form.style.display = 'none';
+    var container = form.closest('section') || form.parentNode;
+    var successBox = (container && container.querySelector('#formSuccessMessage')) || document.getElementById('formSuccessMessage');
+    if (successBox) {
+      successBox.style.display = 'block';
+    }
+    if (window.lucide && lucide.createIcons) {
+      lucide.createIcons();
+    }
+  } catch (err) {
+    console.error('Consultation form submission error:', err);
+    errorEl.textContent = err.message || 'Submission failed. Please check your connection and try again.';
+    errorEl.style.display = 'block';
+    if (submitBtn) {
+      submitBtn.disabled = false;
+      submitBtn.innerHTML = origBtnContent;
+    }
+  }
+};

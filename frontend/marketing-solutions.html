@@ -986,13 +986,6 @@
   <script>
     document.getElementById('year').textContent = new Date().getFullYear();
 
-    function handleFormSubmit(e) {
-      e.preventDefault();
-      document.getElementById('marketingEnquiryForm').style.display = 'none';
-      document.getElementById('formSuccessMessage').style.display = 'block';
-      if (window.lucide) lucide.createIcons();
-    }
-
     // Cart Badge Sync
     (function() {
       function updateCartBadge() {
