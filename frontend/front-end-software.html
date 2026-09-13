@@ -1711,41 +1711,6 @@
           </div>
           <a href="login.html?redirect=front-end-software.html" class="btn-primary">Sign in</a>
         </div>
-        <script>
-          (function() {
-            try {
-              var token = localStorage.getItem('sb-riipijrgucqigndcjwre-auth-token');
-              var banner = document.getElementById('authPromptBanner');
-              var edaBtn = document.getElementById('btnEdaPlaygroundAccess');
-              var isLoggedIn = false;
-              if (token) {
-                var p = JSON.parse(token);
-                if (p && (p.user || (p.currentSession && p.currentSession.user))) {
-                  isLoggedIn = true;
-                }
-              }
-              if (banner) {
-                banner.hidden = isLoggedIn;
-                banner.style.display = isLoggedIn ? 'none' : 'flex';
-              }
-              if (edaBtn) {
-                if (isLoggedIn) {
-                  edaBtn.href = 'https://edaplayground.com/';
-                  edaBtn.target = '_blank';
-                  edaBtn.rel = 'noopener noreferrer';
-                  edaBtn.setAttribute('aria-label', 'Tap here for EDA Playground tool access');
-                  edaBtn.innerHTML = '<span>Tap here</span> <i data-lucide="external-link" style="width: 16px; height: 16px;"></i>';
-                } else {
-                  edaBtn.href = 'login.html?redirect=front-end-software.html';
-                  edaBtn.removeAttribute('target');
-                  edaBtn.removeAttribute('rel');
-                  edaBtn.setAttribute('aria-label', 'Sign in to access EDA Playground tool');
-                  edaBtn.innerHTML = '<span>Sign in to Access</span> <i data-lucide="lock" style="width: 16px; height: 16px;"></i>';
-                }
-              }
-            } catch(e) {}
-          })();
-        </script>
 
         <!-- 1. EDA PLAYGROUND TOOL ACCESS CARD -->
         <div class="eda-tool-card" id="eda-playground-card">
@@ -1763,6 +1728,50 @@
             <i data-lucide="lock" style="width: 16px; height: 16px;"></i>
           </a>
         </div>
+
+        <!-- Auth state initializer: runs AFTER banner & EDA button are in DOM -->
+        <script>
+          (function() {
+            function applyEdaAuthState() {
+              try {
+                var token = localStorage.getItem('sb-riipijrgucqigndcjwre-auth-token');
+                var banner = document.getElementById('authPromptBanner');
+                var edaBtn = document.getElementById('btnEdaPlaygroundAccess');
+                var isLoggedIn = false;
+                if (token) {
+                  var p = JSON.parse(token);
+                  // Supabase v2 stores: { access_token, user: {...}, ... }
+                  // Supabase v1/legacy: { currentSession: { user }, user }
+                  if (p && (p.user || (p.currentSession && p.currentSession.user) || p.access_token)) {
+                    isLoggedIn = true;
+                  }
+                }
+                if (banner) {
+                  banner.hidden = isLoggedIn;
+                  banner.style.display = isLoggedIn ? 'none' : 'flex';
+                }
+                if (edaBtn) {
+                  if (isLoggedIn) {
+                    edaBtn.href = 'https://edaplayground.com/';
+                    edaBtn.target = '_blank';
+                    edaBtn.rel = 'noopener noreferrer';
+                    edaBtn.setAttribute('aria-label', 'Tap here for EDA Playground tool access');
+                    edaBtn.innerHTML = '<span>Tap here</span> <i data-lucide="external-link" style="width: 16px; height: 16px;"></i>';
+                    if (window.lucide) lucide.createIcons({ els: [edaBtn] });
+                  } else {
+                    edaBtn.href = 'login.html?redirect=front-end-software.html';
+                    edaBtn.removeAttribute('target');
+                    edaBtn.removeAttribute('rel');
+                    edaBtn.setAttribute('aria-label', 'Sign in to access EDA Playground tool');
+                    edaBtn.innerHTML = '<span>Sign in to Access</span> <i data-lucide="lock" style="width: 16px; height: 16px;"></i>';
+                    if (window.lucide) lucide.createIcons({ els: [edaBtn] });
+                  }
+                }
+              } catch(e) {}
+            }
+            applyEdaAuthState();
+          })();
+        </script>
 
         <!-- 2. VIDEO SHOWCASE & DOWNLOAD ACTIONS (QUESTASIM & MODELSIM) -->
         <div class="software-video-grid">
@@ -2141,7 +2150,7 @@
             <li><a href="front-end-software.html" class="footer-link">EDA Software Lab</a></li>
             <li><a href="about-company.html" class="footer-link">About Company</a></li>
             <li><a href="about-owner.html" class="footer-link">About Owner</a></li>
-            <li><a href="index.html#solutions" class="footer-link">Digital Growth</a></li>
+            <li><a href="marketing-solutions.html" class="footer-link">Digital Growth</a></li>
             <li><a href="#contact-section" class="footer-link">Contact Software Lab</a></li>
           </ul>
         </div>
@@ -2235,7 +2244,9 @@
         const token = localStorage.getItem('sb-riipijrgucqigndcjwre-auth-token');
         if (token) {
           const p = JSON.parse(token);
-          if (p && (p.user || (p.currentSession && p.currentSession.user))) {
+          // Supabase v2: { access_token, user: {...}, ... }
+          // Supabase v1/legacy: { currentSession: { user }, user }
+          if (p && (p.user || (p.currentSession && p.currentSession.user) || p.access_token)) {
             return true;
           }
         }
