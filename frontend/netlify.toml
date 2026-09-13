@@ -1,9 +1,8 @@
 [build]
-  base = "frontend"
   publish = "."
 
-# â”€â”€â”€ Cache-Control Headers â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-# CSS & JS â€” cache for 1 year (they are fingerprinted by deployment)
+# ─── Cache-Control Headers ───────────────────────────────────────────────────
+# CSS & JS — cache for 1 year (they are fingerprinted by deployment)
 [[headers]]
   for = "/css/*"
   [headers.values]
@@ -14,13 +13,13 @@
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
 
-# Images â€” cache for 1 year
+# Images — cache for 1 year
 [[headers]]
   for = "/images/*"
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
 
-# HTML â€” always re-validate so content stays fresh
+# HTML — always re-validate so content stays fresh
 [[headers]]
   for = "/*.html"
   [headers.values]
@@ -176,4 +175,3 @@
   from = "/contact"
   to = "/index.html#contact"
   status = 302
-

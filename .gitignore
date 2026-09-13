@@ -1,4 +1,23 @@
-scratch/
+# Archives and Backups
+backups/
+*.zip
+
+# Node modules & logs
 node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Environment and secrets
+.env
+.env.local
+
+# OS files
 .DS_Store
-*.log
+Thumbs.db
+ehthumbs.db
+
+# IDE & temporary
+.vscode/
+.idea/
+scratch/
