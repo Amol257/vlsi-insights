@@ -4279,8 +4279,9 @@
         modalSiSubmitBtn.innerHTML = '<span>Signing In...</span>';
 
         try {
-          if (typeof sb !== 'undefined' && sb.auth) {
-            const { data, error } = await sb.auth.signInWithPassword({ email, password });
+          const client = window.sb || (typeof sb !== 'undefined' ? sb : null);
+          if (client && client.auth) {
+            const { data, error } = await client.auth.signInWithPassword({ email, password });
             if (error) {
               modalSiSubmitBtn.disabled = false;
               modalSiSubmitBtn.innerHTML = '<span>Sign In</span>';
@@ -4337,8 +4338,9 @@
         modalSuSubmitBtn.innerHTML = '<span>Creating Account...</span>';
 
         try {
-          if (typeof sb !== 'undefined' && sb.auth) {
-            const { data, error } = await sb.auth.signUp({
+          const client = window.sb || (typeof sb !== 'undefined' ? sb : null);
+          if (client && client.auth) {
+            const { data, error } = await client.auth.signUp({
               email,
               password,
               options: {
@@ -4355,13 +4357,13 @@
 
             // If auto-confirm is enabled, sign in immediately
             if (data && data.user && !data.session) {
-              await sb.auth.signInWithPassword({ email, password });
+              await client.auth.signInWithPassword({ email, password });
             }
 
             // Upsert into profiles table for dashboard visibility
-            const { data: { session: newSession } } = await sb.auth.getSession();
+            const { data: { session: newSession } } = await client.auth.getSession();
             if (newSession && newSession.user) {
-              await upsertProfile(sb, {
+              await upsertProfile(client, {
                 id:        newSession.user.id,
                 email:     newSession.user.email || email,
                 full_name: fullName,
@@ -4602,7 +4604,12 @@
           const messageEl = document.getElementById('studentMessage');
           const message = messageEl ? messageEl.value.trim() : '';
 
-          const { error } = await sb
+          const client = window.sb || (typeof sb !== 'undefined' ? sb : null);
+          if (!client) {
+            throw new Error('Database client not ready. Please refresh the page and try again.');
+          }
+
+          const { error } = await client
             .from('enrollment_submissions')
             .insert({
               name,
@@ -4619,7 +4626,7 @@
           }
 
           if (error) {
-            showEnrollError('Something went wrong. Please try again.');
+            showEnrollError(error.message || 'Something went wrong. Please try again.');
             return;
           }
 

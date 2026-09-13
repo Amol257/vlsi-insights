@@ -4084,7 +4084,11 @@
         }
 
         try {
-          const { error } = await sb
+          const client = window.sb || (typeof sb !== 'undefined' ? sb : null);
+          if (!client) {
+            throw new Error('Database client not ready. Please refresh the page and try again.');
+          }
+          const { error } = await client
             .from('contact_submissions')
             .insert({
               name: document.getElementById('name').value.trim(),
@@ -4100,7 +4104,7 @@
           }
 
           if (error) {
-            showFormError('Something went wrong. Please try again.');
+            showFormError(error.message || 'Something went wrong. Please try again.');
             return;
           }
 

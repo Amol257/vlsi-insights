@@ -28,8 +28,12 @@ try {
 
 // Global Handler for Service & Consultation Enquiry Forms
 window.handleFormSubmit = async function (e) {
-  e.preventDefault();
-  var form = e.target;
+  if (e && typeof e.preventDefault === 'function') {
+    e.preventDefault();
+  }
+  var form = (e && e.target) ? e.target : document.activeElement ? document.activeElement.closest('form') : null;
+  if (!form) return false;
+
   var submitBtn = form.querySelector('button[type="submit"]');
   var origBtnContent = submitBtn ? submitBtn.innerHTML : '';
 
@@ -70,7 +74,7 @@ window.handleFormSubmit = async function (e) {
   if (!name || !email) {
     errorEl.textContent = 'Please provide both your name and email address.';
     errorEl.style.display = 'block';
-    return;
+    return false;
   }
 
   if (submitBtn) {
@@ -87,9 +91,8 @@ window.handleFormSubmit = async function (e) {
       throw new Error('Database client not ready. Please refresh the page and try again.');
     }
 
-    var fullMessage = focusArea
-      ? '[Area of Interest: ' + focusArea + '] ' + requirements
-      : requirements;
+    var pageTitle = document.title ? document.title.split('|')[0].trim() : 'Service Consultation';
+    var fullMessage = '[' + pageTitle + (focusArea ? ' - ' + focusArea : '') + '] ' + (requirements || 'No additional details provided.');
 
     var res = await client
       .from('contact_submissions')
@@ -113,10 +116,14 @@ window.handleFormSubmit = async function (e) {
     var successBox = (container && container.querySelector('#formSuccessMessage')) || document.getElementById('formSuccessMessage');
     if (successBox) {
       successBox.style.display = 'block';
+      try {
+        successBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      } catch (err) {}
     }
     if (window.lucide && lucide.createIcons) {
       lucide.createIcons();
     }
+    return false;
   } catch (err) {
     console.error('Consultation form submission error:', err);
     errorEl.textContent = err.message || 'Submission failed. Please check your connection and try again.';
@@ -125,5 +132,6 @@ window.handleFormSubmit = async function (e) {
       submitBtn.disabled = false;
       submitBtn.innerHTML = origBtnContent;
     }
+    return false;
   }
 };
