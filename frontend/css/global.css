@@ -1239,3 +1239,69 @@ h1, h2, h3 {
   from { width: 100%; }
   to { width: 0%; }
 }
+
+/* ==========================================================================
+   MASTER MOBILE & TABLET RESPONSIVE ENHANCEMENTS
+   ========================================================================== */
+
+/* 1. iOS Safari Auto-Zoom Fix (ensures inputs never force auto-zoom on focus) */
+@media (max-width: 768px) {
+  input,
+  select,
+  textarea {
+    font-size: 16px !important;
+  }
+}
+
+/* 2. Form Grid Collapse: Single column on mobile viewports */
+@media (max-width: 640px) {
+  .form-grid-2col,
+  .form-row-2col,
+  .grid-2col {
+    grid-template-columns: 1fr !important;
+    gap: 14px !important;
+  }
+
+  /* Prevent button squishing */
+  .btn,
+  .btn-primary,
+  .btn-secondary {
+    min-height: 44px;
+  }
+}
+
+/* 3. Mobile Modal & Drawer Scrolling Safeguards */
+@media (max-width: 768px) {
+  .modal,
+  .brochure-modal,
+  [role="dialog"] {
+    max-height: 92vh !important;
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+  }
+
+  /* Floating WhatsApp adjustment */
+  .floating-whatsapp {
+    bottom: 16px !important;
+    right: 16px !important;
+  }
+
+  .floating-whatsapp__btn {
+    width: 48px !important;
+    height: 48px !important;
+  }
+
+  .floating-whatsapp__img {
+    width: 28px !important;
+    height: 28px !important;
+  }
+
+  /* Toast notification on mobile */
+  .vlsi-toast-container {
+    top: 16px !important;
+    right: 16px !important;
+    left: 16px !important;
+    width: auto !important;
+    max-width: none !important;
+  }
+}
