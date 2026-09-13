@@ -121,6 +121,9 @@ window.handleFormSubmit = async function (e) {
       throw res.error;
     }
 
+    if (typeof window.showToast === 'function') {
+      window.showToast('Consultation Submitted', 'Thank you! Our engineering lab team will reach out to you shortly.', 'success');
+    }
     // Success: Hide form and display success card
     form.style.display = 'none';
     var container = form.closest('section') || form.parentNode;
@@ -138,6 +141,9 @@ window.handleFormSubmit = async function (e) {
   } catch (err) {
     console.error('Consultation form submission error:', err);
     errorEl.textContent = err.message || 'Submission failed. Please check your connection and try again.';
+    if (typeof window.showToast === 'function') {
+      window.showToast('Submission Failed', err.message || 'Please check your connection and try again.', 'error');
+    }
     errorEl.style.display = 'block';
     if (submitBtn) {
       submitBtn.disabled = false;
@@ -145,4 +151,57 @@ window.handleFormSubmit = async function (e) {
     }
     return false;
   }
+};
+
+// ==========================================================================
+// TOAST NOTIFICATION UTILITY
+// ==========================================================================
+window.showToast = function(title, message, type, duration) {
+  type = type || 'success';
+  duration = duration || 4000;
+
+  var container = document.getElementById('vlsiToastContainer');
+  if (!container) {
+    container = document.createElement('div');
+    container.id = 'vlsiToastContainer';
+    container.className = 'vlsi-toast-container';
+    document.body.appendChild(container);
+  }
+
+  var toast = document.createElement('div');
+  toast.className = 'vlsi-toast vlsi-toast--' + type;
+
+  var iconSvg = type === 'success'
+    ? '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#00A887" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>'
+    : type === 'error'
+    ? '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#EF4444" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="15" y1="9" x2="9" y2="15"></line><line x1="9" y1="9" x2="15" y2="15"></line></svg>'
+    : '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#3B82F6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>';
+
+  toast.innerHTML = [
+    '<div class="vlsi-toast__icon">' + iconSvg + '</div>',
+    '<div class="vlsi-toast__body">',
+    '  <div class="vlsi-toast__title">' + title + '</div>',
+    message ? '  <div class="vlsi-toast__message">' + message + '</div>' : '',
+    '</div>',
+    '<button type="button" class="vlsi-toast__close" aria-label="Close notification">&times;</button>',
+    '<div class="vlsi-toast__progress"></div>'
+  ].join('');
+
+  container.appendChild(toast);
+  requestAnimationFrame(function() { toast.classList.add('show'); });
+
+  if (typeof navigator !== 'undefined' && navigator.vibrate) {
+    try {
+      if (type === 'success') navigator.vibrate([30, 40, 30]);
+      else if (type === 'error') navigator.vibrate([60, 50, 60]);
+    } catch(e) {}
+  }
+
+  function dismiss() {
+    toast.classList.remove('show');
+    setTimeout(function() { if (toast.parentNode) toast.remove(); }, 350);
+  }
+
+  toast.querySelector('.vlsi-toast__close').addEventListener('click', dismiss);
+  setTimeout(dismiss, duration);
 };

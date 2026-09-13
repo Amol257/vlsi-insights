@@ -1117,3 +1117,125 @@ h1, h2, h3 {
   contain-intrinsic-size: 0 320px;
 }
 
+
+/* ==========================================================================
+   MODERN TOAST NOTIFICATION SYSTEM (CRO & FEEDBACK)
+   ========================================================================== */
+.vlsi-toast-container {
+  position: fixed;
+  top: 24px;
+  right: 24px;
+  z-index: 999999;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  pointer-events: none;
+  max-width: calc(100vw - 32px);
+  width: 380px;
+}
+
+.vlsi-toast {
+  pointer-events: auto;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 14px 18px;
+  background: rgba(15, 23, 42, 0.95);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 10px;
+  color: #F8FAFC;
+  box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.05);
+  font-family: 'Inter', -apple-system, sans-serif;
+  font-size: 0.875rem;
+  line-height: 1.4;
+  transform: translateX(120%);
+  opacity: 0;
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.25s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.vlsi-toast.show {
+  transform: translateX(0);
+  opacity: 1;
+}
+
+.vlsi-toast--success {
+  border-left: 4px solid #00A887;
+}
+
+.vlsi-toast--error {
+  border-left: 4px solid #EF4444;
+}
+
+.vlsi-toast--info {
+  border-left: 4px solid #3B82F6;
+}
+
+.vlsi-toast__icon {
+  flex-shrink: 0;
+  margin-top: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.vlsi-toast__body {
+  flex: 1;
+}
+
+.vlsi-toast__title {
+  font-weight: 600;
+  color: #FFFFFF;
+  margin-bottom: 2px;
+  font-size: 0.9375rem;
+}
+
+.vlsi-toast__message {
+  color: #CBD5E1;
+  font-size: 0.8125rem;
+}
+
+.vlsi-toast__close {
+  background: none;
+  border: none;
+  color: #94A3B8;
+  cursor: pointer;
+  padding: 2px;
+  margin-left: 4px;
+  font-size: 1.25rem;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.15s ease;
+}
+
+.vlsi-toast__close:hover {
+  color: #FFFFFF;
+}
+
+.vlsi-toast__progress {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 3px;
+  background: rgba(0, 168, 135, 0.8);
+  width: 100%;
+  animation: toastProgressBar 4s linear forwards;
+}
+
+.vlsi-toast--error .vlsi-toast__progress {
+  background: rgba(239, 68, 68, 0.8);
+}
+
+.vlsi-toast--info .vlsi-toast__progress {
+  background: rgba(59, 130, 246, 0.8);
+}
+
+@keyframes toastProgressBar {
+  from { width: 100%; }
+  to { width: 0%; }
+}

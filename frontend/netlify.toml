@@ -118,8 +118,15 @@
 
 [[redirects]]
   from = "/technical-blogs"
-  to = "/technical-blogs.html"
-  status = 200
+  to = "/blog.html"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/technical-blogs.html"
+  to = "/blog.html"
+  status = 301
+  force = true
 
 [[redirects]]
   from = "/vlsi-designs"

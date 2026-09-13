@@ -22,7 +22,8 @@
 /about-company      /about-company.html     200
 /about-owner        /about-owner.html       200
 /testimonials       /testimonials.html      200
-/technical-blogs    /technical-blogs.html   200
+/technical-blogs    /blog.html              301!
+/technical-blogs.html /blog.html         301!
 /vlsi-designs       /vlsi-designs.html      200
 /soc-verification   /soc-verification.html  200
 /embedded-systems   /embedded-systems.html  200

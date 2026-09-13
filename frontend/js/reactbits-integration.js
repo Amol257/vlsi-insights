@@ -22,19 +22,19 @@
 
     const items = [
       {
-        image: 'images/vlsi-design-slide.jpg',
+        image: 'images/vlsi-design-slide.webp',
         caption: 'VLSI Related Services',
         desc: 'Developing RTL layout, synthesis, STA closure, and verification plans for tape-out ready chips.',
         link: 'vlsi-designs.html'
       },
       {
-        image: 'images/technical-training-slide.jpg',
+        image: 'images/technical-training-slide.webp',
         caption: 'Technical Training',
         desc: 'Front-end semiconductor training tailored for working professionals and engineering students.',
         link: 'technical-training.html'
       },
       {
-        image: 'images/marketing-solutions-slide.jpg',
+        image: 'images/marketing-solutions-slide.webp',
         caption: 'Marketing Solution',
         desc: 'Digital marketing, IVR telephony systems, and managed communication solutions for technical brands.',
         link: 'marketing-solutions.html'
