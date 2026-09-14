@@ -4686,15 +4686,7 @@
         const priceLabel = cartBtn.dataset.programPriceLabel || '35,000/-';
         const item = { id, name, price, priceLabel, qty: 1 };
 
-        // ---- AUTH GATE: Must be logged in to add to cart & purchase ----
-        const user = await getAuthUser();
-        if (!user) {
-          // Open in-page auth popup modal on this exact page!
-          openAuthModal(item);
-          return;
-        }
-
-        // ---- Already authenticated: add to cart & show toast feedback ----
+        // ---- GUEST CART: Anyone can add courses to cart; auth is required at Checkout (/cart.html) ----
         addToCart(item);
         showCartToast(name);
         cartBtn.classList.add('added');

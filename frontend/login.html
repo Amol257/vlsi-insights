@@ -814,41 +814,55 @@
 
         <!-- Main Auth Forms Container -->
         <div id="authFormsContainer">
-          <!-- 2. Tabs: Sign In | Sign Up -->
-          <div class="auth-tabs" role="tablist">
-            <button type="button" class="auth-tab-btn active" id="tabSignIn" role="tab" aria-selected="true" aria-controls="signInPanel">Sign In</button>
-            <button type="button" class="auth-tab-btn" id="tabSignUp" role="tab" aria-selected="false" aria-controls="signUpPanel">Sign Up</button>
-          </div>
+          <div id="authHeaderBlock">
+            <!-- 2. Tabs: Sign In | Sign Up -->
+            <div class="auth-tabs" role="tablist">
+              <button type="button" class="auth-tab-btn active" id="tabSignIn" role="tab" aria-selected="true" aria-controls="signInPanel">Sign In</button>
+              <button type="button" class="auth-tab-btn" id="tabSignUp" role="tab" aria-selected="false" aria-controls="signUpPanel">Sign Up</button>
+            </div>
 
-          <!-- Status Alerts -->
-          <div id="authAlertError" class="form-error" role="alert">
-            <i data-lucide="alert-circle"></i>
-            <div class="form-error-content">
-              <span id="authErrorMsg"></span>
-              <button type="button" id="resendConfirmBtn" class="resend-action-btn" style="display:none;">Resend confirmation email</button>
+            <!-- Status Alerts -->
+            <div id="authAlertError" class="form-error" role="alert">
+              <i data-lucide="alert-circle"></i>
+              <div class="form-error-content">
+                <span id="authErrorMsg"></span>
+                <button type="button" id="resendConfirmBtn" class="resend-action-btn" style="display:none;">Resend confirmation email</button>
+              </div>
+            </div>
+            <div id="authAlertSuccess" class="form-success" role="status">
+              <i data-lucide="check-circle-2"></i>
+              <span id="authSuccessMsg"></span>
+            </div>
+
+            <!-- 3. Social Login Buttons -->
+            <div class="social-buttons">
+              <button type="button" class="btn-social" id="googleBtn" aria-label="Continue with Google">
+                <svg viewBox="0 0 24 24" width="20" height="20">
+                  <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                  <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                  <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/>
+                  <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/>
+                </svg>
+                <span>Continue with Google</span>
+              </button>
+            </div>
+
+            <!-- 4. Divider with "or" -->
+            <div class="auth-divider">
+              <span>or with email</span>
             </div>
           </div>
-          <div id="authAlertSuccess" class="form-success" role="status">
+
+          <!-- Status Alerts for Forgot Password View -->
+          <div id="forgotAlertError" class="form-error" role="alert" style="display:none;">
+            <i data-lucide="alert-circle"></i>
+            <div class="form-error-content">
+              <span id="forgotErrorMsg"></span>
+            </div>
+          </div>
+          <div id="forgotAlertSuccess" class="form-success" role="status" style="display:none;">
             <i data-lucide="check-circle-2"></i>
-            <span id="authSuccessMsg"></span>
-          </div>
-
-          <!-- 3. Social Login Buttons -->
-          <div class="social-buttons">
-            <button type="button" class="btn-social" id="googleBtn" aria-label="Continue with Google">
-              <svg viewBox="0 0 24 24" width="20" height="20">
-                <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
-                <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
-                <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/>
-                <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/>
-              </svg>
-              <span>Continue with Google</span>
-            </button>
-          </div>
-
-          <!-- 4. Divider with "or" -->
-          <div class="auth-divider">
-            <span>or with email</span>
+            <span id="forgotSuccessMsg"></span>
           </div>
 
           <!-- 5. Sign In Panel -->
@@ -929,6 +943,32 @@
               </div>
             </form>
           </div>
+
+          <!-- 7. Dedicated Forgot Password Sub-View -->
+          <div id="forgotPanel" role="tabpanel" aria-labelledby="forgotLink" hidden>
+            <div style="text-align: center; margin-bottom: 20px;">
+              <div style="width: 48px; height: 48px; border-radius: 12px; background: rgba(0, 168, 135, 0.1); color: var(--trace); display: inline-flex; align-items: center; justify-content: center; margin-bottom: 12px;">
+                <i data-lucide="key-round" style="width: 24px; height: 24px;"></i>
+              </div>
+              <h2 style="font-family: var(--font-display); font-size: 1.25rem; font-weight: 700; color: var(--text-hi); margin-bottom: 6px;">Reset Your Password</h2>
+              <p style="font-size: 0.875rem; color: var(--text-mid); line-height: 1.5;">Enter your registered email address and we'll send you a password reset link.</p>
+            </div>
+
+            <form id="forgotPasswordForm" novalidate>
+              <div class="form-group">
+                <label for="fpEmail" class="form-label">Email address</label>
+                <input type="email" id="fpEmail" class="form-input" placeholder="name@company.com" autocomplete="email" required>
+              </div>
+
+              <button type="submit" class="btn-submit" id="fpSubmitBtn">
+                <span>Send Reset Link</span>
+              </button>
+
+              <div class="switch-prompt">
+                Remember your password? <a href="#" id="backToSignInFromForgot">Back to Sign In</a>
+              </div>
+            </form>
+          </div>
         </div>
 
       </div>
@@ -979,18 +1019,63 @@
       }
 
       // ---------------------------------------------------------------
-      // 2. TAB SWITCHING (Sign In vs Sign Up)
+      // 2. TAB SWITCHING (Sign In vs Sign Up vs Forgot Password)
       // ---------------------------------------------------------------
+      const authHeaderBlock = document.getElementById('authHeaderBlock');
       const tabSignIn = document.getElementById('tabSignIn');
       const tabSignUp = document.getElementById('tabSignUp');
       const signInPanel = document.getElementById('signInPanel');
       const signUpPanel = document.getElementById('signUpPanel');
+      const forgotPanel = document.getElementById('forgotPanel');
       const goToSignUp = document.getElementById('goToSignUp');
       const goToSignIn = document.getElementById('goToSignIn');
+      const backToSignInFromForgot = document.getElementById('backToSignInFromForgot');
+      const forgotPasswordForm = document.getElementById('forgotPasswordForm');
+      const fpEmail = document.getElementById('fpEmail');
+      const fpSubmitBtn = document.getElementById('fpSubmitBtn');
+      const forgotAlertError = document.getElementById('forgotAlertError');
+      const forgotAlertSuccess = document.getElementById('forgotAlertSuccess');
+      const forgotErrorMsg = document.getElementById('forgotErrorMsg');
+      const forgotSuccessMsg = document.getElementById('forgotSuccessMsg');
+
+      function clearForgotAlerts() {
+        if (forgotAlertError) forgotAlertError.style.display = 'none';
+        if (forgotAlertSuccess) forgotAlertSuccess.style.display = 'none';
+        if (forgotErrorMsg) forgotErrorMsg.textContent = '';
+        if (forgotSuccessMsg) forgotSuccessMsg.textContent = '';
+      }
+
+      function showForgotError(msg) {
+        clearForgotAlerts();
+        if (forgotErrorMsg) forgotErrorMsg.textContent = msg;
+        if (forgotAlertError) forgotAlertError.style.display = 'flex';
+        refreshIcons();
+      }
+
+      function showForgotSuccess(msg) {
+        clearForgotAlerts();
+        if (forgotSuccessMsg) forgotSuccessMsg.textContent = msg;
+        if (forgotAlertSuccess) forgotAlertSuccess.style.display = 'flex';
+        refreshIcons();
+      }
 
       function switchTab(tabName) {
         clearAlerts();
-        if (tabName === 'signin') {
+        clearForgotAlerts();
+        if (tabName === 'forgot') {
+          if (authHeaderBlock) authHeaderBlock.style.display = 'none';
+          signInPanel.hidden = true;
+          signUpPanel.hidden = true;
+          forgotPanel.hidden = false;
+          // Pre-fill email from sign-in input if present
+          const siEmailVal = document.getElementById('siEmail')?.value.trim();
+          if (siEmailVal && fpEmail) {
+            fpEmail.value = siEmailVal;
+          }
+          if (fpEmail) fpEmail.focus();
+        } else if (tabName === 'signin') {
+          if (authHeaderBlock) authHeaderBlock.style.display = '';
+          forgotPanel.hidden = true;
           tabSignIn.classList.add('active');
           tabSignIn.setAttribute('aria-selected', 'true');
           tabSignUp.classList.remove('active');
@@ -999,6 +1084,8 @@
           signInPanel.hidden = false;
           signUpPanel.hidden = true;
         } else {
+          if (authHeaderBlock) authHeaderBlock.style.display = '';
+          forgotPanel.hidden = true;
           tabSignUp.classList.add('active');
           tabSignUp.setAttribute('aria-selected', 'true');
           tabSignIn.classList.remove('active');
@@ -1017,6 +1104,10 @@
         switchTab('signup');
       });
       goToSignIn.addEventListener('click', (e) => {
+        e.preventDefault();
+        switchTab('signin');
+      });
+      backToSignInFromForgot?.addEventListener('click', (e) => {
         e.preventDefault();
         switchTab('signin');
       });
@@ -1386,24 +1477,31 @@
       });
 
       // ---------------------------------------------------------------
-      // 9. FORGOT PASSWORD
+      // 9. FORGOT PASSWORD FLOW
       // ---------------------------------------------------------------
-      document.getElementById('forgotLink').addEventListener('click', async (e) => {
+      document.getElementById('forgotLink').addEventListener('click', (e) => {
         e.preventDefault();
-        clearAlerts();
+        switchTab('forgot');
+      });
 
-        const email = document.getElementById('siEmail').value.trim();
-        if (!email) {
-          showError('Please enter your email address in the email field first.');
-          document.getElementById('siEmail').focus();
+      forgotPasswordForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        clearForgotAlerts();
+
+        const email = fpEmail.value.trim();
+        if (!email || !email.includes('@')) {
+          showForgotError('Please enter a valid email address.');
+          fpEmail.focus();
           return;
         }
 
         const client = getSb();
         if (!client) {
-          showError('Authentication client is initializing. Please refresh the page.');
+          showForgotError('Authentication client is initializing. Please refresh the page.');
           return;
         }
+
+        setLoading(fpSubmitBtn, true, 'Send Reset Link');
 
         const resetRedirect = window.location.protocol === 'file:'
           ? 'https://vlsiinsights.com/login.html'
@@ -1414,13 +1512,17 @@
             redirectTo: resetRedirect
           });
 
+          setLoading(fpSubmitBtn, false, 'Send Reset Link');
+
           if (error) {
-            showError(error.message);
+            showForgotError(error.message);
           } else {
-            showSuccess(`Password reset link sent to ${email}. Please check your inbox.`);
+            showForgotSuccess(`Password reset link sent to ${email}! Please check your inbox and follow the link to reset your password.`);
+            fpEmail.value = '';
           }
         } catch (err) {
-          showError(err.message || 'Failed to send password reset link.');
+          setLoading(fpSubmitBtn, false, 'Send Reset Link');
+          showForgotError(err.message || 'Failed to send password reset link. Please try again.');
         }
       });
     })();
