@@ -1,39 +1,66 @@
 # Netlify Redirects & Rewrites
 
-# Static assets and pages requested from /blog/ virtual subpath
+# Static assets requested from /pages/ or /blog/ virtual subpath
+/pages/index.html    /index.html             200
+/pages/css/*         /css/:splat             200
+/pages/images/*      /images/:splat          200
+/pages/js/*          /js/:splat              200
 /blog/css/*          /css/:splat             200
 /blog/images/*       /images/:splat          200
 /blog/js/*           /js/:splat              200
-/blog/*.html         /:splat.html            200
 
 # Blog & Article Dynamic Routing
-/blog/:slug         /post.html              200
-/blog               /blog.html              200
-/blogs              /blog.html              200
-/post               /post.html              200
+/blog/:slug          /pages/post.html        200
+/blog                /pages/blog.html        200
+/blogs               /pages/blog.html        200
+/post                /pages/post.html        200
 
-# Clean URLs (serve .html files without .html in URL)
-/cart               /cart.html              200
-/programs           /programs.html          200
-/login              /login.html             200
-/auth/callback      /auth-callback.html     200
-/front-end-software /front-end-software.html 200
-/software           /front-end-software.html 200
-/about-company      /about-company.html     200
-/about-owner        /about-owner.html       200
-/testimonials       /testimonials.html      200
-/technical-blogs    /blog.html              301!
-/technical-blogs.html /blog.html         301!
-/vlsi-designs       /vlsi-designs.html      200
-/soc-verification   /soc-verification.html  200
-/embedded-systems   /embedded-systems.html  200
-/ai-models          /ai-models.html         200
-/web-development    /web-development.html   200
-/technical-training /technical-training.html 200
-/marketing-solutions /marketing-solutions.html 200
-/marketing-solution /marketing-solutions.html 200
+# Clean URLs (serve .html files from /pages/)
+/cart                /pages/cart.html        200
+/programs            /pages/programs.html    200
+/login               /pages/login.html       200
+/auth/callback       /pages/auth-callback.html 200
+/front-end-software  /pages/front-end-software.html 200
+/software            /pages/front-end-software.html 200
+/about-company       /pages/about-company.html 200
+/about-owner         /pages/about-owner.html 200
+/testimonials        /pages/testimonials.html 200
+/technical-blogs     /pages/blog.html        301!
+/technical-blogs.html /pages/blog.html       301!
+/vlsi-designs        /pages/vlsi-designs.html 200
+/soc-verification    /pages/soc-verification.html 200
+/embedded-systems    /pages/embedded-systems.html 200
+/ai-models           /pages/ai-models.html   200
+/web-development     /pages/web-development.html 200
+/technical-training  /pages/technical-training.html 200
+/marketing-solutions /pages/marketing-solutions.html 200
+/marketing-solution  /pages/marketing-solutions.html 200
+/complete-profile    /pages/complete-profile.html 200
 
 # Route aliases to proper pages and sections
-/about              /about-company.html     302
-/solutions          /marketing-solutions.html 302
-/contact            /index.html#contact     302
+/about               /about-company          302
+/solutions           /marketing-solutions    302
+/contact             /index.html#contact     302
+
+# Support direct legacy .html requests
+/about-company.html      /pages/about-company.html     200
+/about-owner.html        /pages/about-owner.html       200
+/about.html              /pages/about-company.html     200
+/ai-models.html          /pages/ai-models.html         200
+/auth-callback.html      /pages/auth-callback.html     200
+/blog.html               /pages/blog.html              200
+/cart.html               /pages/cart.html              200
+/complete-profile.html   /pages/complete-profile.html  200
+/contact.html            /pages/contact.html           200
+/embedded-systems.html   /pages/embedded-systems.html  200
+/front-end-software.html /pages/front-end-software.html 200
+/login.html              /pages/login.html             200
+/marketing-solutions.html /pages/marketing-solutions.html 200
+/post.html               /pages/post.html              200
+/programs.html           /pages/programs.html          200
+/soc-verification.html   /pages/soc-verification.html  200
+/solutions.html          /pages/marketing-solutions.html 200
+/technical-training.html /pages/technical-training.html 200
+/testimonials.html       /pages/testimonials.html      200
+/vlsi-designs.html       /pages/vlsi-designs.html      200
+/web-development.html    /pages/web-development.html   200

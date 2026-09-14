@@ -67,30 +67,35 @@ VLSI Insights/
     │
     ├── index.html                       # Homepage & interactive hero slideshow
     ├── 404.html                         # Custom 404 error page
-    ├── login.html                       # Student portal auth with dedicated password reset
-    ├── cart.html                        # Course cart, enrollment, promo codes & checkout
-    ├── programs.html                    # 11 semiconductor training tracks with Guest Cart
-    ├── front-end-software.html          # QuestaSim, ModelSim & EDA Playground walkthroughs
-    ├── blog.html                        # Dynamic WordPress blog hub with offline fallbacks
-    ├── technical-blogs.html             # Pre-rendered technical blog catalog
-    ├── post.html                        # Markdown article reader with dynamic routing
-    ├── testimonials.html                # Student reviews, collage & video testimonials
-    ├── about-company.html               # Corporate story, mission, and facility overview
-    ├── about-owner.html                 # Founder profile, credentials, and achievements
-    ├── complete-profile.html            # Post-registration student onboarding
-    ├── auth-callback.html               # OAuth callback handler for Supabase
+    ├── _redirects                       # Production HTTP 200/301/302 redirects
+    ├── favicon.ico                      # Root branded site icon
+    ├── favicon.png                      # Root high-res branded site icon
     │
-    ├── vlsi-designs.html                # Service: RTL Microarchitecture & Silicon Eng
-    ├── soc-verification.html            # Service: UVM Testbench & SystemVerilog Verif
-    ├── embedded-systems.html            # Service: MCU Firmware, RTOS & Device Drivers
-    ├── ai-models.html                   # Service: Edge AI & Embedded Machine Learning
-    ├── web-development.html             # Service: Engineering Web Applications & Portals
-    ├── technical-training.html          # Service: Corporate & Academic Training
-    ├── marketing-solutions.html         # Service: Strategic Technical B2B Marketing
-    │
-    ├── about.html                       # Alias redirect -> about-company.html
-    ├── contact.html                     # Alias redirect -> index.html#contact
-    └── solutions.html                   # Alias redirect -> marketing-solutions.html
+    └── pages/                           # Subpage HTML Files
+        ├── login.html                   # Student portal auth with dedicated password reset
+        ├── cart.html                    # Course cart, enrollment, promo codes & checkout
+        ├── programs.html                # 11 semiconductor training tracks with Guest Cart
+        ├── front-end-software.html      # QuestaSim, ModelSim & EDA Playground walkthroughs
+        ├── blog.html                    # Dynamic WordPress blog hub with offline fallbacks
+        ├── technical-blogs.html         # Pre-rendered technical blog catalog
+        ├── post.html                    # Markdown article reader with dynamic routing
+        ├── testimonials.html            # Student reviews, collage & video testimonials
+        ├── about-company.html           # Corporate story, mission, and facility overview
+        ├── about-owner.html             # Founder profile, credentials, and achievements
+        ├── complete-profile.html        # Post-registration student onboarding
+        ├── auth-callback.html           # OAuth callback handler for Supabase
+        │
+        ├── vlsi-designs.html            # Service: RTL Microarchitecture & Silicon Eng
+        ├── soc-verification.html        # Service: UVM Testbench & SystemVerilog Verif
+        ├── embedded-systems.html        # Service: MCU Firmware, RTOS & Device Drivers
+        ├── ai-models.html               # Service: Edge AI & Embedded Machine Learning
+        ├── web-development.html         # Service: Engineering Web Applications & Portals
+        ├── technical-training.html      # Service: Corporate & Academic Training
+        ├── marketing-solutions.html     # Service: Strategic Technical B2B Marketing
+        │
+        ├── about.html                   # Alias redirect -> about-company.html
+        ├── contact.html                 # Alias redirect -> index.html#contact
+        └── solutions.html               # Alias redirect -> marketing-solutions.html
 ```
 
 ---
