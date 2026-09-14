@@ -1305,3 +1305,117 @@ h1, h2, h3 {
     max-width: none !important;
   }
 }
+
+/* ==========================================================================
+   4. SHARED TOUCH TARGET ACCESSIBILITY (WCAG 2.5.5 / 2.5.8 Minimum 44x44px)
+   Batch fix for shared classes across all page templates
+   ========================================================================== */
+.btn,
+.btn-primary,
+.btn-secondary,
+.btn-outline,
+.services-grid-card__cta,
+.view-brochure-btn,
+.preview-brochure-trigger,
+.view-curriculum-btn,
+.enroll-card-btn,
+.add-to-cart-btn,
+.filter-pill,
+.chip,
+.tag,
+.blog-tile__btn,
+.hero-slide-btn,
+.team-linkedin {
+  min-height: 44px !important;
+  min-width: 44px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  box-sizing: border-box !important;
+}
+
+/* Filter chips & category pills touch comfort */
+.filter-pill,
+.chip,
+.tag,
+.cat-pill {
+  min-height: 44px !important;
+  min-width: 44px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 10px 18px !important;
+  border-radius: 9999px !important;
+  box-sizing: border-box !important;
+}
+
+/* Interactive slider navigation buttons & accessible dot touch targets */
+.slider-arrow-btn,
+.testimonial-arrow-btn {
+  width: 44px !important;
+  height: 44px !important;
+  min-width: 44px !important;
+  min-height: 44px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  border-radius: 50% !important;
+}
+
+.slider-dot {
+  position: relative !important;
+  box-sizing: content-box !important;
+  padding: 18px 18px !important;
+  background-clip: content-box !important;
+  min-width: 8px !important;
+  min-height: 8px !important;
+}
+
+/* Modal and drawer close buttons */
+.drawer-close-btn,
+.brochure-modal__close,
+#closeBrochureModalBtn,
+.mobile-drawer-close-btn,
+.auth-modal-close-btn {
+  width: 48px !important;
+  height: 48px !important;
+  min-width: 48px !important;
+  min-height: 48px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  box-sizing: border-box !important;
+}
+
+/* Breadcrumb, notices, video bar, cart-toast, and auth helper links */
+.breadcrumb a,
+.breadcrumbs a,
+.breadcrumb-item a,
+.access-notice__link,
+.checkout-wa-link,
+.forgot-link,
+.back-link,
+.pw-toggle-btn,
+.cart-toast a,
+.switch-prompt a,
+.auth-logo-wrap a,
+.video-quick-bar a {
+  min-height: 44px !important;
+  min-width: 44px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  box-sizing: border-box !important;
+}
+
+/* Navbar logo clickable target */
+header.navbar .nav-logo,
+.navbar .nav-logo {
+  min-height: 44px !important;
+  min-width: 44px !important;
+  height: 44px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  box-sizing: border-box !important;
+}
+
+

@@ -2883,7 +2883,7 @@
         </div>
       </div>
       <div class="brochure-modal__body">
-        <img src="" alt="Course Brochure" id="brochureModalImg" class="brochure-modal__img">
+        <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1 1'%3E%3C/svg%3E" alt="Course Brochure" id="brochureModalImg" class="brochure-modal__img">
       </div>
       <div class="brochure-modal__footer">
         <div
@@ -4310,7 +4310,27 @@
 
     let pendingProgramToCart = null;
 
+    function getSyncAuthUser() {
+      try {
+        for (let i = 0; i < localStorage.length; i++) {
+          const key = localStorage.key(i);
+          if (key && (key.includes('-auth-token') || key === 'sb-auth-token')) {
+            const raw = localStorage.getItem(key);
+            if (raw) {
+              const val = JSON.parse(raw);
+              if (val && (val.user || val.access_token)) {
+                return val.user || { id: 'authenticated' };
+              }
+            }
+          }
+        }
+      } catch (e) {}
+      return null;
+    }
+
     async function getAuthUser() {
+      const syncUser = getSyncAuthUser();
+      if (syncUser) return syncUser;
       if (typeof sb !== 'undefined' && sb.auth) {
         try {
           const { data: { session } } = await sb.auth.getSession();
@@ -4593,23 +4613,31 @@
     }
 
     function addToCart(item) {
-      const cart = JSON.parse(localStorage.getItem('vlsi_cart') || '[]');
-      const existing = cart.find(i => i.id === item.id);
-      if (existing) {
-        existing.qty = (existing.qty || 1) + 1;
-      } else {
-        cart.push({ ...item, qty: 1 });
+      try {
+        const raw = localStorage.getItem('vlsi_cart');
+        const parsed = raw ? JSON.parse(raw) : [];
+        const cart = Array.isArray(parsed) ? parsed : [];
+        const existing = cart.find(i => i.id === item.id);
+        if (existing) {
+          existing.qty = (existing.qty || 1) + 1;
+        } else {
+          cart.push({ ...item, qty: 1 });
+        }
+        localStorage.setItem('vlsi_cart', JSON.stringify(cart));
+        // Update badge
+        const count = cart.reduce((s, i) => s + (i.qty || 1), 0);
+        document.querySelectorAll('.cart-badge').forEach(b => {
+          b.textContent = count;
+          b.setAttribute('data-count', count);
+          b.setAttribute('data-visible', count > 0 ? 'true' : 'false');
+          b.style.display = count > 0 ? 'inline-flex' : 'none';
+        });
+        window.dispatchEvent(new CustomEvent('vlsi_cart_updated', { detail: { cart, count } }));
+      } catch (e) {
+        console.error('Error adding to cart:', e);
       }
-      localStorage.setItem('vlsi_cart', JSON.stringify(cart));
-      // Update badge
-      const count = cart.reduce((s, i) => s + (i.qty || 1), 0);
-      document.querySelectorAll('.cart-badge').forEach(b => {
-        b.textContent = count;
-        b.setAttribute('data-count', count);
-        b.setAttribute('data-visible', count > 0 ? 'true' : 'false');
-        b.style.display = count > 0 ? 'inline-flex' : 'none';
-      });
     }
+    window.addToCart = addToCart;
 
     function showCartToast(name) {
       const toast = document.getElementById('cartToast');
@@ -4666,9 +4694,11 @@
           return;
         }
 
-        // ---- Already authenticated: add to cart & immediately redirect to cart page! ----
+        // ---- Already authenticated: add to cart & show toast feedback ----
         addToCart(item);
-        window.location.href = 'cart.html';
+        showCartToast(name);
+        cartBtn.classList.add('added');
+        setTimeout(() => cartBtn.classList.remove('added'), 1500);
         return;
       }
     });

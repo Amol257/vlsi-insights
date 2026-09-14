@@ -7,6 +7,8 @@
   <title>Home | VLSI Insights</title>
   <meta name="description"
     content="Practical VLSI training, embedded systems engineering, and technical marketing solutions. Bridging academia and the semiconductor industry." />
+  <link rel="icon" type="image/png" href="favicon.png" />
+  <link rel="shortcut icon" href="favicon.ico" />
 
   <!-- Preconnect & Google Fonts: Space Grotesk (700) + Inter (400, 500, 600) -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -2275,9 +2277,11 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      width: 40px;
-      height: 40px;
-      border-radius: 4px;
+      width: 44px;
+      height: 44px;
+      min-width: 44px;
+      min-height: 44px;
+      border-radius: 6px;
       background: #FFFFFF;
       border: 1px solid var(--edge);
       color: var(--text-mid);
@@ -2314,10 +2318,16 @@
     .footer-link {
       font-size: var(--text-sm);
       color: var(--text-mid);
-      min-height: 32px;
+      min-height: 36px;
       display: inline-flex;
       align-items: center;
       transition: color var(--dur-fast) ease;
+    }
+
+    @media (max-width: 768px) {
+      .footer-link {
+        min-height: 44px;
+      }
     }
 
     .footer-link:hover {

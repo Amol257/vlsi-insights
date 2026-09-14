@@ -1469,10 +1469,17 @@
     // STORAGE
     // ================================================================
     function getCart() {
-      return JSON.parse(localStorage.getItem('vlsi_cart') || '[]');
+      try {
+        const raw = localStorage.getItem('vlsi_cart');
+        const parsed = raw ? JSON.parse(raw) : [];
+        return Array.isArray(parsed) ? parsed : [];
+      } catch (e) {
+        return [];
+      }
     }
     function saveCart(cart) {
       localStorage.setItem('vlsi_cart', JSON.stringify(cart));
+      window.dispatchEvent(new CustomEvent('vlsi_cart_updated', { detail: { cart } }));
     }
     function updateItem(id, qty) {
       const cart = getCart();
@@ -1947,6 +1954,7 @@
 
     function onPaymentSuccess(response) {
       localStorage.removeItem('vlsi_cart');
+      window.dispatchEvent(new CustomEvent('vlsi_cart_updated', { detail: { cart: [] } }));
       var overlay = document.getElementById('successOverlay');
       var idEl = document.getElementById('successPaymentId');
       if (idEl) idEl.textContent = 'Payment ID: ' + (response.razorpay_payment_id || 'TXN-' + Date.now());
@@ -1957,33 +1965,58 @@
     }
 
     // ================================================================
-    // INIT
+    // INIT & EVENT BINDINGS (Eliminating stale state & BFCache race)
     // ================================================================
-    try {
-      const pendingRaw = sessionStorage.getItem('pending_cart_item');
-      if (pendingRaw) {
-        const pendingItem = JSON.parse(pendingRaw);
-        sessionStorage.removeItem('pending_cart_item');
-        if (pendingItem && pendingItem.id) {
-          const curCart = JSON.parse(localStorage.getItem('vlsi_cart') || '[]');
-          const exists = curCart.find(x => x.id === pendingItem.id);
-          if (!exists) {
-            curCart.push({
-              id: pendingItem.id,
-              name: pendingItem.name,
-              price: Number(pendingItem.price),
-              qty: 1
-            });
-            localStorage.setItem('vlsi_cart', JSON.stringify(curCart));
-            window.dispatchEvent(new Event('storage'));
+    function initCart() {
+      try {
+        const pendingRaw = sessionStorage.getItem('pending_cart_item');
+        if (pendingRaw) {
+          const pendingItem = JSON.parse(pendingRaw);
+          sessionStorage.removeItem('pending_cart_item');
+          if (pendingItem && pendingItem.id) {
+            const curCart = getCart();
+            const exists = curCart.find(x => x.id === pendingItem.id);
+            if (!exists) {
+              curCart.push({
+                id: pendingItem.id,
+                name: pendingItem.name,
+                price: Number(pendingItem.price),
+                qty: 1
+              });
+              saveCart(curCart);
+            }
           }
         }
+      } catch(e) {
+        console.error('Error processing pending cart item:', e);
       }
-    } catch(e) {}
 
-    renderCart();
-    lucide.createIcons();
+      renderCart();
+      if (window.lucide) lucide.createIcons();
+    }
 
+    // Execute immediately on script load
+    initCart();
+
+    // Re-synchronize when page is restored from BFCache (back/forward navigation)
+    window.addEventListener('pageshow', initCart);
+
+    // Re-synchronize on storage modifications from other tabs/pages
+    window.addEventListener('storage', (e) => {
+      if (!e.key || e.key === 'vlsi_cart') {
+        renderCart();
+      }
+    });
+
+    // Re-synchronize on custom cart update events
+    window.addEventListener('vlsi_cart_updated', renderCart);
+
+    // Re-synchronize when user returns to this tab
+    document.addEventListener('visibilitychange', () => {
+      if (!document.hidden) {
+        renderCart();
+      }
+    });
   </script>
 
   <!-- Floating WhatsApp Chat Widget -->
