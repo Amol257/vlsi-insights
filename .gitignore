@@ -21,3 +21,6 @@ ehthumbs.db
 .vscode/
 .idea/
 scratch/
+audit_screenshots/
+*.ps1
+
