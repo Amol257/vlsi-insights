@@ -1892,8 +1892,10 @@
     });
 
     // ================================================================
-    // RAZORPAY PAYMENT
+    // RAZORPAY PAYMENT (With Authoritative Backend Integration & Fallback)
     // ================================================================
+    const BACKEND_API_BASE = window.VLSI_API_URL || (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' ? 'http://localhost:5000' : '');
+
     document.getElementById('payBtn').addEventListener('click', async function() {
       var cart = getCart();
       if (!cart.length) return;
@@ -1911,10 +1913,42 @@
       payBtn.disabled = true;
 
       var description = cart.map(function(i) { return i.name + ' x' + (i.qty || 1); }).join(', ');
+      var orderId = null;
+      var paymentAmount = totals.total * 100;
+      var activeKey = RAZORPAY_KEY;
+
+      // 1. Attempt authoritative backend order creation
+      try {
+        const orderRes = await fetch(BACKEND_API_BASE + '/api/payments/create-order', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            ...(user.access_token ? { 'Authorization': 'Bearer ' + user.access_token } : {})
+          },
+          body: JSON.stringify({
+            items: cart,
+            promoCode: appliedPromo ? Object.keys(PROMO_CODES).find(k => PROMO_CODES[k] === appliedPromo) : null,
+            user: { id: user.id, email: user.email }
+          })
+        });
+
+        if (orderRes.ok) {
+          const orderJson = await orderRes.json();
+          if (orderJson.success && orderJson.data) {
+            orderId = orderJson.data.orderId;
+            paymentAmount = orderJson.data.amount;
+            if (orderJson.data.keyId && orderJson.data.keyId !== 'rzp_test_YourKeyHere') {
+              activeKey = orderJson.data.keyId;
+            }
+          }
+        }
+      } catch (backendErr) {
+        console.warn('[Cart Checkout] Backend service offline or unreachable, using client-side fallback:', backendErr.message);
+      }
 
       var options = {
-        key: RAZORPAY_KEY,
-        amount: totals.total * 100,  // in paise (1 INR = 100 paise)
+        key: activeKey,
+        amount: paymentAmount,  // in paise
         currency: 'INR',
         name: 'VLSI Insights',
         description: description,
@@ -1926,7 +1960,23 @@
           contact: '' 
         },
         notes: { programs: description, source: 'website_cart', user_id: user.id },
-        handler: function(response) {
+        handler: async function(response) {
+          // Verify with backend if orderId was issued by backend
+          if (orderId && response.razorpay_signature) {
+            try {
+              await fetch(BACKEND_API_BASE + '/api/payments/verify', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                  orderId: response.razorpay_order_id || orderId,
+                  paymentId: response.razorpay_payment_id,
+                  signature: response.razorpay_signature
+                })
+              });
+            } catch (vErr) {
+              console.warn('[Cart Checkout] Verification sync to backend warning:', vErr.message);
+            }
+          }
           onPaymentSuccess(response);
         },
         modal: {
@@ -1936,6 +1986,10 @@
           }
         }
       };
+
+      if (orderId && !orderId.startsWith('order_sim_')) {
+        options.order_id = orderId;
+      }
 
       try {
         var rzp = new Razorpay(options);
