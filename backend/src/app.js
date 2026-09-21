@@ -18,14 +18,25 @@ app.use(cors({
   origin: (origin, callback) => {
     // Allow requests with no origin (like mobile apps, curl, postman)
     if (!origin) return callback(null, true);
-    if (env.FRONTEND_URL.includes('*') || env.FRONTEND_URL.some(allowed => origin.startsWith(allowed) || allowed === origin)) {
+
+    // Check against explicitly configured allowed frontend URLs
+    if (env.FRONTEND_URL.includes(origin)) {
       return callback(null, true);
     }
-    // Allow localhost during dev
-    if (origin.includes('localhost') || origin.includes('127.0.0.1')) {
-      return callback(null, true);
+
+    // Allow localhost origins strictly during development mode
+    if (env.NODE_ENV === 'development') {
+      try {
+        const url = new URL(origin);
+        if (url.hostname === 'localhost' || url.hostname === '127.0.0.1') {
+          return callback(null, true);
+        }
+      } catch (e) {
+        // Invalid origin URL
+      }
     }
-    return callback(null, true); // Permissive for client static deploys
+
+    return callback(null, false);
   },
   credentials: true
 }));
