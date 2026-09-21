@@ -2243,16 +2243,28 @@
     function playVideo(containerId, videoId, startSec) {
       const container = document.getElementById(containerId);
       if (!container) return;
-      const startParam = startSec ? `&start=${startSec}` : '';
-      container.innerHTML = `
-        <iframe
-          class="video-active-frame"
-          src="https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0${startParam}"
-          title="VLSI Insights Simulation Tutorial"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-          allowfullscreen>
-        </iframe>
-      `;
+
+      if (typeof videoId !== 'string' || !/^[a-zA-Z0-9_-]+$/.test(videoId)) {
+        return;
+      }
+
+      let iframeUrl = `https://www.youtube.com/embed/${encodeURIComponent(videoId)}?autoplay=1&rel=0`;
+      if (startSec !== undefined && startSec !== null && startSec !== '') {
+        const parsedStart = parseInt(startSec, 10);
+        if (!isNaN(parsedStart) && parsedStart >= 0) {
+          iframeUrl += `&start=${parsedStart}`;
+        }
+      }
+
+      const iframe = document.createElement('iframe');
+      iframe.className = 'video-active-frame';
+      iframe.src = iframeUrl;
+      iframe.title = 'VLSI Insights Simulation Tutorial';
+      iframe.setAttribute('allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share');
+      iframe.setAttribute('allowfullscreen', '');
+
+      container.textContent = '';
+      container.appendChild(iframe);
     }
 
     function isUserLoggedIn() {
