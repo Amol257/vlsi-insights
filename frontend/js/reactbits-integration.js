@@ -306,10 +306,15 @@
       const counter = document.createElement('span');
       counter.className = 'counter-counter';
 
+      const digitData = [];
+
       digits.forEach((digitChar, i) => {
         const digitEl = document.createElement('span');
         digitEl.className = 'counter-digit';
         digitEl.dataset.targetDigit = digitChar;
+
+        const target = parseInt(digitChar, 10);
+        const numSpans = [];
 
         for (let n = 0; n <= 9; n++) {
           const numSpan = document.createElement('span');
@@ -317,8 +322,14 @@
           numSpan.textContent = n;
           numSpan.style.transform = 'translateY(0%)';
           digitEl.appendChild(numSpan);
+          numSpans.push(numSpan);
         }
         counter.appendChild(digitEl);
+        digitData.push({
+          numSpans,
+          transitionStyle: `transform ${1.2 + i * 0.2}s cubic-bezier(0.16, 1, 0.3, 1)`,
+          transformStyle: `translateY(-${target * 100}%)`
+        });
       });
 
       if (suffix) {
@@ -348,13 +359,10 @@
         entries.forEach(entry => {
           if (entry.isIntersecting && !animated) {
             animated = true;
-            const digitElements = container.querySelectorAll('.counter-digit');
-            digitElements.forEach((dEl, dIdx) => {
-              const target = parseInt(dEl.dataset.targetDigit, 10);
-              const numSpans = dEl.querySelectorAll('.counter-number');
+            digitData.forEach(({ numSpans, transitionStyle, transformStyle }) => {
               numSpans.forEach(ns => {
-                ns.style.transition = `transform ${1.2 + dIdx * 0.2}s cubic-bezier(0.16, 1, 0.3, 1)`;
-                ns.style.transform = `translateY(-${target * 100}%)`;
+                ns.style.transition = transitionStyle;
+                ns.style.transform = transformStyle;
               });
             });
             observer.unobserve(entry.target);
