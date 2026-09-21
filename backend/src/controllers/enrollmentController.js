@@ -15,7 +15,7 @@ async function submitEnrollmentHandler(req, res, next) {
     }
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
+    if (!emailRegex.test(email.trim())) {
       return res.status(400).json({
         success: false,
         error: 'Please provide a valid email address'
