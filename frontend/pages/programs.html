@@ -2577,9 +2577,9 @@
                 </div>
               </div>
               <div class="brochure-card__actions">
-                <button type="button" class="view-brochure-btn preview-brochure-trigger"
+                <button type="button" class="view-brochure-btn preview-brochure-trigger brochure-btn-full"
                   data-brochure="images/RTL1-1086x1536.png" data-title="Digital + Verilog Training Program"
-                  class="view-brochure-btn preview-brochure-trigger brochure-btn-full">
+                  >
                   <i data-lucide="eye" class="icon-xs"></i>
                   <span>Preview</span>
                 </button>
@@ -2617,9 +2617,9 @@
                 </div>
               </div>
               <div class="brochure-card__actions">
-                <button type="button" class="view-brochure-btn preview-brochure-trigger"
+                <button type="button" class="view-brochure-btn preview-brochure-trigger brochure-btn-full"
                   data-brochure="images/Verification.webp" data-title="Core VLSI Verification Training Program"
-                  class="view-brochure-btn preview-brochure-trigger brochure-btn-full">
+                  >
                   <i data-lucide="eye" class="icon-xs"></i>
                   <span>Preview</span>
                 </button>
@@ -2657,9 +2657,9 @@
                 </div>
               </div>
               <div class="brochure-card__actions">
-                <button type="button" class="view-brochure-btn preview-brochure-trigger"
+                <button type="button" class="view-brochure-btn preview-brochure-trigger brochure-btn-full"
                   data-brochure="images/Assertions.webp" data-title="Core VLSI Assertion Training Program"
-                  class="view-brochure-btn preview-brochure-trigger brochure-btn-full">
+                  >
                   <i data-lucide="eye" class="icon-xs"></i>
                   <span>Preview</span>
                 </button>
@@ -2697,13 +2697,12 @@
                 </div>
               </div>
               <div class="brochure-card__actions">
-                <button type="button" class="view-brochure-btn preview-brochure-trigger" data-brochure="images/FPGA.webp"
-                  data-title="Basic Level FPGA Training on Artix-7" class="view-brochure-btn preview-brochure-trigger brochure-btn-full">
+                <button type="button" class="view-brochure-btn preview-brochure-trigger brochure-btn-full" data-brochure="images/FPGA.webp"
+                  data-title="Basic Level FPGA Training on Artix-7" >
                   <i data-lucide="eye" class="icon-xs"></i>
                   <span>Preview</span>
                 </button>
-                <a href="images/FPGA.webp" download="VLSI-Insights-FPGA-Artix7-Brochure.png" class="btn btn-secondary"
-                  class="brochure-download-btn" title="Download Flyer">
+                <a href="images/FPGA.webp" download="VLSI-Insights-FPGA-Artix7-Brochure.png" class="btn btn-secondary brochure-download-btn" title="Download Flyer">
                   <i data-lucide="download" class="icon-xs"></i>
                 </a>
               </div>
@@ -2735,9 +2734,9 @@
                 </div>
               </div>
               <div class="brochure-card__actions">
-                <button type="button" class="view-brochure-btn preview-brochure-trigger"
+                <button type="button" class="view-brochure-btn preview-brochure-trigger brochure-btn-full"
                   data-brochure="images/raspberry-pi.webp" data-title="Raspberry Pi Training Program"
-                  class="view-brochure-btn preview-brochure-trigger brochure-btn-full">
+                  >
                   <i data-lucide="eye" class="icon-xs"></i>
                   <span>Preview</span>
                 </button>
@@ -2790,8 +2789,7 @@
       </div>
 
       <div class="drawer-footer">
-        <button type="button" class="view-brochure-btn" id="drawerBrochureBtn"
-          class="view-brochure-btn drawer-brochure-btn">
+        <button type="button" class="view-brochure-btn drawer-brochure-btn" id="drawerBrochureBtn">
           <i data-lucide="file-text" class="icon-sm"></i>
           <span>View Brochure</span>
         </button>
@@ -2892,8 +2890,8 @@
           <span>Verified industry training schedule & deliverables</span>
         </div>
         <div class="modal-actions-row">
-          <button type="button" class="btn btn-secondary" id="brochureDismissBtn" class="btn btn-secondary modal-close-btn">Close</button>
-          <a href="#enroll" class="btn btn-primary" id="brochureEnrollBtn" class="btn btn-primary modal-enroll-btn">Enroll in this Track</a>
+          <button type="button" class="btn btn-secondary modal-close-btn" id="brochureDismissBtn">Close</button>
+          <a href="#enroll" class="btn btn-primary modal-enroll-btn" id="brochureEnrollBtn">Enroll in this Track</a>
         </div>
       </div>
     </div>
@@ -2978,6 +2976,7 @@
         </form>
 
         <!-- VIEW 2: REGISTER / SIGN UP FORM (Initially hidden) -->
+        <form id="modalSignUpForm" style="display: none;">
           <div class="auth-input-group">
             <label for="modalSuName">Full Name</label>
             <div class="auth-input-wrap">
@@ -3248,7 +3247,7 @@
       <div class="container">
         <div class="enroll-grid">
           <div class="enroll-info-col">
-            <div class="section-heading-group" class="form-margin-bottom">
+            <div class="section-heading-group form-margin-bottom">
               <span class="section-label">Admissions & Counseling</span>
               <h2 class="section-title">Take your seat in the next cohort</h2>
               <p class="section-subtitle">Speak directly with our technical admissions advisors to identify the ideal
@@ -3344,7 +3343,7 @@
                   placeholder="Tell us your current year of study, degree, or transition goals..."></textarea>
               </div>
 
-              <button type="submit" class="btn btn-primary" class="checkout-full-width">Submit Enrollment Application</button>
+              <button type="submit" class="btn btn-primary checkout-full-width">Submit Enrollment Application</button>
             </form>
           </div>
         </div>
@@ -3361,8 +3360,7 @@
         <div class="footer-brand">
           <a href="index.html" class="nav-logo" aria-label="VLSI Insights">
             <img src="images/logo.png"
-              alt="VLSI Insights - Empowering Tomorrow's Technology Today" class="nav-logo-img"
-              class="checkout-payment-logo">
+              alt="VLSI Insights - Empowering Tomorrow's Technology Today" class="nav-logo-img checkout-payment-logo">
           </a>
           <p class="checkout-payment-desc">
             A premier semiconductor training hub, corporate consultancy, and digital engineering agency based in India.
@@ -3418,7 +3416,7 @@
 
         <div>
           <div class="footer-col-title">Contact</div>
-          <ul class="footer-links" class="checkout-help-text">
+          <ul class="footer-links checkout-help-text">
             <li>info@vlsiinsights.com</li>
             <li>+91 98101 91592</li>
             <li class="checkout-contact-row">
