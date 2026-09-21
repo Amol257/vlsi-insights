@@ -5,7 +5,8 @@
   "main": "src/server.js",
   "scripts": {
     "start": "node src/server.js",
-    "dev": "node --watch src/server.js"
+    "dev": "node --watch src/server.js",
+    "test": "jest"
   },
   "keywords": [
     "vlsi-insights",
@@ -24,5 +25,9 @@
     "helmet": "^8.0.0",
     "morgan": "^1.10.0",
     "razorpay": "^2.9.5"
+  },
+  "devDependencies": {
+    "jest": "^30.5.2",
+    "supertest": "^7.2.2"
   }
 }
