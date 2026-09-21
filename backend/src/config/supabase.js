@@ -12,7 +12,6 @@ if (env.SUPABASE.URL && supabaseKey) {
         persistSession: false
       }
     });
-    console.log('[Supabase] Initialized server client at:', env.SUPABASE.URL);
   } catch (err) {
     console.error('[Supabase] Initialization error:', err.message);
   }
