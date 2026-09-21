@@ -9,7 +9,6 @@ try {
       key_id: env.RAZORPAY.KEY_ID,
       key_secret: env.RAZORPAY.KEY_SECRET
     });
-    console.log('[Razorpay] Initialized with Key ID:', env.RAZORPAY.KEY_ID);
   } else {
     console.warn('[Razorpay] Running in simulation/mock mode (placeholder credentials detected)');
   }
