@@ -90,16 +90,7 @@ async function createOrder({ items, promoCode, user }) {
  * Verifies Razorpay payment signature
  */
 function verifyPaymentSignature({ orderId, paymentId, signature }) {
-  if (!orderId || !paymentId) {
-    return false;
-  }
-
-  // If running in simulation mode
-  if (orderId.startsWith('order_sim_') || env.RAZORPAY.KEY_SECRET === 'test_secret') {
-    return true;
-  }
-
-  if (!signature) {
+  if (!orderId || !paymentId || !signature) {
     return false;
   }
 
@@ -108,7 +99,14 @@ function verifyPaymentSignature({ orderId, paymentId, signature }) {
     .update(orderId + '|' + paymentId)
     .digest('hex');
 
-  return generatedSignature === signature;
+  const sigBuf = Buffer.from(signature, 'utf8');
+  const genBuf = Buffer.from(generatedSignature, 'utf8');
+
+  if (sigBuf.length !== genBuf.length) {
+    return false;
+  }
+
+  return crypto.timingSafeEqual(sigBuf, genBuf);
 }
 
 /**
