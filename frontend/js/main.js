@@ -552,11 +552,15 @@
         try { await client.auth.signOut(); } catch (err) {}
       }
       try {
+        const keysToRemove = [];
         for (let i = 0; i < localStorage.length; i++) {
           const k = localStorage.key(i);
           if (k && (k.startsWith('sb-') || k.includes('-auth-token'))) {
-            localStorage.removeItem(k);
+            keysToRemove.push(k);
           }
+        }
+        for (let i = 0; i < keysToRemove.length; i++) {
+          localStorage.removeItem(keysToRemove[i]);
         }
       } catch (err) {}
       applyNavAuth(null);
