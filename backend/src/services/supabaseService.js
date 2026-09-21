@@ -5,7 +5,6 @@ const supabase = require('../config/supabase');
  */
 async function recordOrder({ orderId, userId, items, totals, promoCode, status = 'created' }) {
   if (!supabase) {
-    console.log('[SupabaseService] Client not configured, skipping order record in DB');
     return { orderId, status };
   }
 
