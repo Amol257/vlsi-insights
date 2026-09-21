@@ -263,10 +263,31 @@
         }
       } catch (e) {}
 
-      // 3. Scan all keys with individual try/catch per key (skipping non-json code-verifiers)
+      // 3. Check standard fallback Supabase auth keys directly before scanning
+      const fallbackKeys = [
+        'supabase.auth.token',
+        'sb-auth-token',
+        'sb-token',
+        'supabase_auth_token'
+      ];
+      for (let k = 0; k < fallbackKeys.length; k++) {
+        try {
+          const raw = localStorage.getItem(fallbackKeys[k]);
+          if (raw && (raw.startsWith('{') || raw.startsWith('['))) {
+            const parsed = JSON.parse(raw);
+            if (parsed && parsed.user) return parsed.user;
+            if (parsed && parsed.currentSession && parsed.currentSession.user) return parsed.currentSession.user;
+            if (parsed && parsed.session && parsed.session.user) return parsed.session.user;
+            if (parsed && parsed.id && parsed.email) return parsed;
+          }
+        } catch (e) {}
+      }
+
+      // 4. Fallback scan using Object.keys to avoid O(N^2) index lookup overhead
       try {
-        for (let i = 0; i < localStorage.length; i++) {
-          const key = localStorage.key(i);
+        const keys = Object.keys(localStorage);
+        for (let i = 0; i < keys.length; i++) {
+          const key = keys[i];
           if (!key) continue;
           if (
             key.endsWith('-code-verifier') ||
