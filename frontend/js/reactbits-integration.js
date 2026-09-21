@@ -271,13 +271,50 @@
         }, 4500);
       });
 
-      // Render loop
+      // Performance Optimization (⚡ Bolt):
+      // Pause WebGL rendering loop when the hero slider is off-screen
+      // to eliminate unnecessary GPU draw calls and CPU frame processing.
+      let rafId = null;
+      let isVisible = true;
+
       function loop(t) {
+        if (!isVisible) {
+          rafId = null;
+          return;
+        }
         program.uniforms.uTime.value = t * 0.001;
         renderer.render({ scene: mesh });
-        requestAnimationFrame(loop);
+        rafId = requestAnimationFrame(loop);
       }
-      requestAnimationFrame(loop);
+
+      function startLoop() {
+        if (!rafId && isVisible) {
+          rafId = requestAnimationFrame(loop);
+        }
+      }
+
+      function stopLoop() {
+        if (rafId) {
+          cancelAnimationFrame(rafId);
+          rafId = null;
+        }
+      }
+
+      if ('IntersectionObserver' in window) {
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            isVisible = entry.isIntersecting;
+            if (isVisible) {
+              startLoop();
+            } else {
+              stopLoop();
+            }
+          });
+        }, { threshold: 0.05 });
+        observer.observe(sliderContainer);
+      } else {
+        startLoop();
+      }
 
     } catch (err) {
       console.warn('MorphSlider WebGL fallback active:', err);
