@@ -55,6 +55,32 @@ window.getSupabaseClient = function () {
   return window.sb || initSupabaseClient();
 };
 
+var formCache = typeof WeakMap !== 'undefined' ? new WeakMap() : null;
+
+function getFormElementsCache(form) {
+  var cached = formCache ? formCache.get(form) : null;
+  if (!cached) {
+    var errorEl = form.querySelector('.form-submit-error');
+    if (!errorEl) {
+      errorEl = document.createElement('div');
+      errorEl.className = 'form-submit-error';
+      errorEl.style.cssText = 'color:#b91c1c;background:#fef2f2;border:1px solid #fecaca;border-radius:8px;padding:12px 16px;margin-top:16px;font-size:0.875rem;line-height:1.4;display:none;text-align:left;';
+      form.appendChild(errorEl);
+    }
+    var submitBtn = form.querySelector('button[type="submit"]');
+    cached = {
+      submitBtn: submitBtn,
+      errorEl: errorEl
+    };
+    if (formCache) {
+      formCache.set(form, cached);
+    }
+  } else if (!cached.submitBtn) {
+    cached.submitBtn = form.querySelector('button[type="submit"]');
+  }
+  return cached;
+}
+
 // Global Handler for Service & Consultation Enquiry Forms
 window.handleFormSubmit = async function (e) {
   if (e && typeof e.preventDefault === 'function') {
@@ -63,21 +89,14 @@ window.handleFormSubmit = async function (e) {
   var form = (e && e.target) ? e.target : document.activeElement ? document.activeElement.closest('form') : null;
   if (!form) return false;
 
-  var submitBtn = form.querySelector('button[type="submit"]');
+  var cached = getFormElementsCache(form);
+  var submitBtn = cached.submitBtn;
   var origBtnContent = submitBtn ? submitBtn.innerHTML : '';
-
-  // Find or create error banner
-  var errorEl = form.querySelector('.form-submit-error');
-  if (!errorEl) {
-    errorEl = document.createElement('div');
-    errorEl.className = 'form-submit-error';
-    errorEl.style.cssText = 'color:#b91c1c;background:#fef2f2;border:1px solid #fecaca;border-radius:8px;padding:12px 16px;margin-top:16px;font-size:0.875rem;line-height:1.4;display:none;text-align:left;';
-    form.appendChild(errorEl);
-  }
+  var errorEl = cached.errorEl;
   errorEl.style.display = 'none';
 
-  // Extract form inputs generically
-  var inputs = form.querySelectorAll('input, select, textarea');
+  // Extract form inputs generically using native form.elements
+  var inputs = form.elements;
   var name = '';
   var email = '';
   var phone = '';
@@ -85,20 +104,24 @@ window.handleFormSubmit = async function (e) {
   var extraFields = [];
   var requirements = '';
 
-  inputs.forEach(function (input) {
+  for (var i = 0; i < inputs.length; i++) {
+    var input = inputs[i];
+    var tagName = (input.tagName || '').toLowerCase();
+    if (tagName !== 'input' && tagName !== 'select' && tagName !== 'textarea') continue;
+
     var type = (input.type || '').toLowerCase();
+    if (type === 'submit' || type === 'button' || type === 'hidden') continue;
+
     var val = input.value ? input.value.trim() : '';
     var fieldName = input.name || input.id || input.getAttribute('placeholder') || '';
-
-    if (type === 'submit' || type === 'button' || type === 'hidden') return;
 
     if (type === 'email') {
       email = val;
     } else if (type === 'tel') {
       phone = val;
-    } else if (input.tagName.toLowerCase() === 'textarea') {
+    } else if (tagName === 'textarea') {
       requirements = val;
-    } else if (input.tagName.toLowerCase() === 'select') {
+    } else if (tagName === 'select') {
       if (val) selects.push(val);
     } else if (type === 'text') {
       if (!name && (fieldName.toLowerCase().includes('name') || !fieldName)) {
@@ -107,7 +130,7 @@ window.handleFormSubmit = async function (e) {
         extraFields.push((fieldName ? fieldName + ': ' : '') + val);
       }
     }
-  });
+  }
 
   if (!name || !email) {
     errorEl.textContent = 'Please provide both your name and email address.';
