@@ -99,7 +99,6 @@ async function webhookHandler(req, res, next) {
     }
 
     const event = req.body.event;
-    console.log('[Razorpay Webhook] Event received:', event);
 
     if (event === 'payment.captured') {
       const paymentEntity = req.body.payload.payment.entity;
