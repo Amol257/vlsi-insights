@@ -1,0 +1,74 @@
+[
+  {
+    "id": "alumni-1",
+    "name": "Arjun Mehta",
+    "initials": "AM",
+    "program": "6-Month VLSI Mastery",
+    "cohort": "Batch of 2024",
+    "company": "Intel",
+    "role": "ASIC Verification Engineer",
+    "rating": 5,
+    "quote": "The UVM testbench and AXI protocol verification project gave me the practical confidence I needed. The interviewers specifically grilled me on constrained random test generation, and I was able to answer from real lab experience.",
+    "consent_verified": true
+  },
+  {
+    "id": "alumni-2",
+    "name": "Pooja Sharma",
+    "initials": "PS",
+    "program": "RTL Design Track",
+    "cohort": "Batch of 2023",
+    "company": "Qualcomm",
+    "role": "RTL Design Engineer",
+    "rating": 5,
+    "quote": "Writing synthesizable Verilog for real protocol controllers and debugging setup/hold violations bridged the gap between college theory and actual chip tape-out requirements.",
+    "consent_verified": true
+  },
+  {
+    "id": "alumni-3",
+    "name": "Rahul Nair",
+    "initials": "RN",
+    "program": "Core VLSI Verification",
+    "cohort": "Batch of 2024",
+    "company": "Synopsys",
+    "role": "Applications Engineer",
+    "rating": 5,
+    "quote": "The focus on SystemVerilog OOP constructs, factory overrides, and coverage closure helped me stand out. I landed a senior verification engineer offer within 3 weeks of graduating.",
+    "consent_verified": true
+  },
+  {
+    "id": "alumni-4",
+    "name": "Vikas Gupta",
+    "initials": "VG",
+    "program": "Verification & Automation",
+    "cohort": "Batch of 2024",
+    "company": "Cadence",
+    "role": "EDA Software Engineer",
+    "rating": 5,
+    "quote": "Learning scripting and automation alongside chip design gave me a big advantage. My interview at Cadence went smoothly thanks to this rigorous, hands-on training.",
+    "consent_verified": true
+  },
+  {
+    "id": "alumni-5",
+    "name": "Neha Verma",
+    "initials": "NV",
+    "program": "Physical Design Track",
+    "cohort": "Batch of 2023",
+    "company": "ARM",
+    "role": "Physical Design Engineer",
+    "rating": 5,
+    "quote": "The practical experience on advanced chip design helped me transition smoothly from a student into a real industry production team at ARM.",
+    "consent_verified": true
+  },
+  {
+    "id": "alumni-6",
+    "name": "Siddharth Rao",
+    "initials": "SR",
+    "program": "DFT & Silicon Test",
+    "cohort": "Batch of 2024",
+    "company": "NXP Semi",
+    "role": "DFT Engineer",
+    "rating": 5,
+    "quote": "Everything we practiced in training mapped directly to the questions I was asked during my campus placement interviews. I felt fully prepared.",
+    "consent_verified": true
+  }
+]

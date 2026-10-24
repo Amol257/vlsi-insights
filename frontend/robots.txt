@@ -1,0 +1,10 @@
+User-agent: *
+Allow: /
+
+# Disallow internal assets and backend routes
+Disallow: /backend/
+Disallow: /scratch/
+Disallow: /.git/
+
+# Sitemap location
+Sitemap: https://vlsiinsights.com/sitemap.xml

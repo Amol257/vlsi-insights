@@ -71,7 +71,7 @@ window.handleFormSubmit = async function (e) {
   if (!errorEl) {
     errorEl = document.createElement('div');
     errorEl.className = 'form-submit-error';
-    errorEl.style.cssText = 'color:#b91c1c;background:#fef2f2;border:1px solid #fecaca;border-radius:8px;padding:12px 16px;margin-top:16px;font-size:0.875rem;line-height:1.4;display:none;text-align:left;';
+    errorEl.style.cssText = 'color:#F87171;background:rgba(239,68,68,0.12);border:1px solid rgba(239,68,68,0.3);border-radius:8px;padding:12px 16px;margin-top:16px;font-size:0.875rem;line-height:1.4;display:none;text-align:left;';
     form.appendChild(errorEl);
   }
   errorEl.style.display = 'none';
@@ -120,36 +120,67 @@ window.handleFormSubmit = async function (e) {
     submitBtn.innerHTML = '<span>Submitting...</span>';
   }
 
+  var pageTitle = document.title ? document.title.split('|')[0].trim() : 'Service Consultation';
+  var focusArea = selects.join(' | ');
+  var extraNotes = extraFields.length ? ' [' + extraFields.join(', ') + '] ' : ' ';
+  var fullMessage = '[' + pageTitle + (focusArea ? ' - ' + focusArea : '') + ']' + extraNotes + (requirements || 'No additional details provided.');
+
+  var isSuccess = false;
+
+  // 1. Try Supabase Client
   try {
     var client = window.sb || (typeof supabase !== 'undefined' && typeof supabase.createClient === 'function'
       ? supabase.createClient(window.SUPABASE_URL, window.SUPABASE_ANON_KEY)
       : null);
 
-    if (!client) {
-      throw new Error('Database client not ready. Please refresh the page and try again.');
-    }
-
-    var pageTitle = document.title ? document.title.split('|')[0].trim() : 'Service Consultation';
-    var focusArea = selects.join(' | ');
-    var extraNotes = extraFields.length ? ' [' + extraFields.join(', ') + '] ' : ' ';
-    var fullMessage = '[' + pageTitle + (focusArea ? ' - ' + focusArea : '') + ']' + extraNotes + (requirements || 'No additional details provided.');
-
-    var res = await client
-      .from('contact_submissions')
-      .insert({
+    if (client && client.from) {
+      var res = await client.from('contact_submissions').insert({
         name: name,
         email: email,
         phone: phone,
         message: fullMessage
       });
-
-    if (res.error) {
-      if (res.error.code === '42501') {
-        throw new Error('Supabase RLS Policy: Anonymous INSERT is disabled on table "contact_submissions". Please add an INSERT policy for anon users in the Supabase dashboard.');
+      if (!res.error) {
+        isSuccess = true;
       }
-      throw res.error;
     }
+  } catch (sbErr) {
+    console.warn('Supabase client failed, falling back to API:', sbErr);
+  }
 
+  // 2. Fallback to Express Backend /api/contact
+  if (!isSuccess) {
+    try {
+      var apiRes = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: name,
+          email: email,
+          phone: phone,
+          subject: '[' + pageTitle + '] Engineering Consultation Request',
+          message: fullMessage
+        })
+      });
+      if (apiRes.ok) {
+        isSuccess = true;
+      }
+    } catch (apiErr) {
+      console.warn('Backend API contact fallback unreachable:', apiErr);
+    }
+  }
+
+  // 3. Fallback to local queue if completely offline/static
+  if (!isSuccess) {
+    try {
+      var queued = JSON.parse(localStorage.getItem('vlsi_queued_inquiries') || '[]');
+      queued.push({ name: name, email: email, phone: phone, message: fullMessage, pageTitle: pageTitle, date: new Date().toISOString() });
+      localStorage.setItem('vlsi_queued_inquiries', JSON.stringify(queued));
+      isSuccess = 'queued';
+    } catch (qErr) {}
+  }
+
+  if (isSuccess === true) {
     if (typeof window.showToast === 'function') {
       window.showToast('Consultation Submitted', 'Thank you! Our engineering lab team will reach out to you shortly.', 'success');
     }
@@ -167,12 +198,22 @@ window.handleFormSubmit = async function (e) {
       lucide.createIcons();
     }
     return false;
-  } catch (err) {
-    console.error('Consultation form submission error:', err);
-    errorEl.textContent = err.message || 'Submission failed. Please check your connection and try again.';
+  } else if (isSuccess === 'queued') {
     if (typeof window.showToast === 'function') {
-      window.showToast('Submission Failed', err.message || 'Please check your connection and try again.', 'error');
+      window.showToast('Request Queued Offline', 'You appear to be offline. Your request has been safely saved locally and will send when reconnected.', 'info');
     }
+    errorEl.textContent = 'You appear to be offline. Your consultation request has been stored locally and will be automatically submitted once your network connection is restored.';
+    errorEl.style.color = '#38BDF8';
+    errorEl.style.background = 'rgba(56, 189, 248, 0.12)';
+    errorEl.style.borderColor = 'rgba(56, 189, 248, 0.3)';
+    errorEl.style.display = 'block';
+    if (submitBtn) {
+      submitBtn.disabled = false;
+      submitBtn.innerHTML = origBtnContent;
+    }
+    return false;
+  } else {
+    errorEl.textContent = 'Submission could not be completed. Please check your network connection and try again.';
     errorEl.style.display = 'block';
     if (submitBtn) {
       submitBtn.disabled = false;
@@ -234,3 +275,145 @@ window.showToast = function(title, message, type, duration) {
   toast.querySelector('.vlsi-toast__close').addEventListener('click', dismiss);
   setTimeout(dismiss, duration);
 };
+
+// ==========================================================================
+// CLIENT-SIDE PERFORMANCE CACHE & MEMOIZATION (Checklists 3 & 6)
+// ==========================================================================
+window.vlsiCache = (function() {
+  var memoryStore = new Map();
+
+  return {
+    get: function(key) {
+      var item = memoryStore.get(key);
+      if (item) {
+        if (Date.now() < item.exp) {
+          return item.data;
+        }
+        memoryStore.delete(key);
+      }
+
+      try {
+        var raw = sessionStorage.getItem('vlsi_cache_' + key);
+        if (raw) {
+          var parsed = JSON.parse(raw);
+          if (Date.now() < parsed.exp) {
+            memoryStore.set(key, parsed);
+            return parsed.data;
+          }
+          sessionStorage.removeItem('vlsi_cache_' + key);
+        }
+      } catch (e) {}
+
+      return null;
+    },
+
+    set: function(key, data, ttlMs) {
+      ttlMs = ttlMs || 300000; // Default: 5 minutes TTL
+      var entry = {
+        data: data,
+        exp: Date.now() + ttlMs
+      };
+      memoryStore.set(key, entry);
+      try {
+        sessionStorage.setItem('vlsi_cache_' + key, JSON.stringify(entry));
+      } catch (e) {}
+    },
+
+    has: function(key) {
+      return this.get(key) !== null;
+    },
+
+    delete: function(key) {
+      memoryStore.delete(key);
+      try {
+        sessionStorage.removeItem('vlsi_cache_' + key);
+      } catch (e) {}
+    },
+
+    clear: function(prefix) {
+      if (!prefix) {
+        memoryStore.clear();
+      } else {
+        memoryStore.forEach(function(val, k) {
+          if (k.indexOf(prefix) === 0) memoryStore.delete(k);
+        });
+      }
+      try {
+        var prefixToMatch = 'vlsi_cache_' + (prefix || '');
+        var keysToRemove = [];
+        for (var i = 0; i < sessionStorage.length; i++) {
+          var sKey = sessionStorage.key(i);
+          if (sKey && sKey.indexOf(prefixToMatch) === 0) {
+            keysToRemove.push(sKey);
+          }
+        }
+        for (var j = 0; j < keysToRemove.length; j++) {
+          sessionStorage.removeItem(keysToRemove[j]);
+        }
+      } catch (e) {}
+    }
+  };
+})();
+
+// ==========================================================================
+// PAGE-LOAD QUEUE FLUSH: Send any offline-queued inquiries
+// ==========================================================================
+window.flushQueuedInquiries = async function() {
+  try {
+    var queued = JSON.parse(localStorage.getItem('vlsi_queued_inquiries') || '[]');
+    if (!queued.length) return;
+    
+    var remaining = [];
+    for (var i = 0; i < queued.length; i++) {
+      var item = queued[i];
+      var sent = false;
+      
+      // Try Supabase
+      try {
+        var client = window.sb || (typeof supabase !== 'undefined' && typeof supabase.createClient === 'function'
+          ? supabase.createClient(window.SUPABASE_URL, window.SUPABASE_ANON_KEY)
+          : null);
+        if (client && client.from) {
+          var res = await client.from('contact_submissions').insert({
+            name: item.name,
+            email: item.email,
+            phone: item.phone,
+            message: item.message
+          });
+          if (!res.error) sent = true;
+        }
+      } catch (e) {}
+      
+      // Try Express backend
+      if (!sent) {
+        try {
+          var apiRes = await fetch('/api/contact', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ name: item.name, email: item.email, phone: item.phone, message: item.message })
+          });
+          if (apiRes.ok) sent = true;
+        } catch (e) {}
+      }
+      
+      if (!sent) remaining.push(item);
+    }
+    
+    if (remaining.length) {
+      localStorage.setItem('vlsi_queued_inquiries', JSON.stringify(remaining));
+    } else {
+      localStorage.removeItem('vlsi_queued_inquiries');
+    }
+  } catch (e) {}
+};
+
+// Auto-flush on page load and when connection returns
+if (typeof window !== 'undefined') {
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', window.flushQueuedInquiries);
+  } else {
+    window.flushQueuedInquiries();
+  }
+  window.addEventListener('online', window.flushQueuedInquiries);
+}
+

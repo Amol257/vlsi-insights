@@ -23,11 +23,13 @@
   background: var(--surface, #F8FAFC) !important;
   border-top: 1px solid var(--edge, #E2E8F0) !important;
   color: var(--text-mid, #475569) !important;
-  padding: 64px 0 32px !important;
+  padding: 36px 0 20px !important;
   overflow: hidden !important;
   width: 100% !important;
   box-sizing: border-box !important;
   margin-top: auto !important;
+  content-visibility: visible !important;
+  contain-intrinsic-size: none !important;
 }
 
 /* Watermark Circuit Trace */
@@ -46,23 +48,16 @@
   position: relative !important;
   z-index: 2 !important;
   display: grid !important;
-  grid-template-columns: 2fr 1fr 1fr 1.3fr !important;
-  gap: 40px !important;
-  margin-bottom: 48px !important;
+  grid-template-columns: 1.8fr 1fr 1fr 1.2fr !important;
+  gap: 32px 24px !important;
+  margin-bottom: 24px !important;
   box-sizing: border-box !important;
 }
 
 @media (max-width: 1024px) {
   .footer-grid {
     grid-template-columns: repeat(2, 1fr) !important;
-    gap: 36px !important;
-  }
-}
-
-@media (max-width: 640px) {
-  .footer-grid {
-    grid-template-columns: 1fr !important;
-    gap: 32px !important;
+    gap: 28px 24px !important;
   }
 }
 
@@ -70,7 +65,7 @@
 .footer-brand {
   display: flex !important;
   flex-direction: column !important;
-  gap: 12px !important;
+  gap: 10px !important;
   align-items: flex-start !important;
 }
 
@@ -79,9 +74,9 @@
 .site-footer .nav-logo {
   display: inline-flex !important;
   align-items: center !important;
-  height: 44px !important;
-  min-height: 44px !important;
-  min-width: 44px !important;
+  height: 34px !important;
+  min-height: 34px !important;
+  min-width: unset !important;
   flex-shrink: 0 !important;
   text-decoration: none !important;
 }
@@ -89,9 +84,9 @@
 .footer-brand .nav-logo-img,
 .footer .nav-logo-img,
 .site-footer .nav-logo-img {
-  height: 44px !important;
+  height: 34px !important;
   width: auto !important;
-  max-width: 220px !important;
+  max-width: 200px !important;
   object-fit: contain !important;
   display: block !important;
   filter: none !important;
@@ -99,18 +94,18 @@
 }
 
 .footer-desc {
-  font-size: 0.875rem !important;
+  font-size: 0.8125rem !important;
   color: var(--text-mid, #475569) !important;
-  line-height: 1.6 !important;
-  max-width: 320px !important;
+  line-height: 1.5 !important;
+  max-width: 300px !important;
   margin: 0 !important;
 }
 
 /* Social Icons */
 .footer-socials {
   display: flex !important;
-  gap: 10px !important;
-  margin-top: 4px !important;
+  gap: 8px !important;
+  margin-top: 2px !important;
   align-items: center !important;
 }
 
@@ -118,40 +113,68 @@
   display: inline-flex !important;
   align-items: center !important;
   justify-content: center !important;
-  width: 44px !important;
-  height: 44px !important;
-  min-width: 44px !important;
-  min-height: 44px !important;
+  width: 34px !important;
+  height: 34px !important;
+  min-width: 34px !important;
+  min-height: 34px !important;
+  padding: 0 !important;
   border-radius: 6px !important;
   background: #FFFFFF !important;
   border: 1px solid var(--edge, #E2E8F0) !important;
   color: var(--text-mid, #475569) !important;
   text-decoration: none !important;
-  transition: all 0.2s ease !important;
+  box-sizing: border-box !important;
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), color 0.2s ease, border-color 0.2s ease, background-color 0.2s ease !important;
+}
+
+.footer-social-link svg {
+  width: 16px !important;
+  height: 16px !important;
+  display: block !important;
+  flex-shrink: 0 !important;
 }
 
 .footer-social-link:hover {
   color: var(--trace, #00A887) !important;
   border-color: var(--trace, #00A887) !important;
   transform: translateY(-2px) !important;
-  box-shadow: 0 4px 10px rgba(0, 168, 135, 0.12) !important;
+  box-shadow: 0 4px 12px rgba(0, 168, 135, 0.15) !important;
 }
 
-.footer-social-link svg {
-  width: 18px !important;
-  height: 18px !important;
-  display: block !important;
+.footer-social-link[aria-label="YouTube"]:hover {
+  color: #FF0000 !important;
+  border-color: rgba(255, 0, 0, 0.35) !important;
+  box-shadow: 0 4px 12px rgba(255, 0, 0, 0.15) !important;
+}
+
+.footer-social-link[aria-label="LinkedIn"]:hover {
+  color: #0A66C2 !important;
+  border-color: rgba(10, 102, 194, 0.35) !important;
+  box-shadow: 0 4px 12px rgba(10, 102, 194, 0.15) !important;
+}
+
+.footer-social-link[aria-label="Instagram"]:hover {
+  color: #E4405F !important;
+  border-color: rgba(228, 64, 95, 0.35) !important;
+  box-shadow: 0 4px 12px rgba(228, 64, 95, 0.15) !important;
+}
+
+.footer-social-link[aria-label="WhatsApp"]:hover,
+.footer-social-link[href*="wa.me"]:hover {
+  color: #25D366 !important;
+  border-color: rgba(37, 211, 102, 0.45) !important;
+  box-shadow: 0 4px 12px rgba(37, 211, 102, 0.2) !important;
 }
 
 /* Column Headings */
 .footer-col-title {
   font-family: var(--font-display, 'Space Grotesk', sans-serif) !important;
   font-weight: 700 !important;
-  font-size: 0.875rem !important;
+  font-size: 0.8125rem !important;
   color: var(--text-hi, #0F172A) !important;
   letter-spacing: 0.05em !important;
   text-transform: uppercase !important;
-  margin: 0 0 16px 0 !important;
+  margin: 0 0 12px 0 !important;
 }
 
 /* Link Lists */
@@ -160,21 +183,22 @@
   list-style: none !important;
   display: flex !important;
   flex-direction: column !important;
-  gap: 10px !important;
+  gap: 5px !important;
   margin: 0 !important;
   padding: 0 !important;
 }
 
 .footer-link {
-  font-size: 0.875rem !important;
+  font-size: 0.8125rem !important;
   color: var(--text-mid, #475569) !important;
   text-decoration: none !important;
   transition: color 0.15s ease !important;
   display: inline-flex !important;
   align-items: center !important;
-  min-height: 44px !important;
-  min-width: 44px !important;
-  padding: 4px 0 !important;
+  min-height: 22px !important;
+  min-width: unset !important;
+  padding: 2px 0 !important;
+  line-height: 1.35 !important;
 }
 
 .footer-link:hover {
@@ -183,23 +207,24 @@
 
 /* WhatsApp CTA Button */
 .whatsapp-cta,
-footer a[href*="wa.me"],
-.footer a[href*="wa.me"] {
+footer a.whatsapp-cta,
+.footer a.whatsapp-cta {
   display: inline-flex !important;
   align-items: center !important;
   gap: 8px !important;
-  padding: 12px 18px !important;
+  padding: 8px 16px !important;
   background: #25D366 !important;
   color: #FFFFFF !important;
   font-weight: 600 !important;
-  font-size: 0.875rem !important;
+  font-size: 0.8125rem !important;
   border-radius: 6px !important;
   text-decoration: none !important;
-  min-height: 44px !important;
-  min-width: 44px !important;
+  min-height: 36px !important;
+  min-width: unset !important;
   box-sizing: border-box !important;
   box-shadow: 0 2px 8px rgba(37, 211, 102, 0.25) !important;
   transition: background 0.2s ease, transform 0.2s ease !important;
+  margin-top: 6px !important;
 }
 
 .whatsapp-cta:hover {
@@ -209,8 +234,8 @@ footer a[href*="wa.me"],
 }
 
 .whatsapp-cta svg {
-  width: 16px !important;
-  height: 16px !important;
+  width: 15px !important;
+  height: 15px !important;
   stroke: #FFFFFF !important;
 }
 
@@ -219,19 +244,19 @@ footer a[href*="wa.me"],
   position: relative !important;
   z-index: 2 !important;
   border-top: 1px solid var(--edge, #E2E8F0) !important;
-  padding-top: 24px !important;
+  padding-top: 16px !important;
   display: flex !important;
   justify-content: space-between !important;
   align-items: center !important;
-  font-size: 0.8125rem !important;
+  font-size: 0.75rem !important;
   color: var(--text-lo, #64748B) !important;
   flex-wrap: wrap !important;
-  gap: 16px !important;
+  gap: 12px !important;
 }
 
 .footer-bottom-links {
   display: flex !important;
-  gap: 20px !important;
+  gap: 16px !important;
   align-items: center !important;
   flex-wrap: wrap !important;
 }
@@ -239,31 +264,271 @@ footer a[href*="wa.me"],
 .footer-bottom-links a {
   display: inline-flex !important;
   align-items: center !important;
-  min-height: 44px !important;
-  min-width: 44px !important;
-  padding: 4px 0 !important;
-}
-
-@media (max-width: 640px) {
-  .footer-bottom {
-    flex-direction: column !important;
-    align-items: flex-start !important;
-    gap: 12px !important;
-  }
+  min-height: 22px !important;
+  min-width: unset !important;
+  padding: 2px 0 !important;
+  font-size: 0.75rem !important;
 }
 
 footer a img[src*="logo"],
 .footer a img[src*="logo"],
 .site-footer a img[src*="logo"] {
-  height: 44px !important;
-  max-height: 44px !important;
+  height: 34px !important;
+  max-height: 34px !important;
 }
 
 footer a:has(img),
 .footer a:has(img),
 .site-footer a:has(img) {
-  min-height: 44px !important;
-  min-width: 44px !important;
+  min-height: 34px !important;
+  min-width: unset !important;
   display: inline-flex !important;
   align-items: center !important;
 }
+
+
+/* ==========================================================================
+   MOBILE FOOTER COMPACT ARCHITECTURE (<= 640px)
+   Reduces vertical scroll length by >60% via 2-column service/company grid,
+   tight typography, and streamlined touch targets.
+   ========================================================================== */
+@media (max-width: 640px) {
+  .footer,
+  .site-footer {
+    padding: 24px 0 14px !important;
+  }
+
+  /* 2-Column Grid Layout for Mobile */
+  .footer-grid {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    gap: 14px 14px !important;
+    margin-bottom: 12px !important;
+  }
+
+  /* Col 1: Brand spans full width (Row 1) */
+  .footer-brand,
+  .footer-grid > .footer-brand,
+  .footer-grid > div:first-child {
+    grid-column: 1 / -1 !important;
+    gap: 6px !important;
+    margin-bottom: 0 !important;
+  }
+
+  .footer-brand .nav-logo,
+  .footer .nav-logo,
+  .site-footer .nav-logo,
+  footer a:has(img),
+  .footer a:has(img),
+  .site-footer a:has(img) {
+    height: 28px !important;
+    min-height: 28px !important;
+    min-width: unset !important;
+  }
+
+  .footer-brand .nav-logo-img,
+  .footer .nav-logo-img,
+  .site-footer .nav-logo-img,
+  footer a img[src*="logo"],
+  .footer a img[src*="logo"],
+  .site-footer a img[src*="logo"] {
+    height: 28px !important;
+    max-height: 28px !important;
+  }
+
+  .footer-desc {
+    font-size: 0.78rem !important;
+    line-height: 1.35 !important;
+    max-width: 100% !important;
+    color: var(--text-mid, #475569) !important;
+  }
+
+  .footer-socials {
+    gap: 8px !important;
+    margin-top: 2px !important;
+  }
+
+  .footer-social-link {
+    width: 32px !important;
+    height: 32px !important;
+    min-width: 32px !important;
+    min-height: 32px !important;
+    border-radius: 6px !important;
+    padding: 0 !important;
+  }
+
+  .footer-social-link svg {
+    width: 15px !important;
+    height: 15px !important;
+  }
+
+  /* Column Headings */
+  .footer-col-title {
+    font-size: 0.74rem !important;
+    letter-spacing: 0.06em !important;
+    margin: 0 0 5px 0 !important;
+  }
+
+  /* Col 2 (Services) & Col 3 (Company) sit side by side in col 1 & 2 (Row 2) */
+  .footer-links,
+  .footer-links-list {
+    gap: 2px !important;
+  }
+
+  .footer-link {
+    font-size: 0.78rem !important;
+    line-height: 1.25 !important;
+    min-height: 22px !important;
+    min-width: unset !important;
+    padding: 1px 0 !important;
+    word-break: break-word !important;
+  }
+
+  /* Col 4: Get in touch spans full width (Row 3) */
+  .footer-grid > div:nth-child(4),
+  .footer-grid > div:last-child {
+    grid-column: 1 / -1 !important;
+    border-top: 1px solid var(--edge, #E2E8F0) !important;
+    padding-top: 10px !important;
+    margin-top: 2px !important;
+  }
+
+  .footer-grid > div:nth-child(4) .footer-links,
+  .footer-grid > div:last-child .footer-links {
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: wrap !important;
+    gap: 4px 14px !important;
+    margin-bottom: 8px !important;
+  }
+
+  .whatsapp-cta,
+  footer a.whatsapp-cta,
+  .footer a.whatsapp-cta {
+    width: 100% !important;
+    max-width: 100% !important;
+    justify-content: center !important;
+    min-height: 34px !important;
+    padding: 6px 12px !important;
+    font-size: 0.78rem !important;
+    gap: 6px !important;
+    margin-top: 4px !important;
+  }
+
+  .whatsapp-cta svg {
+    width: 14px !important;
+    height: 14px !important;
+  }
+
+  /* Bottom Bar */
+  .footer-bottom {
+    padding-top: 10px !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    text-align: center !important;
+    justify-content: center !important;
+    gap: 3px !important;
+    font-size: 0.68rem !important;
+  }
+
+  .footer-bottom-links {
+    gap: 10px !important;
+    justify-content: center !important;
+  }
+
+  .footer-bottom-links a {
+    min-height: 22px !important;
+    min-width: unset !important;
+    padding: 1px 0 !important;
+    font-size: 0.68rem !important;
+  }
+}
+
+/* ==========================================================================
+   DARK MODE OVERRIDES — Footer
+   ========================================================================== */
+[data-theme="dark"] .footer,
+[data-theme="dark"] .site-footer,
+[data-theme="dark"] footer {
+  background: var(--surface, #161B27) !important;
+  border-top-color: var(--edge, #2A3447) !important;
+  color: var(--text-mid, #CBD5E1) !important;
+}
+
+[data-theme="dark"] .footer-heading,
+[data-theme="dark"] .footer-col-title,
+[data-theme="dark"] .footer h3,
+[data-theme="dark"] .footer h4 {
+  color: var(--text-hi, #F8FAFC) !important;
+}
+
+[data-theme="dark"] .footer-desc {
+  color: var(--text-mid, #94A3B8) !important;
+}
+
+[data-theme="dark"] .footer-link,
+[data-theme="dark"] .footer a:not(.nav-logo) {
+  color: var(--text-mid, #CBD5E1) !important;
+}
+
+[data-theme="dark"] .footer-link:hover,
+[data-theme="dark"] .footer a:not(.nav-logo):hover {
+  color: var(--trace, #00D9AE) !important;
+}
+
+[data-theme="dark"] .footer-divider,
+[data-theme="dark"] .footer hr,
+[data-theme="dark"] .footer-bottom {
+  border-color: var(--edge, #2A3447) !important;
+}
+
+[data-theme="dark"] .footer-bottom-text,
+[data-theme="dark"] .footer-copy {
+  color: var(--text-lo, #94A3B8) !important;
+}
+
+/* Footer Social Links - Dark Mode */
+[data-theme="dark"] .footer-social-link {
+  background: var(--layer, #1E2533) !important;
+  border-color: var(--edge, #2A3447) !important;
+  color: var(--text-mid, #CBD5E1) !important;
+}
+
+[data-theme="dark"] .footer-social-link:hover {
+  background: var(--surface, #161B27) !important;
+  border-color: var(--trace, #00D9AE) !important;
+  color: var(--trace, #00D9AE) !important;
+}
+
+/* WhatsApp CTA - Dark Mode */
+[data-theme="dark"] .whatsapp-cta,
+[data-theme="dark"] footer a[href*="wa.me"],
+[data-theme="dark"] .footer a[href*="wa.me"] {
+  background: #25D366 !important;
+  color: #FFFFFF !important;
+  box-shadow: 0 2px 8px rgba(37, 211, 102, 0.35) !important;
+}
+
+[data-theme="dark"] .whatsapp-cta:hover,
+[data-theme="dark"] footer a[href*="wa.me"]:hover,
+[data-theme="dark"] .footer a[href*="wa.me"]:hover {
+  background: #1ebc59 !important;
+  color: #FFFFFF !important;
+}
+
+[data-theme="dark"] .whatsapp-cta svg {
+  stroke: #FFFFFF !important;
+}
+
+/* Footer bottom links - Dark Mode */
+[data-theme="dark"] .footer-bottom-links a {
+  color: var(--text-mid, #CBD5E1) !important;
+}
+
+[data-theme="dark"] .footer-bottom-links a:hover {
+  color: var(--trace, #00D9AE) !important;
+}
+
+
+
+

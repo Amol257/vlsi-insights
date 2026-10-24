@@ -28,14 +28,14 @@ async function recordOrder({ orderId, userId, items, totals, promoCode, status =
       .single();
 
     if (error) {
-      console.warn('[SupabaseService] Insert order warning (table may need schema migration):', error.message);
-      return { orderId, status, warning: error.message };
+      console.error('[SupabaseService] Insert order error:', error.message);
+      throw new Error(`Database insert failed: ${error.message}`);
     }
 
     return data;
   } catch (err) {
     console.error('[SupabaseService] Error recording order:', err.message);
-    return { orderId, status, error: err.message };
+    throw err;
   }
 }
 
@@ -44,7 +44,7 @@ async function recordOrder({ orderId, userId, items, totals, promoCode, status =
  */
 async function updateOrderStatusPaid({ orderId, paymentId, signature }) {
   if (!supabase) {
-    return { orderId, status: 'paid' };
+    throw new Error('[SupabaseService] Client not configured');
   }
 
   try {
@@ -61,14 +61,59 @@ async function updateOrderStatusPaid({ orderId, paymentId, signature }) {
       .single();
 
     if (error) {
-      console.warn('[SupabaseService] Update order warning:', error.message);
-      return { orderId, status: 'paid', warning: error.message };
+      console.error('[SupabaseService] Update order error:', error.message);
+      throw new Error(`Database update failed: ${error.message}`);
     }
 
     return data;
   } catch (err) {
     console.error('[SupabaseService] Error updating order status:', err.message);
-    return { orderId, status: 'paid', error: err.message };
+    throw err;
+  }
+}
+
+/**
+ * Create user enrollments from order items
+ */
+async function createEnrollmentsFromOrder({ orderId, userId, items }) {
+  if (!supabase || !userId || !items || !items.length) {
+    return [];
+  }
+
+  try {
+    const enrollments = [];
+    for (const item of items) {
+      // Each item should have programId and programName
+      const programId = item.programId || item.id;
+      const programName = item.programName || item.name || item.title;
+      
+      if (!programId || !programName) continue;
+
+      const { data, error } = await supabase
+        .from('user_enrollments')
+        .upsert({
+          user_id: userId,
+          program_id: programId,
+          program_name: programName,
+          order_id: orderId,
+          status: 'active',
+          enrolled_at: new Date().toISOString()
+        }, {
+          onConflict: 'user_id,program_id'
+        })
+        .select()
+        .single();
+
+      if (error) {
+        console.warn('[SupabaseService] Error creating enrollment:', error.message);
+      } else {
+        enrollments.push(data);
+      }
+    }
+    return enrollments;
+  } catch (err) {
+    console.error('[SupabaseService] Exception creating enrollments:', err.message);
+    return [];
   }
 }
 
@@ -133,9 +178,37 @@ async function saveEnrollmentSubmission({ name, email, phone, program, degree, g
   return (data && data[0]) || { success: true };
 }
 
+/**
+ * Fetch active user enrollments for lab access gating
+ */
+async function getUserEnrollments(userId) {
+  if (!supabase || !userId) {
+    return [];
+  }
+
+  try {
+    const { data, error } = await supabase
+      .from('user_enrollments')
+      .select('*')
+      .eq('user_id', userId);
+
+    if (error) {
+      console.warn('[SupabaseService] Error querying user_enrollments:', error.message);
+      return [];
+    }
+
+    return data || [];
+  } catch (e) {
+    console.error('[SupabaseService] Exception in getUserEnrollments:', e.message);
+    return [];
+  }
+}
+
 module.exports = {
   recordOrder,
   updateOrderStatusPaid,
+  createEnrollmentsFromOrder,
   saveContactSubmission,
-  saveEnrollmentSubmission
+  saveEnrollmentSubmission,
+  getUserEnrollments
 };

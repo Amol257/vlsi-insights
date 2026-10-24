@@ -143,7 +143,9 @@
       stage.className = 'morph-slider-stage';
       sliderContainer.insertBefore(stage, sliderContainer.firstChild);
 
-      const renderer = new Renderer({ alpha: false, antialias: true, dpr: Math.min(window.devicePixelRatio || 1, 2) });
+      const isMobile = window.innerWidth <= 768 || /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+      const dpr = isMobile ? 1.0 : Math.min(window.devicePixelRatio || 1, 2.0);
+      const renderer = new Renderer({ alpha: false, antialias: !isMobile, dpr });
       const gl = renderer.gl;
       gl.clearColor(0.05, 0.05, 0.06, 1);
       const canvas = gl.canvas;
@@ -188,6 +190,11 @@
 
       function resize() {
         const rect = sliderContainer.getBoundingClientRect();
+        const curMobile = window.innerWidth <= 768 || /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+        const targetDpr = curMobile ? 1.0 : Math.min(window.devicePixelRatio || 1, 2.0);
+        if (renderer.dpr !== targetDpr) {
+          renderer.dpr = targetDpr;
+        }
         renderer.setSize(Math.max(rect.width, 1), Math.max(rect.height, 1));
         program.uniforms.uResolution.value = [gl.canvas.width, gl.canvas.height];
       }

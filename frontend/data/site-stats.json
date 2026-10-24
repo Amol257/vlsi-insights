@@ -1,0 +1,48 @@
+{
+  "as_of": "2026-09-20",
+  "version": "2026.1",
+  "metrics": {
+    "students_trained": {
+      "value": "200+",
+      "number": 200,
+      "label": "Engineers & Students Trained",
+      "evidence_ref": "Internal alumni cohort verification database (2021-2026)"
+    },
+    "training_tracks": {
+      "value": "3",
+      "number": 3,
+      "label": "Core Engineering Tracks",
+      "detail": "Graduates, Working Engineers, Corporate Teams",
+      "evidence_ref": "Official VLSI Insights syllabus catalog"
+    },
+    "corporate_partners": {
+      "value": "10+",
+      "number": 10,
+      "label": "Corporate & Hiring Partners",
+      "evidence_ref": "Direct EDA and semiconductor design service partner MOUs"
+    },
+    "years_experience": {
+      "value": "5+",
+      "number": 5,
+      "label": "Years Industry Pedigree",
+      "evidence_ref": "VLSI Insights founding & ASIC leadership tenure"
+    },
+    "placement_rate": {
+      "value": "94.6%",
+      "number": 94.6,
+      "label": "Placement & Career Acceleration Rate",
+      "evidence_ref": "Graduated student verified employment audit"
+    },
+    "max_cohort_size": {
+      "value": "30",
+      "number": 30,
+      "label": "Max Engineers Per Cohort",
+      "evidence_ref": "Classroom ratio policy for 1-on-1 EDA lab mentoring"
+    },
+    "support_sla": {
+      "value": "Within 24 business hours",
+      "label": "Published Enquiry Response SLA",
+      "evidence_ref": "Official VLSI Insights lead response commitment"
+    }
+  }
+}

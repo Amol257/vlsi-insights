@@ -2,17 +2,28 @@
   base = "frontend"
   publish = "."
 
+# ─── Global Security Headers ──────────────────────────────────────────────────
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=()"
+    Strict-Transport-Security = "max-age=31536000; includeSubDomains; preload"
+    Content-Security-Policy-Report-Only = "default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://unpkg.com https://checkout.razorpay.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdn.jsdelivr.net; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://*.supabase.co https://api.razorpay.com http://localhost:*;"
+
 # ─── Cache-Control Headers ───────────────────────────────────────────────────
-# CSS & JS — cache for 1 year (they are fingerprinted by deployment)
+# CSS & JS — always revalidate so styling/script fixes apply instantly
 [[headers]]
   for = "/css/*"
   [headers.values]
-    Cache-Control = "public, max-age=31536000, immutable"
+    Cache-Control = "public, max-age=0, must-revalidate"
 
 [[headers]]
   for = "/js/*"
   [headers.values]
-    Cache-Control = "public, max-age=31536000, immutable"
+    Cache-Control = "public, max-age=0, must-revalidate"
 
 # Images — cache for 1 year
 [[headers]]
@@ -35,6 +46,18 @@
   for = "/pages/*.html"
   [headers.values]
     Cache-Control = "public, max-age=0, must-revalidate"
+
+[[headers]]
+  for = "/sitemap.xml"
+  [headers.values]
+    Cache-Control = "public, max-age=86400"
+    Content-Type = "application/xml; charset=UTF-8"
+
+[[headers]]
+  for = "/robots.txt"
+  [headers.values]
+    Cache-Control = "public, max-age=86400"
+    Content-Type = "text/plain; charset=UTF-8"
 
 
 # ─── Static Asset Rewrites ───────────────────────────────────────────────────
@@ -149,12 +172,6 @@
   force = true
 
 [[redirects]]
-  from = "/technical-blogs.html"
-  to = "/pages/blog.html"
-  status = 301
-  force = true
-
-[[redirects]]
   from = "/vlsi-designs"
   to = "/pages/vlsi-designs.html"
   status = 200
@@ -213,3 +230,156 @@
   from = "/contact"
   to = "/index.html#contact"
   status = 302
+
+# ─── Root .html to /pages/ Rewrites (Sitemap & Canonical Targets) ────────────
+[[redirects]]
+  from = "/programs.html"
+  to = "/pages/programs.html"
+  status = 200
+
+[[redirects]]
+  from = "/vlsi-designs.html"
+  to = "/pages/vlsi-designs.html"
+  status = 200
+
+[[redirects]]
+  from = "/soc-verification.html"
+  to = "/pages/soc-verification.html"
+  status = 200
+
+[[redirects]]
+  from = "/embedded-systems.html"
+  to = "/pages/embedded-systems.html"
+  status = 200
+
+[[redirects]]
+  from = "/ai-models.html"
+  to = "/pages/ai-models.html"
+  status = 200
+
+[[redirects]]
+  from = "/web-development.html"
+  to = "/pages/web-development.html"
+  status = 200
+
+[[redirects]]
+  from = "/technical-training.html"
+  to = "/pages/technical-training.html"
+  status = 200
+
+[[redirects]]
+  from = "/marketing-solutions.html"
+  to = "/pages/marketing-solutions.html"
+  status = 200
+
+[[redirects]]
+  from = "/front-end-software.html"
+  to = "/pages/front-end-software.html"
+  status = 200
+
+[[redirects]]
+  from = "/blog.html"
+  to = "/pages/blog.html"
+  status = 200
+
+[[redirects]]
+  from = "/post.html"
+  to = "/pages/post.html"
+  status = 200
+
+[[redirects]]
+  from = "/about-company.html"
+  to = "/pages/about-company.html"
+  status = 200
+
+[[redirects]]
+  from = "/about-owner.html"
+  to = "/pages/about-owner.html"
+  status = 200
+
+[[redirects]]
+  from = "/testimonials.html"
+  to = "/pages/testimonials.html"
+  status = 200
+
+[[redirects]]
+  from = "/cart.html"
+  to = "/pages/cart.html"
+  status = 200
+
+[[redirects]]
+  from = "/login.html"
+  to = "/pages/login.html"
+  status = 200
+
+[[redirects]]
+  from = "/complete-profile.html"
+  to = "/pages/complete-profile.html"
+  status = 200
+
+[[redirects]]
+  from = "/auth-callback.html"
+  to = "/pages/auth-callback.html"
+  status = 200
+
+[[redirects]]
+  from = "/technical-blogs.html"
+  to = "/blog"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/contact.html"
+  to = "/index.html#contact"
+  status = 301
+  force = true
+
+# ─── Legal & Compliance Pages ────────────────────────────────────────────────
+[[redirects]]
+  from = "/privacy-policy"
+  to = "/pages/privacy-policy.html"
+  status = 200
+
+[[redirects]]
+  from = "/privacy"
+  to = "/pages/privacy-policy.html"
+  status = 301
+
+[[redirects]]
+  from = "/privacy-policy.html"
+  to = "/pages/privacy-policy.html"
+  status = 200
+
+[[redirects]]
+  from = "/terms"
+  to = "/pages/terms.html"
+  status = 200
+
+[[redirects]]
+  from = "/terms.html"
+  to = "/pages/terms.html"
+  status = 200
+
+[[redirects]]
+  from = "/refund-policy"
+  to = "/pages/refund-policy.html"
+  status = 200
+
+[[redirects]]
+  from = "/refunds"
+  to = "/pages/refund-policy.html"
+  status = 301
+
+[[redirects]]
+  from = "/refund-policy.html"
+  to = "/pages/refund-policy.html"
+  status = 200
+
+# ─── API Backend Reverse Proxy ───────────────────────────────────────────────
+[[redirects]]
+  from = "/api/*"
+  to = "http://localhost:5000/api/:splat"
+  status = 200
+  force = false
+
+

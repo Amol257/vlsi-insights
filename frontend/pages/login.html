@@ -579,57 +579,59 @@
           <div class="dropdown-panel dropdown-panel--services" role="menu">
             <div class="dropdown-col">
               <span class="dropdown-col-heading">Engineering Services</span>
-              <a href="vlsi-designs.html" class="dropdown-item" role="menuitem">
-                <span class="dropdown-item__icon"><i data-lucide="cpu"></i></span>
-                <div>
-                  <div class="dropdown-item__title">VLSI Related Services</div>
-                  <div class="dropdown-item__desc">RTL layout, physical design, and verification.</div>
-                </div>
-              </a>
-              <a href="soc-verification.html" class="dropdown-item" role="menuitem">
-                <span class="dropdown-item__icon"><i data-lucide="shield-check"></i></span>
-                <div>
-                  <div class="dropdown-item__title">SOC Verification</div>
-                  <div class="dropdown-item__desc">UVM functional verification architectures.</div>
-                </div>
-              </a>
-              <a href="embedded-systems.html" class="dropdown-item" role="menuitem">
-                <span class="dropdown-item__icon"><i data-lucide="microchip"></i></span>
-                <div>
-                  <div class="dropdown-item__title">Embedded Systems</div>
-                  <div class="dropdown-item__desc">MCU firmware to real-time operating systems.</div>
-                </div>
-              </a>
               <a href="ai-models.html" class="dropdown-item" role="menuitem">
                 <span class="dropdown-item__icon"><i data-lucide="brain"></i></span>
                 <div>
-                  <div class="dropdown-item__title">AI Models</div>
-                  <div class="dropdown-item__desc">Edge ML and embedded inference pipelines.</div>
+                  <div class="dropdown-item__title">AI Models &amp; ML</div>
+                  <div class="dropdown-item__desc">Edge AI acceleration and neural architectures.</div>
                 </div>
               </a>
               <a href="web-development.html" class="dropdown-item" role="menuitem">
                 <span class="dropdown-item__icon"><i data-lucide="code-2"></i></span>
                 <div>
                   <div class="dropdown-item__title">Web Development</div>
-                  <div class="dropdown-item__desc">Modern engineering web applications and portals.</div>
+                  <div class="dropdown-item__desc">Scalable portals and enterprise engineering.</div>
                 </div>
               </a>
             </div>
 
             <div class="dropdown-col">
               <span class="dropdown-col-heading">Training &amp; Growth</span>
-              <a href="technical-training.html" class="dropdown-item" role="menuitem">
+              <a href="technical-training.html" class="dropdown-item dropdown-item--has-sub" role="menuitem">
                 <span class="dropdown-item__icon"><i data-lucide="graduation-cap"></i></span>
                 <div>
                   <div class="dropdown-item__title">Technical Training</div>
-                  <div class="dropdown-item__desc">Hands-on VLSI &amp; embedded engineering training.</div>
+                  <div class="dropdown-item__desc">Hands-on VLSI &amp; embedded engineering cohorts.</div>
                 </div>
               </a>
+              <div class="dropdown-sub-items" role="group" aria-label="Technical Training Specializations">
+                <a href="vlsi-designs.html" class="dropdown-sub-item" role="menuitem">
+                  <span class="dropdown-sub-item__icon"><i data-lucide="cpu"></i></span>
+                  <div class="dropdown-sub-item__content">
+                    <div class="dropdown-sub-item__title">VLSI Related Services</div>
+                    <div class="dropdown-sub-item__desc">RTL layout, physical design, and verification.</div>
+                  </div>
+                </a>
+                <a href="soc-verification.html" class="dropdown-sub-item" role="menuitem">
+                  <span class="dropdown-sub-item__icon"><i data-lucide="shield-check"></i></span>
+                  <div class="dropdown-sub-item__content">
+                    <div class="dropdown-sub-item__title">SOC Verification</div>
+                    <div class="dropdown-sub-item__desc">UVM functional verification architectures.</div>
+                  </div>
+                </a>
+                <a href="embedded-systems.html" class="dropdown-sub-item" role="menuitem">
+                  <span class="dropdown-sub-item__icon"><i data-lucide="microchip"></i></span>
+                  <div class="dropdown-sub-item__content">
+                    <div class="dropdown-sub-item__title">Embedded Systems</div>
+                    <div class="dropdown-sub-item__desc">MCU firmware to real-time operating systems.</div>
+                  </div>
+                </a>
+              </div>
               <a href="marketing-solutions.html" class="dropdown-item" role="menuitem">
                 <span class="dropdown-item__icon"><i data-lucide="trending-up"></i></span>
                 <div>
                   <div class="dropdown-item__title">Marketing Solutions</div>
-                  <div class="dropdown-item__desc">Growth strategies for technical enterprises.</div>
+                  <div class="dropdown-item__desc">Technical brand growth and digital reach.</div>
                 </div>
               </a>
             </div>
@@ -730,16 +732,25 @@
           <i data-lucide="chevron-down"></i>
         </button>
         <div class="mobile-accordion" id="mobileServicesAccordion">
-          <div style="font-size:0.6875rem;font-weight:700;color:var(--trace);text-transform:uppercase;padding:8px 12px 4px;">Engineering Services</div>
-          <a href="vlsi-designs.html" class="drawer-close-trigger"><i data-lucide="cpu"></i> VLSI Related Services</a>
-          <a href="soc-verification.html" class="drawer-close-trigger"><i data-lucide="shield-check"></i> SOC Verification</a>
-          <a href="embedded-systems.html" class="drawer-close-trigger"><i data-lucide="microchip"></i> Embedded Systems</a>
-          <a href="ai-models.html" class="drawer-close-trigger"><i data-lucide="brain"></i> AI Models</a>
-          <a href="web-development.html" class="drawer-close-trigger"><i data-lucide="code-2"></i> Web Development</a>
-          <div style="font-size:0.6875rem;font-weight:700;color:var(--trace);text-transform:uppercase;padding:12px 12px 4px 12px;border-top:1px solid var(--edge);margin-top:4px;">Training &amp; Growth</div>
-          <a href="technical-training.html" class="drawer-close-trigger"><i data-lucide="graduation-cap"></i> Technical Training</a>
-          <a href="marketing-solutions.html" class="drawer-close-trigger"><i data-lucide="trending-up"></i> Marketing Solutions</a>
-        </div>
+            <div class="mobile-drawer-category-label">Engineering Services</div>
+            <a href="ai-models.html" class="drawer-close-trigger"><i data-lucide="brain"></i> AI Models &amp; ML</a>
+            <a href="web-development.html" class="drawer-close-trigger"><i data-lucide="code-2"></i> Web Development</a>
+            <div class="mobile-drawer-category-label--sub">Training &amp; Growth</div>
+            <div class="mobile-nested-group">
+              <div class="mobile-nested-header">
+                <a href="technical-training.html" class="drawer-close-trigger"><i data-lucide="graduation-cap"></i> Technical Training</a>
+                <button type="button" class="mobile-nested-toggle" id="mobileTechTrainingToggle" aria-expanded="false" aria-label="Toggle Technical Training Sub-items">
+                  <i data-lucide="chevron-down"></i>
+                </button>
+              </div>
+              <div class="mobile-nested-accordion" id="mobileTechTrainingAccordion">
+                <a href="vlsi-designs.html" class="drawer-close-trigger mobile-sub-nested"><i data-lucide="cpu"></i> VLSI Related Services</a>
+                <a href="soc-verification.html" class="drawer-close-trigger mobile-sub-nested"><i data-lucide="shield-check"></i> SOC Verification</a>
+                <a href="embedded-systems.html" class="drawer-close-trigger mobile-sub-nested"><i data-lucide="microchip"></i> Embedded Systems</a>
+              </div>
+            </div>
+            <a href="marketing-solutions.html" class="drawer-close-trigger"><i data-lucide="trending-up"></i> Marketing Solutions</a>
+          </div>
       </li>
       <li><a href="programs.html" class="mobile-nav-link drawer-close-trigger">Programs</a></li>
       <li><a href="front-end-software.html" class="mobile-nav-link drawer-close-trigger">Front End Software</a></li>
@@ -1528,5 +1539,15 @@
     })();
   </script>
   <script src="js/main.js" defer></script>
+  <!-- Cookie Consent Banner -->
+  <div class="cookie-banner" id="cookieConsentBanner" hidden>
+    <div class="cookie-banner__text">
+      We use cookies to keep your session secure and make the site work smoothly. You can choose to accept all cookies or just the essential ones. Review our <a href="privacy-policy.html" style="color:var(--trace);text-decoration:underline;">Privacy Policy</a> and <a href="terms.html" style="color:var(--trace);text-decoration:underline;">Terms</a>.
+    </div>
+    <div class="cookie-banner__actions">
+      <button type="button" class="cookie-btn--accept" id="cookieAcceptBtn">Accept All</button>
+      <button type="button" class="cookie-btn--decline" id="cookieDeclineBtn">Essential Only</button>
+    </div>
+  </div>
 </body>
 </html>

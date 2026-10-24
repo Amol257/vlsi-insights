@@ -590,40 +590,61 @@
 
     .hero-ctas .btn-primary {
       position: relative;
-      background: linear-gradient(135deg, #00A887 0%, #00876c 50%, #00755e 100%);
-      border: 1px solid rgba(0, 217, 174, 0.4);
-      box-shadow: 0 4px 20px -4px rgba(0, 168, 135, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.25);
-      transition: all 0.25s ease;
+      background: var(--trace);
+      color: #FFFFFF;
+      border: 1px solid rgba(0, 168, 135, 0.35);
+      border-radius: 9999px;
+      padding: 10px 24px;
+      font-size: 0.9375rem;
+      font-weight: 600;
+      min-height: 44px;
+      white-space: nowrap;
+      box-shadow: 0 2px 8px rgba(0, 168, 135, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+      transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.2s ease, box-shadow 0.2s ease;
       z-index: 1;
-    }
-
-    .hero-ctas .btn-primary::before {
-      content: '';
-      position: absolute;
-      inset: -2px;
-      border-radius: 6px;
-      background: linear-gradient(135deg, #00D9AE, #00A887, #2563EB, #00D9AE);
-      background-size: 300% 300%;
-      z-index: -1;
-      opacity: 0.6;
-      animation: btnGradientShift 4s ease infinite;
-      transition: opacity 0.25s ease;
-    }
-
-    @keyframes btnGradientShift {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
-    }
-
-    .hero-ctas .btn-primary:hover::before {
-      opacity: 1;
-      animation-duration: 2s;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
     }
 
     .hero-ctas .btn-primary:hover {
-      box-shadow: 0 8px 26px -4px rgba(0, 168, 135, 0.65), 0 0 18px rgba(0, 217, 174, 0.35);
-      transform: translateY(-2px);
+      background: #008f73;
+      box-shadow: 0 4px 14px rgba(0, 168, 135, 0.32);
+      transform: translateY(-1.5px);
+    }
+
+    .hero-ctas .btn-primary:active {
+      transform: scale(0.975);
+      transition: transform 0.08s ease-out;
+    }
+
+    /* Secondary Ghost Button to Eliminate Split Attention */
+    .hero-ctas .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px 22px;
+      background: transparent;
+      color: var(--text-mid);
+      font-family: var(--font-body);
+      font-weight: 600;
+      font-size: 0.9375rem;
+      border: 1.5px solid rgba(15, 23, 42, 0.16);
+      border-radius: 9999px;
+      cursor: pointer;
+      text-decoration: none;
+      box-shadow: none;
+      transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+      min-height: 44px;
+      white-space: nowrap;
+    }
+
+    .hero-ctas .btn-secondary:hover {
+      background: rgba(15, 23, 42, 0.04);
+      color: var(--text-hi);
+      border-color: rgba(15, 23, 42, 0.32);
+      transform: translateY(-1.5px);
     }
 
     @keyframes heroFadeUp {
@@ -2614,57 +2635,59 @@
           <div class="dropdown-panel dropdown-panel--services" role="menu">
             <div class="dropdown-col">
               <span class="dropdown-col-heading">Engineering Services</span>
-              <a href="vlsi-designs.html" class="dropdown-item" role="menuitem">
-                <span class="dropdown-item__icon"><i data-lucide="cpu"></i></span>
-                <div>
-                  <div class="dropdown-item__title">VLSI Related Services</div>
-                  <div class="dropdown-item__desc">RTL layout, physical design, and verification.</div>
-                </div>
-              </a>
-              <a href="soc-verification.html" class="dropdown-item" role="menuitem">
-                <span class="dropdown-item__icon"><i data-lucide="shield-check"></i></span>
-                <div>
-                  <div class="dropdown-item__title">SOC Verification</div>
-                  <div class="dropdown-item__desc">UVM functional verification architectures.</div>
-                </div>
-              </a>
-              <a href="embedded-systems.html" class="dropdown-item" role="menuitem">
-                <span class="dropdown-item__icon"><i data-lucide="microchip"></i></span>
-                <div>
-                  <div class="dropdown-item__title">Embedded Systems</div>
-                  <div class="dropdown-item__desc">MCU firmware to real-time operating systems.</div>
-                </div>
-              </a>
               <a href="ai-models.html" class="dropdown-item" role="menuitem">
                 <span class="dropdown-item__icon"><i data-lucide="brain"></i></span>
                 <div>
-                  <div class="dropdown-item__title">AI Models</div>
-                  <div class="dropdown-item__desc">Edge ML and embedded inference pipelines.</div>
+                  <div class="dropdown-item__title">AI Models &amp; ML</div>
+                  <div class="dropdown-item__desc">Edge AI acceleration and neural architectures.</div>
                 </div>
               </a>
               <a href="web-development.html" class="dropdown-item" role="menuitem">
                 <span class="dropdown-item__icon"><i data-lucide="code-2"></i></span>
                 <div>
                   <div class="dropdown-item__title">Web Development</div>
-                  <div class="dropdown-item__desc">Modern engineering web applications and portals.</div>
+                  <div class="dropdown-item__desc">Scalable portals and enterprise engineering.</div>
                 </div>
               </a>
             </div>
 
             <div class="dropdown-col">
               <span class="dropdown-col-heading">Training &amp; Growth</span>
-              <a href="technical-training.html" class="dropdown-item" role="menuitem">
+              <a href="technical-training.html" class="dropdown-item dropdown-item--has-sub" role="menuitem">
                 <span class="dropdown-item__icon"><i data-lucide="graduation-cap"></i></span>
                 <div>
                   <div class="dropdown-item__title">Technical Training</div>
-                  <div class="dropdown-item__desc">Hands-on VLSI &amp; embedded engineering training.</div>
+                  <div class="dropdown-item__desc">Hands-on VLSI &amp; embedded engineering cohorts.</div>
                 </div>
               </a>
+              <div class="dropdown-sub-items" role="group" aria-label="Technical Training Specializations">
+                <a href="vlsi-designs.html" class="dropdown-sub-item" role="menuitem">
+                  <span class="dropdown-sub-item__icon"><i data-lucide="cpu"></i></span>
+                  <div class="dropdown-sub-item__content">
+                    <div class="dropdown-sub-item__title">VLSI Related Services</div>
+                    <div class="dropdown-sub-item__desc">RTL layout, physical design, and verification.</div>
+                  </div>
+                </a>
+                <a href="soc-verification.html" class="dropdown-sub-item" role="menuitem">
+                  <span class="dropdown-sub-item__icon"><i data-lucide="shield-check"></i></span>
+                  <div class="dropdown-sub-item__content">
+                    <div class="dropdown-sub-item__title">SOC Verification</div>
+                    <div class="dropdown-sub-item__desc">UVM functional verification architectures.</div>
+                  </div>
+                </a>
+                <a href="embedded-systems.html" class="dropdown-sub-item" role="menuitem">
+                  <span class="dropdown-sub-item__icon"><i data-lucide="microchip"></i></span>
+                  <div class="dropdown-sub-item__content">
+                    <div class="dropdown-sub-item__title">Embedded Systems</div>
+                    <div class="dropdown-sub-item__desc">MCU firmware to real-time operating systems.</div>
+                  </div>
+                </a>
+              </div>
               <a href="marketing-solutions.html" class="dropdown-item" role="menuitem">
                 <span class="dropdown-item__icon"><i data-lucide="trending-up"></i></span>
                 <div>
                   <div class="dropdown-item__title">Marketing Solutions</div>
-                  <div class="dropdown-item__desc">Growth strategies for technical enterprises.</div>
+                  <div class="dropdown-item__desc">Technical brand growth and digital reach.</div>
                 </div>
               </a>
             </div>
@@ -2771,23 +2794,25 @@
           <i data-lucide="chevron-down"></i>
         </button>
         <div class="mobile-accordion" id="mobileServicesAccordion">
-          <div class="mobile-drawer-category-label">
-            Engineering Services</div>
-          <a href="vlsi-designs.html" class="drawer-close-trigger"><i data-lucide="cpu"></i> VLSI Related Services</a>
-          <a href="soc-verification.html" class="drawer-close-trigger"><i data-lucide="shield-check"></i> SOC
-            Verification</a>
-          <a href="embedded-systems.html" class="drawer-close-trigger"><i data-lucide="microchip"></i> Embedded
-            Systems</a>
-          <a href="ai-models.html" class="drawer-close-trigger"><i data-lucide="brain"></i> AI Models</a>
-          <a href="web-development.html" class="drawer-close-trigger"><i data-lucide="code-2"></i> Web Development</a>
-          <div
-            class="mobile-drawer-category-label--sub">
-            Training &amp; Growth</div>
-          <a href="technical-training.html" class="drawer-close-trigger"><i data-lucide="graduation-cap"></i> Technical
-            Training</a>
-          <a href="marketing-solutions.html" class="drawer-close-trigger"><i data-lucide="trending-up"></i> Marketing
-            Solutions</a>
-        </div>
+            <div class="mobile-drawer-category-label">Engineering Services</div>
+            <a href="ai-models.html" class="drawer-close-trigger"><i data-lucide="brain"></i> AI Models &amp; ML</a>
+            <a href="web-development.html" class="drawer-close-trigger"><i data-lucide="code-2"></i> Web Development</a>
+            <div class="mobile-drawer-category-label--sub">Training &amp; Growth</div>
+            <div class="mobile-nested-group">
+              <div class="mobile-nested-header">
+                <a href="technical-training.html" class="drawer-close-trigger"><i data-lucide="graduation-cap"></i> Technical Training</a>
+                <button type="button" class="mobile-nested-toggle" id="mobileTechTrainingToggle" aria-expanded="false" aria-label="Toggle Technical Training Sub-items">
+                  <i data-lucide="chevron-down"></i>
+                </button>
+              </div>
+              <div class="mobile-nested-accordion" id="mobileTechTrainingAccordion">
+                <a href="vlsi-designs.html" class="drawer-close-trigger mobile-sub-nested"><i data-lucide="cpu"></i> VLSI Related Services</a>
+                <a href="soc-verification.html" class="drawer-close-trigger mobile-sub-nested"><i data-lucide="shield-check"></i> SOC Verification</a>
+                <a href="embedded-systems.html" class="drawer-close-trigger mobile-sub-nested"><i data-lucide="microchip"></i> Embedded Systems</a>
+              </div>
+            </div>
+            <a href="marketing-solutions.html" class="drawer-close-trigger"><i data-lucide="trending-up"></i> Marketing Solutions</a>
+          </div>
       </li>
       <li>
         <a href="programs.html" class="mobile-nav-link drawer-close-trigger">Programs</a>
@@ -3179,55 +3204,107 @@
       </div>
     </section>
 
-    <section class="programs-section" id="programs">
+        <section class="programs-section" id="programs" data-scroll-title="Training Programs">
       <div class="container">
-        <div class="programs-layout">
-          <!-- Left Column -->
-          <div class="programs-intro">
-            <div class="section-heading-group">
-              <p class="section-label">Silicon Curriculum &amp; Certifications</p>
-              <h2 class="section-heading">From Campus to Corporate</h2>
+        <div class="section-heading-group" style="text-align: center; max-width: 620px; margin: 0 auto 40px;">
+          <p class="section-label">Training Programs &amp; Certifications</p>
+          <h2 class="section-heading">From Student to Engineer</h2>
+          <p style="color: var(--text-mid); font-size: var(--text-base); line-height: 1.6; margin-top: 8px;">
+            Practical, structured training programs designed to take you from beginner to job-ready, whether you're a college student or a working professional.
+          </p>
+        </div>
+
+        <div class="minimal-programs-grid">
+          <!-- Card 1: College Placement Track -->
+          <div class="minimal-program-card spring-tilt-card apy-reveal" data-delay="1">
+            <div class="tilt-shimmer" aria-hidden="true"></div>
+            <div class="program-card-top">
+              <span class="program-track-pill">Campus Track</span>
+              <span class="program-audience-pill">16 Weeks &bull; Hybrid</span>
             </div>
-            <p class="about-body-text">
-              Rigorous, industry-mapped training crafted by tape-out veterans. Whether you are an undergraduate,
-              academic placement cell, or enterprise engineering division, our learning tracks bridge the gap to silicon
-              execution.
+            <h3 class="program-card-title">College Placement Program</h3>
+            <h4 class="program-card-subtitle">Chip Design &amp; Testing for Beginners</h4>
+            <p class="program-card-desc">
+              Start from zero and get placed in a top semiconductor company in 16 weeks, with personal mentor support throughout.
             </p>
+            <ul class="program-points-list">
+              <li>
+                <i data-lucide="check-circle" style="width: 15px; height: 15px; color: var(--trace);"></i>
+                <span>Learn to write hardware designs using industry-standard coding languages</span>
+              </li>
+              <li>
+                <i data-lucide="check-circle" style="width: 15px; height: 15px; color: var(--trace);"></i>
+                <span>Test your chip designs to make sure they work correctly before production</span>
+              </li>
+              <li>
+                <i data-lucide="check-circle" style="width: 15px; height: 15px; color: var(--trace);"></i>
+                <span>Build a complete real-world project &amp; get 1-on-1 interview preparation</span>
+              </li>
+            </ul>
+            <div class="program-card-footer">
+              <div class="program-tools-row">
+                <span>QuestaSim</span>
+                <span>Vivado</span>
+                <span>VCS</span>
+                <span>PrimeTime</span>
+              </div>
+              <div style="display: flex; gap: 12px; align-items: center;">
+                <a href="programs.html" class="program-action-link program-action-link--secondary">
+                  <span>View Track Details</span>
+                  <i data-lucide="chevron-right" style="width: 14px; height: 14px;"></i>
+                </a>
+                <a href="#contact" class="program-action-link">
+                  <span>Enquire for Cohort</span>
+                  <i data-lucide="arrow-right" style="width: 14px; height: 14px;"></i>
+                </a>
+              </div>
+            </div>
           </div>
 
-          <!-- Right Column -->
-          <div class="programs-cards">
-            <!-- College Training -->
-            <article class="program-card">
-              <div class="program-card__corner" aria-hidden="true">
-                <svg viewBox="0 0 24 24" fill="none">
-                  <path d="M0 20 L0 0 L20 0" stroke="var(--trace)" stroke-width="1.5" />
-                </svg>
+          <!-- Card 2: Corporate Engineering Cohort -->
+          <div class="minimal-program-card spring-tilt-card apy-reveal" data-delay="2">
+            <div class="tilt-shimmer" aria-hidden="true"></div>
+            <div class="program-card-top">
+              <span class="program-track-pill program-track-pill--corporate">Corporate Track</span>
+              <span class="program-audience-pill">8&ndash;12 Weeks &bull; Advanced</span>
+            </div>
+            <h3 class="program-card-title">Corporate Engineering Program</h3>
+            <h4 class="program-card-subtitle">Advanced Chip Design &amp; Sign-off</h4>
+            <p class="program-card-desc">
+              For working engineers who want to master the most advanced steps in bringing a chip to market: faster and with fewer errors.
+            </p>
+            <ul class="program-points-list">
+              <li>
+                <i data-lucide="check-circle" style="width: 15px; height: 15px; color: var(--trace);"></i>
+                <span>Define how fast your chip needs to run and verify it meets those targets</span>
+              </li>
+              <li>
+                <i data-lucide="check-circle" style="width: 15px; height: 15px; color: var(--trace);"></i>
+                <span>Manage power across different sections of a chip to save energy</span>
+              </li>
+              <li>
+                <i data-lucide="check-circle" style="width: 15px; height: 15px; color: var(--trace);"></i>
+                <span>Debug waveforms and confirm your design matches the original specification</span>
+              </li>
+            </ul>
+            <div class="program-card-footer">
+              <div class="program-tools-row">
+                <span>Design Compiler</span>
+                <span>Verdi</span>
+                <span>SpyGlass</span>
+                <span>ZeBu</span>
               </div>
-              <div class="program-icon"><i data-lucide="building-2"></i></div>
-              <h3 class="program-title">College Training</h3>
-              <p class="program-desc">
-                Equip your placement cells with a structured program that maps directly to semiconductor job
-                descriptions and tier-1 recruitment drives.
-              </p>
-              <a href="#contact" class="program-link">Enquire now</a>
-            </article>
-
-            <!-- Corporate Training -->
-            <article class="program-card">
-              <div class="program-card__corner" aria-hidden="true">
-                <svg viewBox="0 0 24 24" fill="none">
-                  <path d="M0 20 L0 0 L20 0" stroke="var(--trace)" stroke-width="1.5" />
-                </svg>
+              <div style="display: flex; gap: 12px; align-items: center;">
+                <a href="programs.html" class="program-action-link program-action-link--secondary">
+                  <span>Syllabus &amp; Modules</span>
+                  <i data-lucide="chevron-right" style="width: 14px; height: 14px;"></i>
+                </a>
+                <a href="#contact" class="program-action-link">
+                  <span>Enquire for Teams</span>
+                  <i data-lucide="arrow-right" style="width: 14px; height: 14px;"></i>
+                </a>
               </div>
-              <div class="program-icon"><i data-lucide="briefcase"></i></div>
-              <h3 class="program-title">Corporate Training</h3>
-              <p class="program-desc">
-                Upskill your engineering teams in the latest EDA tools, UVM methodologies, and AI-assisted design flows
-                to accelerate project velocity.
-              </p>
-              <a href="#contact" class="program-link">Enquire now</a>
-            </article>
+            </div>
           </div>
         </div>
       </div>
@@ -3813,17 +3890,17 @@
           </div>
         </div>
 
-        <!-- Col 2: Services -->
+        <!-- Col 2: Services & Programs (Restructured) -->
         <div>
           <h4 class="footer-col-title">Services</h4>
           <ul class="footer-links">
-            <li><a href="vlsi-designs.html" class="footer-link">VLSI Designs</a></li>
-            <li><a href="soc-verification.html" class="footer-link">SOC Verification</a></li>
-            <li><a href="embedded-systems.html" class="footer-link">Embedded Systems</a></li>
-            <li><a href="ai-models.html" class="footer-link">AI Models</a></li>
+            <li><a href="ai-models.html" class="footer-link">AI Models &amp; ML</a></li>
             <li><a href="web-development.html" class="footer-link">Web Development</a></li>
-            <li><a href="technical-training.html" class="footer-link">Technical Training</a></li>
-            <li><a href="marketing-solutions.html" class="footer-link">Marketing Solutions</a></li>
+            <li style="margin-top: 6px;"><a href="technical-training.html" class="footer-link" style="font-weight: 600; color: var(--trace);">Technical Training</a></li>
+            <li style="padding-left: 10px;"><a href="vlsi-designs.html" class="footer-link">&bull; VLSI Related Services</a></li>
+            <li style="padding-left: 10px;"><a href="soc-verification.html" class="footer-link">&bull; SOC Verification</a></li>
+            <li style="padding-left: 10px;"><a href="embedded-systems.html" class="footer-link">&bull; Embedded Systems</a></li>
+            <li style="margin-top: 6px;"><a href="marketing-solutions.html" class="footer-link">Marketing Solutions</a></li>
           </ul>
         </div>
 
@@ -3840,12 +3917,15 @@
           </ul>
         </div>
 
-        <!-- Col 4: Contact -->
+        <!-- Col 4: Contact & Legal -->
         <div>
-          <h4 class="footer-col-title">Get in touch</h4>
-          <ul class="footer-links" class="footer-brand-margin">
+          <h4 class="footer-col-title">Contact &amp; Legal</h4>
+          <ul class="footer-links footer-brand-margin">
             <li><a href="mailto:info@vlsiinsights.com" class="footer-link">info@vlsiinsights.com</a></li>
             <li><a href="tel:+919810191592" class="footer-link">+91 98101 91592</a></li>
+            <li><a href="privacy-policy.html" class="footer-link">Privacy Policy</a></li>
+            <li><a href="terms.html" class="footer-link">Terms &amp; Conditions</a></li>
+            <li><a href="refund-policy.html" class="footer-link">Refund Policy</a></li>
           </ul>
           <a href="https://wa.me/919810191592?text=Hello%2C%20I%20want%20to%20enquire%20about%20the%20Job%20Oriented%20Program."
             class="whatsapp-cta" target="_blank" rel="noopener noreferrer">
@@ -3856,9 +3936,18 @@
       </div>
 
       <div class="footer-bottom">
-        <div>&copy; 2026 VLSI Insights. All rights reserved.</div>
-        <div>Built for semiconductor excellence.</div>
+        <div>&copy; 2026 VLSI Insights. All rights reserved. Registered under DPDP Act 2023 &amp; IT Act 2000.</div>
+        <div class="footer-bottom-links">
+          <a href="privacy-policy.html" class="footer-link">Privacy Policy</a>
+          <a href="terms.html" class="footer-link">Terms &amp; Conditions</a>
+          <a href="refund-policy.html" class="footer-link">Refund Policy</a>
+          <a href="javascript:void(0)" onclick="if(window.openCookieSettings)window.openCookieSettings();" class="footer-link">Cookie Preferences</a>
+          <span>Built for semiconductor excellence.</span>
+        </div>
       </div>
+      <p class="footer-disclaimer" style="font-size: 0.75rem; color: var(--text-lo); margin-top: 14px; line-height: 1.5; border-top: 1px solid var(--edge); padding-top: 10px;">
+        Disclaimer: QuestaSim, ModelSim, VCS, Vivado, and other tool marks are registered trademarks of their respective owners (Siemens EDA, Synopsys, Cadence, AMD Xilinx). VLSI Insights provides educational mentorship and verification engineering services.
+      </p>
     </div>
   </footer>
 
@@ -4285,6 +4374,16 @@
   <script src="https://cdn.jsdelivr.net/npm/ogl@1.0.11/dist/ogl.umd.js"></script>
   <script src="js/reactbits-integration.js" defer></script>
   <script src="js/main.js" defer></script>
+  <!-- Cookie Consent Banner -->
+  <div class="cookie-banner" id="cookieConsentBanner" hidden>
+    <div class="cookie-banner__text">
+      We use cookies to keep your session secure and make the site work smoothly. You can choose to accept all cookies or just the essential ones. Review our <a href="privacy-policy.html" style="color:var(--trace);text-decoration:underline;">Privacy Policy</a> and <a href="terms.html" style="color:var(--trace);text-decoration:underline;">Terms</a>.
+    </div>
+    <div class="cookie-banner__actions">
+      <button type="button" class="cookie-btn--accept" id="cookieAcceptBtn">Accept All</button>
+      <button type="button" class="cookie-btn--decline" id="cookieDeclineBtn">Essential Only</button>
+    </div>
+  </div>
 </body>
 
 </html>

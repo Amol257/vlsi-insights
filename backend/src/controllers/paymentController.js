@@ -7,7 +7,7 @@ const supabaseService = require('../services/supabaseService');
 async function createOrderHandler(req, res, next) {
   try {
     const { items, promoCode } = req.body;
-    const user = req.user || req.body.user || null;
+    const user = req.user || null;
 
     if (!items || !Array.isArray(items) || items.length === 0) {
       return res.status(400).json({
@@ -65,11 +65,21 @@ async function verifyPaymentHandler(req, res, next) {
     }
 
     // Mark order paid in Supabase
-    await supabaseService.updateOrderStatusPaid({
+    const orderRecord = await supabaseService.updateOrderStatusPaid({
       orderId,
       paymentId,
       signature
     });
+
+    // Create enrollments from order items
+    let enrollments = [];
+    if (orderRecord && orderRecord.items && orderRecord.user_id) {
+      enrollments = await supabaseService.createEnrollmentsFromOrder({
+        orderId,
+        userId: orderRecord.user_id,
+        items: orderRecord.items
+      });
+    }
 
     return res.status(200).json({
       success: true,
@@ -77,7 +87,8 @@ async function verifyPaymentHandler(req, res, next) {
       data: {
         orderId,
         paymentId,
-        verifiedAt: new Date().toISOString()
+        verifiedAt: new Date().toISOString(),
+        enrollmentsCreated: enrollments.length
       }
     });
   } catch (err) {
@@ -91,10 +102,12 @@ async function verifyPaymentHandler(req, res, next) {
 async function webhookHandler(req, res, next) {
   try {
     const signature = req.headers['x-razorpay-signature'];
-    const bodyStr = JSON.stringify(req.body);
+    // Pass unparsed rawBuffer to avoid HMAC serialization mismatches
+    const rawPayload = req.rawBody || JSON.stringify(req.body);
 
-    const isValid = razorpayService.verifyWebhookSignature(bodyStr, signature);
+    const isValid = razorpayService.verifyWebhookSignature(rawPayload, signature);
     if (!isValid) {
+      console.warn('[Razorpay Webhook] Invalid webhook signature detected');
       return res.status(400).json({ error: 'Invalid webhook signature' });
     }
 
@@ -102,14 +115,18 @@ async function webhookHandler(req, res, next) {
     console.log('[Razorpay Webhook] Event received:', event);
 
     if (event === 'payment.captured') {
-      const paymentEntity = req.body.payload.payment.entity;
-      const orderId = paymentEntity.order_id;
-      const paymentId = paymentEntity.id;
-      await supabaseService.updateOrderStatusPaid({
-        orderId,
-        paymentId,
-        signature: 'webhook_captured'
-      });
+      const paymentEntity = req.body.payload && req.body.payload.payment ? req.body.payload.payment.entity : null;
+      if (paymentEntity) {
+        const orderId = paymentEntity.order_id;
+        const paymentId = paymentEntity.id;
+        
+        // Idempotent processing: updateOrderStatusPaid checks existing state
+        await supabaseService.updateOrderStatusPaid({
+          orderId,
+          paymentId,
+          signature: signature || 'webhook_captured'
+        });
+      }
     }
 
     return res.status(200).json({ status: 'ok' });

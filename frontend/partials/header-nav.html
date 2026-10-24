@@ -1,0 +1,216 @@
+  <!-- Navigation Bar -->
+  <header class="navbar" role="banner">
+    <div class="container navbar__inner">
+      <!-- Brand Logo -->
+      <a href="/" class="nav-logo" aria-label="VLSI Insights Homepage">
+        <img src="/images/logo.png" alt="VLSI Insights" class="nav-logo-img">
+      </a>
+
+      <!-- Desktop Navigation -->
+      <nav class="nav-links" role="navigation" aria-label="Main Navigation">
+        <div class="nav-item">
+          <a href="/" class="nav-link">Home</a>
+        </div>
+
+        <!-- Services Dropdown (Categorized) -->
+        <div class="nav-item" id="desktopServicesItem">
+          <button type="button" class="nav-link" id="desktopServicesBtn" aria-expanded="false" aria-haspopup="true">
+            Services
+            <i data-lucide="chevron-down" class="chevron"></i>
+          </button>
+                    <div class="dropdown-panel dropdown-panel--services" role="menu">
+            <div class="dropdown-col">
+              <span class="dropdown-col-heading">Engineering Services</span>
+              <a href="/ai-models.html" class="dropdown-item" role="menuitem">
+                <span class="dropdown-item__icon"><i data-lucide="brain"></i></span>
+                <div>
+                  <div class="dropdown-item__title">AI Models &amp; ML</div>
+                  <div class="dropdown-item__desc">Edge AI acceleration and neural architectures.</div>
+                </div>
+              </a>
+              <a href="/web-development.html" class="dropdown-item" role="menuitem">
+                <span class="dropdown-item__icon"><i data-lucide="code-2"></i></span>
+                <div>
+                  <div class="dropdown-item__title">Web Development</div>
+                  <div class="dropdown-item__desc">Scalable portals and enterprise engineering.</div>
+                </div>
+              </a>
+            </div>
+
+            <div class="dropdown-col">
+              <span class="dropdown-col-heading">Training &amp; Growth</span>
+              <a href="/technical-training.html" class="dropdown-item dropdown-item--has-sub" role="menuitem">
+                <span class="dropdown-item__icon"><i data-lucide="graduation-cap"></i></span>
+                <div>
+                  <div class="dropdown-item__title">Technical Training</div>
+                  <div class="dropdown-item__desc">Hands-on VLSI &amp; embedded engineering cohorts.</div>
+                </div>
+              </a>
+              <div class="dropdown-sub-items" role="group" aria-label="Technical Training Specializations">
+                <a href="/vlsi-designs.html" class="dropdown-sub-item" role="menuitem">
+                  <span class="dropdown-sub-item__icon"><i data-lucide="cpu"></i></span>
+                  <div class="dropdown-sub-item__content">
+                    <div class="dropdown-sub-item__title">VLSI Related Services</div>
+                    <div class="dropdown-sub-item__desc">RTL layout, physical design, and verification.</div>
+                  </div>
+                </a>
+                <a href="/soc-verification.html" class="dropdown-sub-item" role="menuitem">
+                  <span class="dropdown-sub-item__icon"><i data-lucide="shield-check"></i></span>
+                  <div class="dropdown-sub-item__content">
+                    <div class="dropdown-sub-item__title">SOC Verification</div>
+                    <div class="dropdown-sub-item__desc">UVM functional verification architectures.</div>
+                  </div>
+                </a>
+                <a href="/embedded-systems.html" class="dropdown-sub-item" role="menuitem">
+                  <span class="dropdown-sub-item__icon"><i data-lucide="microchip"></i></span>
+                  <div class="dropdown-sub-item__content">
+                    <div class="dropdown-sub-item__title">Embedded Systems</div>
+                    <div class="dropdown-sub-item__desc">MCU firmware to real-time operating systems.</div>
+                  </div>
+                </a>
+              </div>
+              <a href="/marketing-solutions.html" class="dropdown-item" role="menuitem">
+                <span class="dropdown-item__icon"><i data-lucide="trending-up"></i></span>
+                <div>
+                  <div class="dropdown-item__title">Marketing Solutions</div>
+                  <div class="dropdown-item__desc">Technical brand growth and digital reach.</div>
+                </div>
+              </a>
+            </div>
+          </div>
+
+        <div class="nav-item">
+          <a href="/programs" class="nav-link">Programs</a>
+        </div>
+
+        <div class="nav-item">
+          <a href="/front-end-software" class="nav-link">Front End Software</a>
+        </div>
+
+        <div class="nav-item">
+          <a href="/blog" class="nav-link">Blog</a>
+        </div>
+
+        <!-- About Dropdown -->
+        <div class="nav-item">
+          <button type="button" class="nav-link" id="desktopAboutBtn" aria-expanded="false" aria-haspopup="true">
+            About
+            <i data-lucide="chevron-down" class="chevron"></i>
+          </button>
+          <div class="dropdown-panel" role="menu" style="min-width: 220px;">
+            <a href="/about-company" class="dropdown-item" role="menuitem">
+              <span class="dropdown-item__icon"><i data-lucide="building-2"></i></span>
+              <div>
+                <div class="dropdown-item__title">About Company</div>
+                <div class="dropdown-item__desc">Our engineering vision and journey.</div>
+              </div>
+            </a>
+            <a href="/about-owner" class="dropdown-item" role="menuitem">
+              <span class="dropdown-item__icon"><i data-lucide="user"></i></span>
+              <div>
+                <div class="dropdown-item__title">About Founder</div>
+                <div class="dropdown-item__desc">Leadership and technical pedigree.</div>
+              </div>
+            </a>
+            <a href="/testimonials" class="dropdown-item" role="menuitem">
+              <span class="dropdown-item__icon"><i data-lucide="message-square"></i></span>
+              <div>
+                <div class="dropdown-item__title">Alumni Testimonials</div>
+                <div class="dropdown-item__desc">Verified career outcomes.</div>
+              </div>
+            </a>
+          </div>
+        </div>
+
+        <div class="nav-item">
+          <a href="/contact" class="nav-link">Contact</a>
+        </div>
+      </nav>
+
+      <!-- Desktop Action Buttons -->
+      <div class="nav-actions">
+        <!-- Dark Mode Toggle Button -->
+        <button type="button" class="nav-theme-toggle" id="themeToggleBtn" aria-label="Toggle dark mode" title="Toggle theme">
+          <i data-lucide="moon" class="theme-icon-moon"></i>
+          <i data-lucide="sun" class="theme-icon-sun"></i>
+        </button>
+
+        <!-- Cart Icon -->
+        <a href="/cart" class="nav-cart-btn" aria-label="View Cart" title="View Cart">
+          <i data-lucide="shopping-cart"></i>
+          <span class="nav-cart-badge" id="navCartBadge" style="display: none;">0</span>
+        </a>
+
+        <!-- Sign In Button -->
+        <a href="/login" class="nav-btn-primary" id="navAuthBtn">Sign In</a>
+
+        <!-- Mobile Hamburger Button -->
+        <button type="button" class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Toggle navigation drawer" aria-expanded="false">
+          <span class="hamburger-line"></span>
+          <span class="hamburger-line"></span>
+          <span class="hamburger-line"></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Drawer Menu -->
+  <div class="mobile-drawer" id="mobileDrawer" role="dialog" aria-modal="true" aria-label="Site Navigation" aria-hidden="true">
+    <div class="mobile-drawer-header">
+      <a href="/" class="nav-logo" aria-label="VLSI Insights Homepage">
+        <img src="/images/logo.png" alt="VLSI Insights" class="nav-logo-img">
+      </a>
+      <button type="button" class="mobile-drawer-close-btn" id="mobileDrawerCloseBtn" aria-label="Close menu">
+        <i data-lucide="x"></i>
+      </button>
+    </div>
+    <div class="mobile-drawer-body">
+      <nav class="mobile-nav-list">
+        <a href="/" class="mobile-nav-link">Home</a>
+        
+        <div class="mobile-dropdown">
+          <button type="button" class="mobile-nav-link mobile-dropdown-btn">
+            Services
+            <i data-lucide="chevron-down" class="chevron"></i>
+          </button>
+          <div class="mobile-dropdown-menu">
+            <a href="/vlsi-designs" class="mobile-sub-link">VLSI Related Services</a>
+            <a href="/soc-verification" class="mobile-sub-link">SOC Verification</a>
+            <a href="/embedded-systems" class="mobile-sub-link">Embedded Systems</a>
+            <a href="/ai-models" class="mobile-sub-link">AI Models & ML</a>
+            <a href="/technical-training" class="mobile-sub-link">Technical Training</a>
+            <a href="/web-development" class="mobile-sub-link">Web Development</a>
+            <a href="/marketing-solutions" class="mobile-sub-link">Marketing Solutions</a>
+          </div>
+        </div>
+
+        <a href="/programs" class="mobile-nav-link">Programs</a>
+        <a href="/front-end-software" class="mobile-nav-link">Front End Software</a>
+        <a href="/blog" class="mobile-nav-link">Blog</a>
+
+        <div class="mobile-dropdown">
+          <button type="button" class="mobile-nav-link mobile-dropdown-btn">
+            About
+            <i data-lucide="chevron-down" class="chevron"></i>
+          </button>
+          <div class="mobile-dropdown-menu">
+            <a href="/about-company" class="mobile-sub-link">About Company</a>
+            <a href="/about-owner" class="mobile-sub-link">About Founder</a>
+            <a href="/testimonials" class="mobile-sub-link">Alumni Testimonials</a>
+          </div>
+        </div>
+
+        <a href="/contact" class="mobile-nav-link">Contact</a>
+      </nav>
+      
+      <div class="mobile-drawer-actions">
+        <a href="/cart" class="mobile-action-btn">
+          <i data-lucide="shopping-cart"></i>
+          <span>Cart</span>
+        </a>
+        <a href="/login" class="mobile-action-btn mobile-action-btn--primary" id="mobileAuthBtn">
+          <span>Sign In / Enroll</span>
+        </a>
+      </div>
+    </div>
+  </div>

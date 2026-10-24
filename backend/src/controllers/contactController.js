@@ -7,6 +7,14 @@ async function submitContactHandler(req, res, next) {
   try {
     const { name, email, phone, message, source } = req.body;
 
+    // Honeypot spam filtering: discard bot submissions silently without alerting scraper
+    if (req.body._gotcha || req.body.hp_website || req.body.website_url_hp) {
+      return res.status(200).json({
+        success: true,
+        message: "Thank you! Your enquiry has been received. Our team will get back to you within 24 business hours."
+      });
+    }
+
     if (!name || !email || !message) {
       return res.status(400).json({
         success: false,

@@ -1,4 +1,5 @@
 const express = require('express');
+const compression = require('compression');
 const cors = require('cors');
 const helmet = require('helmet');
 const morgan = require('morgan');
@@ -12,20 +13,27 @@ const enrollmentRoutes = require('./routes/enrollmentRoutes');
 
 const app = express();
 
+// Performance Gzip / Brotli Payload Compression (Checklist 3 & 6)
+app.use(compression());
+
 // Security & Logging
 app.use(helmet({ crossOriginResourcePolicy: false }));
 app.use(cors({
   origin: (origin, callback) => {
     // Allow requests with no origin (like mobile apps, curl, postman)
     if (!origin) return callback(null, true);
-    if (env.FRONTEND_URL.includes('*') || env.FRONTEND_URL.some(allowed => origin.startsWith(allowed) || allowed === origin)) {
+    
+    const allowedOrigins = env.FRONTEND_URL || [];
+    // Exact match only
+    if (allowedOrigins.includes(origin)) {
       return callback(null, true);
     }
-    // Allow localhost during dev
-    if (origin.includes('localhost') || origin.includes('127.0.0.1')) {
+    // Allow localhost only in development
+    if (env.NODE_ENV === 'development' && (origin.includes('localhost') || origin.includes('127.0.0.1'))) {
       return callback(null, true);
     }
-    return callback(null, true); // Permissive for client static deploys
+    // Reject all other origins
+    return callback(new Error('Not allowed by CORS'));
   },
   credentials: true
 }));
@@ -34,7 +42,12 @@ if (env.NODE_ENV !== 'test') {
   app.use(morgan('dev'));
 }
 
-app.use(express.json());
+// Preserve raw request buffer for cryptographically secure webhook signature verification
+app.use(express.json({
+  verify: (req, res, buf) => {
+    req.rawBody = buf;
+  }
+}));
 app.use(express.urlencoded({ extended: true }));
 
 // Health Check

@@ -1,0 +1,247 @@
+[
+  {
+    "id": "vlsi-mastery",
+    "slug": "vlsi-mastery",
+    "title": "6-Month VLSI Mastery Job-Oriented Program",
+    "subtitle": "Comprehensive RTL design, UVM verification, and silicon tape-out pipeline",
+    "category": "flagship",
+    "categoryLabel": "Flagship Program",
+    "icon": "cpu",
+    "duration": "6 Months",
+    "durationWeeks": 24,
+    "level": "Comprehensive (Beginner to Industry Advanced)",
+    "price": 55000,
+    "pricePaise": 5500000,
+    "priceDisplay": "₹55,000 (Incl. 18% GST)",
+    "brochure": "/images/Verification.webp",
+    "brochureTitle": "6-Month VLSI Mastery Comprehensive Curriculum Brochure",
+    "badge": "Flagship Placement Track",
+    "description": "Our premier career accelerator covering the entire front-end ASIC flow: from Boolean algebra and synthesizable Verilog RTL to SystemVerilog OOP, UVM 1.2 testbench architecture, and multi-corner timing closure.",
+    "topics": [
+      "Digital Electronics & Synthesizable RTL Architecture",
+      "SystemVerilog OOP, Randomization & Virtual Interfaces",
+      "UVM 1.2 Factory, Sequences, Drivers & Scoreboards",
+      "AMBA AXI4, AHB, APB, SPI & UART Protocol Verification",
+      "STA Timing Closure, SDC Constraints & Gate-Level Simulations"
+    ],
+    "prerequisites": "B.Tech/M.Tech/Diploma in ECE, EEE, CSE or equivalent fundamentals in digital logic.",
+    "modules": [
+      {
+        "title": "Module 1: Advanced Digital Logic & Synthesizable Verilog",
+        "topics": ["Boolean algebra & timing parameters", "FSM design (Moore/Mealy, Gray, One-Hot)", "Synthesis-friendly RTL coding rules"]
+      },
+      {
+        "title": "Module 2: SystemVerilog for Verification",
+        "topics": ["OOP classes, inheritance & polymorphism", "Constrained random verification", "Inter-process communication & mailboxes"]
+      },
+      {
+        "title": "Module 3: UVM 1.2 Architecture & Methodology",
+        "topics": ["UVM testbench topology & component hierarchy", "Factory overrides, TLM ports & analysis fifos", "Complete scoreboard, coverage collector & sequence design"]
+      },
+      {
+        "title": "Module 4: Industrial Tape-Out Capstone & Protocols",
+        "topics": ["Multi-master AXI4 crossbar interconnect verification", "100% code and functional coverage closure", "Mock technical interviews & resume prep"]
+      }
+    ]
+  },
+  {
+    "id": "rtl-design",
+    "slug": "rtl-design",
+    "title": "RTL Design",
+    "subtitle": "3 Months, Synthesizable Verilog & ASIC Architecture",
+    "category": "beginner",
+    "categoryLabel": "Beginners",
+    "icon": "cpu",
+    "duration": "3 Months",
+    "durationWeeks": 12,
+    "level": "Foundational",
+    "price": 35000,
+    "pricePaise": 3500000,
+    "priceDisplay": "₹35,000 (Incl. 18% GST)",
+    "brochure": "/images/RTL.webp",
+    "brochureTitle": "3 Months - Core VLSI RTL Design Training Brochure",
+    "badge": "Popular",
+    "description": "Master synthesizable Verilog HDL, synchronous state machines, timing constraints, and RTL microarchitecture for modern ASIC and FPGA targets.",
+    "topics": [
+      "Digital Logic Review & Gate Delay Models",
+      "Synthesizable Verilog HDL Coding Patterns",
+      "Synchronous & Asynchronous Sequential FSMs",
+      "UART, SPI & I2C Hardware Controller Projects"
+    ],
+    "prerequisites": "Basic digital electronics and Boolean algebra.",
+    "modules": [
+      {
+        "title": "Module 1: Digital Electronics Foundations",
+        "topics": ["Logic gates, setup/hold constraints", "Combinational adders, ALUs & muxes", "Clock tree concepts"]
+      },
+      {
+        "title": "Module 2: Synthesizable Verilog HDL",
+        "topics": ["Continuous vs procedural statements", "Avoiding simulation/synthesis mismatches", "Parameterized design blocks"]
+      },
+      {
+        "title": "Module 3: Sequential & FSM Design",
+        "topics": ["Synchronous resets vs async resets", "Glitch-free state transitions", "Memory controllers and FIFOs"]
+      },
+      {
+        "title": "Module 4: Industrial Project Implementation",
+        "topics": ["UART controller with baud generator", "SPI master/slave bus bridge", "Linting and timing analysis"]
+      }
+    ]
+  },
+  {
+    "id": "verification",
+    "slug": "verification",
+    "title": "Core VLSI Verification",
+    "subtitle": "4 Months, SystemVerilog & UVM 1.2 Spec",
+    "category": "beginner",
+    "categoryLabel": "Beginners",
+    "icon": "shield-check",
+    "duration": "4 Months",
+    "durationWeeks": 16,
+    "level": "Foundational to Intermediate",
+    "price": 40000,
+    "pricePaise": 4000000,
+    "priceDisplay": "₹40,000 (Incl. 18% GST)",
+    "brochure": "/images/Verification.webp",
+    "brochureTitle": "4 Months - Core VLSI Verification Brochure",
+    "badge": "High Demand",
+    "description": "Complete job-oriented training program. Master SystemVerilog core concepts, UVM testbench architecture, TCL scripting automation, and protocol verification.",
+    "topics": [
+      "SystemVerilog OOP, Constraints & Virtual Interfaces",
+      "Universal Verification Methodology (UVM 1.2) Architecture",
+      "TCL Scripting & Simulation Flow Automation",
+      "Protocol Projects: AXI, AHB, UART, SPI, I2C Verification"
+    ],
+    "prerequisites": "Understanding of Verilog HDL and digital logic concepts.",
+    "modules": [
+      {
+        "title": "Module 1: SystemVerilog Core Verification Concepts",
+        "topics": ["OOP in SystemVerilog: classes, inheritance, polymorphism", "Randomization techniques and constraint solving", "Mailboxes, semaphores, events & virtual interfaces"]
+      },
+      {
+        "title": "Module 2: Universal Verification Methodology (UVM)",
+        "topics": ["UVM components, phase execution & factory overrides", "Sequences, items & sequencers", "Building scalable drivers, monitors, agents & scoreboards"]
+      },
+      {
+        "title": "Module 3: Scripting & Automation",
+        "topics": ["TCL scripting for Questa/VCS simulation runs", "Batch compilation and regression sweeps", "Coverage log parsing"]
+      },
+      {
+        "title": "Module 4: Protocol-Based Industry Verification Projects",
+        "topics": ["AMBA AXI4/AHB protocol testbench architecture", "Functional coverage cross-matrix sign-off", "Assertion binding"]
+      }
+    ]
+  },
+  {
+    "id": "assertions",
+    "slug": "assertions",
+    "title": "SystemVerilog Assertions (SVA)",
+    "subtitle": "1 Month, SVA and Assertion-Based Verification",
+    "category": "advanced",
+    "categoryLabel": "Advance",
+    "icon": "check-circle-2",
+    "duration": "1 Month",
+    "durationWeeks": 4,
+    "level": "Advanced",
+    "price": 25000,
+    "pricePaise": 2500000,
+    "priceDisplay": "₹25,000 (Incl. 18% GST)",
+    "brochure": "/images/Assertions.webp",
+    "brochureTitle": "1 Month - Core VLSI Assertion Training Brochure",
+    "badge": "Specialist",
+    "description": "Master SystemVerilog Assertions (SVA), concurrent sequences, temporal logic, and formal assertion-based verification (ABV).",
+    "topics": [
+      "SystemVerilog Assertion (SVA) Syntax & Clocking",
+      "Immediate vs Concurrent Assertions & Temporal Sequences",
+      "Implication Operators (|->, |=>) & Action Blocks",
+      "Real-World Assertion-Based Verification (ABV) Binding"
+    ],
+    "prerequisites": "Working knowledge of SystemVerilog or Verilog RTL.",
+    "modules": [
+      {
+        "title": "Module 1: SVA Syntax & Execution Semantics",
+        "topics": ["Immediate vs deferred immediate assertions", "Concurrent assertions and sampled value functions", "Clock domains"]
+      },
+      {
+        "title": "Module 2: Temporal Sequences & Implication",
+        "topics": ["Consecutive and non-consecutive repetitions", "Sequence operators (and, intersect, throughout)", "Overlapped vs non-overlapped implications"]
+      },
+      {
+        "title": "Module 3: ABV Integration & Coverage",
+        "topics": ["Binding SVA checkers without modifying design RTL", "Cover property metrics", "FIFO and bus protocol assertion suites"]
+      }
+    ]
+  },
+  {
+    "id": "fpga-prototyping",
+    "slug": "fpga-prototyping",
+    "title": "FPGA Prototyping & Emulation",
+    "subtitle": "2 Months, AMD Xilinx Vivado & Hardware Bring-Up",
+    "category": "advanced",
+    "categoryLabel": "Advance",
+    "icon": "hard-drive",
+    "duration": "2 Months",
+    "durationWeeks": 8,
+    "level": "Advanced",
+    "price": 30000,
+    "pricePaise": 3000000,
+    "priceDisplay": "₹30,000 (Incl. 18% GST)",
+    "brochure": "/images/RTL.webp",
+    "brochureTitle": "2 Months - FPGA Prototyping Brochure",
+    "badge": "Hardware Lab",
+    "description": "Hands-on emulation on AMD Vivado and Xilinx UltraScale+ / Artix-7 boards. Implement high-speed interfaces, constraint generation, and hardware in-system debugging.",
+    "topics": [
+      "FPGA Architecture: LUTs, DSP Slices, BRAMs & Clock Trees",
+      "Vivado Synthesis, Implementation & Timing Closure",
+      "High-Speed I/O: PCIe, DDR4, Ethernet Interface Prototyping",
+      "In-System Debugging with Integrated Logic Analyzer (ILA)"
+    ],
+    "prerequisites": "Verilog RTL design proficiency.",
+    "modules": [
+      {
+        "title": "Module 1: FPGA Architectures & Flow",
+        "topics": ["Configurable logic blocks (CLBs) and interconnects", "Clock management tiles (MMCM/PLL)", "Vivado toolchain flow"]
+      },
+      {
+        "title": "Module 2: Board Bring-up & In-System Debugging",
+        "topics": ["Pin planning and XDC constraints", "ChipScope / ILA core insertion", "Logic analyzer signal capture"]
+      }
+    ]
+  },
+  {
+    "id": "low-power",
+    "slug": "low-power",
+    "title": "Low-Power Architecture & UPF",
+    "subtitle": "1 Month, Power Gating & IEEE 1801 UPF Simulation",
+    "category": "advanced",
+    "categoryLabel": "Advance",
+    "icon": "zap",
+    "duration": "1 Month",
+    "durationWeeks": 4,
+    "level": "Advanced",
+    "price": 20000,
+    "pricePaise": 2000000,
+    "priceDisplay": "₹20,000 (Incl. 18% GST)",
+    "brochure": "/images/Verification.webp",
+    "brochureTitle": "1 Month - Low-Power UPF Training Brochure",
+    "badge": "Architect",
+    "description": "Techniques for energy-efficient silicon: dynamic clock gating, multi-voltage domains, retention cells, isolation rules, and Unified Power Format (UPF / CPF).",
+    "topics": [
+      "Dynamic vs Static Power Breakdown in Modern Sub-micron Nodes",
+      "Clock Gating, Power Gating & Multi-VDD Architectures",
+      "IEEE 1801 Unified Power Format (UPF) Syntax & Power States",
+      "Power-Aware Gate-Level Simulation & Verification"
+    ],
+    "prerequisites": "Working knowledge of Verilog RTL and synthesis basics.",
+    "modules": [
+      {
+        "title": "Module 1: Power Strategies & Architectural Decisions",
+        "topics": ["Leakage power minimization", "Operand isolation & architectural clock gating", "Multi-voltage domain partitioning"]
+      },
+      {
+        "title": "Module 2: UPF Implementation & Simulation",
+        "topics": ["UPF commands: create_power_domain, set_retention", "Isolation strategy insertion", "Power-aware simulation in Questa/VCS"]
+      }
+    ]
+  }
+]

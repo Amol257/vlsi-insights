@@ -1,6 +1,14 @@
 const crypto = require('crypto');
 const razorpay = require('../config/razorpay');
 const env = require('../config/env');
+const catalog = require('../config/catalog.json');
+
+// Server-side authoritative program pricing map (prevents client price tampering)
+const PROGRAM_PRICES = {};
+Object.entries(catalog).forEach(([key, entry]) => {
+  PROGRAM_PRICES[key] = entry.price;
+});
+
 
 // Canonical promo code dictionary (server-side single source of truth)
 const PROMO_CODES = {
@@ -11,12 +19,14 @@ const PROMO_CODES = {
 
 /**
  * Calculates subtotal, discount, tax, and final amount in rupees
+ * Enforces server-side canonical pricing lookup to eliminate client-side tampering.
  */
 function calculateOrderTotals(items, promoCode) {
   const subtotal = items.reduce((sum, item) => {
-    const price = Number(item.price) || 0;
+    // Look up authoritative price first; never trust client item.price if catalog item matches
+    const canonicalPrice = PROGRAM_PRICES[item.id] || PROGRAM_PRICES[item.slug] || Number(item.price) || 0;
     const qty = Math.max(1, Number(item.qty) || 1);
-    return sum + (price * qty);
+    return sum + (canonicalPrice * qty);
   }, 0);
 
   let discount = 0;
@@ -69,12 +79,13 @@ async function createOrder({ items, promoCode, user }) {
       currency: order.currency,
       receipt: order.receipt,
       totals: totals,
-      keyId: env.RAZORPAY.KEY_ID
+      keyId: env.RAZORPAY.KEY_ID,
+      simulated: false
     };
   }
 
-  // Simulation mode for testing / development
-  const simulatedOrderId = 'order_sim_' + Date.now().toString(36);
+  // Fallback simulator for development/test if Razorpay credentials are unset
+  const simulatedOrderId = 'order_sim_' + Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
   return {
     orderId: simulatedOrderId,
     amount: amountInPaise,
@@ -87,10 +98,10 @@ async function createOrder({ items, promoCode, user }) {
 }
 
 /**
- * Verifies Razorpay payment signature
+ * Verifies Razorpay payment signature using constant-time comparison
  */
 function verifyPaymentSignature({ orderId, paymentId, signature }) {
-  if (!orderId || !paymentId) {
+  if (!orderId || !paymentId || !signature) {
     return false;
   }
 
@@ -99,31 +110,49 @@ function verifyPaymentSignature({ orderId, paymentId, signature }) {
     return true;
   }
 
-  if (!signature) {
-    return false;
-  }
-
   const generatedSignature = crypto
     .createHmac('sha256', env.RAZORPAY.KEY_SECRET)
     .update(orderId + '|' + paymentId)
     .digest('hex');
 
-  return generatedSignature === signature;
+  const genBuf = Buffer.from(generatedSignature, 'utf8');
+  const sigBuf = Buffer.from(signature, 'utf8');
+
+  if (genBuf.length !== sigBuf.length) {
+    return false;
+  }
+
+  return crypto.timingSafeEqual(genBuf, sigBuf);
 }
 
 /**
- * Verifies Razorpay webhook signature
+ * Verifies Razorpay webhook signature using raw body buffer and constant-time comparison
  */
-function verifyWebhookSignature(payloadString, signature) {
+function verifyWebhookSignature(payload, signature) {
   if (!env.RAZORPAY.WEBHOOK_SECRET) return true;
+  if (!payload || !signature) return false;
+
+  const payloadBuffer = Buffer.isBuffer(payload)
+    ? payload
+    : Buffer.from(typeof payload === 'string' ? payload : JSON.stringify(payload), 'utf8');
+
   const expected = crypto
     .createHmac('sha256', env.RAZORPAY.WEBHOOK_SECRET)
-    .update(payloadString)
+    .update(payloadBuffer)
     .digest('hex');
-  return expected === signature;
+
+  const expectedBuf = Buffer.from(expected, 'utf8');
+  const signatureBuf = Buffer.from(signature, 'utf8');
+
+  if (expectedBuf.length !== signatureBuf.length) {
+    return false;
+  }
+
+  return crypto.timingSafeEqual(expectedBuf, signatureBuf);
 }
 
 module.exports = {
+  PROGRAM_PRICES,
   PROMO_CODES,
   calculateOrderTotals,
   createOrder,

@@ -1,0 +1,8 @@
+{
+  "vlsi-mastery": { "price": 55000, "title": "6-Month VLSI Mastery Job-Oriented Program" },
+  "rtl-design": { "price": 35000, "title": "RTL Design" },
+  "verification": { "price": 40000, "title": "Core VLSI Verification" },
+  "assertions": { "price": 25000, "title": "SystemVerilog Assertions (SVA)" },
+  "fpga-prototyping": { "price": 30000, "title": "FPGA Prototyping & Emulation" },
+  "low-power": { "price": 20000, "title": "Low-Power Architecture & UPF" }
+}

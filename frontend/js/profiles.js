@@ -1,5 +1,5 @@
 /**
- * VLSI Insights — Profiles Table Helper
+ * VLSI Insights  -  Profiles Table Helper
  * Upserts user profile data (phone, full_name, email) into public.profiles table.
  * Call after any sign-up or phone collection flow.
  */

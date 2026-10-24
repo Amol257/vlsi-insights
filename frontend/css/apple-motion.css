@@ -1,0 +1,1906 @@
+/* ==========================================================================
+   VLSI INSIGHTS  -  APPLE MOTION & PREMIUM INTERACTION LAYER
+   Spring physics, magnetic hover, liquid glass, staggered reveals,
+   parallax depth, ambient particles, gesture momentum
+   ========================================================================== */
+
+/* -------------------------------------------------------------------------- */
+/* 1. APPLE-STYLE SPRING EASING & CSS CUSTOM PROPERTIES                       */
+/* -------------------------------------------------------------------------- */
+:root {
+  /* Spring-like easings (approximated via cubic-bezier) */
+  --spring-snappy:  cubic-bezier(0.34, 1.56, 0.64, 1);   /* Overshoot, firm */
+  --spring-bounce:  cubic-bezier(0.22, 1.6,  0.36, 1);   /* More bounce      */
+  --spring-fluid:   cubic-bezier(0.25, 0.1,  0.25, 1);   /* Natural settle   */
+  --spring-smooth:  cubic-bezier(0.16, 1,    0.3,  1);   /* Decelerate fast  */
+  
+  /* Duration tokens - clamped sub-250ms for responsive, high-craft feedback */
+  --dur-micro:  80ms;
+  --dur-quick:  160ms;
+  --dur-normal: 240ms;
+  --dur-relaxed: 400ms;
+  --dur-cinematic: 650ms;
+}
+
+/* -------------------------------------------------------------------------- */
+/* 2. MAGNETIC HOVER BUTTONS (Apple-style attraction effect)                  */
+/* -------------------------------------------------------------------------- */
+.magnetic-btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform var(--dur-normal) var(--spring-snappy);
+  will-change: transform;
+  cursor: pointer;
+}
+
+.magnetic-btn::after {
+  content: '';
+  position: absolute;
+  inset: -12px;
+  border-radius: inherit;
+  z-index: -1;
+}
+
+/* -------------------------------------------------------------------------- */
+/* 3. 3D SPRING TILT CARDS (perspective depth on hover)                       */
+/* -------------------------------------------------------------------------- */
+.spring-tilt-card {
+  transform-style: preserve-3d;
+  transition: transform var(--dur-normal) var(--spring-smooth),
+              box-shadow var(--dur-normal) ease;
+  will-change: transform;
+}
+
+.spring-tilt-card:hover {
+  box-shadow: 
+    0 24px 48px -12px rgba(15, 23, 42, 0.14),
+    0 8px 16px -4px rgba(0, 168, 135, 0.08);
+}
+
+/* Subtle shimmer layer on tilt cards */
+.spring-tilt-card .tilt-shimmer {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(
+    135deg,
+    rgba(255,255,255,0) 0%,
+    rgba(255,255,255,0.06) 40%,
+    rgba(255,255,255,0.12) 50%,
+    rgba(255,255,255,0.06) 60%,
+    rgba(255,255,255,0) 100%
+  );
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--dur-quick) ease;
+  z-index: 1;
+}
+
+.spring-tilt-card:hover .tilt-shimmer {
+  opacity: 1;
+}
+
+/* -------------------------------------------------------------------------- */
+/* 4. LIQUID GLASS MORPHISM (premium frosted panel)                           */
+/* -------------------------------------------------------------------------- */
+.liquid-glass {
+  background: rgba(255, 255, 255, 0.72);
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.85);
+  box-shadow:
+    0 4px 24px -4px rgba(15, 23, 42, 0.08),
+    0 1px 3px rgba(15, 23, 42, 0.04),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9),
+    inset 0 -1px 0 rgba(15, 23, 42, 0.04);
+}
+
+.liquid-glass--dark {
+  background: rgba(8, 12, 22, 0.78);
+  backdrop-filter: blur(24px) saturate(160%);
+  -webkit-backdrop-filter: blur(24px) saturate(160%);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow:
+    0 4px 24px -4px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+/* -------------------------------------------------------------------------- */
+/* 5. STAGGERED SECTION REVEAL (Apple-style content entry)                    */
+/* -------------------------------------------------------------------------- */
+.apy-reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: 
+    opacity var(--dur-relaxed) var(--spring-smooth),
+    transform var(--dur-relaxed) var(--spring-smooth);
+}
+
+.apy-reveal.revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Delay variants */
+.apy-reveal[data-delay="1"] { transition-delay: 80ms; }
+.apy-reveal[data-delay="2"] { transition-delay: 160ms; }
+.apy-reveal[data-delay="3"] { transition-delay: 240ms; }
+.apy-reveal[data-delay="4"] { transition-delay: 320ms; }
+.apy-reveal[data-delay="5"] { transition-delay: 400ms; }
+.apy-reveal[data-delay="6"] { transition-delay: 480ms; }
+
+/* Horizontal slide variants */
+.apy-reveal-left {
+  opacity: 0;
+  transform: translateX(-32px);
+  transition: 
+    opacity var(--dur-relaxed) var(--spring-smooth),
+    transform var(--dur-relaxed) var(--spring-smooth);
+}
+
+.apy-reveal-left.revealed {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.apy-reveal-right {
+  opacity: 0;
+  transform: translateX(32px);
+  transition: 
+    opacity var(--dur-relaxed) var(--spring-smooth),
+    transform var(--dur-relaxed) var(--spring-smooth);
+}
+
+.apy-reveal-right.revealed {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* Scale-up reveal */
+.apy-reveal-scale {
+  opacity: 0;
+  transform: scale(0.92);
+  transition:
+    opacity var(--dur-relaxed) var(--spring-smooth),
+    transform var(--dur-relaxed) var(--spring-snappy);
+}
+
+.apy-reveal-scale.revealed {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* -------------------------------------------------------------------------- */
+/* 6. ANIMATED GRADIENT TEXT (Apple event-style shimmer headline)             */
+/* -------------------------------------------------------------------------- */
+.gradient-animate-text {
+  background: linear-gradient(
+    135deg,
+    var(--text-hi) 0%,
+    var(--trace) 40%,
+    #38BDF8 65%,
+    var(--trace) 80%,
+    var(--text-hi) 100%
+  );
+  background-size: 250% 100%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: gradientShimmer 6s ease-in-out infinite;
+}
+
+@keyframes gradientShimmer {
+  0%   { background-position: 200% center; }
+  50%  { background-position: 0% center; }
+  100% { background-position: 200% center; }
+}
+
+/* -------------------------------------------------------------------------- */
+/* 7. AMBIENT PARTICLE FIELD (semiconductor particle system)                  */
+/* -------------------------------------------------------------------------- */
+.particle-canvas-wrap {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+
+#ambientParticleCanvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.6;
+}
+
+/* -------------------------------------------------------------------------- */
+/* 8. APPLE-STYLE FOCUS RING (enhanced accessibility ring)                    */
+/* -------------------------------------------------------------------------- */
+.apy-focus-ring:focus-visible {
+  outline: 2px solid var(--trace);
+  outline-offset: 3px;
+  box-shadow: 0 0 0 4px rgba(0, 168, 135, 0.18);
+  border-radius: inherit;
+}
+
+/* -------------------------------------------------------------------------- */
+/* 9. PRECISION HOVER LINK UNDERLINE (Apple-style animated underline)         */
+/* -------------------------------------------------------------------------- */
+.apy-underline-link {
+  position: relative;
+  text-decoration: none;
+}
+
+.apy-underline-link::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0%;
+  height: 1.5px;
+  background: var(--trace);
+  border-radius: 9999px;
+  transition: width var(--dur-normal) var(--spring-smooth);
+}
+
+.apy-underline-link:hover::after {
+  width: 100%;
+}
+
+/* -------------------------------------------------------------------------- */
+/* 10. HERO PARALLAX DEPTH LAYERS                                              */
+/* -------------------------------------------------------------------------- */
+.parallax-layer--slow {
+  will-change: transform;
+  transition: transform 0.05s linear;
+}
+
+.parallax-layer--medium {
+  will-change: transform;
+  transition: transform 0.03s linear;
+}
+
+.parallax-layer--fast {
+  will-change: transform;
+  transition: transform 0.01s linear;
+}
+
+/* -------------------------------------------------------------------------- */
+/* 11. INTERACTIVE FEATURE BENTO (Apple-style asymmetric balanced grid)        */
+/* -------------------------------------------------------------------------- */
+.apple-feature-bento {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 18px;
+  margin: 36px 0 48px;
+  align-items: stretch;
+}
+
+.bento-cell {
+  background: #FFFFFF;
+  border: 1px solid rgba(226, 232, 240, 0.9);
+  border-radius: 24px;
+  padding: 32px;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+  min-height: 280px;
+  box-shadow: 
+    0 2px 12px -4px rgba(15, 23, 42, 0.04),
+    inset 0 1px 0 rgba(255, 255, 255, 0.95);
+  transition: 
+    transform var(--dur-normal) var(--spring-snappy),
+    box-shadow var(--dur-normal) ease,
+    border-color var(--dur-quick) ease,
+    opacity var(--dur-normal) ease;
+  /* Spotlight cursor gradient */
+  background-image: radial-gradient(
+    circle 200px at var(--mouse-x, 50%) var(--mouse-y, 50%),
+    rgba(0, 168, 135, 0.04),
+    transparent 70%
+  );
+}
+
+.bento-cell:hover {
+  transform: translateY(-4px) scale(1.005);
+  box-shadow: 
+    0 20px 44px -12px rgba(15, 23, 42, 0.10),
+    0 0 0 1px rgba(0, 168, 135, 0.18);
+  border-color: rgba(0, 168, 135, 0.3);
+}
+
+/* Row 1: 8-col + 4-col asymmetric hero (more visual weight) */
+.bento-cell--8 {
+  grid-column: span 8;
+  min-height: 340px;
+}
+
+.bento-cell--4 {
+  grid-column: span 4;
+  min-height: 340px;
+}
+
+/* Row 2: 4-col + 4-col + 4-col */
+.bento-cell--4-md {
+  grid-column: span 4;
+  min-height: 290px;
+}
+
+/* Row 3: 6-col + 6-col (closing balance) */
+.bento-cell--6 {
+  grid-column: span 6;
+  min-height: 280px;
+}
+
+/* Legacy spans kept for compatibility */
+.bento-cell--half { grid-column: span 6; min-height: 280px; }
+.bento-cell--third { grid-column: span 4; min-height: 290px; }
+
+/* Obsidian Dark Hero Variant */
+.bento-cell--dark {
+  background: #090E1A;
+  border-color: rgba(255, 255, 255, 0.12);
+  color: #FFFFFF;
+  box-shadow: 
+    0 16px 36px -8px rgba(0, 0, 0, 0.45),
+    inset 0 1px 0 rgba(255, 255, 255, 0.14);
+  background-image: radial-gradient(
+    circle 240px at var(--mouse-x, 50%) var(--mouse-y, 50%),
+    rgba(0, 168, 135, 0.08),
+    transparent 70%
+  );
+}
+
+.bento-cell--dark:hover {
+  border-color: rgba(0, 168, 135, 0.45);
+  box-shadow: 
+    0 28px 56px -12px rgba(0, 0, 0, 0.6),
+    0 0 24px rgba(0, 168, 135, 0.18),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+/* Frosted Pearl Subtle Mint Variant */
+.bento-cell--accent {
+  background: linear-gradient(145deg, #F0FDF9 0%, #FFFFFF 70%);
+  border-color: rgba(0, 168, 135, 0.22);
+}
+
+.bento-cell--accent:hover {
+  border-color: rgba(0, 168, 135, 0.4);
+  box-shadow: 
+    0 20px 44px -12px rgba(0, 168, 135, 0.12),
+    0 0 0 1px rgba(0, 168, 135, 0.2);
+}
+
+/* Bento Cell Internal Structure */
+.bento-cell__top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  gap: 12px;
+}
+
+.bento-cell__main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.bento-cell__bottom {
+  margin-top: auto;
+  min-height: 66px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+/* Bento Category Tag */
+.bento-cell__tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-body);
+  font-size: var(--text-xs, 0.75rem);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 4px 11px;
+  border-radius: 9999px;
+  background: rgba(0, 168, 135, 0.08);
+  border: 1px solid rgba(0, 168, 135, 0.2);
+  color: var(--trace);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.bento-cell--dark .bento-cell__tag {
+  background: rgba(0, 168, 135, 0.16);
+  border-color: rgba(0, 168, 135, 0.35);
+  color: #34D399;
+}
+
+/* Bento corner accent */
+.bento-cell__corner-glow {
+  position: absolute !important;
+  top: -40px;
+  right: -40px;
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(0, 168, 135, 0.12) 0%, transparent 70%);
+  pointer-events: none;
+  transition: opacity var(--dur-normal) ease;
+  z-index: 1;
+}
+
+.bento-cell:hover .bento-cell__corner-glow {
+  opacity: 1.4;
+}
+
+.bento-cell--dark .bento-cell__corner-glow {
+  background: radial-gradient(circle, rgba(0, 168, 135, 0.28) 0%, transparent 70%);
+}
+
+/* Bento icon wrapper */
+.bento-icon-wrap {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 168, 135, 0.09);
+  border: 1px solid rgba(0, 168, 135, 0.2);
+  color: var(--trace);
+  flex-shrink: 0;
+  transition: transform var(--dur-normal) var(--spring-snappy),
+              background var(--dur-quick) ease,
+              box-shadow var(--dur-normal) ease;
+}
+
+.bento-cell:hover .bento-icon-wrap {
+  transform: scale(1.10) rotate(-3deg);
+  background: rgba(0, 168, 135, 0.14);
+  box-shadow: 0 4px 12px rgba(0, 168, 135, 0.18);
+}
+
+.bento-cell--dark .bento-icon-wrap {
+  background: rgba(0, 168, 135, 0.14);
+  border-color: rgba(0, 168, 135, 0.3);
+  color: #34D399;
+}
+
+.bento-icon-wrap svg { width: 22px; height: 22px; }
+
+/* Bento stat number display */
+.bento-stat-number {
+  font-family: var(--font-display);
+  font-size: clamp(2.4rem, 3.8vw, 3.25rem);
+  font-weight: 800;
+  letter-spacing: -0.035em;
+  line-height: 1.05;
+  color: var(--text-hi);
+  margin-bottom: 4px;
+}
+
+.bento-cell--dark .bento-stat-number {
+  color: #FFFFFF;
+}
+
+.bento-stat-label {
+  font-family: var(--font-body);
+  font-size: var(--text-sm, 0.875rem);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  color: var(--trace);
+  margin-bottom: 6px;
+}
+
+.bento-cell--dark .bento-stat-label {
+  color: #34D399;
+}
+
+.bento-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.2rem, 1.5vw, 1.45rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--text-hi);
+  margin-bottom: 8px;
+  line-height: 1.25;
+  min-height: 52px;
+  display: flex;
+  align-items: flex-start;
+}
+
+.bento-cell--dark .bento-title { color: #FFFFFF; }
+
+.bento-desc {
+  font-family: var(--font-body);
+  font-size: var(--text-sm, 0.875rem);
+  line-height: 1.55;
+  color: var(--text-mid);
+  min-height: 76px;
+}
+
+.bento-cell--dark .bento-desc { color: rgba(255, 255, 255, 0.72); }
+
+/* Apple-Style Spec Pill Chips */
+.bento-chips-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+
+.apple-spec-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 11px;
+  border-radius: 9999px;
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  font-weight: 500;
+  background: rgba(15, 23, 42, 0.04);
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  color: var(--text-mid);
+  transition: 
+    background var(--dur-quick) ease,
+    border-color var(--dur-quick) ease,
+    transform var(--dur-quick) var(--spring-snappy),
+    color var(--dur-quick) ease;
+}
+
+.apple-spec-pill:hover {
+  background: rgba(0, 168, 135, 0.08);
+  border-color: rgba(0, 168, 135, 0.28);
+  color: var(--trace);
+  transform: translateY(-2px);
+}
+
+.bento-cell--dark .apple-spec-pill {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.14);
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.bento-cell--dark .apple-spec-pill:hover {
+  background: rgba(0, 168, 135, 0.2);
+  border-color: rgba(0, 168, 135, 0.4);
+  color: #34D399;
+}
+
+/* Bento inline bar chart (Refined Apple Keynote Profile - GPU scaleY) */
+.bento-bar-chart {
+  display: flex;
+  align-items: flex-end;
+  gap: 6px;
+  height: 52px;
+  margin-top: 16px;
+  padding-top: 6px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.bento-bar {
+  flex: 1;
+  height: 100%;
+  border-radius: 4px 4px 0 0;
+  background: linear-gradient(180deg, #34D399 0%, rgba(0, 168, 135, 0.25) 100%);
+  transform-origin: bottom;
+  transform: scaleY(0);
+  will-change: transform;
+  transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+              background var(--dur-quick) ease;
+}
+
+.bento-cell--dark:hover .bento-bar {
+  background: linear-gradient(180deg, #38BDF8 0%, #00A887 100%);
+}
+
+/* Responsive Rules  -  Aligned 12-Column Grid */
+@media (max-width: 1100px) {
+  .apple-feature-bento {
+    grid-template-columns: repeat(12, 1fr);
+    gap: 14px;
+  }
+  .bento-cell--4,
+  .bento-cell--4-md { grid-column: span 4; }
+}
+
+@media (max-width: 900px) {
+  .apple-feature-bento {
+    grid-template-columns: repeat(6, 1fr);
+    gap: 14px;
+  }
+  .bento-cell--8,
+  .bento-cell--6,
+  .bento-cell--half { grid-column: span 6; min-height: 260px; }
+  .bento-cell--4,
+  .bento-cell--4-md,
+  .bento-cell--third { grid-column: span 3; min-height: 240px; }
+}
+
+@media (max-width: 620px) {
+  .apple-feature-bento {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  .bento-cell--8,
+  .bento-cell--6,
+  .bento-cell--half,
+  .bento-cell--4,
+  .bento-cell--4-md,
+  .bento-cell--third {
+    grid-column: span 1;
+    min-height: auto;
+  }
+  .bento-cell { padding: 24px; }
+}
+
+/* -------------------------------------------------------------------------- */
+/* 11b. APPLE TRUST STRIP (frosted logo row)                                  */
+/* -------------------------------------------------------------------------- */
+.apy-trust-strip {
+  padding: clamp(28px, 4vw, 44px) 0;
+  background: rgba(250, 250, 250, 0.8);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-top: 1px solid rgba(226, 232, 240, 0.8);
+  border-bottom: 1px solid rgba(226, 232, 240, 0.8);
+  overflow: hidden;
+  position: relative;
+}
+
+.apy-trust-strip::before,
+.apy-trust-strip::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 80px;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.apy-trust-strip::before {
+  left: 0;
+  background: linear-gradient(to right, #FAFAFA 0%, transparent 100%);
+}
+
+.apy-trust-strip::after {
+  right: 0;
+  background: linear-gradient(to left, #FAFAFA 0%, transparent 100%);
+}
+
+.apy-trust-label {
+  text-align: center;
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-lo);
+  margin-bottom: 20px;
+}
+
+.apy-trust-track {
+  display: flex;
+  align-items: center;
+  gap: 48px;
+  animation: trustScroll 28s linear infinite;
+  width: max-content;
+}
+
+.apy-trust-track:hover { animation-play-state: paused; }
+
+@keyframes trustScroll {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+.apy-trust-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-display);
+  font-size: var(--text-base, 1rem);
+  font-weight: 700;
+  color: rgba(15, 23, 42, 0.35);
+  white-space: nowrap;
+  transition: color var(--dur-normal) ease;
+  cursor: default;
+  user-select: none;
+}
+
+.apy-trust-item:hover {
+  color: var(--text-hi);
+}
+
+.apy-trust-item__icon {
+  width: 22px;
+  height: 22px;
+  border-radius: 4px;
+  background: rgba(0, 168, 135, 0.1);
+  border: 1px solid rgba(0, 168, 135, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: var(--trace);
+  transition: background var(--dur-quick) ease, transform var(--dur-quick) var(--spring-snappy);
+}
+
+.apy-trust-item:hover .apy-trust-item__icon {
+  background: rgba(0, 168, 135, 0.18);
+  transform: scale(1.1);
+}
+
+.apy-trust-divider {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: rgba(15, 23, 42, 0.15);
+  flex-shrink: 0;
+}
+
+/* -------------------------------------------------------------------------- */
+/* 12. FLOATING CHIPS ENHANCED (Apple HIG notification badges)                */
+/* -------------------------------------------------------------------------- */
+.floating-badge {
+  position: absolute;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 8px 16px;
+  border-radius: 24px;
+  font-family: var(--font-body);
+  font-size: var(--text-sm, 0.875rem);
+  font-weight: 600;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  border: 1px solid rgba(226, 232, 240, 0.9);
+  box-shadow: 
+    0 8px 24px -4px rgba(15, 23, 42, 0.12),
+    0 2px 6px -1px rgba(15, 23, 42, 0.06),
+    inset 0 1px 0 rgba(255, 255, 255, 0.95);
+  pointer-events: auto;
+  cursor: default;
+  user-select: none;
+  color: var(--text-hi);
+  white-space: nowrap;
+  z-index: 15;
+  transition: transform var(--dur-normal) var(--spring-snappy), box-shadow var(--dur-normal) ease;
+}
+
+.floating-badge:hover {
+  transform: scale(1.05) translateY(-3px) !important;
+  box-shadow: 
+    0 16px 32px -6px rgba(15, 23, 42, 0.16),
+    0 4px 10px -2px rgba(0, 168, 135, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.95);
+}
+
+.floating-badge__dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--trace);
+  animation: badgePulse 2.4s ease-in-out infinite;
+  flex-shrink: 0;
+}
+
+.floating-badge__dot--blue  { background: #2563EB; }
+.floating-badge__dot--amber { background: #F59E0B; }
+
+@keyframes badgePulse {
+  0%, 100% { transform: scale(0.9); opacity: 0.7; }
+  50%       { transform: scale(1.15); opacity: 1; }
+}
+
+.floating-badge--1 {
+  top: 18%;
+  right: 8%;
+  animation: floatBadge1 7s ease-in-out infinite alternate;
+}
+
+.floating-badge--2 {
+  bottom: 22%;
+  right: 5%;
+  animation: floatBadge2 8.5s ease-in-out infinite alternate;
+}
+
+.floating-badge--3 {
+  top: 60%;
+  left: 3%;
+  animation: floatBadge3 6.5s ease-in-out infinite alternate;
+}
+
+@keyframes floatBadge1 {
+  0%   { transform: translateY(0px) translateX(0px); }
+  100% { transform: translateY(-12px) translateX(-6px); }
+}
+@keyframes floatBadge2 {
+  0%   { transform: translateY(0px) translateX(0px); }
+  100% { transform: translateY(-10px) translateX(8px); }
+}
+@keyframes floatBadge3 {
+  0%   { transform: translateY(0px) translateX(0px); }
+  100% { transform: translateY(12px) translateX(6px); }
+}
+
+@media (max-width: 992px) {
+  .floating-badge { display: none !important; }
+}
+
+/* -------------------------------------------------------------------------- */
+/* 13. LIVE SIGNAL INDICATOR (pulse dot + shimmer ring)                       */
+/* -------------------------------------------------------------------------- */
+.live-signal {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--trace);
+}
+
+.live-signal__pulse {
+  position: relative;
+  width: 10px;
+  height: 10px;
+  flex-shrink: 0;
+}
+
+.live-signal__core {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: var(--trace);
+}
+
+.live-signal__ring {
+  position: absolute;
+  inset: -4px;
+  border-radius: 50%;
+  border: 1.5px solid var(--trace);
+  animation: signalRing 2s ease-out infinite;
+  opacity: 0;
+}
+
+@keyframes signalRing {
+  0%   { transform: scale(0.5); opacity: 0.8; }
+  100% { transform: scale(2.0); opacity: 0; }
+}
+
+/* -------------------------------------------------------------------------- */
+/* 14. APPLE NAVIGATION PILL (Segmented control  -  refined)                    */
+/* -------------------------------------------------------------------------- */
+.apy-segmented-control {
+  display: inline-flex;
+  align-items: center;
+  background: rgba(15, 23, 42, 0.06);
+  border-radius: 12px;
+  padding: 4px;
+  gap: 2px;
+  position: relative;
+}
+
+.apy-segment-btn {
+  padding: 8px 20px;
+  border-radius: 12px;
+  font-family: var(--font-body);
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--text-mid);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: 
+    background var(--dur-quick) var(--spring-smooth),
+    color var(--dur-quick) ease,
+    box-shadow var(--dur-quick) ease;
+  min-height: 38px;
+  position: relative;
+  z-index: 1;
+  letter-spacing: -0.005em;
+}
+
+.apy-segment-btn:hover {
+  color: var(--text-hi);
+  background: rgba(255, 255, 255, 0.5);
+}
+
+.apy-segment-btn.active {
+  background: #FFFFFF;
+  color: var(--text-hi);
+  box-shadow: 
+    0 2px 8px -1px rgba(15, 23, 42, 0.12),
+    0 1px 3px rgba(15, 23, 42, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
+  font-weight: 600;
+}
+
+/* -------------------------------------------------------------------------- */
+/* 15. GSAP SCROLL TRIGGER MARKERS (section locking line)                     */
+/* -------------------------------------------------------------------------- */
+.scroll-snap-section {
+  scroll-snap-align: start;
+}
+
+/* -------------------------------------------------------------------------- */
+/* 16. ANIMATED PROGRESS RING (circular SoC coverage progress)               */
+/* -------------------------------------------------------------------------- */
+.progress-ring-wrap {
+  position: relative;
+  width: 80px;
+  height: 80px;
+  flex-shrink: 0;
+}
+
+.progress-ring-svg {
+  transform: rotate(-90deg);
+  display: block;
+}
+
+.progress-ring-track {
+  fill: none;
+  stroke: rgba(0, 168, 135, 0.12);
+  stroke-width: 5;
+}
+
+.progress-ring-fill {
+  fill: none;
+  stroke: var(--trace);
+  stroke-width: 5;
+  stroke-linecap: round;
+  stroke-dasharray: 220;
+  stroke-dashoffset: 220;
+  transition: stroke-dashoffset 1.2s var(--spring-smooth);
+}
+
+.progress-ring-fill.animated {
+  stroke-dashoffset: var(--ring-offset, 44); /* 80% default = 44 */
+}
+
+.progress-ring-label {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: var(--font-display);
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: var(--text-hi);
+}
+
+/* -------------------------------------------------------------------------- */
+/* 17. SMOOTH MOMENTUM DRAG SCROLL INDICATOR                                  */
+/* -------------------------------------------------------------------------- */
+.drag-scroll-hint {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--text-lo);
+  user-select: none;
+  pointer-events: none;
+}
+
+.drag-scroll-hint::before {
+  content: '';
+  display: inline-block;
+  width: 24px;
+  height: 1px;
+  background: var(--edge);
+}
+
+/* -------------------------------------------------------------------------- */
+/* 18. HERO SCROLL DEPTH INDICATOR (Apple-style page turn cue)                */
+/* -------------------------------------------------------------------------- */
+.scroll-depth-guide {
+  position: fixed;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  z-index: 50;
+  opacity: 0;
+  transition: opacity var(--dur-normal) ease;
+  pointer-events: none;
+}
+
+.scroll-depth-guide.visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.scroll-depth-dot {
+  position: relative;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: rgba(15, 23, 42, 0.2);
+  cursor: pointer;
+  transition: 
+    background var(--dur-quick) ease,
+    transform var(--dur-quick) var(--spring-snappy);
+  pointer-events: auto;
+}
+
+.scroll-depth-dot.active {
+  background: var(--trace);
+  transform: scale(1.6);
+  box-shadow: 0 0 8px rgba(0, 168, 135, 0.4);
+}
+
+.scroll-depth-dot:hover {
+  background: var(--trace);
+  transform: scale(1.4);
+}
+
+/* Apple-style floating label tooltip on dot hover */
+.scroll-depth-dot::after {
+  content: attr(data-title);
+  position: absolute;
+  right: 18px;
+  top: 50%;
+  transform: translateY(-50%) translateX(6px);
+  background: rgba(15, 23, 42, 0.9);
+  backdrop-filter: blur(12px) saturate(160%);
+  -webkit-backdrop-filter: blur(12px) saturate(160%);
+  color: #FFFFFF;
+  font-family: var(--font-body);
+  font-size: var(--text-xs, 0.75rem);
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  padding: 5px 12px;
+  border-radius: 4px;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.2s ease, transform 0.2s var(--spring-snappy);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2), 0 0 0 1px rgba(255, 255, 255, 0.1);
+  z-index: 60;
+}
+
+.scroll-depth-dot:hover::after {
+  opacity: 1;
+  transform: translateY(-50%) translateX(0);
+}
+
+@media (max-width: 768px) {
+  .scroll-depth-guide { display: none; }
+}
+
+/* -------------------------------------------------------------------------- */
+/* 19. APPLE SECTION SPACER (generous vertical breathing room)                */
+/* -------------------------------------------------------------------------- */
+.apy-section-gap {
+  padding: clamp(72px, 9vw, 128px) 0;
+}
+
+.apy-section-gap--sm {
+  padding: clamp(40px, 5vw, 72px) 0;
+}
+
+/* -------------------------------------------------------------------------- */
+/* 20. FEATURE HIGHLIGHT ROW (Apple alternating content layout)               */
+/* -------------------------------------------------------------------------- */
+.apy-feature-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(32px, 5vw, 72px);
+  align-items: center;
+  padding: clamp(48px, 6vw, 80px) 0;
+  border-bottom: 1px solid var(--edge);
+}
+
+.apy-feature-row:last-child {
+  border-bottom: none;
+}
+
+.apy-feature-row--reversed {
+  direction: rtl;
+}
+
+.apy-feature-row--reversed > * {
+  direction: ltr;
+}
+
+@media (max-width: 900px) {
+  .apy-feature-row {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+  .apy-feature-row--reversed { direction: ltr; }
+}
+
+.apy-feature-eyebrow {
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--trace);
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.apy-feature-eyebrow::before {
+  content: '';
+  width: 20px;
+  height: 2px;
+  background: var(--trace);
+  border-radius: 9999px;
+  display: inline-block;
+}
+
+.apy-feature-heading {
+  font-family: var(--font-display);
+  font-size: clamp(1.75rem, 3vw, 2.5rem);
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  line-height: 1.15;
+  color: var(--text-hi);
+  margin-bottom: 16px;
+  text-wrap: balance;
+}
+
+.apy-feature-body {
+  font-family: var(--font-body);
+  font-size: clamp(0.9375rem, 1.1vw, 1.0625rem);
+  line-height: 1.65;
+  color: var(--text-mid);
+  margin-bottom: 24px;
+}
+
+.apy-feature-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.apy-feature-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: var(--text-base, 1rem);
+  color: var(--text-mid);
+  line-height: 1.5;
+}
+
+.apy-feature-list li::before {
+  content: '';
+  width: 18px;
+  height: 18px;
+  min-width: 18px;
+  border-radius: 50%;
+  background: rgba(0, 168, 135, 0.1);
+  border: 1.5px solid rgba(0, 168, 135, 0.35);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 24 24' fill='none' stroke='%2300A887' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='20 6 9 17 4 12'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 10px;
+  margin-top: 2px;
+  flex-shrink: 0;
+}
+
+/* Feature visual panel */
+.apy-feature-visual {
+  border-radius: 16px;
+  overflow: hidden;
+  aspect-ratio: 4/3;
+  background: linear-gradient(135deg, #080C16 0%, #0F172A 100%);
+  border: 1px solid rgba(255,255,255,0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+/* -------------------------------------------------------------------------- */
+/* 21. MICRO-INTERACTION: BUTTON CLICK RIPPLE                                 */
+/* -------------------------------------------------------------------------- */
+.ripple-container {
+  position: relative;
+  overflow: hidden;
+}
+
+.ripple-wave {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.28);
+  transform: scale(0.15);
+  opacity: 0.8;
+  animation: rippleExpand 0.45s var(--spring-smooth) forwards;
+  pointer-events: none;
+}
+
+@keyframes rippleExpand {
+  0% {
+    transform: scale(0.15);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(3.5);
+    opacity: 0;
+  }
+}
+
+/* -------------------------------------------------------------------------- */
+/* 22. APPLE-STYLE PAGE TRANSITION OVERLAY                                    */
+/* -------------------------------------------------------------------------- */
+.page-transition-overlay {
+  position: fixed;
+  inset: 0;
+  background: #FFFFFF;
+  z-index: 9999;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 250ms ease;
+}
+
+.page-transition-overlay.entering {
+  opacity: 1;
+  pointer-events: all;
+}
+
+/* -------------------------------------------------------------------------- */
+/* 23. CHIP PIN CONNECTOR DETAIL (IC package styling)                         */
+/* -------------------------------------------------------------------------- */
+.ic-package-detail {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px 20px;
+  background: #FAFAFA;
+  border: 1px solid var(--edge);
+  border-radius: 12px;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--text-mid);
+}
+
+.ic-package-detail .pin-row {
+  display: flex;
+  gap: 4px;
+}
+
+.ic-pin {
+  width: 4px;
+  height: 14px;
+  background: rgba(15, 23, 42, 0.15);
+  border-radius: 4px;
+  transition: background var(--dur-quick) ease, transform var(--dur-quick) var(--spring-snappy);
+}
+
+.ic-package-detail:hover .ic-pin:nth-child(odd)  { background: var(--trace); transform: scaleY(1.2); }
+.ic-package-detail:hover .ic-pin:nth-child(even) { background: #2563EB; transform: scaleY(0.85); }
+
+/* -------------------------------------------------------------------------- */
+/* 24. PREMIUM ANIMATED BORDER (glowing perimeter scan)                       */
+/* -------------------------------------------------------------------------- */
+.animated-border-card {
+  position: relative;
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.animated-border-card::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border-radius: inherit;
+  background: conic-gradient(
+    from var(--border-angle, 0deg),
+    var(--trace) 0%,
+    transparent 20%,
+    #2563EB 40%,
+    transparent 60%,
+    var(--trace) 80%,
+    transparent 100%
+  );
+  opacity: 0;
+  transition: opacity var(--dur-normal) ease;
+  z-index: -1;
+  animation: borderSpin 4s linear infinite paused;
+}
+
+.animated-border-card:hover::before {
+  opacity: 1;
+  animation-play-state: running;
+}
+
+@keyframes borderSpin {
+  to { --border-angle: 360deg; }
+}
+
+/* Required for the conic gradient animation */
+@property --border-angle {
+  syntax: '<angle>';
+  inherits: false;
+  initial-value: 0deg;
+}
+
+/* -------------------------------------------------------------------------- */
+/* 24b. APPLE TESTIMONIAL CARDS (premium proof cards)                         */
+/* -------------------------------------------------------------------------- */
+.apy-testimonial-card {
+  background: #FFFFFF;
+  border: 1px solid rgba(226, 232, 240, 0.9);
+  border-radius: 16px;
+  padding: 28px 28px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  box-shadow:
+    0 4px 20px -4px rgba(15, 23, 42, 0.06),
+    inset 0 1px 0 rgba(255, 255, 255, 0.95);
+  transition:
+    transform var(--dur-normal) var(--spring-snappy),
+    box-shadow var(--dur-normal) ease,
+    border-color var(--dur-quick) ease;
+  flex-shrink: 0;
+  scroll-snap-align: start;
+  position: relative;
+  overflow: hidden;
+}
+
+.apy-testimonial-card::before {
+  content: '\201C';
+  position: absolute;
+  top: -4px;
+  left: 18px;
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 5rem;
+  line-height: 1;
+  color: rgba(0, 168, 135, 0.1);
+  font-weight: 700;
+  pointer-events: none;
+  user-select: none;
+}
+
+.apy-testimonial-card:hover {
+  transform: translateY(-4px) scale(1.006);
+  box-shadow:
+    0 20px 48px -12px rgba(15, 23, 42, 0.1),
+    0 0 0 1px rgba(0, 168, 135, 0.2);
+  border-color: rgba(0, 168, 135, 0.28);
+}
+
+.apy-testimonial-quote {
+  font-family: var(--font-body);
+  font-size: var(--text-base, 1rem);
+  line-height: 1.62;
+  color: var(--text-mid);
+  flex: 1;
+  padding-top: 12px;
+}
+
+.apy-testimonial-author {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(226, 232, 240, 0.8);
+}
+
+.apy-testimonial-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, rgba(0, 168, 135, 0.15), rgba(37, 99, 235, 0.12));
+  border: 1px solid rgba(0, 168, 135, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display);
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: var(--trace);
+  flex-shrink: 0;
+}
+
+.apy-testimonial-name {
+  font-family: var(--font-body);
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--text-hi);
+  line-height: 1.2;
+}
+
+.apy-testimonial-role {
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  color: var(--text-lo);
+  margin-top: 2px;
+}
+
+.apy-testimonial-stars {
+  display: flex;
+  gap: 3px;
+  margin-left: auto;
+}
+
+.apy-testimonial-stars svg {
+  width: 14px;
+  height: 14px;
+  color: #F59E0B;
+  fill: #F59E0B;
+}
+
+/* Testimonial carousel container */
+.apy-testimonial-carousel {
+  display: flex;
+  gap: 20px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  padding: 8px 4px 24px;
+  cursor: grab;
+  user-select: none;
+}
+
+.apy-testimonial-carousel::-webkit-scrollbar { display: none; }
+.apy-testimonial-carousel:active { cursor: grabbing; }
+
+.apy-testimonial-wrap {
+  position: relative;
+  margin-top: 48px;
+}
+
+.apy-testimonial-wrap::before,
+.apy-testimonial-wrap::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 24px;
+  width: 64px;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.apy-testimonial-wrap::before {
+  left: 0;
+  background: linear-gradient(to right, var(--substrate, #FAFAFA) 0%, transparent 100%);
+}
+
+.apy-testimonial-wrap::after {
+  right: 0;
+  background: linear-gradient(to left, var(--substrate, #FAFAFA) 0%, transparent 100%);
+}
+
+/* -------------------------------------------------------------------------- */
+/* 25. APPLE-STYLE COMPONENT ELEVATION ACROSS CORE SECTIONS                   */
+/* -------------------------------------------------------------------------- */
+
+/* Program Cards: Apple Pro Tier Comparison */
+.minimal-programs-grid {
+  gap: 24px !important;
+}
+
+.minimal-program-card {
+  border-radius: 24px !important;
+  padding: 36px 32px !important;
+  border: 1px solid rgba(226, 232, 240, 0.95) !important;
+  box-shadow: 0 4px 24px -4px rgba(15, 23, 42, 0.04), inset 0 1px 0 rgba(255, 255, 255, 0.95) !important;
+  transition: transform var(--dur-normal) var(--spring-snappy), box-shadow var(--dur-normal) ease, border-color var(--dur-quick) ease !important;
+}
+
+.minimal-program-card:hover {
+  transform: translateY(-6px) scale(1.008) !important;
+  box-shadow: 0 24px 48px -12px rgba(15, 23, 42, 0.12), 0 0 0 1px rgba(0, 168, 135, 0.22) !important;
+  border-color: rgba(0, 168, 135, 0.35) !important;
+}
+
+.program-track-pill {
+  border-radius: 9999px !important;
+  padding: 6px 14px !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.02em !important;
+}
+
+.program-audience-pill {
+  border-radius: 9999px !important;
+  padding: 6px 12px !important;
+  background: rgba(15, 23, 42, 0.04) !important;
+}
+
+.program-tools-row span {
+  border-radius: 9999px !important;
+  padding: 4px 10px !important;
+  font-size: var(--text-xs, 0.75rem) !important;
+  border: 1px solid rgba(15, 23, 42, 0.08) !important;
+  transition: transform 0.18s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.18s ease, border-color 0.18s ease, color 0.18s ease !important;
+}
+
+.program-tools-row span:hover {
+  background: rgba(0, 168, 135, 0.08) !important;
+  border-color: rgba(0, 168, 135, 0.25) !important;
+  color: var(--trace) !important;
+  transform: translateY(-1px) !important;
+}
+
+/* Stats Bar: Symmetrical Frosted Dark Glass Pods */
+.stats-grid--redesign {
+  display: grid !important;
+  grid-template-columns: repeat(4, 1fr) !important;
+  gap: 16px !important;
+  align-items: stretch !important;
+}
+
+.stat-item--redesign {
+  background: rgba(255, 255, 255, 0.045) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  border-radius: 16px !important;
+  padding: 24px 14px !important;
+  backdrop-filter: blur(20px) !important;
+  -webkit-backdrop-filter: blur(20px) !important;
+  box-shadow: 0 8px 24px -6px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.12) !important;
+  height: 100% !important;
+  min-height: 144px !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  text-align: center !important;
+  box-sizing: border-box !important;
+  position: relative !important;
+  transition: transform var(--dur-normal) var(--spring-snappy),
+              border-color var(--dur-quick) ease,
+              background var(--dur-quick) ease,
+              box-shadow var(--dur-normal) ease !important;
+}
+
+.stat-item--redesign::after {
+  display: none !important;
+  content: none !important;
+}
+
+.stat-number-wrap--redesign {
+  display: flex !important;
+  align-items: baseline !important;
+  justify-content: center !important;
+  height: 48px !important;
+  width: 100% !important;
+}
+
+.stat-number--redesign {
+  font-family: var(--font-display) !important;
+  font-weight: 800 !important;
+  font-size: clamp(2.2rem, 3.2vw, 2.9rem) !important;
+  color: #FFFFFF !important;
+  line-height: 1 !important;
+  letter-spacing: -0.03em !important;
+  font-variant-numeric: tabular-nums !important;
+}
+
+.stat-label--redesign {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  text-align: center !important;
+  min-height: 36px !important;
+  font-family: var(--font-body) !important;
+  font-size: var(--text-sm, 0.875rem) !important;
+  font-weight: 500 !important;
+  text-transform: none !important;
+  letter-spacing: -0.01em !important;
+  color: rgba(255, 255, 255, 0.85) !important;
+  line-height: 1.35 !important;
+  margin-top: 8px !important;
+  margin-bottom: 0 !important;
+}
+
+.stat-item--redesign:hover {
+  transform: translateY(-4px) !important;
+  background: rgba(255, 255, 255, 0.08) !important;
+  border-color: rgba(0, 168, 135, 0.4) !important;
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.18) !important;
+}
+
+/* Mobile Responsive Adjustments for Stats Pods & Alignment */
+@media (max-width: 960px) {
+  .stats-layout--redesign {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 28px !important;
+    text-align: center !important;
+    align-items: center !important;
+  }
+
+  .stats-proven-col {
+    display: inline-flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 14px !important;
+    text-align: left !important;
+    margin: 0 auto !important;
+  }
+
+  .stats-proven-accent {
+    width: 4px !important;
+    height: 42px !important;
+    background: #00D9AE !important;
+    border-radius: 9999px !important;
+    flex-shrink: 0 !important;
+    display: block !important;
+  }
+
+  .stats-proven-heading {
+    font-size: clamp(1.65rem, 4.8vw, 2.2rem) !important;
+    line-height: 1.15 !important;
+    text-align: left !important;
+    margin: 0 !important;
+  }
+
+  .stats-grid--redesign {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 12px !important;
+    width: 100% !important;
+  }
+
+  .stat-item--redesign {
+    min-height: 116px !important;
+    padding: 16px 10px !important;
+    border-radius: 16px !important;
+  }
+
+  .stat-number-wrap--redesign {
+    height: 40px !important;
+  }
+
+  .stat-number--redesign {
+    font-size: clamp(1.85rem, 5vw, 2.3rem) !important;
+  }
+
+  .stat-label--redesign {
+    font-size: var(--text-xs, 0.75rem) !important;
+    margin-top: 6px !important;
+    min-height: auto !important;
+    line-height: 1.3 !important;
+    text-transform: none !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .stats-section--redesign {
+    padding: clamp(36px, 8vw, 48px) 0 !important;
+  }
+
+  .stats-layout--redesign {
+    gap: 22px !important;
+  }
+
+  .stats-proven-col {
+    gap: 12px !important;
+  }
+
+  .stats-proven-accent {
+    height: 38px !important;
+    width: 3.5px !important;
+  }
+
+  .stats-proven-heading {
+    font-size: var(--text-2xl, 1.5rem) !important;
+  }
+
+  .stats-grid--redesign {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 10px !important;
+  }
+
+  .stat-item--redesign {
+    min-height: 102px !important;
+    padding: 14px 8px !important;
+    border-radius: 12px !important;
+  }
+
+  .stat-number-wrap--redesign {
+    height: 34px !important;
+  }
+
+  .stat-number--redesign {
+    font-size: 1.65rem !important;
+  }
+
+  .stat-label--redesign {
+    font-size: var(--text-xs, 0.75rem) !important;
+    letter-spacing: -0.01em !important;
+    line-height: 1.3 !important;
+    text-transform: none !important;
+  }
+}
+
+/* Feature Items in Why VLSI */
+.features-list--redesign .feature-item--redesign {
+  border-radius: 16px !important;
+  padding: 20px !important;
+  transition: transform var(--dur-normal) var(--spring-snappy),
+              box-shadow var(--dur-normal) ease,
+              background var(--dur-quick) ease !important;
+}
+
+.features-list--redesign .feature-item--redesign:hover {
+  transform: translateX(6px) !important;
+  background: rgba(255, 255, 255, 0.8) !important;
+  box-shadow: 0 10px 24px -6px rgba(15, 23, 42, 0.06), 0 0 0 1px rgba(0, 168, 135, 0.15) !important;
+}
+
+[data-theme="dark"] .features-list--redesign .feature-item--redesign:hover,
+.dark-mode .features-list--redesign .feature-item--redesign:hover {
+  background: rgba(24, 32, 51, 0.95) !important;
+  border-color: rgba(0, 229, 163, 0.45) !important;
+  box-shadow: 0 12px 28px -6px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(0, 229, 163, 0.25) !important;
+}
+
+[data-theme="dark"] .features-list--redesign .feature-item--redesign:hover .feature-title--redesign,
+.dark-mode .features-list--redesign .feature-item--redesign:hover .feature-title--redesign {
+  color: #00E5A3 !important;
+}
+
+/* Hero Preview Slider Card */
+.hero-slider-card {
+  border-radius: 24px !important;
+  box-shadow: 0 20px 48px -12px rgba(15, 23, 42, 0.14), inset 0 1px 0 rgba(255, 255, 255, 0.95) !important;
+  border: 1px solid rgba(226, 232, 240, 0.9) !important;
+  overflow: hidden !important;
+}
+
+/* Services Showcase Stage Card */
+.services-stage-card {
+  border-radius: 24px !important;
+  box-shadow: 0 24px 56px -14px rgba(15, 23, 42, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.1) !important;
+}
+
+/* Sage Green Capsule Section */
+.sage-capsule-container {
+  border-radius: 24px !important;
+  background: linear-gradient(180deg, #EDF7F4 0%, #F6FAF8 100%) !important;
+  border: 1px solid rgba(0, 168, 135, 0.16) !important;
+  box-shadow: 0 20px 60px -15px rgba(0, 168, 135, 0.07), inset 0 1px 0 rgba(255, 255, 255, 0.95) !important;
+}
+
+.sage-capsule-btn {
+  border-radius: 9999px !important;
+  transition: transform var(--dur-normal) var(--spring-snappy), box-shadow var(--dur-normal) ease !important;
+}
+
+.sage-capsule-btn:hover {
+  transform: translateY(-2px) scale(1.02) !important;
+  box-shadow: 0 8px 20px -4px rgba(0, 168, 135, 0.3) !important;
+}
+
+/* Keyvo CTA Card */
+.keyvo-cta-card {
+  border-radius: 24px !important;
+  box-shadow: 0 24px 60px -15px rgba(0, 168, 135, 0.14), inset 0 1px 0 rgba(255, 255, 255, 0.8) !important;
+}
+
+/* Contact Cards */
+.contact-card {
+  border-radius: 24px !important;
+  box-shadow: 0 12px 36px -8px rgba(15, 23, 42, 0.06), inset 0 1px 0 rgba(255, 255, 255, 0.95) !important;
+}
+
+/* Section Pill Transition refinement */
+.section-pill-transition {
+  padding: clamp(14px, 2vw, 22px) 20px !important;
+  margin: 0 auto clamp(6px, 1.2vw, 14px) !important;
+  opacity: 0.85;
+}
+
+/* -------------------------------------------------------------------------- */
+/* 26. REDUCED MOTION OVERRIDE                                                 */
+/* -------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  .apy-reveal,
+  .apy-reveal-left,
+  .apy-reveal-right,
+  .apy-reveal-scale {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+  
+  .gradient-animate-text {
+    animation: none !important;
+    background-position: 0% center !important;
+  }
+  
+  .floating-badge {
+    animation: none !important;
+  }
+  
+  .spring-tilt-card {
+    transform: none !important;
+    transition: box-shadow var(--dur-quick) ease !important;
+  }
+  
+  .bento-cell {
+    transform: none !important;
+    transition: border-color var(--dur-quick) ease, box-shadow var(--dur-quick) ease !important;
+  }
+}
+
+/* -------------------------------------------------------------------------- */
+/* 27. SILICON PATHWAYS ALTERNATING FEATURE ROWS                               */
+/* -------------------------------------------------------------------------- */
+.apy-section-gap {
+  padding: clamp(64px, 8vw, 120px) 0;
+}
+
+.apy-feature-row a:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 8px 24px -4px rgba(0, 0, 0, 0.2) !important;
+  text-decoration: none !important;
+}
+
+@media (max-width: 900px) {
+  .apy-feature-row {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+@media (max-width: 640px) {
+  .apy-section-gap {
+    padding: clamp(44px, 6vw, 72px) 0;
+  }
+  .apy-feature-row {
+    gap: 28px !important;
+    margin-bottom: 48px !important;
+  }
+}
+
+/* -------------------------------------------------------------------------- */
+/* 28. TRUST STRIP REDUCED MOTION                                              */
+/* -------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  .apy-trust-track {
+    animation: none !important;
+  }
+}
+
+/* -------------------------------------------------------------------------- */
+/* 29. SECTION HEADING MINIMAL (unified editorial heading)                    */
+/* -------------------------------------------------------------------------- */
+.section-heading-minimal {
+  font-family: var(--font-display);
+  font-size: clamp(1.8rem, 3.5vw, 2.75rem);
+  font-weight: 800;
+  letter-spacing: -0.035em;
+  color: var(--text-hi);
+  line-height: 1.15;
+}
+
+.section-lead-minimal {
+  font-family: var(--font-body);
+  font-size: clamp(0.9375rem, 1.2vw, 1.0625rem);
+  line-height: 1.65;
+  color: var(--text-mid);
+  max-width: 580px;
+  margin: 0 auto;
+}

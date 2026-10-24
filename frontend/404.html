@@ -273,36 +273,60 @@
           <div class="dropdown-panel dropdown-panel--services" role="menu">
             <div class="dropdown-col">
               <span class="dropdown-col-heading">Engineering Services</span>
-              <a href="vlsi-designs.html" class="dropdown-item" role="menuitem">
-                <span class="dropdown-item__icon"><i data-lucide="cpu"></i></span>
-                <div><div class="dropdown-item__title">VLSI Related Services</div><div class="dropdown-item__desc">RTL layout, physical design, and verification.</div></div>
-              </a>
-              <a href="soc-verification.html" class="dropdown-item" role="menuitem">
-                <span class="dropdown-item__icon"><i data-lucide="shield-check"></i></span>
-                <div><div class="dropdown-item__title">SOC Verification</div><div class="dropdown-item__desc">UVM functional verification architectures.</div></div>
-              </a>
-              <a href="embedded-systems.html" class="dropdown-item" role="menuitem">
-                <span class="dropdown-item__icon"><i data-lucide="microchip"></i></span>
-                <div><div class="dropdown-item__title">Embedded Systems</div><div class="dropdown-item__desc">MCU firmware to real-time operating systems.</div></div>
-              </a>
               <a href="ai-models.html" class="dropdown-item" role="menuitem">
                 <span class="dropdown-item__icon"><i data-lucide="brain"></i></span>
-                <div><div class="dropdown-item__title">AI Models</div><div class="dropdown-item__desc">Edge ML and embedded inference pipelines.</div></div>
+                <div>
+                  <div class="dropdown-item__title">AI Models &amp; ML</div>
+                  <div class="dropdown-item__desc">Edge AI acceleration and neural architectures.</div>
+                </div>
               </a>
               <a href="web-development.html" class="dropdown-item" role="menuitem">
                 <span class="dropdown-item__icon"><i data-lucide="code-2"></i></span>
-                <div><div class="dropdown-item__title">Web Development</div><div class="dropdown-item__desc">Modern engineering web applications and portals.</div></div>
+                <div>
+                  <div class="dropdown-item__title">Web Development</div>
+                  <div class="dropdown-item__desc">Scalable portals and enterprise engineering.</div>
+                </div>
               </a>
             </div>
+
             <div class="dropdown-col">
               <span class="dropdown-col-heading">Training &amp; Growth</span>
-              <a href="technical-training.html" class="dropdown-item" role="menuitem">
+              <a href="technical-training.html" class="dropdown-item dropdown-item--has-sub" role="menuitem">
                 <span class="dropdown-item__icon"><i data-lucide="graduation-cap"></i></span>
-                <div><div class="dropdown-item__title">Technical Training</div><div class="dropdown-item__desc">Hands-on VLSI &amp; embedded engineering training.</div></div>
+                <div>
+                  <div class="dropdown-item__title">Technical Training</div>
+                  <div class="dropdown-item__desc">Hands-on VLSI &amp; embedded engineering cohorts.</div>
+                </div>
               </a>
+              <div class="dropdown-sub-items" role="group" aria-label="Technical Training Specializations">
+                <a href="vlsi-designs.html" class="dropdown-sub-item" role="menuitem">
+                  <span class="dropdown-sub-item__icon"><i data-lucide="cpu"></i></span>
+                  <div class="dropdown-sub-item__content">
+                    <div class="dropdown-sub-item__title">VLSI Related Services</div>
+                    <div class="dropdown-sub-item__desc">RTL layout, physical design, and verification.</div>
+                  </div>
+                </a>
+                <a href="soc-verification.html" class="dropdown-sub-item" role="menuitem">
+                  <span class="dropdown-sub-item__icon"><i data-lucide="shield-check"></i></span>
+                  <div class="dropdown-sub-item__content">
+                    <div class="dropdown-sub-item__title">SOC Verification</div>
+                    <div class="dropdown-sub-item__desc">UVM functional verification architectures.</div>
+                  </div>
+                </a>
+                <a href="embedded-systems.html" class="dropdown-sub-item" role="menuitem">
+                  <span class="dropdown-sub-item__icon"><i data-lucide="microchip"></i></span>
+                  <div class="dropdown-sub-item__content">
+                    <div class="dropdown-sub-item__title">Embedded Systems</div>
+                    <div class="dropdown-sub-item__desc">MCU firmware to real-time operating systems.</div>
+                  </div>
+                </a>
+              </div>
               <a href="marketing-solutions.html" class="dropdown-item" role="menuitem">
                 <span class="dropdown-item__icon"><i data-lucide="trending-up"></i></span>
-                <div><div class="dropdown-item__title">Marketing Solutions</div><div class="dropdown-item__desc">Growth strategies for technical enterprises.</div></div>
+                <div>
+                  <div class="dropdown-item__title">Marketing Solutions</div>
+                  <div class="dropdown-item__desc">Technical brand growth and digital reach.</div>
+                </div>
               </a>
             </div>
           </div>
@@ -382,16 +406,25 @@
           <span>Services</span><i data-lucide="chevron-down"></i>
         </button>
         <div class="mobile-accordion" id="mobileServicesAccordion">
-          <div style="font-size:0.6875rem;font-weight:700;color:var(--trace);text-transform:uppercase;padding:8px 12px 4px;">Engineering Services</div>
-          <a href="vlsi-designs.html" class="drawer-close-trigger"><i data-lucide="cpu"></i> VLSI Related Services</a>
-          <a href="soc-verification.html" class="drawer-close-trigger"><i data-lucide="shield-check"></i> SOC Verification</a>
-          <a href="embedded-systems.html" class="drawer-close-trigger"><i data-lucide="microchip"></i> Embedded Systems</a>
-          <a href="ai-models.html" class="drawer-close-trigger"><i data-lucide="brain"></i> AI Models</a>
-          <a href="web-development.html" class="drawer-close-trigger"><i data-lucide="code-2"></i> Web Development</a>
-          <div style="font-size:0.6875rem;font-weight:700;color:var(--trace);text-transform:uppercase;padding:12px 12px 4px 12px;border-top:1px solid var(--edge);margin-top:4px;">Training &amp; Growth</div>
-          <a href="technical-training.html" class="drawer-close-trigger"><i data-lucide="graduation-cap"></i> Technical Training</a>
-          <a href="marketing-solutions.html" class="drawer-close-trigger"><i data-lucide="trending-up"></i> Marketing Solutions</a>
-        </div>
+            <div class="mobile-drawer-category-label">Engineering Services</div>
+            <a href="ai-models.html" class="drawer-close-trigger"><i data-lucide="brain"></i> AI Models &amp; ML</a>
+            <a href="web-development.html" class="drawer-close-trigger"><i data-lucide="code-2"></i> Web Development</a>
+            <div class="mobile-drawer-category-label--sub">Training &amp; Growth</div>
+            <div class="mobile-nested-group">
+              <div class="mobile-nested-header">
+                <a href="technical-training.html" class="drawer-close-trigger"><i data-lucide="graduation-cap"></i> Technical Training</a>
+                <button type="button" class="mobile-nested-toggle" id="mobileTechTrainingToggle" aria-expanded="false" aria-label="Toggle Technical Training Sub-items">
+                  <i data-lucide="chevron-down"></i>
+                </button>
+              </div>
+              <div class="mobile-nested-accordion" id="mobileTechTrainingAccordion">
+                <a href="vlsi-designs.html" class="drawer-close-trigger mobile-sub-nested"><i data-lucide="cpu"></i> VLSI Related Services</a>
+                <a href="soc-verification.html" class="drawer-close-trigger mobile-sub-nested"><i data-lucide="shield-check"></i> SOC Verification</a>
+                <a href="embedded-systems.html" class="drawer-close-trigger mobile-sub-nested"><i data-lucide="microchip"></i> Embedded Systems</a>
+              </div>
+            </div>
+            <a href="marketing-solutions.html" class="drawer-close-trigger"><i data-lucide="trending-up"></i> Marketing Solutions</a>
+          </div>
       </li>
       <li><a href="programs.html" class="mobile-nav-link drawer-close-trigger">Programs</a></li>
       <li><a href="front-end-software.html" class="mobile-nav-link drawer-close-trigger">Front End Software</a></li>
@@ -495,13 +528,17 @@
             </a>
           </div>
         </div>
+        <!-- Col 2: Services & Programs (Restructured) -->
         <div>
           <h4 class="footer-col-title">Services</h4>
           <ul class="footer-links">
-            <li><a href="vlsi-designs.html" class="footer-link">VLSI Related Services</a></li>
-            <li><a href="technical-training.html" class="footer-link">Technical Training</a></li>
-            <li><a href="marketing-solutions.html" class="footer-link">Marketing Solutions</a></li>
-            <li><a href="front-end-software.html" class="footer-link">EDA Software</a></li>
+            <li><a href="ai-models.html" class="footer-link">AI Models &amp; ML</a></li>
+            <li><a href="web-development.html" class="footer-link">Web Development</a></li>
+            <li style="margin-top: 6px;"><a href="technical-training.html" class="footer-link" style="font-weight: 600; color: var(--trace);">Technical Training</a></li>
+            <li style="padding-left: 10px;"><a href="vlsi-designs.html" class="footer-link">&bull; VLSI Related Services</a></li>
+            <li style="padding-left: 10px;"><a href="soc-verification.html" class="footer-link">&bull; SOC Verification</a></li>
+            <li style="padding-left: 10px;"><a href="embedded-systems.html" class="footer-link">&bull; Embedded Systems</a></li>
+            <li style="margin-top: 6px;"><a href="marketing-solutions.html" class="footer-link">Marketing Solutions</a></li>
           </ul>
         </div>
         <div>
@@ -514,22 +551,36 @@
             <li><a href="testimonials.html" class="footer-link">Testimonials</a></li>
           </ul>
         </div>
+        <!-- Col 4: Contact & Legal -->
         <div>
-          <h4 class="footer-col-title">Get in Touch</h4>
-          <ul class="footer-links" style="margin-bottom: 16px;">
+          <h4 class="footer-col-title">Contact &amp; Legal</h4>
+          <ul class="footer-links footer-brand-margin">
             <li><a href="mailto:info@vlsiinsights.com" class="footer-link">info@vlsiinsights.com</a></li>
             <li><a href="tel:+919810191592" class="footer-link">+91 98101 91592</a></li>
+            <li><a href="privacy-policy.html" class="footer-link">Privacy Policy</a></li>
+            <li><a href="terms.html" class="footer-link">Terms &amp; Conditions</a></li>
+            <li><a href="refund-policy.html" class="footer-link">Refund Policy</a></li>
           </ul>
-          <a href="https://wa.me/919810191592" class="whatsapp-cta" target="_blank" rel="noopener noreferrer">
+          <a href="https://wa.me/919810191592?text=Hello%2C%20I%20want%20to%20enquire%20about%20the%20Job%20Oriented%20Program."
+            class="whatsapp-cta" target="_blank" rel="noopener noreferrer">
             <i data-lucide="message-circle"></i>
             Chat on WhatsApp
           </a>
         </div>
       </div>
       <div class="footer-bottom">
-        <div>&copy; 2026 VLSI Insights. All rights reserved.</div>
-        <div>Built for semiconductor excellence.</div>
+        <div>&copy; 2026 VLSI Insights. All rights reserved. Registered under DPDP Act 2023 &amp; IT Act 2000.</div>
+        <div class="footer-bottom-links">
+          <a href="privacy-policy.html" class="footer-link">Privacy Policy</a>
+          <a href="terms.html" class="footer-link">Terms &amp; Conditions</a>
+          <a href="refund-policy.html" class="footer-link">Refund Policy</a>
+          <a href="javascript:void(0)" onclick="if(window.openCookieSettings)window.openCookieSettings();" class="footer-link">Cookie Preferences</a>
+          <span>Built for semiconductor excellence.</span>
+        </div>
       </div>
+      <p class="footer-disclaimer" style="font-size: 0.75rem; color: var(--text-lo); margin-top: 14px; line-height: 1.5; border-top: 1px solid var(--edge); padding-top: 10px;">
+        Disclaimer: QuestaSim, ModelSim, VCS, Vivado, and other tool marks are registered trademarks of their respective owners (Siemens EDA, Synopsys, Cadence, AMD Xilinx). VLSI Insights provides educational mentorship and verification engineering services.
+      </p>
     </div>
   </footer>
 
@@ -553,6 +604,16 @@
     })();
   </script>
   <script src="js/main.js" defer></script>
+  <!-- Cookie Consent Banner -->
+  <div class="cookie-banner" id="cookieConsentBanner" hidden>
+    <div class="cookie-banner__text">
+      We use cookies to keep your session secure and make the site work smoothly. You can choose to accept all cookies or just the essential ones. Review our <a href="privacy-policy.html" style="color:var(--trace);text-decoration:underline;">Privacy Policy</a> and <a href="terms.html" style="color:var(--trace);text-decoration:underline;">Terms</a>.
+    </div>
+    <div class="cookie-banner__actions">
+      <button type="button" class="cookie-btn--accept" id="cookieAcceptBtn">Accept All</button>
+      <button type="button" class="cookie-btn--decline" id="cookieDeclineBtn">Essential Only</button>
+    </div>
+  </div>
 </body>
 </html>
 

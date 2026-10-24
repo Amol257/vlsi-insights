@@ -7,12 +7,14 @@ function errorHandler(err, req, res, next) {
   console.error('[API Error]', err.stack || err.message || err);
 
   const statusCode = err.status || err.statusCode || 500;
+  const isDev = env.NODE_ENV === 'development';
+  
   const response = {
     success: false,
-    error: err.message || 'Internal Server Error'
+    error: isDev ? (err.message || 'Internal Server Error') : (statusCode >= 500 ? 'Internal Server Error' : err.message)
   };
 
-  if (env.NODE_ENV === 'development') {
+  if (isDev) {
     response.stack = err.stack;
   }
 

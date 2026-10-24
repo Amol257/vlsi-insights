@@ -1,7 +1,10 @@
 const { createClient } = require('@supabase/supabase-js');
 const env = require('./env');
 
-const supabaseKey = env.SUPABASE.SERVICE_ROLE_KEY || env.SUPABASE.ANON_KEY;
+if (!env.SUPABASE.SERVICE_ROLE_KEY) {
+  throw new Error('[Supabase] SERVICE_ROLE_KEY is required for server client initialization');
+}
+const supabaseKey = env.SUPABASE.SERVICE_ROLE_KEY;
 let supabase = null;
 
 if (env.SUPABASE.URL && supabaseKey) {

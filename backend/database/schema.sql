@@ -46,13 +46,6 @@ TO service_role
 USING (true)
 WITH CHECK (true);
 
--- Allow anon & authenticated insert if client-side fallback is active
-DROP POLICY IF EXISTS "Allow anon inserts for fallback" ON orders;
-CREATE POLICY "Allow anon inserts for fallback"
-ON orders
-FOR INSERT
-TO anon, authenticated
-WITH CHECK (true);
 
 -- 3. Table: user_enrollments (Tracks active course access granted to users)
 CREATE TABLE IF NOT EXISTS user_enrollments (

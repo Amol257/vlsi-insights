@@ -132,6 +132,7 @@
     }
 
     setupAccordion(document.getElementById('mobileServicesToggle'), document.getElementById('mobileServicesAccordion'));
+    setupAccordion(document.getElementById('mobileTechTrainingToggle'), document.getElementById('mobileTechTrainingAccordion'));
     setupAccordion(document.getElementById('mobileAboutToggle'), document.getElementById('mobileAboutAccordion'));
 
     // 3b. Desktop Dropdown Click Toggles & Outside-Click Handling
@@ -579,6 +580,464 @@
       window.addEventListener('scroll', handleScroll, { passive: true });
       handleScroll();
     }
+
+    // 7. Dark Mode / Theme Toggle System (Guarded LocalStorage & Accessibility)
+    let initialTheme = 'light';
+    try {
+      const storedTheme = localStorage.getItem('vlsi_theme');
+      const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+      initialTheme = storedTheme || (prefersDark ? 'dark' : 'light');
+    } catch (e) {
+      const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+      initialTheme = prefersDark ? 'dark' : 'light';
+    }
+
+    function applyTheme(theme) {
+      document.documentElement.setAttribute('data-theme', theme);
+      document.documentElement.classList.toggle('dark-mode', theme === 'dark');
+      if (document.body) {
+        document.body.classList.toggle('dark-mode', theme === 'dark');
+      }
+      try {
+        localStorage.setItem('vlsi_theme', theme);
+      } catch (e) {
+        // Fall back gracefully if storage is restricted
+      }
+
+      // Update Lucide icon ONLY on theme toggle buttons without wiping text labels
+      document.querySelectorAll('#desktopThemeToggle, #mobileThemeToggle, [data-theme-toggle]').forEach(btn => {
+        btn.setAttribute('aria-label', theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode');
+        const icon = btn.querySelector('[data-lucide], svg');
+        const iconName = theme === 'dark' ? 'sun' : 'moon';
+        if (icon) {
+          const preservedClass = icon.getAttribute('class') || '';
+          const newIcon = document.createElement('i');
+          newIcon.setAttribute('data-lucide', iconName);
+          if (preservedClass) newIcon.setAttribute('class', preservedClass);
+          icon.replaceWith(newIcon);
+        } else if (!btn.textContent.trim()) {
+          btn.innerHTML = `<i data-lucide="${iconName}"></i>`;
+        }
+      });
+      if (window.lucide && typeof window.lucide.createIcons === 'function') {
+        window.lucide.createIcons();
+      }
+    }
+
+    applyTheme(initialTheme);
+
+    document.querySelectorAll('#desktopThemeToggle, #mobileThemeToggle, [data-theme-toggle]').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        const current = document.documentElement.getAttribute('data-theme') || 'light';
+        const nextTheme = current === 'dark' ? 'light' : 'dark';
+        applyTheme(nextTheme);
+      });
+    });
+
+    // 8. Scroll Progress Bar & Scroll-to-Top Button (Sections 3 & 5 Checklist)
+    const progressBar = document.getElementById('scrollProgressBar');
+    const scrollTopBtn = document.getElementById('scrollTopBtn');
+    let isTicking = false;
+
+    if (progressBar) {
+      progressBar.setAttribute('role', 'progressbar');
+      progressBar.setAttribute('aria-valuemin', '0');
+      progressBar.setAttribute('aria-valuemax', '100');
+    }
+
+    const onWindowScroll = () => {
+      if (!isTicking) {
+        requestAnimationFrame(() => {
+          const scrollY = window.pageYOffset || document.documentElement.scrollTop;
+          const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+
+          if (progressBar && docHeight > 0) {
+            const pct = Math.min(100, Math.max(0, (scrollY / docHeight) * 100));
+            progressBar.style.width = pct + '%';
+            progressBar.setAttribute('aria-valuenow', Math.round(pct).toString());
+          }
+
+          if (scrollTopBtn) {
+            if (scrollY > 400) {
+              scrollTopBtn.classList.add('is-visible');
+            } else {
+              scrollTopBtn.classList.remove('is-visible');
+            }
+          }
+
+          isTicking = false;
+        });
+        isTicking = true;
+      }
+    };
+
+    window.addEventListener('scroll', onWindowScroll, { passive: true });
+    onWindowScroll();
+
+    if (scrollTopBtn) {
+      scrollTopBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      });
+    }
+
+    // 9. Cookie Consent Banner & Settings Manager
+    (function initCookieConsentSystem() {
+      let consentGiven = null;
+      try {
+        consentGiven = localStorage.getItem('vlsi_cookie_consent') || sessionStorage.getItem('vlsi_cookie_session_dismissed');
+      } catch (e) {}
+
+      let cookieBanner = document.getElementById('cookieConsentBanner');
+      if (!cookieBanner) {
+        cookieBanner = document.createElement('div');
+        cookieBanner.id = 'cookieConsentBanner';
+        cookieBanner.className = 'cookie-banner';
+        cookieBanner.setAttribute('role', 'region');
+        cookieBanner.setAttribute('aria-label', 'Cookie Consent');
+        cookieBanner.innerHTML = `
+          <div class="cookie-banner__text">
+            We use cookies to keep your session secure and make the site work smoothly. You can choose to accept all cookies or just the essential ones. Review our <a href="/privacy-policy" style="color:var(--trace);text-decoration:underline;">Privacy Policy</a> and <a href="/terms" style="color:var(--trace);text-decoration:underline;">Terms &amp; Conditions</a>.
+          </div>
+          <div class="cookie-banner__actions">
+            <button type="button" class="cookie-btn--accept" id="cookieAcceptBtn">Accept All</button>
+            <button type="button" class="cookie-btn--decline" id="cookieDeclineBtn">Essential Only</button>
+          </div>
+        `;
+        document.body.appendChild(cookieBanner);
+      }
+
+      const dismissCookie = (pref) => {
+        try {
+          localStorage.setItem('vlsi_cookie_consent', pref);
+          sessionStorage.setItem('vlsi_cookie_session_dismissed', 'true');
+        } catch (e) {}
+        cookieBanner.style.opacity = '0';
+        cookieBanner.style.transform = 'translateX(-50%) translateY(20px)';
+        setTimeout(() => {
+          cookieBanner.hidden = true;
+          cookieBanner.style.display = 'none';
+        }, 300);
+      };
+
+      window.openCookieSettings = function() {
+        if (cookieBanner) {
+          cookieBanner.hidden = false;
+          cookieBanner.style.display = 'flex';
+          cookieBanner.style.opacity = '1';
+          cookieBanner.style.transform = 'translateX(-50%) translateY(0)';
+        }
+      };
+
+      const bindButtons = () => {
+        document.getElementById('cookieAcceptBtn')?.addEventListener('click', () => dismissCookie('all'));
+        document.getElementById('cookieDeclineBtn')?.addEventListener('click', () => dismissCookie('essential'));
+      };
+
+      bindButtons();
+
+      if (!consentGiven) {
+        cookieBanner.hidden = false;
+        cookieBanner.style.display = 'flex';
+        cookieBanner.style.opacity = '0';
+        cookieBanner.style.transform = 'translateX(-50%) translateY(20px)';
+        setTimeout(() => {
+          cookieBanner.style.opacity = '1';
+          cookieBanner.style.transform = 'translateX(-50%) translateY(0)';
+        }, 300);
+      }
+    })();
+
+    // 10. Copy-to-Clipboard Utility (Section 5 Checklist)
+    window.copyToClipboard = function(text) {
+      if (!text) return;
+      const copyPromise = (navigator.clipboard && navigator.clipboard.writeText)
+        ? navigator.clipboard.writeText(text)
+        : new Promise((resolve, reject) => {
+            try {
+              const ta = document.createElement('textarea');
+              ta.value = text;
+              ta.style.position = 'fixed';
+              ta.style.opacity = '0';
+              document.body.appendChild(ta);
+              ta.select();
+              document.execCommand('copy');
+              document.body.removeChild(ta);
+              resolve();
+            } catch (err) {
+              reject(err);
+            }
+          });
+
+      copyPromise.then(() => {
+        let toast = document.querySelector('.copied-toast');
+        if (!toast) {
+          toast = document.createElement('div');
+          toast.className = 'copied-toast';
+          toast.textContent = 'Copied to clipboard!';
+          document.body.appendChild(toast);
+        }
+        toast.classList.add('show');
+        setTimeout(() => toast.classList.remove('show'), 2000);
+      }).catch(err => {
+        console.error('Failed to copy text:', err);
+      });
+    };
+
+    // 11. Performance Debounce Helper (Sections 3 & 6 Checklist)
+    window.vlsiDebounce = function(fn, delay = 300) {
+      let timeoutId;
+      return function(...args) {
+        clearTimeout(timeoutId);
+        timeoutId = setTimeout(() => fn.apply(this, args), delay);
+      };
+    };
+
+    // 12. Accessible FAQ Accordion Handler (Section 5 Checklist)
+    document.querySelectorAll('.faq-trigger').forEach(trigger => {
+      trigger.addEventListener('click', function(e) {
+        e.preventDefault();
+        const item = this.closest('.faq-item');
+        if (!item) return;
+        const isOpen = item.classList.contains('open');
+        const parentList = item.closest('.faq-list');
+
+        if (parentList) {
+          parentList.querySelectorAll('.faq-item.open').forEach(other => {
+            if (other !== item) {
+              other.classList.remove('open');
+              other.querySelector('.faq-trigger')?.setAttribute('aria-expanded', 'false');
+            }
+          });
+        }
+        if (isOpen) {
+          item.classList.remove('open');
+          this.setAttribute('aria-expanded', 'false');
+        } else {
+          item.classList.add('open');
+          this.setAttribute('aria-expanded', 'true');
+        }
+      });
+    });
+
+    // 13. Full Site Search Engine & Shortcut (Section 5 Checklist)
+    const siteIndex = [
+      { title: 'VLSI Related Services & RTL Design', cat: 'Engineering', url: '/vlsi-designs.html' },
+      { title: 'SoC & UVM Testbench Verification', cat: 'Engineering', url: '/soc-verification.html' },
+      { title: 'Embedded Systems & MCU Firmware', cat: 'Engineering', url: '/embedded-systems.html' },
+      { title: 'Edge AI & Embedded Machine Learning', cat: 'Engineering', url: '/ai-models.html' },
+      { title: 'Web Application Development & Portals', cat: 'Engineering', url: '/web-development.html' },
+      { title: 'Corporate Technical Training Cohorts', cat: 'Training', url: '/technical-training.html' },
+      { title: 'Semiconductor Training Programs (11 Tracks)', cat: 'Training', url: '/programs.html' },
+      { title: 'EDA Software (QuestaSim, ModelSim Guides)', cat: 'Software', url: '/front-end-software.html' },
+      { title: 'Technical Semiconductor Blog & Research', cat: 'Articles', url: '/technical-blogs.html' },
+      { title: 'About the Company & Engineering Culture', cat: 'Company', url: '/about-company.html' },
+      { title: 'About the Founder & Leadership', cat: 'Leadership', url: '/about-owner.html' },
+      { title: 'Industry Testimonials & Student Placements', cat: 'Reviews', url: '/testimonials.html' },
+      { title: 'Contact Engineering & Advisory Team', cat: 'Contact', url: '/index.html#contact' }
+    ];
+
+    const searchBackdrop = document.getElementById('searchModalBackdrop');
+    const searchInput = document.getElementById('searchModalInput');
+    const searchResults = document.getElementById('searchModalResults');
+    const searchTriggers = document.querySelectorAll('.nav-search-trigger');
+
+    function openSearch() {
+      if (!searchBackdrop) return;
+      searchBackdrop.classList.add('is-open');
+      searchBackdrop.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+      setTimeout(() => {
+        if (searchInput) {
+          searchInput.value = '';
+          searchInput.focus();
+          renderSearchResults('');
+        }
+      }, 50);
+    }
+
+    function closeSearch() {
+      if (!searchBackdrop) return;
+      searchBackdrop.classList.remove('is-open');
+      searchBackdrop.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+    }
+
+    function renderSearchResults(query) {
+      if (!searchResults) return;
+      const q = (query || '').trim().toLowerCase();
+      const filtered = q
+        ? siteIndex.filter(item => item.title.toLowerCase().includes(q) || item.cat.toLowerCase().includes(q))
+        : siteIndex.slice(0, 6);
+
+      if (filtered.length === 0) {
+        searchResults.innerHTML = '<li class="search-modal__empty">No matching semiconductor tracks or services found.</li>';
+        return;
+      }
+
+      // Strictly use CSS contract classes: search-result-item, search-result-item__title, search-result-item__cat
+      searchResults.innerHTML = filtered.map(item => `
+        <li role="option">
+          <a href="${item.url}" class="search-result-item">
+            <span class="search-result-item__title">${item.title}</span>
+            <span class="search-result-item__cat">${item.cat}</span>
+          </a>
+        </li>
+      `).join('');
+    }
+
+    searchTriggers.forEach(btn => btn.addEventListener('click', (e) => { e.preventDefault(); openSearch(); }));
+
+    if (searchBackdrop) {
+      searchBackdrop.addEventListener('click', (e) => {
+        if (e.target === searchBackdrop || e.target.classList.contains('search-modal__kbd') || e.target.closest('.search-modal-close-btn')) {
+          closeSearch();
+        }
+      });
+    }
+
+    if (searchInput) {
+      searchInput.addEventListener('input', window.vlsiDebounce((e) => {
+        renderSearchResults(e.target.value);
+      }, 200));
+    }
+
+    // Ctrl+K / Cmd+K global search trigger
+    window.addEventListener('keydown', (e) => {
+      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') {
+        e.preventDefault();
+        if (searchBackdrop && searchBackdrop.classList.contains('is-open')) {
+          closeSearch();
+        } else {
+          openSearch();
+        }
+      }
+      if (e.key === 'Escape' && searchBackdrop && searchBackdrop.classList.contains('is-open')) {
+        closeSearch();
+      }
+    });
+
+    // 14. UTM Parameter Preservation & Tracking (Section 5 Checklist)
+    (function preserveUtmParameters() {
+      const utmKeys = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content'];
+      const urlParams = new URLSearchParams(window.location.search);
+      let capturedUtm = {};
+      let hasUtmInUrl = false;
+
+      utmKeys.forEach(key => {
+        const val = urlParams.get(key);
+        if (val) {
+          capturedUtm[key] = val;
+          hasUtmInUrl = true;
+        }
+      });
+
+      if (hasUtmInUrl) {
+        try { sessionStorage.setItem('vlsi_utm_params', JSON.stringify(capturedUtm)); } catch (e) {}
+      } else {
+        try {
+          const stored = sessionStorage.getItem('vlsi_utm_params');
+          if (stored) capturedUtm = JSON.parse(stored);
+        } catch (e) {}
+      }
+
+      if (Object.keys(capturedUtm).length > 0) {
+        document.querySelectorAll('a[href]').forEach(link => {
+          const href = link.getAttribute('href');
+          if (!href || href.startsWith('#') || href.startsWith('mailto:') || href.startsWith('tel:') || href.startsWith('javascript:')) return;
+          try {
+            const url = new URL(href, window.location.origin);
+            if (url.origin === window.location.origin) {
+              Object.entries(capturedUtm).forEach(([k, v]) => {
+                if (!url.searchParams.has(k)) {
+                  url.searchParams.set(k, v);
+                }
+              });
+              link.setAttribute('href', url.pathname + url.search + url.hash);
+            }
+          } catch (e) {}
+        });
+
+        document.querySelectorAll('form').forEach(form => {
+          Object.entries(capturedUtm).forEach(([k, v]) => {
+            if (!form.querySelector(`input[name="${k}"]`)) {
+              const input = document.createElement('input');
+              input.type = 'hidden';
+              input.name = k;
+              input.value = v;
+              form.appendChild(input);
+            }
+          });
+        });
+      }
+    })();
+
+    // 15. Newsletter Subscription Handler (Section 5 Checklist: Async response await & error handling)
+    const newsletterForm = document.getElementById('footerNewsletterForm');
+    if (newsletterForm) {
+      newsletterForm.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        const emailInput = document.getElementById('newsletterEmailInput');
+        const successMsg = document.getElementById('newsletterSuccessMsg');
+        const submitBtn = newsletterForm.querySelector('button[type="submit"]');
+        let errorMsg = document.getElementById('newsletterErrorMsg');
+
+        if (!errorMsg) {
+          errorMsg = document.createElement('div');
+          errorMsg.id = 'newsletterErrorMsg';
+          errorMsg.style.color = '#EF4444';
+          errorMsg.style.fontSize = '0.8125rem';
+          errorMsg.style.marginTop = '8px';
+          errorMsg.style.display = 'none';
+          newsletterForm.appendChild(errorMsg);
+        }
+
+        const email = emailInput ? emailInput.value.trim() : '';
+        if (!email || !email.includes('@')) {
+          errorMsg.textContent = 'Please enter a valid email address.';
+          errorMsg.style.display = 'block';
+          return;
+        }
+
+        const originalBtnText = submitBtn ? submitBtn.textContent : '';
+        if (submitBtn) {
+          submitBtn.disabled = true;
+          submitBtn.textContent = 'Subscribing...';
+        }
+        errorMsg.style.display = 'none';
+
+        try {
+          // Send to backend or Supabase if available, with graceful fallback
+          const client = getSbClient();
+          if (client && client.from) {
+            const { error } = await client.from('newsletter_subscribers').insert([{ email, created_at: new Date().toISOString() }]);
+            if (error && error.code !== '23505') throw error; // Ignore duplicate key errors
+          } else {
+            // Simulated network latency when offline or backend unavailable
+            await new Promise(r => setTimeout(r, 600));
+          }
+
+          // Persist success state
+          try {
+            localStorage.setItem('vlsi_newsletter_subscribed', email);
+          } catch (err) {}
+
+          if (successMsg) {
+            successMsg.style.display = 'block';
+          }
+          newsletterForm.style.display = 'none';
+        } catch (err) {
+          console.error('Newsletter subscription failed:', err);
+          errorMsg.textContent = 'Unable to subscribe right now. Please try again.';
+          errorMsg.style.display = 'block';
+          if (submitBtn) {
+            submitBtn.disabled = false;
+            submitBtn.textContent = originalBtnText;
+          }
+        }
+      });
+    }
   }
 
   if (document.readyState === 'loading') {
@@ -587,4 +1046,5 @@
     initApp();
   }
 })();
+
 

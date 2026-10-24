@@ -66,3 +66,12 @@ ON profiles
 FOR INSERT
 TO authenticated
 WITH CHECK (auth.uid() = id);
+
+-- ============================================================================
+-- 5. PERFORMANCE B-TREE INDEXES (Checklist 3 & 6: Index the database)
+-- ============================================================================
+CREATE INDEX IF NOT EXISTS idx_posts_author_id ON posts(author_id);
+CREATE INDEX IF NOT EXISTS idx_posts_published ON posts(published, created_at DESC);
+CREATE INDEX IF NOT EXISTS idx_enrollments_user_id ON user_enrollments(user_id);
+CREATE INDEX IF NOT EXISTS idx_enrollments_program_id ON user_enrollments(program_id);
+CREATE INDEX IF NOT EXISTS idx_payments_user_id ON orders(user_id);
