@@ -27,7 +27,8 @@
   <!-- Master Navbar Stylesheet (single source of truth across all pages) -->
   <link rel="stylesheet" href="css/navbar.css">
   <link rel="stylesheet" href="css/footer.css">
-  <link rel="stylesheet" href="css/global.css">
+  <link rel="stylesheet" href="css/global.css?v=2">
+  <link rel="stylesheet" href="css/landing-redesign.css?v=2">
 
   <!-- React Bits Animation Stylesheets -->
   <link rel="stylesheet" href="css/morph-slider.css">
@@ -1056,121 +1057,207 @@
     }
 
     /* -------------------------------------------------------------------------- */
-    /* PROGRAMS SECTION                                                           */
+    /* -------------------------------------------------------------------------- */
+    /* PROGRAMS SECTION (Dual Track Layout: From Student to Engineer)            */
     /* -------------------------------------------------------------------------- */
     .programs-section {
-      padding: var(--section-y) 0;
-      background: var(--substrate);
-      border-bottom: 1px solid var(--edge);
+      padding: var(--section-y, 80px) 0;
+      background: var(--substrate, #FAFAFA);
+      border-bottom: 1px solid var(--edge, #E2E8F0);
     }
 
-    .programs-layout {
+    .minimal-programs-grid {
       display: grid;
-      grid-template-columns: 1fr;
-      gap: var(--space-12);
+      grid-template-columns: repeat(2, 1fr);
+      gap: 28px;
+      max-width: 1080px;
+      margin: 0 auto;
     }
 
-    @media (min-width: 1024px) {
-      .programs-layout {
-        grid-template-columns: 360px 1fr;
+    @media (max-width: 860px) {
+      .minimal-programs-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
       }
     }
 
-    .programs-intro {
+    .minimal-program-card {
+      background: #FFFFFF;
+      border: 1px solid rgba(226, 232, 240, 0.95);
+      border-radius: 16px;
+      padding: 36px 32px;
       display: flex;
       flex-direction: column;
-      gap: var(--space-4);
-    }
-
-    .programs-cards {
-      display: flex;
-      flex-direction: column;
-      gap: var(--space-6);
-    }
-
-    .program-card {
+      box-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.05);
+      transition: border-color 0.25s ease, box-shadow 0.25s ease, transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
       position: relative;
-      padding: var(--space-8);
-      background: var(--layer);
-      border: 1px solid var(--edge);
-      border-radius: 8px;
-      overflow: hidden;
-      transition: border-color 0.25s ease, transform 0.35s var(--ease-out-expo), box-shadow 0.25s ease, opacity 0.5s var(--ease-out-expo);
-      opacity: 0;
-      transform: translateY(24px);
     }
 
-    .program-card.is-visible {
-      opacity: 1;
-      transform: translateY(0);
+    .minimal-program-card:hover {
+      border-color: rgba(0, 168, 135, 0.4);
+      box-shadow: 0 16px 36px -8px rgba(15, 23, 42, 0.1), 0 0 0 1px rgba(0, 168, 135, 0.15);
+      transform: translateY(-4px);
     }
 
-    .program-card__corner {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 28px;
-      height: 28px;
-      opacity: 0;
-      transition: opacity var(--dur-base) ease;
-    }
-
-    .program-card:hover {
-      border-color: var(--trace);
-      transform: translateY(-3px);
-      box-shadow: 0 12px 24px -10px rgba(0, 168, 135, 0.12), inset 0 0 0 1px rgba(0, 168, 135, 0.15);
-    }
-
-    .program-card:hover .program-card__corner {
-      opacity: 1;
-    }
-
-    .program-icon {
-      width: 44px;
-      height: 44px;
+    .program-card-top {
       display: flex;
       align-items: center;
-      justify-content: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .program-track-pill {
+      font-family: var(--font-mono, monospace);
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--trace, #00A887);
       background: rgba(0, 168, 135, 0.08);
+      padding: 4px 10px;
+      border-radius: 9999px;
       border: 1px solid rgba(0, 168, 135, 0.2);
-      border-radius: 8px;
-      color: var(--trace);
-      margin-bottom: var(--space-4);
     }
 
-    .program-icon svg {
-      width: 24px;
-      height: 24px;
+    .program-track-pill--corporate {
+      color: var(--trace, #00A887);
+      background: rgba(0, 168, 135, 0.12);
+      border-color: rgba(0, 168, 135, 0.35);
     }
 
-    .program-title {
-      font-family: var(--font-display);
-      font-weight: var(--weight-bold);
-      font-size: var(--text-xl);
-      color: var(--text-hi);
-      margin-bottom: var(--space-2);
+    .program-audience-pill {
+      font-size: 0.75rem;
+      color: var(--text-lo, #64748B);
+      font-weight: 500;
+      background: rgba(15, 23, 42, 0.04);
+      padding: 4px 10px;
+      border-radius: 9999px;
     }
 
-    .program-desc {
-      font-size: var(--text-base);
-      color: var(--text-mid);
-      line-height: var(--leading-base);
-      margin-bottom: var(--space-5);
+    .program-card-title {
+      font-family: var(--font-display, 'Space Grotesk', sans-serif);
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--text-hi, #0F172A);
+      margin-bottom: 6px;
+      letter-spacing: -0.015em;
     }
 
-    .program-link {
+    .program-card-subtitle {
+      font-family: var(--font-body, 'Inter', sans-serif);
+      font-size: 1.125rem;
+      font-weight: 600;
+      color: var(--trace, #00A887);
+      margin-bottom: 12px;
+      line-height: 1.4;
+    }
+
+    .program-card-desc {
+      font-size: 0.875rem;
+      line-height: 1.55;
+      color: var(--text-mid, #475569);
+      margin-bottom: 20px;
+    }
+
+    .program-points-list {
+      list-style: none !important;
+      padding: 0 !important;
+      margin: 0 0 24px 0 !important;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .program-points-list li {
+      list-style: none !important;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.875rem;
+      color: var(--text-hi, #0F172A);
+    }
+
+    .program-points-list li svg,
+    .program-points-list li [data-lucide] {
+      width: 15px !important;
+      height: 15px !important;
+      color: var(--trace, #00A887) !important;
+      stroke: var(--trace, #00A887) !important;
+      flex-shrink: 0;
+      display: inline-block;
+      vertical-align: middle;
+    }
+
+    .program-card-footer {
+      margin-top: auto;
+      padding-top: 18px;
+      border-top: 1px solid var(--edge, #E2E8F0);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .program-tools-row {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .program-tools-row span {
+      font-family: var(--font-mono, monospace);
+      font-size: 0.75rem;
+      font-weight: 500;
+      color: #334155;
+      background: #E8F5F1;
+      border: 1px solid rgba(0, 168, 135, 0.22);
+      border-radius: 9999px;
+      padding: 4px 11px;
+      transition: all 0.18s ease;
+    }
+
+    .program-tools-row span:hover {
+      background: rgba(0, 168, 135, 0.15);
+      color: #0F172A;
+      border-color: var(--trace, #00A887);
+    }
+
+    .program-action-link {
       display: inline-flex;
       align-items: center;
-      font-size: var(--text-sm);
-      font-weight: var(--weight-semibold);
-      color: var(--trace);
-      border-bottom: 1px solid transparent;
-      min-height: 44px;
-      transition: border-color var(--dur-fast) ease;
+      gap: 6px;
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: var(--trace, #00A887);
+      text-decoration: none;
+      transition: color 0.18s ease, gap 0.18s ease;
     }
 
-    .program-link:hover {
-      border-bottom-color: var(--trace);
+    .program-action-link:hover {
+      gap: 8px;
+      color: #008f72;
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+
+    .program-action-link--secondary {
+      color: #475569;
+    }
+
+    .program-action-link--secondary:hover {
+      color: #0F172A;
+    }
+
+    .program-action-link svg,
+    .program-action-link [data-lucide] {
+      width: 14px !important;
+      height: 14px !important;
+      flex-shrink: 0;
+      display: inline-block;
+      vertical-align: middle;
     }
 
     /* -------------------------------------------------------------------------- */
