@@ -590,33 +590,57 @@
 
     .hero-ctas .btn-primary {
       position: relative;
-      background: var(--trace);
-      color: #FFFFFF;
-      border: 1px solid rgba(0, 168, 135, 0.35);
-      border-radius: 9999px;
-      padding: 10px 24px;
-      font-size: 0.9375rem;
-      font-weight: 600;
-      min-height: 44px;
-      white-space: nowrap;
-      box-shadow: 0 2px 8px rgba(0, 168, 135, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.25);
-      transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.2s ease, box-shadow 0.2s ease;
-      z-index: 1;
-      text-decoration: none;
       display: inline-flex;
       align-items: center;
       justify-content: center;
+      padding: 12px 28px;
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: #FFFFFF;
+      background: linear-gradient(135deg, #0284c7 0%, #00A887 50%, #00755e 100%);
+      border: 1px solid rgba(0, 217, 174, 0.4);
+      border-radius: 6px !important;
+      box-shadow: 0 4px 20px -4px rgba(0, 168, 135, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+      transition: all 0.25s ease;
+      z-index: 1;
+      text-decoration: none;
+      min-height: 44px;
+      white-space: nowrap;
+      cursor: pointer;
+    }
+
+    .hero-ctas .btn-primary::before {
+      content: '';
+      position: absolute;
+      inset: -2px;
+      border-radius: 8px;
+      background: linear-gradient(135deg, #00D9AE, #00A887, #2563EB, #00D9AE);
+      background-size: 300% 300%;
+      z-index: -1;
+      opacity: 0.6;
+      animation: btnGradientShift 4s ease infinite;
+      transition: opacity 0.25s ease;
+    }
+
+    @keyframes btnGradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .hero-ctas .btn-primary:hover::before {
+      opacity: 1;
+      animation-duration: 2s;
     }
 
     .hero-ctas .btn-primary:hover {
-      background: #008f73;
-      box-shadow: 0 4px 14px rgba(0, 168, 135, 0.32);
-      transform: translateY(-1.5px);
+      box-shadow: 0 8px 26px -4px rgba(0, 168, 135, 0.65), 0 0 18px rgba(0, 217, 174, 0.35);
+      transform: translateY(-2px);
+      color: #FFFFFF;
     }
 
     .hero-ctas .btn-primary:active {
-      transform: scale(0.975);
-      transition: transform 0.08s ease-out;
+      transform: scale(0.98);
     }
 
     /* Secondary Ghost Button to Eliminate Split Attention */
