@@ -581,59 +581,21 @@
       handleScroll();
     }
 
-    // 7. Dark Mode / Theme Toggle System (Guarded LocalStorage & Accessibility)
-    let initialTheme = 'light';
+    // 7. Light Theme Enforcement (Default light mode, cleans up accidental dark mode)
     try {
-      const storedTheme = localStorage.getItem('vlsi_theme');
-      const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-      initialTheme = storedTheme || (prefersDark ? 'dark' : 'light');
-    } catch (e) {
-      const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-      initialTheme = prefersDark ? 'dark' : 'light';
-    }
+      localStorage.removeItem('vlsi_theme');
+      localStorage.removeItem('theme');
+    } catch (e) {}
 
-    function applyTheme(theme) {
-      document.documentElement.setAttribute('data-theme', theme);
-      document.documentElement.classList.toggle('dark-mode', theme === 'dark');
+    function applyTheme() {
+      document.documentElement.setAttribute('data-theme', 'light');
+      document.documentElement.classList.remove('dark-mode');
       if (document.body) {
-        document.body.classList.toggle('dark-mode', theme === 'dark');
-      }
-      try {
-        localStorage.setItem('vlsi_theme', theme);
-      } catch (e) {
-        // Fall back gracefully if storage is restricted
-      }
-
-      // Update Lucide icon ONLY on theme toggle buttons without wiping text labels
-      document.querySelectorAll('#desktopThemeToggle, #mobileThemeToggle, [data-theme-toggle]').forEach(btn => {
-        btn.setAttribute('aria-label', theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode');
-        const icon = btn.querySelector('[data-lucide], svg');
-        const iconName = theme === 'dark' ? 'sun' : 'moon';
-        if (icon) {
-          const preservedClass = icon.getAttribute('class') || '';
-          const newIcon = document.createElement('i');
-          newIcon.setAttribute('data-lucide', iconName);
-          if (preservedClass) newIcon.setAttribute('class', preservedClass);
-          icon.replaceWith(newIcon);
-        } else if (!btn.textContent.trim()) {
-          btn.innerHTML = `<i data-lucide="${iconName}"></i>`;
-        }
-      });
-      if (window.lucide && typeof window.lucide.createIcons === 'function') {
-        window.lucide.createIcons();
+        document.body.classList.remove('dark-mode');
       }
     }
 
-    applyTheme(initialTheme);
-
-    document.querySelectorAll('#desktopThemeToggle, #mobileThemeToggle, [data-theme-toggle]').forEach(btn => {
-      btn.addEventListener('click', (e) => {
-        e.preventDefault();
-        const current = document.documentElement.getAttribute('data-theme') || 'light';
-        const nextTheme = current === 'dark' ? 'light' : 'dark';
-        applyTheme(nextTheme);
-      });
-    });
+    applyTheme();
 
     // 8. Scroll Progress Bar & Scroll-to-Top Button (Sections 3 & 5 Checklist)
     const progressBar = document.getElementById('scrollProgressBar');
