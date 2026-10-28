@@ -1569,156 +1569,623 @@
     }
 
     /* -------------------------------------------------------------------------- */
-    /* TESTIMONIALS (Horizontal Scroll/Drag Carousel with Edge Fade)              */
+    /* DEDICATED DARK PLACEMENT SHOWCASE & RECRUITER NETWORK                      */
     /* -------------------------------------------------------------------------- */
-    .testimonials-section {
-      padding: var(--section-y) 0;
-      background: var(--surface);
-      border-bottom: 1px solid var(--edge);
+    .testimonials-section#testimonials,
+    .testimonials-section.dark-placement-theme {
+      background: #002D24 !important;
+      color: #FFFFFF;
+      padding: clamp(64px, 8vw, 104px) 0;
       position: relative;
+      overflow: hidden;
+      border-top: none;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
     }
 
-    .testimonials-carousel-wrapper {
-      position: relative;
-      margin: var(--space-8) 0;
+    .alumni-section-header {
+      text-align: center;
+      max-width: 680px;
+      margin: 0 auto;
     }
 
-    /* Edge fade mask on desktop */
-    .testimonials-carousel-wrapper::before,
-    .testimonials-carousel-wrapper::after {
+    .alumni-section-title {
+      font-family: var(--font-display, 'Space Grotesk', sans-serif);
+      font-size: clamp(2rem, 3.8vw, 2.75rem);
+      font-weight: 800;
+      color: #FFFFFF;
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+      margin-bottom: 14px;
+    }
+
+    .alumni-record-pill-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 22px;
+      border-radius: 9999px;
+      background: rgba(0, 217, 174, 0.15);
+      border: 1px solid #00D9AE;
+      color: #00D9AE;
+      font-size: var(--text-sm, 0.875rem);
+      font-weight: 700;
+      text-decoration: none;
+      transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .alumni-record-pill-link:hover {
+      background: #00D9AE;
+      color: #064E3B;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(0, 217, 174, 0.3);
+    }
+
+    .connected-stats-header {
+      display: flex;
+      justify-content: center;
+      gap: clamp(24px, 6vw, 56px);
+      margin: 40px auto 48px;
+      position: relative;
+      z-index: 5;
+    }
+
+    .stat-bubble-box {
+      background: #FFFFFF;
+      border-radius: 16px;
+      padding: 20px 40px;
+      text-align: center;
+      box-shadow: 0 16px 36px rgba(0, 0, 0, 0.28);
+      position: relative;
+      min-width: 190px;
+    }
+
+    .stat-bubble-val {
+      font-family: var(--font-display, 'Space Grotesk', sans-serif);
+      font-size: clamp(2.2rem, 3.2vw, 2.75rem);
+      font-weight: 800;
+      color: #064E3B;
+      line-height: 1;
+    }
+
+    .stat-bubble-label {
+      font-family: var(--font-body, 'Inter', sans-serif);
+      font-size: var(--text-sm, 0.875rem);
+      font-weight: 700;
+      color: #064E3B;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-top: 6px;
+    }
+
+    /* Circuit Downward Connector Line */
+    .circuit-l-connector {
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 2px;
+      height: 32px;
+      background: #00D9AE;
+      box-shadow: 0 0 10px rgba(0, 217, 174, 0.8);
+    }
+
+    .circuit-l-connector::after {
       content: '';
       position: absolute;
-      top: 0;
-      bottom: 0;
-      width: 48px;
-      pointer-events: none;
-      z-index: 2;
+      bottom: -4px;
+      left: -4px;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #00D9AE;
+      box-shadow: 0 0 8px #00D9AE;
     }
 
-    .testimonials-carousel-wrapper::before {
-      left: 0;
-      background: linear-gradient(to right, var(--surface) 0%, transparent 100%);
+    /* Reviews Header Section: Straight from the engineers */
+    .alumni-reviews-intro {
+      text-align: center;
+      margin: clamp(32px, 4.5vw, 48px) auto clamp(16px, 2.5vw, 24px);
     }
 
-    .testimonials-carousel-wrapper::after {
-      right: 0;
-      background: linear-gradient(to left, var(--surface) 0%, transparent 100%);
+    .alumni-reviews-heading {
+      font-family: var(--font-display, 'Space Grotesk', sans-serif);
+      font-size: clamp(1.5rem, 2.8vw, 2.15rem);
+      font-weight: 700;
+      color: #FFFFFF;
+      letter-spacing: -0.015em;
+      margin: 0;
     }
 
-    .testimonials-grid {
+    .alumni-carousel-stage {
+      position: relative;
+      overflow: hidden;
+      margin-top: 8px;
+      padding: 10px 0 20px;
+    }
+
+    .alumni-carousel-track {
       display: flex;
-      gap: var(--space-6);
+      gap: 24px;
+      transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+      will-change: transform;
       overflow-x: auto;
-      scroll-snap-type: x mandatory;
+      scroll-behavior: smooth;
       scrollbar-width: none;
-      -ms-overflow-style: none;
-      padding: 12px 4px 24px;
-      cursor: grab;
-      user-select: none;
+      padding: 4px 4px 16px;
     }
 
-    .testimonials-grid::-webkit-scrollbar {
+    .alumni-carousel-track::-webkit-scrollbar {
       display: none;
     }
 
-    .testimonials-grid:active {
-      cursor: grabbing;
-    }
-
-    .testimonial-card {
-      flex: 0 0 340px;
-      max-width: 360px;
-      scroll-snap-align: start;
-      padding: var(--space-8);
-      background: var(--layer);
-      border: 1px solid var(--edge);
-      border-radius: 8px;
+    .alumni-card {
+      flex: 0 0 clamp(310px, 31vw, 380px);
+      background: #FFFFFF;
+      border-radius: 16px;
+      padding: 26px;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      transition: border-color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
-      position: relative;
+      box-shadow: 0 16px 36px rgba(0, 0, 0, 0.22);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      transition: transform 0.25s, box-shadow 0.25s;
     }
 
-    @media (min-width: 768px) {
-      .testimonial-card {
-        flex: 0 0 380px;
-      }
+    .alumni-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 20px 48px rgba(0, 0, 0, 0.35);
     }
 
-    .testimonial-card:hover {
-      border-color: var(--trace);
-      transform: translateY(-3px);
-      box-shadow: 0 12px 24px -10px rgba(0, 168, 135, 0.12), inset 0 0 0 1px rgba(0, 168, 135, 0.15);
-    }
-
-    .testimonials-controls {
+    .alumni-card-head {
       display: flex;
-      align-items: center;
-      justify-content: flex-end;
-      gap: 10px;
-      margin-top: -12px;
+      align-items: flex-start;
+      justify-content: space-between;
       margin-bottom: 16px;
     }
 
-    .testimonial-arrow-btn {
-      width: 36px;
-      height: 36px;
-      border-radius: 6px;
-      border: 1px solid var(--edge);
-      background: var(--layer);
-      color: var(--text-hi);
-      display: inline-flex;
+    .alumni-profile-wrap {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .alumni-avatar-circle {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: #E6F7F4;
+      color: #064E3B;
+      font-weight: 700;
+      font-size: var(--text-lg, 1.125rem);
+      display: flex;
       align-items: center;
       justify-content: center;
-      cursor: pointer;
-      transition: all 0.2s ease;
+      border: 2px solid #00D9AE;
+      flex-shrink: 0;
     }
 
-    .testimonial-arrow-btn:hover {
-      border-color: var(--trace);
-      color: var(--trace);
-      background: rgba(0, 168, 135, 0.05);
+    .alumni-name {
+      font-family: var(--font-display, 'Space Grotesk', sans-serif);
+      font-weight: 700;
+      font-size: 1rem;
+      color: #0F172A;
+      line-height: 1.2;
     }
 
-    .quote-icon {
-      color: var(--trace);
-      font-size: 2.5rem;
-      line-height: 1;
-      font-family: var(--font-display);
-      margin-bottom: var(--space-3);
+    .alumni-sub {
+      font-size: 0.75rem;
+      color: #64748B;
+      margin-top: 3px;
     }
 
-    .testimonial-quote {
-      font-size: var(--text-sm);
-      color: var(--text-mid);
-      line-height: var(--leading-base);
-      margin-bottom: var(--space-6);
+    .alumni-company-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 3px 8px;
+      border-radius: 4px;
+      background: rgba(0, 168, 135, 0.1);
+      color: #064E3B;
+      font-size: 0.75rem;
+      font-weight: 700;
+      margin-top: 6px;
     }
 
-    .testimonial-author {
-      font-family: var(--font-display);
-      font-weight: var(--weight-bold);
-      font-size: var(--text-base);
-      color: var(--text-hi);
+    .alumni-quote {
+      font-size: 0.875rem;
+      line-height: 1.62;
+      color: #475569;
+      margin-bottom: 16px;
+      font-style: normal;
     }
 
-    .testimonial-role {
-      font-size: var(--text-xs);
-      color: var(--text-lo);
-      margin-bottom: var(--space-3);
-    }
-
-    .testimonial-stars {
+    .alumni-stars-row {
       display: flex;
       gap: 4px;
       color: #F59E0B;
     }
 
-    .testimonial-stars svg {
+    .alumni-stars-row svg {
       width: 14px;
       height: 14px;
       fill: #F59E0B;
+    }
+
+    .alumni-carousel-footer {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 32px;
+      padding: 0 4px;
+    }
+
+    .alumni-controls-cluster {
+      display: inline-flex;
+      align-items: center;
+      gap: 20px;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-radius: 9999px;
+      padding: 6px 14px;
+    }
+
+    .alumni-dots {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .alumni-dot {
+      position: relative;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.35);
+      border: none;
+      cursor: pointer;
+      transition: width 0.22s ease, border-radius 0.22s ease, background-color 0.2s ease;
+      padding: 0;
+    }
+
+    .alumni-dot::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 44px;
+      height: 44px;
+    }
+
+    .alumni-dot:hover {
+      background: rgba(255, 255, 255, 0.65);
+    }
+
+    .alumni-dot.active {
+      width: 28px;
+      border-radius: 9999px;
+      background: #00D9AE;
+      box-shadow: 0 0 10px rgba(0, 217, 174, 0.4);
+    }
+
+    .alumni-arrow-buttons {
+      display: flex;
+      gap: 10px;
+    }
+
+    .alumni-nav-arrow {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: #FFFFFF;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #064E3B;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+      transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+      padding: 0;
+    }
+
+    .alumni-nav-arrow:hover {
+      background: #00D9AE;
+      color: #064E3B;
+      border-color: #00D9AE;
+      transform: scale(1.06);
+    }
+
+    .alumni-disclaimer-text {
+      color: rgba(255, 255, 255, 0.55);
+      font-size: 0.75rem;
+      text-align: center;
+      margin-top: 14px;
+    }
+
+    /* Recruiter Cloud Layout & Floating Bubbles */
+    .recruiter-cloud-layout {
+      display: grid;
+      grid-template-columns: 1fr 1.25fr;
+      gap: 24px;
+      align-items: center;
+    }
+
+    @media (max-width: 960px) {
+      .recruiter-cloud-layout {
+        grid-template-columns: 1fr;
+        gap: 32px;
+      }
+    }
+
+    .recruiter-bubbles-arena {
+      position: relative;
+      height: clamp(440px, 46vw, 490px);
+      width: 100%;
+    }
+
+    .recruiter-bubble {
+      position: absolute;
+      border-radius: 50%;
+      background: #FFFFFF;
+      border: 1.5px solid rgba(0, 168, 135, 0.18);
+      box-shadow: 0 16px 36px -8px rgba(0, 0, 0, 0.08), 0 2px 6px rgba(0, 0, 0, 0.03);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 12px 8px;
+      box-sizing: border-box;
+      overflow: hidden;
+      cursor: pointer;
+      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s ease, border-color 0.35s ease;
+      will-change: transform;
+    }
+
+    .recruiter-bubble:hover {
+      transform: scale(1.14) !important;
+      animation-play-state: paused !important;
+      z-index: 20;
+    }
+
+    .bubble-brand-badge {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 28px;
+      width: 100%;
+      margin-bottom: 4px;
+    }
+
+    .recruiter-brand-svg {
+      max-height: 24px;
+      max-width: 84px;
+      width: auto;
+      height: auto;
+      display: block;
+      transition: transform 0.25s ease;
+    }
+
+    .recruiter-bubble:hover .recruiter-brand-svg {
+      transform: scale(1.06);
+    }
+
+    .recruiter-bubble span.bubble-role-subtitle {
+      font-family: var(--font-display, 'Space Grotesk', sans-serif);
+      font-weight: 600;
+      font-size: var(--text-xs, 0.75rem);
+      color: #475569;
+      margin-bottom: 4px;
+      line-height: 1.2;
+      white-space: nowrap;
+      max-width: 90%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .recruiter-bubble span.bubble-pill-chip {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2.5px 9px;
+      border-radius: 9999px;
+      font-size: var(--text-xs, 0.75rem);
+      font-weight: 700;
+      line-height: 1.2;
+      white-space: nowrap;
+      max-width: 86%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      background: #ECFDF5;
+      border: 1px solid #A7F3D0;
+      color: #064E3B;
+      letter-spacing: 0.01em;
+      transition: background-color 0.2s ease, color 0.2s ease;
+    }
+
+    /* Individual Bubble Positions, Sizes & Brand Glows */
+    .bubble-intel {
+      width: clamp(124px, 14vw, 146px);
+      height: clamp(124px, 14vw, 146px);
+      top: 4%;
+      left: 10%;
+      animation: floatIntel 5.4s ease-in-out infinite;
+    }
+
+    .bubble-intel:hover {
+      border-color: #0071C5;
+      box-shadow: 0 22px 50px -10px rgba(0, 113, 197, 0.32);
+    }
+
+    .bubble-intel:hover .bubble-pill-chip {
+      background: #E0F2FE;
+      border-color: #7DD3FC;
+      color: #00D9AE;
+    }
+
+    .bubble-qualcomm {
+      width: clamp(128px, 14.5vw, 150px);
+      height: clamp(128px, 14.5vw, 150px);
+      top: 28%;
+      left: 44%;
+      animation: floatQualcomm 6.0s ease-in-out infinite;
+    }
+
+    .bubble-qualcomm:hover {
+      border-color: #3253DC;
+      box-shadow: 0 22px 50px -10px rgba(50, 83, 220, 0.32);
+    }
+
+    .bubble-qualcomm:hover .bubble-pill-chip {
+      background: #EEF2FF;
+      border-color: #A5B4FC;
+      color: #00D9AE;
+    }
+
+    .bubble-synopsys {
+      width: clamp(124px, 14vw, 146px);
+      height: clamp(124px, 14vw, 146px);
+      top: 52%;
+      left: 4%;
+      animation: floatSynopsys 6.6s ease-in-out infinite;
+    }
+
+    .bubble-synopsys:hover {
+      border-color: #5B2C83;
+      box-shadow: 0 22px 50px -10px rgba(91, 44, 131, 0.32);
+    }
+
+    .bubble-synopsys:hover .bubble-pill-chip {
+      background: #F5F3FF;
+      border-color: #C4B5FD;
+      color: #00D9AE;
+    }
+
+    .bubble-cadence {
+      width: clamp(120px, 13.5vw, 142px);
+      height: clamp(120px, 13.5vw, 142px);
+      top: 72%;
+      left: 32%;
+      animation: floatCadence 5.0s ease-in-out infinite;
+    }
+
+    .bubble-cadence:hover {
+      border-color: #E31837;
+      box-shadow: 0 22px 50px -10px rgba(227, 24, 55, 0.32);
+    }
+
+    .bubble-cadence:hover .bubble-pill-chip {
+      background: #FEF2F2;
+      border-color: #FECACA;
+      color: #B91C1C;
+    }
+
+    .bubble-arm {
+      width: clamp(118px, 13vw, 138px);
+      height: clamp(118px, 13vw, 138px);
+      top: 64%;
+      left: 74%;
+      animation: floatArm 4.8s ease-in-out infinite;
+    }
+
+    .bubble-arm:hover {
+      border-color: #0091BD;
+      box-shadow: 0 22px 50px -10px rgba(0, 145, 189, 0.32);
+    }
+
+    .bubble-arm:hover .bubble-pill-chip {
+      background: #ECFEFF;
+      border-color: #A5F3FC;
+      color: #00D9AE;
+    }
+
+    .bubble-mediatek {
+      width: clamp(120px, 13.5vw, 142px);
+      height: clamp(120px, 13.5vw, 142px);
+      top: 4%;
+      left: 74%;
+      animation: floatMediatek 5.6s ease-in-out infinite;
+    }
+
+    .bubble-mediatek:hover {
+      border-color: #F58220;
+      box-shadow: 0 22px 50px -10px rgba(245, 130, 32, 0.32);
+    }
+
+    .bubble-mediatek:hover .bubble-pill-chip {
+      background: #FFF7ED;
+      border-color: #FFEDD5;
+      color: #C2410C;
+    }
+
+    /* Floating keyframes */
+    @keyframes floatIntel {
+      0% { transform: translate(0, 0) rotate(0deg); }
+      25% { transform: translate(4px, -6px) rotate(0.8deg); }
+      50% { transform: translate(-3px, -9px) rotate(-0.5deg); }
+      75% { transform: translate(-4px, -3px) rotate(-0.8deg); }
+      100% { transform: translate(0, 0) rotate(0deg); }
+    }
+
+    @keyframes floatQualcomm {
+      0% { transform: translate(0, 0) rotate(0deg); }
+      25% { transform: translate(-4px, -7px) rotate(-0.7deg); }
+      50% { transform: translate(3px, -10px) rotate(0.6deg); }
+      75% { transform: translate(5px, -4px) rotate(0.8deg); }
+      100% { transform: translate(0, 0) rotate(0deg); }
+    }
+
+    @keyframes floatSynopsys {
+      0% { transform: translate(0, 0) rotate(0deg); }
+      25% { transform: translate(5px, -5px) rotate(0.8deg); }
+      50% { transform: translate(-3px, -8px) rotate(-0.6deg); }
+      75% { transform: translate(-5px, -2px) rotate(-0.4deg); }
+      100% { transform: translate(0, 0) rotate(0deg); }
+    }
+
+    @keyframes floatCadence {
+      0% { transform: translate(0, 0) rotate(0deg); }
+      25% { transform: translate(-4px, -8px) rotate(-0.8deg); }
+      50% { transform: translate(4px, -4px) rotate(0.6deg); }
+      75% { transform: translate(-2px, 2px) rotate(0.3deg); }
+      100% { transform: translate(0, 0) rotate(0deg); }
+    }
+
+    @keyframes floatArm {
+      0% { transform: translate(0, 0) rotate(0deg); }
+      25% { transform: translate(4px, -6px) rotate(0.8deg); }
+      50% { transform: translate(-3px, -8px) rotate(-0.7deg); }
+      75% { transform: translate(3px, -2px) rotate(0.4deg); }
+      100% { transform: translate(0, 0) rotate(0deg); }
+    }
+
+    @keyframes floatMediatek {
+      0% { transform: translate(0, 0) rotate(0deg); }
+      25% { transform: translate(-4px, -6px) rotate(-0.7deg); }
+      50% { transform: translate(3px, -9px) rotate(0.8deg); }
+      75% { transform: translate(-2px, -3px) rotate(-0.4deg); }
+      100% { transform: translate(0, 0) rotate(0deg); }
+    }
+
+    @media (max-width: 640px) {
+      .recruiter-bubbles-arena {
+        height: 440px;
+        max-width: 360px;
+        margin: 20px auto 0;
+        position: relative;
+      }
+      .bubble-intel { top: 2%; left: 4%; width: 102px; height: 102px; }
+      .bubble-mediatek { top: 2%; left: auto; right: 4%; width: 102px; height: 102px; }
+      .bubble-qualcomm { top: 26%; left: calc(50% - 56px); width: 112px; height: 112px; }
+      .bubble-synopsys { top: 51%; left: 4%; width: 102px; height: 102px; }
+      .bubble-arm { top: 51%; left: auto; right: 4%; width: 102px; height: 102px; }
+      .bubble-cadence { top: 75%; left: calc(50% - 52px); width: 104px; height: 104px; }
+      .recruiter-brand-svg { max-height: 18px; max-width: 58px; }
+      .recruiter-bubble span.bubble-role-subtitle { font-size: var(--text-xs, 0.75rem); margin-bottom: 2px; }
+      .recruiter-bubble span.bubble-pill-chip { font-size: var(--text-xs, 0.75rem); padding: 2px 7px; }
     }
 
     /* -------------------------------------------------------------------------- */
@@ -3573,102 +4040,298 @@
       </div>
     </section>
 
-    <!-- TESTIMONIALS -->
-    <section class="testimonials-section" id="testimonials">
+    <!-- ======================================================================= -->
+    <!-- MAVEN-SILICON MERGED SHOWCASE: OUR PLACEMENTS & RECRUITER NETWORK       -->
+    <!-- Combines Verified Alumni Records & Direct Recruiter Placement Pipeline -->
+    <!-- ======================================================================= -->
+    <section class="testimonials-section dark-placement-theme" id="testimonials" data-scroll-title="Placements & Alumni" aria-label="Our Placements & Recruiter Network">
       <div class="container">
-        <div class="section-heading-group">
-          <p class="section-label">Industry Alumni in Production</p>
-          <h2 class="section-heading">Straight from the engineers</h2>
+        <!-- SINGLE MASTER HEADLINE -->
+        <div class="alumni-section-header">
+          <p class="section-label" style="color: #00D9AE; text-align: center;">Verified Career Milestones</p>
+          <h2 class="alumni-section-title">Our Placements</h2>
+          <a href="testimonials.html" class="alumni-record-pill-link">
+            <span>View Our Placement Records</span>
+            <i data-lucide="arrow-right" style="width: 14px; height: 14px;"></i>
+          </a>
         </div>
 
-        <div class="testimonials-controls">
-          <button type="button" class="testimonial-arrow-btn" id="testimonialPrev" aria-label="Previous testimonial">
-            <i data-lucide="chevron-left"></i>
-          </button>
-          <button type="button" class="testimonial-arrow-btn" id="testimonialNext" aria-label="Next testimonial">
-            <i data-lucide="chevron-right"></i>
-          </button>
+        <!-- Connected Stat Bubbles with downward circuit trace lines -->
+        <div class="connected-stats-header">
+          <div class="stat-bubble-box">
+            <div class="stat-bubble-val">200+</div>
+            <div class="stat-bubble-label">Students Trained</div>
+            <div class="circuit-l-connector" aria-hidden="true"></div>
+          </div>
+          <div class="stat-bubble-box">
+            <div class="stat-bubble-val">10+</div>
+            <div class="stat-bubble-label">Corporate Partners</div>
+            <div class="circuit-l-connector" aria-hidden="true"></div>
+          </div>
         </div>
 
-        <div class="testimonials-carousel-wrapper">
-          <div class="testimonials-grid" id="testimonialsCarousel">
-            <article class="testimonial-card">
+        <!-- Reviews Subhead: Straight from the engineers -->
+        <div class="alumni-reviews-intro">
+          <p class="section-label" style="color: #00D9AE; text-align: center; margin-bottom: 6px;">Industry Alumni in Production</p>
+          <h3 class="alumni-reviews-heading">Straight from the engineers</h3>
+        </div>
+
+        <!-- Horizontal Testimonials Track -->
+        <div class="alumni-carousel-stage">
+          <div class="alumni-carousel-track" id="alumniTrack">
+            <!-- Card 1: Rahul Sharma -->
+            <article class="alumni-card">
               <div>
-                <div class="quote-icon" aria-hidden="true">&ldquo;</div>
-                <p class="testimonial-quote">
-                  The UVM testbench architecture module gave me the exact skills needed to clear the technical rounds at a
-                  tier-1 semiconductor MNC.
+                <div class="alumni-card-head">
+                  <div class="alumni-profile-wrap">
+                    <div class="alumni-avatar-circle">RS</div>
+                    <div>
+                      <div class="alumni-name">Rahul Sharma</div>
+                      <div class="alumni-sub">RTL Design Engineer &bull; Batch of 2024</div>
+                      <span class="alumni-company-tag"><i data-lucide="check-circle-2" style="width: 11px; height: 11px;"></i> Qualcomm</span>
+                    </div>
+                  </div>
+                </div>
+                <p class="alumni-quote">
+                  "The training gave me exactly the practical skills I needed to crack the technical interview rounds at a top semiconductor company."
                 </p>
               </div>
-              <div>
-                <div class="testimonial-author">Rahul Sharma</div>
-                <div class="testimonial-role">RTL Design engineer &bull; Batch of 2024</div>
-                <div class="testimonial-stars" aria-label="5 out of 5 stars">
-                  <i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i
-                    data-lucide="star"></i><i data-lucide="star"></i>
-                </div>
+              <div class="alumni-stars-row" aria-label="5 out of 5 stars">
+                <i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i>
               </div>
             </article>
 
-            <article class="testimonial-card">
+            <!-- Card 2: Pooja Nair -->
+            <article class="alumni-card">
               <div>
-                <div class="quote-icon" aria-hidden="true">&ldquo;</div>
-                <p class="testimonial-quote">
-                  Unlike college labs, here we simulated actual multi-clock SoCs. The mentor feedback on timing closure
-                  was invaluable.
+                <div class="alumni-card-head">
+                  <div class="alumni-profile-wrap">
+                    <div class="alumni-avatar-circle">PN</div>
+                    <div>
+                      <div class="alumni-name">Pooja Nair</div>
+                      <div class="alumni-sub">Verification Engineer &bull; Batch of 2023</div>
+                      <span class="alumni-company-tag"><i data-lucide="check-circle-2" style="width: 11px; height: 11px;"></i> Synopsys</span>
+                    </div>
+                  </div>
+                </div>
+                <p class="alumni-quote">
+                  "Here we worked on real chip designs, not just college textbook problems. The mentor guidance throughout the program was incredibly valuable."
                 </p>
               </div>
-              <div>
-                <div class="testimonial-author">Pooja Nair</div>
-                <div class="testimonial-role">Verification Engineer &bull; Batch of 2023</div>
-                <div class="testimonial-stars" aria-label="5 out of 5 stars">
-                  <i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i
-                    data-lucide="star"></i><i data-lucide="star"></i>
-                </div>
+              <div class="alumni-stars-row" aria-label="5 out of 5 stars">
+                <i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i>
               </div>
             </article>
 
-            <article class="testimonial-card">
+            <!-- Card 3: Aniket Deshmukh -->
+            <article class="alumni-card">
               <div>
-                <div class="quote-icon" aria-hidden="true">&ldquo;</div>
-                <p class="testimonial-quote">
-                  The hands-on simulation environments and IP integration assignments gave me real confidence to work directly on complex SoC test suites.
+                <div class="alumni-card-head">
+                  <div class="alumni-profile-wrap">
+                    <div class="alumni-avatar-circle">AD</div>
+                    <div>
+                      <div class="alumni-name">Aniket Deshmukh</div>
+                      <div class="alumni-sub">SOC Verification &bull; Batch of 2024</div>
+                      <span class="alumni-company-tag"><i data-lucide="check-circle-2" style="width: 11px; height: 11px;"></i> Intel</span>
+                    </div>
+                  </div>
+                </div>
+                <p class="alumni-quote">
+                  "The hands-on projects and real-world assignments gave me the confidence to work on large, complex chip verification tasks from day one."
                 </p>
               </div>
-              <div>
-                <div class="testimonial-author">Aniket Deshmukh</div>
-                <div class="testimonial-role">SOC verification &bull; Batch of 2024</div>
-                <div class="testimonial-stars" aria-label="5 out of 5 stars">
-                  <i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i
-                    data-lucide="star"></i><i data-lucide="star"></i>
-                </div>
+              <div class="alumni-stars-row" aria-label="5 out of 5 stars">
+                <i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i>
               </div>
             </article>
 
-            <article class="testimonial-card">
+            <!-- Card 4: Vikas Gupta -->
+            <article class="alumni-card">
               <div>
-                <div class="quote-icon" aria-hidden="true">&ldquo;</div>
-                <p class="testimonial-quote">
-                  Learning Python/Perl regression automation alongside Verilog gave me a decisive edge. My placement drive at an EDA MNC went seamlessly.
+                <div class="alumni-card-head">
+                  <div class="alumni-profile-wrap">
+                    <div class="alumni-avatar-circle">VG</div>
+                    <div>
+                      <div class="alumni-name">Vikas Gupta</div>
+                      <div class="alumni-sub">Flow Automation &bull; Batch of 2024</div>
+                      <span class="alumni-company-tag"><i data-lucide="check-circle-2" style="width: 11px; height: 11px;"></i> Cadence</span>
+                    </div>
+                  </div>
+                </div>
+                <p class="alumni-quote">
+                  "Learning scripting and automation alongside chip design gave me a big advantage. My interview at Cadence went smoothly thanks to this training."
                 </p>
               </div>
+              <div class="alumni-stars-row" aria-label="5 out of 5 stars">
+                <i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i>
+              </div>
+            </article>
+
+            <!-- Card 5: Neha Verma -->
+            <article class="alumni-card">
               <div>
-                <div class="testimonial-author">Vikas Gupta</div>
-                <div class="testimonial-role">Scripting &amp; Flow Automation &bull; Batch of 2024</div>
-                <div class="testimonial-stars" aria-label="5 out of 5 stars">
-                  <i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i
-                    data-lucide="star"></i><i data-lucide="star"></i>
+                <div class="alumni-card-head">
+                  <div class="alumni-profile-wrap">
+                    <div class="alumni-avatar-circle">NV</div>
+                    <div>
+                      <div class="alumni-name">Neha Verma</div>
+                      <div class="alumni-sub">Physical Design &bull; Batch of 2023</div>
+                      <span class="alumni-company-tag"><i data-lucide="check-circle-2" style="width: 11px; height: 11px;"></i> ARM</span>
+                    </div>
+                  </div>
                 </div>
+                <p class="alumni-quote">
+                  "The practical experience on advanced chip design helped me transition smoothly from a student into a real industry production team at ARM."
+                </p>
+              </div>
+              <div class="alumni-stars-row" aria-label="5 out of 5 stars">
+                <i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i>
+              </div>
+            </article>
+
+            <!-- Card 6: Siddharth Rao -->
+            <article class="alumni-card">
+              <div>
+                <div class="alumni-card-head">
+                  <div class="alumni-profile-wrap">
+                    <div class="alumni-avatar-circle">SR</div>
+                    <div>
+                      <div class="alumni-name">Siddharth Rao</div>
+                      <div class="alumni-sub">DFT &amp; Silicon Test &bull; Batch of 2024</div>
+                      <span class="alumni-company-tag"><i data-lucide="check-circle-2" style="width: 11px; height: 11px;"></i> NXP Semi</span>
+                    </div>
+                  </div>
+                </div>
+                <p class="alumni-quote">
+                  "Everything we practiced in training mapped directly to the questions I was asked during my campus placement interviews. I felt fully prepared."
+                </p>
+              </div>
+              <div class="alumni-stars-row" aria-label="5 out of 5 stars">
+                <i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i>
               </div>
             </article>
           </div>
         </div>
 
-        <!-- Read More CTA -->
-        <div class="section-action-wrap">
-          <a href="testimonials.html" class="btn-secondary" class="btn-secondary section-action-btn">
-            Read More <i data-lucide="arrow-right" class="icon-base"></i>
-          </a>
+        <!-- Bottom Navigation & Disclaimer -->
+        <div class="alumni-carousel-footer">
+          <div class="alumni-controls-cluster">
+            <div class="alumni-dots" id="alumniDots">
+              <button type="button" class="alumni-dot active" data-index="0" aria-label="Go to card 1"></button>
+              <button type="button" class="alumni-dot" data-index="1" aria-label="Go to card 2"></button>
+              <button type="button" class="alumni-dot" data-index="2" aria-label="Go to card 3"></button>
+              <button type="button" class="alumni-dot" data-index="3" aria-label="Go to card 4"></button>
+              <button type="button" class="alumni-dot" data-index="4" aria-label="Go to card 5"></button>
+              <button type="button" class="alumni-dot" data-index="5" aria-label="Go to card 6"></button>
+            </div>
+            <div class="alumni-arrow-buttons">
+              <button type="button" class="alumni-nav-arrow" id="alumniPrevBtn" aria-label="Previous Testimonials">
+                <i data-lucide="chevron-left" style="width: 18px; height: 18px;"></i>
+              </button>
+              <button type="button" class="alumni-nav-arrow" id="alumniNextBtn" aria-label="Next Testimonials">
+                <i data-lucide="chevron-right" style="width: 18px; height: 18px;"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+        <p class="alumni-disclaimer-text">*Logos and company trademarks are the property of their respective owners.</p>
+
+        <!-- SUBSECTION: DIRECT PLACEMENT PIPELINE & RECRUITER NETWORK -->
+        <div class="placement-pipeline-divider" style="margin: clamp(48px, 6vw, 72px) auto 36px; height: 1px; background: linear-gradient(90deg, transparent, rgba(0, 217, 174, 0.35), transparent); max-width: 900px;"></div>
+
+        <div class="recruiter-cloud-layout" style="align-items: center; padding-top: 12px;">
+          <div>
+            <span class="minimal-lead-badge" style="background: rgba(0, 217, 174, 0.15); color: #00D9AE; border-color: rgba(0, 217, 174, 0.3); display: inline-flex; align-items: center; gap: 6px; padding: 4px 12px; border-radius: 9999px; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; border-width: 1px; border-style: solid;">
+              <span style="width: 6px; height: 6px; border-radius: 50%; background: #00D9AE;"></span>
+              Semiconductor Ecosystem
+            </span>
+            <h3 style="font-family: var(--font-display, 'Space Grotesk', sans-serif); font-size: clamp(1.65rem, 2.8vw, 2.25rem); font-weight: 700; color: #FFFFFF; margin: 12px 0 16px; line-height: 1.2;">Direct Placement Pipeline</h3>
+            <p style="color: rgba(255, 255, 255, 0.78); font-size: var(--text-base, 1rem); line-height: 1.65; margin-bottom: 24px;">
+              Our engineers are actively recruited by the world's foremost semiconductor design teams, fabless innovators, and EDA software leaders.
+            </p>
+            <div style="display: flex; gap: 16px; align-items: center;">
+              <a href="testimonials.html" class="alumni-record-pill-link" style="padding: 10px 24px; font-size: 0.875rem;">Verify Placement Records <i data-lucide="arrow-right" style="width: 14px; height: 14px;"></i></a>
+            </div>
+          </div>
+
+          <!-- Floating Recruiter Arena with Multi-Axis Organic Floating Animations -->
+          <div class="recruiter-bubbles-arena" id="recruiterArena">
+            <!-- Intel -->
+            <div class="recruiter-bubble bubble-intel" data-company="intel" title="Intel Corporation">
+              <div class="bubble-brand-badge">
+                <svg viewBox="0 0 92 28" class="recruiter-brand-svg" xmlns="http://www.w3.org/2000/svg" aria-label="Intel">
+                  <text x="46" y="21" text-anchor="middle" font-family="'Space Grotesk', system-ui, -apple-system, sans-serif" font-weight="700" font-size="20" fill="#0071C5" letter-spacing="-0.5px">intel</text>
+                  <rect x="24" y="4.5" width="3.8" height="3.8" fill="#0071C5" rx="0.5"/>
+                </svg>
+              </div>
+              <span class="bubble-role-subtitle">SoC Architecture</span>
+              <span class="bubble-pill-chip">42+ Placed</span>
+            </div>
+
+            <!-- Qualcomm -->
+            <div class="recruiter-bubble bubble-qualcomm" data-company="qualcomm" title="Qualcomm">
+              <div class="bubble-brand-badge">
+                <svg viewBox="0 0 110 28" class="recruiter-brand-svg" xmlns="http://www.w3.org/2000/svg" aria-label="Qualcomm">
+                  <circle cx="14" cy="14" r="8.5" fill="none" stroke="#3253DC" stroke-width="2.5"/>
+                  <circle cx="14" cy="14" r="3" fill="#3253DC"/>
+                  <path d="M20 20L24 24" stroke="#3253DC" stroke-width="2.5" stroke-linecap="round"/>
+                  <text x="65" y="20.5" text-anchor="middle" font-family="'Space Grotesk', system-ui, -apple-system, sans-serif" font-weight="700" font-size="17" fill="#3253DC" letter-spacing="-0.3px">Qualcomm</text>
+                </svg>
+              </div>
+              <span class="bubble-role-subtitle">RTL &amp; Modem</span>
+              <span class="bubble-pill-chip">38+ Hired</span>
+            </div>
+
+            <!-- Synopsys -->
+            <div class="recruiter-bubble bubble-synopsys" data-company="synopsys" title="Synopsys EDA">
+              <div class="bubble-brand-badge">
+                <svg viewBox="0 0 110 28" class="recruiter-brand-svg" xmlns="http://www.w3.org/2000/svg" aria-label="Synopsys">
+                  <polygon points="13,3 3,23 23,23" fill="none" stroke="#5B2C83" stroke-width="2.5" stroke-linejoin="round"/>
+                  <circle cx="13" cy="15" r="2.8" fill="#5B2C83"/>
+                  <text x="66" y="20.5" text-anchor="middle" font-family="'Space Grotesk', system-ui, -apple-system, sans-serif" font-weight="800" font-size="16.5" fill="#5B2C83" letter-spacing="0.8px">SYNOPSYS</text>
+                </svg>
+              </div>
+              <span class="bubble-role-subtitle">UVM Verification</span>
+              <span class="bubble-pill-chip">31+ Hired</span>
+            </div>
+
+            <!-- Cadence -->
+            <div class="recruiter-bubble bubble-cadence" data-company="cadence" title="Cadence Design Systems">
+              <div class="bubble-brand-badge">
+                <svg viewBox="0 0 100 28" class="recruiter-brand-svg" xmlns="http://www.w3.org/2000/svg" aria-label="Cadence">
+                  <circle cx="13" cy="14" r="8.5" fill="none" stroke="#E31837" stroke-width="2.6"/>
+                  <circle cx="13" cy="14" r="2.8" fill="#E31837"/>
+                  <text x="56" y="20.5" text-anchor="middle" font-family="'Space Grotesk', system-ui, -apple-system, sans-serif" font-weight="700" font-size="17.5" fill="#E31837" letter-spacing="-0.2px">cā dence</text>
+                </svg>
+              </div>
+              <span class="bubble-role-subtitle">STA Closure</span>
+              <span class="bubble-pill-chip">24+ Placed</span>
+            </div>
+
+            <!-- ARM -->
+            <div class="recruiter-bubble bubble-arm" data-company="arm" title="ARM Architecture">
+              <div class="bubble-brand-badge">
+                <svg viewBox="0 0 80 28" class="recruiter-brand-svg" xmlns="http://www.w3.org/2000/svg" aria-label="ARM">
+                  <text x="40" y="21.5" text-anchor="middle" font-family="'Space Grotesk', system-ui, -apple-system, sans-serif" font-weight="800" font-size="20" fill="#0091BD" letter-spacing="0.5px">arm</text>
+                </svg>
+              </div>
+              <span class="bubble-role-subtitle">Cortex IP Core</span>
+              <span class="bubble-pill-chip">19+ Placed</span>
+            </div>
+
+            <!-- MediaTek -->
+            <div class="recruiter-bubble bubble-mediatek" data-company="mediatek" title="MediaTek">
+              <div class="bubble-brand-badge">
+                <svg viewBox="0 0 115 28" class="recruiter-brand-svg" xmlns="http://www.w3.org/2000/svg" aria-label="MediaTek">
+                  <rect x="2" y="6" width="9" height="16" rx="4.5" fill="#00A0E9"/>
+                  <rect x="8" y="6" width="9" height="16" rx="4.5" fill="#F58220" fill-opacity="0.9"/>
+                  <text x="65" y="20" text-anchor="middle" font-family="'Space Grotesk', system-ui, -apple-system, sans-serif" font-weight="800" font-size="15" fill="#0F172A" letter-spacing="0.5px">MEDIATEK</text>
+                </svg>
+              </div>
+              <span class="bubble-role-subtitle">5G Connectivity</span>
+              <span class="bubble-pill-chip">16+ Placed</span>
+            </div>
+          </div>
         </div>
       </div>
     </section>
@@ -4392,45 +5055,98 @@
     })();
   </script>
 
-  <!-- Testimonials Carousel Controls & Drag Script -->
+  <!-- Testimonials / Alumni Carousel Controls Script -->
   <script>
     (function () {
-      const carousel = document.getElementById('testimonialsCarousel');
-      const prevBtn = document.getElementById('testimonialPrev');
-      const nextBtn = document.getElementById('testimonialNext');
-      if (!carousel) return;
+      var alumniTrack = document.getElementById('alumniTrack');
+      var alumniDots  = document.querySelectorAll('#alumniDots .alumni-dot');
+      var alumniPrev  = document.getElementById('alumniPrevBtn');
+      var alumniNext  = document.getElementById('alumniNextBtn');
 
-      const cardWidth = 380;
-      if (prevBtn) {
-        prevBtn.addEventListener('click', () => {
-          carousel.scrollBy({ left: -cardWidth, behavior: 'smooth' });
+      if (alumniTrack && alumniPrev && alumniNext) {
+        var alumniCards = alumniTrack.querySelectorAll('.alumni-card');
+        var alumniTotal = alumniCards.length;
+        var alumniIndex = 0;
+
+        function goAlumni(idx) {
+          if (alumniTotal === 0) return;
+          if (idx < 0) idx = alumniTotal - 1;
+          if (idx >= alumniTotal) idx = 0;
+          alumniIndex = idx;
+
+          var targetCard = alumniCards[alumniIndex];
+          if (targetCard) {
+            var scrollTarget = targetCard.offsetLeft - alumniTrack.offsetLeft;
+            alumniTrack.scrollTo({ left: scrollTarget, behavior: 'smooth' });
+          }
+
+          alumniDots.forEach(function (d, i) {
+            d.classList.toggle('active', i === alumniIndex);
+            d.setAttribute('aria-current', i === alumniIndex ? 'true' : 'false');
+          });
+        }
+
+        alumniPrev.addEventListener('click', function () { goAlumni(alumniIndex - 1); });
+        alumniNext.addEventListener('click', function () { goAlumni(alumniIndex + 1); });
+        alumniDots.forEach(function (dot, i) {
+          dot.addEventListener('click', function () { goAlumni(i); });
+        });
+
+        // Sync active dot when user scrolls or swipes
+        var alumniScrollTimer;
+        alumniTrack.addEventListener('scroll', function () {
+          clearTimeout(alumniScrollTimer);
+          alumniScrollTimer = setTimeout(function () {
+            var currentScroll = alumniTrack.scrollLeft;
+            var closestIdx = 0;
+            var minDiff = Infinity;
+            alumniCards.forEach(function (card, i) {
+              var diff = Math.abs((card.offsetLeft - alumniTrack.offsetLeft) - currentScroll);
+              if (diff < minDiff) {
+                minDiff = diff;
+                closestIdx = i;
+              }
+            });
+            alumniIndex = closestIdx;
+            alumniDots.forEach(function (d, i) {
+              d.classList.toggle('active', i === alumniIndex);
+              d.setAttribute('aria-current', i === alumniIndex ? 'true' : 'false');
+            });
+          }, 60);
+        }, { passive: true });
+
+        // Drag to scroll functionality
+        var isDown = false;
+        var startX;
+        var scrollLeft;
+
+        alumniTrack.addEventListener('mousedown', function (e) {
+          isDown = true;
+          startX = e.pageX - alumniTrack.offsetLeft;
+          scrollLeft = alumniTrack.scrollLeft;
+        });
+        alumniTrack.addEventListener('mouseleave', function () { isDown = false; });
+        alumniTrack.addEventListener('mouseup', function () { isDown = false; });
+        alumniTrack.addEventListener('mousemove', function (e) {
+          if (!isDown) return;
+          e.preventDefault();
+          var x = e.pageX - alumniTrack.offsetLeft;
+          var walk = (x - startX) * 1.5;
+          alumniTrack.scrollLeft = scrollLeft - walk;
+        });
+
+        // Keyboard support
+        [alumniPrev, alumniNext].forEach(function (btn) {
+          btn.addEventListener('keydown', function (e) {
+            if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); btn.click(); }
+          });
         });
       }
-      if (nextBtn) {
-        nextBtn.addEventListener('click', () => {
-          carousel.scrollBy({ left: cardWidth, behavior: 'smooth' });
-        });
+
+      // Re-trigger Lucide icon instantiation for newly injected SVG elements
+      if (window.lucide && typeof window.lucide.createIcons === 'function') {
+        window.lucide.createIcons();
       }
-
-      // Drag to scroll functionality
-      let isDown = false;
-      let startX;
-      let scrollLeft;
-
-      carousel.addEventListener('mousedown', (e) => {
-        isDown = true;
-        startX = e.pageX - carousel.offsetLeft;
-        scrollLeft = carousel.scrollLeft;
-      });
-      carousel.addEventListener('mouseleave', () => { isDown = false; });
-      carousel.addEventListener('mouseup', () => { isDown = false; });
-      carousel.addEventListener('mousemove', (e) => {
-        if (!isDown) return;
-        e.preventDefault();
-        const x = e.pageX - carousel.offsetLeft;
-        const walk = (x - startX) * 1.5;
-        carousel.scrollLeft = scrollLeft - walk;
-      });
     })();
   </script>
   <!-- UI Checklist Enhancements: Stagger Scroll Reveal, Circuit Cursor, Parallax -->

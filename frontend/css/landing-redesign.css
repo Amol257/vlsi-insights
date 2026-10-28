@@ -4640,6 +4640,291 @@
   }
 }
 
+
+/* -------------------------------------------------------------------------- */
+/* RECRUITER CLOUD LAYOUT & FLOATING RECRUITER BUBBLES                        */
+/* -------------------------------------------------------------------------- */
+.recruiter-cloud-layout {
+  display: grid;
+  grid-template-columns: 1fr 1.25fr;
+  gap: 24px;
+  align-items: center;
+}
+
+@media (max-width: 960px) {
+  .recruiter-cloud-layout {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+}
+
+.recruiter-bubbles-arena {
+  position: relative;
+  height: clamp(440px, 46vw, 490px);
+  width: 100%;
+}
+
+.recruiter-bubble {
+  position: absolute;
+  border-radius: 50%;
+  background: #FFFFFF;
+  border: 1.5px solid rgba(0, 168, 135, 0.18);
+  box-shadow: 0 16px 36px -8px rgba(0, 0, 0, 0.08), 0 2px 6px rgba(0, 0, 0, 0.03);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 12px 8px;
+  box-sizing: border-box;
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s ease, border-color 0.35s ease;
+  will-change: transform;
+}
+
+.recruiter-bubble:hover {
+  transform: scale(1.14) !important;
+  animation-play-state: paused !important;
+  z-index: 20;
+}
+
+.bubble-brand-badge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 28px;
+  width: 100%;
+  margin-bottom: 4px;
+}
+
+.recruiter-brand-svg {
+  max-height: 24px;
+  max-width: 84px;
+  width: auto;
+  height: auto;
+  display: block;
+  transition: transform 0.25s ease;
+}
+
+.recruiter-bubble:hover .recruiter-brand-svg {
+  transform: scale(1.06);
+}
+
+.recruiter-bubble span.bubble-role-subtitle {
+  font-family: var(--font-display, 'Space Grotesk', sans-serif);
+  font-weight: 600;
+  font-size: var(--text-xs, 0.75rem);
+  color: #475569;
+  margin-bottom: 4px;
+  line-height: 1.2;
+  white-space: nowrap;
+  max-width: 90%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.recruiter-bubble span.bubble-pill-chip {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2.5px 9px;
+  border-radius: 9999px;
+  font-size: var(--text-xs, 0.75rem);
+  font-weight: 700;
+  line-height: 1.2;
+  white-space: nowrap;
+  max-width: 86%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  background: #ECFDF5;
+  border: 1px solid #A7F3D0;
+  color: #064E3B;
+  letter-spacing: 0.01em;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.bubble-intel {
+  width: clamp(124px, 14vw, 146px);
+  height: clamp(124px, 14vw, 146px);
+  top: 4%;
+  left: 10%;
+  animation: floatIntel 5.4s ease-in-out infinite;
+}
+
+.bubble-intel:hover {
+  border-color: #0071C5;
+  box-shadow: 0 22px 50px -10px rgba(0, 113, 197, 0.32);
+}
+
+.bubble-intel:hover .bubble-pill-chip {
+  background: #E0F2FE;
+  border-color: #7DD3FC;
+  color: #00D9AE;
+}
+
+.bubble-qualcomm {
+  width: clamp(128px, 14.5vw, 150px);
+  height: clamp(128px, 14.5vw, 150px);
+  top: 28%;
+  left: 44%;
+  animation: floatQualcomm 6.0s ease-in-out infinite;
+}
+
+.bubble-qualcomm:hover {
+  border-color: #3253DC;
+  box-shadow: 0 22px 50px -10px rgba(50, 83, 220, 0.32);
+}
+
+.bubble-qualcomm:hover .bubble-pill-chip {
+  background: #EEF2FF;
+  border-color: #A5B4FC;
+  color: #00D9AE;
+}
+
+.bubble-synopsys {
+  width: clamp(124px, 14vw, 146px);
+  height: clamp(124px, 14vw, 146px);
+  top: 52%;
+  left: 4%;
+  animation: floatSynopsys 6.6s ease-in-out infinite;
+}
+
+.bubble-synopsys:hover {
+  border-color: #5B2C83;
+  box-shadow: 0 22px 50px -10px rgba(91, 44, 131, 0.32);
+}
+
+.bubble-synopsys:hover .bubble-pill-chip {
+  background: #F5F3FF;
+  border-color: #C4B5FD;
+  color: #00D9AE;
+}
+
+.bubble-cadence {
+  width: clamp(120px, 13.5vw, 142px);
+  height: clamp(120px, 13.5vw, 142px);
+  top: 72%;
+  left: 32%;
+  animation: floatCadence 5.0s ease-in-out infinite;
+}
+
+.bubble-cadence:hover {
+  border-color: #E31837;
+  box-shadow: 0 22px 50px -10px rgba(227, 24, 55, 0.32);
+}
+
+.bubble-cadence:hover .bubble-pill-chip {
+  background: #FEF2F2;
+  border-color: #FECACA;
+  color: #B91C1C;
+}
+
+.bubble-arm {
+  width: clamp(118px, 13vw, 138px);
+  height: clamp(118px, 13vw, 138px);
+  top: 64%;
+  left: 74%;
+  animation: floatArm 4.8s ease-in-out infinite;
+}
+
+.bubble-arm:hover {
+  border-color: #0091BD;
+  box-shadow: 0 22px 50px -10px rgba(0, 145, 189, 0.32);
+}
+
+.bubble-arm:hover .bubble-pill-chip {
+  background: #ECFEFF;
+  border-color: #A5F3FC;
+  color: #00D9AE;
+}
+
+.bubble-mediatek {
+  width: clamp(120px, 13.5vw, 142px);
+  height: clamp(120px, 13.5vw, 142px);
+  top: 4%;
+  left: 74%;
+  animation: floatMediatek 5.6s ease-in-out infinite;
+}
+
+.bubble-mediatek:hover {
+  border-color: #F58220;
+  box-shadow: 0 22px 50px -10px rgba(245, 130, 32, 0.32);
+}
+
+.bubble-mediatek:hover .bubble-pill-chip {
+  background: #FFF7ED;
+  border-color: #FFEDD5;
+  color: #C2410C;
+}
+
+@keyframes floatIntel {
+  0% { transform: translate(0, 0) rotate(0deg); }
+  25% { transform: translate(4px, -6px) rotate(0.8deg); }
+  50% { transform: translate(-3px, -9px) rotate(-0.5deg); }
+  75% { transform: translate(-4px, -3px) rotate(-0.8deg); }
+  100% { transform: translate(0, 0) rotate(0deg); }
+}
+
+@keyframes floatQualcomm {
+  0% { transform: translate(0, 0) rotate(0deg); }
+  25% { transform: translate(-4px, -7px) rotate(-0.7deg); }
+  50% { transform: translate(3px, -10px) rotate(0.6deg); }
+  75% { transform: translate(5px, -4px) rotate(0.8deg); }
+  100% { transform: translate(0, 0) rotate(0deg); }
+}
+
+@keyframes floatSynopsys {
+  0% { transform: translate(0, 0) rotate(0deg); }
+  25% { transform: translate(5px, -5px) rotate(0.8deg); }
+  50% { transform: translate(-3px, -8px) rotate(-0.6deg); }
+  75% { transform: translate(-5px, -2px) rotate(-0.4deg); }
+  100% { transform: translate(0, 0) rotate(0deg); }
+}
+
+@keyframes floatCadence {
+  0% { transform: translate(0, 0) rotate(0deg); }
+  25% { transform: translate(-4px, -8px) rotate(-0.8deg); }
+  50% { transform: translate(4px, -4px) rotate(0.6deg); }
+  75% { transform: translate(-2px, 2px) rotate(0.3deg); }
+  100% { transform: translate(0, 0) rotate(0deg); }
+}
+
+@keyframes floatArm {
+  0% { transform: translate(0, 0) rotate(0deg); }
+  25% { transform: translate(4px, -6px) rotate(0.8deg); }
+  50% { transform: translate(-3px, -8px) rotate(-0.7deg); }
+  75% { transform: translate(3px, -2px) rotate(0.4deg); }
+  100% { transform: translate(0, 0) rotate(0deg); }
+}
+
+@keyframes floatMediatek {
+  0% { transform: translate(0, 0) rotate(0deg); }
+  25% { transform: translate(-4px, -6px) rotate(-0.7deg); }
+  50% { transform: translate(3px, -9px) rotate(0.8deg); }
+  75% { transform: translate(-2px, -3px) rotate(-0.4deg); }
+  100% { transform: translate(0, 0) rotate(0deg); }
+}
+
+@media (max-width: 640px) {
+  .recruiter-bubbles-arena {
+    height: 440px;
+    max-width: 360px;
+    margin: 20px auto 0;
+    position: relative;
+  }
+  .bubble-intel { top: 2%; left: 4%; width: 102px; height: 102px; }
+  .bubble-mediatek { top: 2%; left: auto; right: 4%; width: 102px; height: 102px; }
+  .bubble-qualcomm { top: 26%; left: calc(50% - 56px); width: 112px; height: 112px; }
+  .bubble-synopsys { top: 51%; left: 4%; width: 102px; height: 102px; }
+  .bubble-arm { top: 51%; left: auto; right: 4%; width: 102px; height: 102px; }
+  .bubble-cadence { top: 75%; left: calc(50% - 52px); width: 104px; height: 104px; }
+  .recruiter-brand-svg { max-height: 18px; max-width: 58px; }
+  .recruiter-bubble span.bubble-role-subtitle { font-size: var(--text-xs, 0.75rem); margin-bottom: 2px; }
+  .recruiter-bubble span.bubble-pill-chip { font-size: var(--text-xs, 0.75rem); padding: 2px 7px; }
+}
+
+
 /* ==========================================================================
    23. KEYVO HALFTONE DOTTED CTA BANNER
    ========================================================================== */
