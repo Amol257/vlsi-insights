@@ -4270,6 +4270,13 @@
 
     function openBrochureModal(brochurePath, title) {
       if (!brochureModal || !brochurePath) return;
+
+      // Gate: Must be logged in to view/download brochure
+      const user = getSyncAuthUser();
+      if (!user) {
+        openAuthModal(null, 'signup', { path: brochurePath, title: title || 'Course Brochure' });
+        return;
+      }
       brochureModalImg.src = brochurePath;
       brochureModalImg.alt = title || 'Course Brochure';
       if (brochureModalTitle) brochureModalTitle.textContent = title || 'Official Course Brochure';
@@ -4298,6 +4305,19 @@
       }
     }
 
+    
+    if (brochureDownloadDirect) {
+      brochureDownloadDirect.addEventListener('click', (e) => {
+        const user = getSyncAuthUser();
+        if (!user) {
+          e.preventDefault();
+          const path = brochureDownloadDirect.href;
+          const title = brochureModalTitle ? brochureModalTitle.textContent : 'Course Brochure';
+          closeBrochureModal();
+          openAuthModal(null, 'signup', { path, title });
+        }
+      });
+    }
     if (closeBrochureModalBtn) closeBrochureModalBtn.addEventListener('click', closeBrochureModal);
     if (brochureDismissBtn) brochureDismissBtn.addEventListener('click', closeBrochureModal);
     if (brochureBackdrop) brochureBackdrop.addEventListener('click', closeBrochureModal);
@@ -4328,6 +4348,7 @@
     const modalGoogleBtn = document.getElementById('modalGoogleBtn');
 
     let pendingProgramToCart = null;
+    let pendingBrochureAction = null;
 
     function getSyncAuthUser() {
       try {
@@ -4380,22 +4401,40 @@
       if (modalAlertSuccess) modalAlertSuccess.style.display = 'none';
     }
 
-    function openAuthModal(item) {
+    function openAuthModal(item, mode = 'signin', brochureAction = null) {
       if (item) {
         pendingProgramToCart = item;
         try {
           sessionStorage.setItem('pending_cart_item', JSON.stringify(item));
         } catch (e) {}
       }
+      if (brochureAction) {
+        pendingBrochureAction = brochureAction;
+      }
       clearModalAlerts();
-      // Default to Sign In view
-      if (modalSignInForm) modalSignInForm.style.display = 'flex';
-      if (modalSignUpForm) modalSignUpForm.style.display = 'none';
-      if (authModalTitle) authModalTitle.textContent = 'Hi, Welcome back!';
-      if (authModalSubtitle) {
-        authModalSubtitle.textContent = item && item.name
-          ? `Sign in to add "${item.name}" to your cart and enroll.`
-          : 'Sign in to add courses to your cart and enroll.';
+
+      if (mode === 'signup') {
+        if (modalSignInForm) modalSignInForm.style.display = 'none';
+        if (modalSignUpForm) modalSignUpForm.style.display = 'flex';
+        if (authModalTitle) authModalTitle.textContent = 'Create an Account';
+        if (authModalSubtitle) {
+          authModalSubtitle.textContent = brochureAction && brochureAction.title
+            ? `Sign up to view and download the official brochure for "${brochureAction.title}".`
+            : 'Sign up to view and download course brochures.';
+        }
+      } else {
+        if (modalSignInForm) modalSignInForm.style.display = 'flex';
+        if (modalSignUpForm) modalSignUpForm.style.display = 'none';
+        if (authModalTitle) authModalTitle.textContent = 'Hi, Welcome back!';
+        if (authModalSubtitle) {
+          if (brochureAction && brochureAction.title) {
+            authModalSubtitle.textContent = `Sign in to view and download the official brochure for "${brochureAction.title}".`;
+          } else if (item && item.name) {
+            authModalSubtitle.textContent = `Sign in to add "${item.name}" to your cart and enroll.`;
+          } else {
+            authModalSubtitle.textContent = 'Sign in to add courses to your cart and enroll.';
+          }
+        }
       }
 
       if (authModalBackdrop) {
@@ -4431,7 +4470,7 @@
         modalSignInForm.style.display = 'none';
         modalSignUpForm.style.display = 'flex';
         authModalTitle.textContent = 'Create Your Account';
-        authModalSubtitle.textContent = 'Join VLSI Insights to enroll in semiconductor tracks.';
+        authModalSubtitle.textContent = pendingBrochureAction ? `Sign up to view and download "${pendingBrochureAction.title}" brochure.` : 'Join VLSI Insights to enroll in semiconductor tracks.';
         if (window.lucide) lucide.createIcons();
       });
     }
@@ -4444,7 +4483,7 @@
         authModalTitle.textContent = 'Hi, Welcome back!';
         authModalSubtitle.textContent = pendingProgramToCart
           ? `Sign in to add "${pendingProgramToCart.name}" to your cart.`
-          : 'Sign in to add courses to your cart and enroll.';
+          : (pendingBrochureAction ? `Sign in to view and download "${pendingBrochureAction.title}" brochure.` : 'Sign in to add courses to your cart and enroll.');
         if (window.lucide) lucide.createIcons();
       });
     }
@@ -4478,6 +4517,13 @@
 
     // Helper: Execute successful auth and redirect to cart.html
     function onAuthSuccessComplete() {
+      if (pendingBrochureAction) {
+        const action = pendingBrochureAction;
+        pendingBrochureAction = null;
+        closeAuthModal();
+        openBrochureModal(action.path, action.title);
+        return;
+      }
       if (pendingProgramToCart) {
         addToCart(pendingProgramToCart);
         try { sessionStorage.removeItem('pending_cart_item'); } catch (e) {}

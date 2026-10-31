@@ -48,3 +48,4 @@ files.forEach(file => {
     console.log('Regex did not match in:', file);
   }
 });
+
