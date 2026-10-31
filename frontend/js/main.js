@@ -362,25 +362,19 @@
           authBanner.hidden = true;
           authBanner.style.setProperty('display', 'none', 'important');
         }
-        if (edaBtn) {
-          edaBtn.href = 'https://edaplayground.com/';
-          edaBtn.target = '_blank';
-          edaBtn.rel = 'noopener noreferrer';
-          edaBtn.setAttribute('aria-label', 'Tap here for EDA Playground tool access');
-          edaBtn.innerHTML = '<span>Tap here</span> <i data-lucide="external-link" style="width: 16px; height: 16px;"></i>';
-        }
       } else {
         if (authBanner) {
           authBanner.hidden = false;
           authBanner.style.removeProperty('display');
         }
-        if (edaBtn) {
-          edaBtn.href = 'login.html?redirect=front-end-software.html';
-          edaBtn.removeAttribute('target');
-          edaBtn.removeAttribute('rel');
-          edaBtn.setAttribute('aria-label', 'Sign in to access EDA Playground tool');
-          edaBtn.innerHTML = '<span>Sign in to Access</span> <i data-lucide="lock" style="width: 16px; height: 16px;"></i>';
-        }
+      }
+      if (edaBtn) {
+        edaBtn.href = 'https://edaplayground.com/';
+        edaBtn.target = '_blank';
+        edaBtn.rel = 'noopener noreferrer';
+        edaBtn.setAttribute('aria-label', 'Launch EDA Playground tool');
+        edaBtn.innerHTML = '<span>Launch Tool</span> <i data-lucide="external-link" style="width: 16px; height: 16px;"></i>';
+        if (window.lucide) lucide.createIcons({ els: [edaBtn] });
       }
 
       // 6.c Auto-populate user info in consultation/software forms if authenticated

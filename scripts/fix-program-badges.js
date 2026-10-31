@@ -111,3 +111,4 @@ targetFiles.forEach(file => {
   fs.writeFileSync(file, content, 'utf8');
   console.log('Successfully updated badges in:', file);
 });
+
