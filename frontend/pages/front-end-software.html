@@ -1750,9 +1750,9 @@
               <p class="eda-tool-card__subtext">Launch cloud-based Verilog, SystemVerilog, and UVM simulation instantly with zero local installation on EDA Playground.</p>
             </div>
           </div>
-          <a href="login.html?redirect=front-end-software.html" class="eda-tool-card__btn tool-access-btn" id="btnEdaPlaygroundAccess" onclick="return handleEdaAccess(event);" aria-label="Sign in to access EDA Playground tool">
-            <span>Sign in to Access</span>
-            <i data-lucide="lock" style="width: 16px; height: 16px;"></i>
+          <a href="https://edaplayground.com/" target="_blank" rel="noopener noreferrer" class="eda-tool-card__btn tool-access-btn" id="btnEdaPlaygroundAccess" onclick="return handleEdaAccess(event);" aria-label="Launch EDA Playground tool">
+            <span>Launch Tool</span>
+            <i data-lucide="external-link" style="width: 16px; height: 16px;"></i>
           </a>
         </div>
 
@@ -1778,21 +1778,12 @@
                   banner.style.display = isLoggedIn ? 'none' : 'flex';
                 }
                 if (edaBtn) {
-                  if (isLoggedIn) {
-                    edaBtn.href = 'https://edaplayground.com/';
-                    edaBtn.target = '_blank';
-                    edaBtn.rel = 'noopener noreferrer';
-                    edaBtn.setAttribute('aria-label', 'Tap here for EDA Playground tool access');
-                    edaBtn.innerHTML = '<span>Tap here</span> <i data-lucide="external-link" style="width: 16px; height: 16px;"></i>';
-                    if (window.lucide) lucide.createIcons({ els: [edaBtn] });
-                  } else {
-                    edaBtn.href = 'login.html?redirect=front-end-software.html';
-                    edaBtn.removeAttribute('target');
-                    edaBtn.removeAttribute('rel');
-                    edaBtn.setAttribute('aria-label', 'Sign in to access EDA Playground tool');
-                    edaBtn.innerHTML = '<span>Sign in to Access</span> <i data-lucide="lock" style="width: 16px; height: 16px;"></i>';
-                    if (window.lucide) lucide.createIcons({ els: [edaBtn] });
-                  }
+                  edaBtn.href = 'https://edaplayground.com/';
+                  edaBtn.target = '_blank';
+                  edaBtn.rel = 'noopener noreferrer';
+                  edaBtn.setAttribute('aria-label', 'Launch EDA Playground tool');
+                  edaBtn.innerHTML = '<span>Launch Tool</span> <i data-lucide="external-link" style="width: 16px; height: 16px;"></i>';
+                  if (window.lucide) lucide.createIcons({ els: [edaBtn] });
                 }
               } catch(e) {}
             }
@@ -2297,13 +2288,8 @@
     }
 
     function handleEdaAccess(e) {
-      if (!isUserLoggedIn()) {
-        if (e && typeof e.preventDefault === 'function') e.preventDefault();
-        window.location.href = 'login.html?redirect=front-end-software.html';
-        return false;
-      }
-      window.open('https://edaplayground.com/', '_blank', 'noopener,noreferrer');
       if (e && typeof e.preventDefault === 'function') e.preventDefault();
+      window.open('https://edaplayground.com/', '_blank', 'noopener,noreferrer');
       return false;
     }
 

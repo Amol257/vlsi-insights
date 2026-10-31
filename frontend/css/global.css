@@ -3319,3 +3319,24 @@ body.dark-mode,
   transform: translateX(3px);
 }
 
+
+
+/* ==========================================================================
+   SUPPRESS NETLIFY INJECTED BADGES & OVERLAYS
+   ========================================================================== */
+[class*="netlify-badge"],
+[id*="netlify-badge"],
+[data-netlify-badge],
+[class*="netlify-drawer"],
+[id*="netlify-drawer"],
+[class*="feedback-drawer"],
+[id*="feedback-drawer"],
+iframe[src*="netlify.com"],
+div[aria-label*="Netlify"],
+button[aria-label*="Netlify"],
+div:has(> * [aria-label*="Powered by Netlify"]) {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
