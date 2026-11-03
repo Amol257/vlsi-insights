@@ -798,49 +798,82 @@
       color: #FFFFFF;
     }
 
-    /* Auto-Adjusting CSS Multi-Column Masonry Wall */
+    /* -------------------------------------------------------------------------- */
+    /* Auto-Adjusting Responsive Grid System                                     */
+    /* -------------------------------------------------------------------------- */
     .achievers-wall {
-      column-count: 4;
-      column-gap: 20px;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 22px;
       width: 100%;
+      align-items: stretch;
     }
 
-    @media (max-width: 1200px) {
-      .achievers-wall {
-        column-count: 3;
-        column-gap: 18px;
+    /* All Photos & Students View: Uniform card heights so every row ends flush */
+    .achievers-wall.view--all,
+    .achievers-wall.view--students {
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 22px;
+    }
+
+    .achievers-wall.view--all .achiever-card,
+    .achievers-wall.view--students .achiever-card {
+      height: 350px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Webinars & Workshops View: Wide cinematic aspect ratio, auto-fit across full container */
+    .achievers-wall.view--webinars {
+      grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+      gap: 24px;
+    }
+
+    .achievers-wall.view--webinars .achiever-card {
+      height: 270px;
+      aspect-ratio: 16 / 10;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Responsive Breakpoints */
+    @media (max-width: 900px) {
+      .achievers-wall.view--webinars {
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 18px;
+      }
+      .achievers-wall.view--all .achiever-card,
+      .achievers-wall.view--students .achiever-card {
+        height: 320px;
       }
     }
 
-    @media (max-width: 768px) {
-      .achievers-wall {
-        column-count: 2;
-        column-gap: 14px;
+    @media (max-width: 600px) {
+      .achievers-wall,
+      .achievers-wall.view--all,
+      .achievers-wall.view--students,
+      .achievers-wall.view--webinars {
+        grid-template-columns: 1fr;
+        gap: 16px;
       }
-    }
-
-    @media (max-width: 480px) {
-      .achievers-wall {
-        column-count: 1;
+      .achievers-wall.view--all .achiever-card,
+      .achievers-wall.view--students .achiever-card {
+        height: 340px;
+      }
+      .achievers-wall.view--webinars .achiever-card {
+        height: 230px;
       }
     }
 
     /* Achiever Card */
     .achiever-card {
-      break-inside: avoid;
-      -webkit-column-break-inside: avoid;
-      page-break-inside: avoid;
-      display: inline-block;
-      width: 100%;
-      margin-bottom: 20px;
-      border-radius: 12px;
+      border-radius: 14px;
       overflow: hidden;
       position: relative;
       background: #0F172A;
       border: 1px solid var(--edge);
       box-shadow: 0 4px 14px rgba(0, 0, 0, 0.05);
       transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
-      vertical-align: top;
     }
 
     .achiever-card:hover {
@@ -851,10 +884,15 @@
 
     .achiever-card img {
       width: 100%;
-      height: auto;
+      height: 100%;
       display: block;
       object-fit: cover;
+      object-position: top center;
       transition: transform 0.35s ease;
+    }
+
+    .achiever-card[data-type="webinar"] img {
+      object-position: center;
     }
 
     .achiever-card:hover img {
@@ -2207,7 +2245,7 @@
         });
       }
 
-      // 3. Render Wall with Auto-Adjusting Layout
+            // 3. Render Wall with Auto-Adjusting Layout & Aligned Baselines
       function renderWall() {
         var wall = document.getElementById('achieversWall');
         if (!wall) return;
@@ -2217,6 +2255,15 @@
           if (currentFilter === 'all') return true;
           return item.type === currentFilter;
         });
+
+        // Set layout modifier class based on filter
+        if (currentFilter === 'webinar') {
+          wall.className = 'achievers-wall view--webinars';
+        } else if (currentFilter === 'student') {
+          wall.className = 'achievers-wall view--students';
+        } else {
+          wall.className = 'achievers-wall view--all';
+        }
 
         // Update counts
         var totalCount = achievers.length;
@@ -2231,6 +2278,11 @@
         if (elWebinars) elWebinars.textContent = webinarCount;
 
         // Build HTML
+        if (filtered.length === 0) {
+          wall.innerHTML = '<div style="grid-column: 1 / -1; text-align: center; padding: 48px 20px; color: var(--text-mid); font-size: 1rem;">No photos found in this category.</div>';
+          return;
+        }
+
         var html = '';
         filtered.forEach(function(item) {
           var isWebinar = item.type === 'webinar';
