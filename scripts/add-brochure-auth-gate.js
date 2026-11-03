@@ -127,3 +127,4 @@ files.forEach(file => {
   fs.writeFileSync(file, content, 'utf8');
   console.log('Successfully updated brochure signup gate in:', file);
 });
+

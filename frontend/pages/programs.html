@@ -320,6 +320,27 @@
       flex-shrink: 0;
     }
 
+    .badge-highlight {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      height: 24px;
+      min-height: 24px;
+      padding: 2px 8px;
+      background: rgba(194, 65, 12, 0.08);
+      border: 1px solid rgba(194, 65, 12, 0.25);
+      color: #C2410C;
+      font-family: var(--font-body);
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.01em;
+      border-radius: 4px;
+      line-height: 1;
+      white-space: nowrap;
+      box-sizing: border-box;
+      flex-shrink: 0;
+    }
+
     .view-brochure-btn {
       font-family: var(--font-body);
       font-size: 0.78125rem;
@@ -2173,7 +2194,7 @@
   <meta property="og:site_name" content="VLSI Insights">
   <meta property="og:url" content="https://vlsiinsights.com/programs.html">
   <meta property="og:title" content="Semiconductor Training Programs & Curriculum | VLSI Insights">
-  <meta property="og:description" content="6-Month VLSI Mastery cohort covering RTL design, UVM verification, SystemVerilog assertions, and Artix-7/Spartan FPGAs with 100% placement support.">
+  <meta property="og:description" content="Industry-focused VLSI Frontend RTL design, UVM verification, SystemVerilog assertions, STA, FPGA, and embedded systems training.">
   <meta property="og:image" content="https://vlsiinsights.com/images/technical-training-slide.webp">
 
   <!-- Twitter / X Cards -->
@@ -2181,7 +2202,7 @@
   <meta name="twitter:site" content="@VLSIInsights">
   <meta name="twitter:url" content="https://vlsiinsights.com/programs.html">
   <meta name="twitter:title" content="Semiconductor Training Programs & Curriculum | VLSI Insights">
-  <meta name="twitter:description" content="6-Month VLSI Mastery cohort covering RTL design, UVM verification, SystemVerilog assertions, and Artix-7/Spartan FPGAs with 100% placement support.">
+  <meta name="twitter:description" content="Industry-focused VLSI Frontend RTL design, UVM verification, SystemVerilog assertions, STA, FPGA, and embedded systems training.">
   <meta name="twitter:image" content="https://vlsiinsights.com/images/technical-training-slide.webp">
 </head>
 
@@ -2531,17 +2552,14 @@
 
         <!-- Filter Pill Row -->
         <div class="filter-pill-row" role="tablist" aria-label="Filter programs by track">
-          <button type="button" class="filter-pill active" data-filter="all" role="tab" aria-selected="true">All
-            Programs (10)</button>
+          <button type="button" class="filter-pill active" data-filter="all" role="tab" aria-selected="true">All Programs</button>
+          <button type="button" class="filter-pill" data-filter="vlsi-frontend" role="tab" aria-selected="false">VLSI Frontend</button>
+          <button type="button" class="filter-pill" data-filter="vlsi-backend" role="tab" aria-selected="false">VLSI Backend</button>
+          <button type="button" class="filter-pill" data-filter="embedded" role="tab" aria-selected="false">Embedded Systems</button>
+          <button type="button" class="filter-pill" data-filter="fpga" role="tab" aria-selected="false">FPGA</button>
+          <button type="button" class="filter-pill" data-filter="scripting" role="tab" aria-selected="false">Scripting Language</button>
+          <button type="button" class="filter-pill" data-filter="cpp" role="tab" aria-selected="false">C / C++</button>
           <button type="button" class="filter-pill" data-filter="internship" role="tab" aria-selected="false">Internship</button>
-          <button type="button" class="filter-pill" data-filter="6-month" role="tab" aria-selected="false">Mastery</button>
-          <button type="button" class="filter-pill" data-filter="beginner" role="tab"
-            aria-selected="false">Beginners</button>
-          <button type="button" class="filter-pill" data-filter="advanced" role="tab"
-            aria-selected="false">Advance</button>
-          <button type="button" class="filter-pill" data-filter="embedded" role="tab" aria-selected="false">Embedded
-            Systems</button>
-          <button type="button" class="filter-pill" data-filter="fpga" role="tab" aria-selected="false">FPGA's</button>
         </div>
 
         <!-- Program Grid Container -->
@@ -2625,7 +2643,7 @@
                 <h3 class="brochure-card__title">Core VLSI Verification (SystemVerilog + UVM)</h3>
                 <div class="brochure-card__meta">
                   <span class="badge-duration">4 Months</span>
-                  <span class="badge-price">40,000/-</span>
+                  <span class="badge-price">35,000/-</span>
                 </div>
               </div>
               <div class="brochure-card__actions">
@@ -2705,7 +2723,7 @@
                 <h3 class="brochure-card__title">FPGA Training on AMD Xilinx Artix-7</h3>
                 <div class="brochure-card__meta">
                   <span class="badge-duration">3 Months</span>
-                  <span class="badge-price">25,000/-</span>
+                  <span class="badge-price">30,000/-</span>
                 </div>
               </div>
               <div class="brochure-card__actions">
@@ -2828,7 +2846,7 @@
         </div>
         <h3 id="syllabusLeadTitle" style="font-family:var(--font-display);font-size:1.45rem;font-weight:700;color:var(--text-hi);margin-bottom:6px;">Download Detailed Curriculum (PDF)</h3>
         <p style="font-size:0.875rem;color:var(--text-mid);line-height:1.5;margin:0;">
-          Get the complete 6-Month VLSI Mastery syllabus, RTL &amp; UVM project breakdown, EDA tool list, and recent batch placement compensation report.
+          Get the complete VLSI Frontend syllabus, RTL &amp; UVM project breakdown, EDA tool list, and recent batch placement compensation report.
         </p>
         <button type="button" id="closeSyllabusLeadBtn" aria-label="Close modal" style="position:absolute;top:20px;right:20px;background:none;border:none;color:var(--text-dim);cursor:pointer;padding:6px;border-radius:6px;">
           <i data-lucide="x" style="width:20px;height:20px;"></i>
@@ -2856,7 +2874,7 @@
         <div style="margin-bottom:20px;">
           <label for="sylLeadTrack" style="display:block;font-size:0.8125rem;font-weight:600;color:var(--text-hi);margin-bottom:6px;">Target Specialization</label>
           <select id="sylLeadTrack" style="width:100%;height:42px;padding:8px 14px;border:1px solid var(--edge);border-radius:8px;font-size:0.9375rem;background:#FFF;">
-            <option value="6-Month VLSI Mastery (RTL Design &amp; Verification)">6-Month VLSI Mastery (RTL Design &amp; Verification)</option>
+            <option value="VLSI Frontend Track (RTL Design &amp; Verification)">VLSI Frontend Track (RTL Design &amp; Verification)</option>
             <option value="RTL Design &amp; Microarchitecture (2 Months)">RTL Design &amp; Microarchitecture (2 Months)</option>
             <option value="UVM 1.2 &amp; SystemVerilog Assertions (1 Month)">UVM 1.2 &amp; SystemVerilog Assertions (1 Month)</option>
             <option value="FPGA Emulation on Artix-7 (3 Months)">FPGA Emulation on Artix-7 (3 Months)</option>
@@ -3472,63 +3490,15 @@
     // Target date for live countdown timer (Configurable constant at top of script block)
     const OFFER_DEADLINE = new Date('2026-12-31T23:59:59');
 
-    // 9 Updated Industry Programs
+      // Centralized Program Catalog
     const programsData = [
-      // 1. 6 Month Program: VLSI Mastery Program , From Classroom Concepts to Chip Design
-      {
-        id: 'vlsi-mastery-program',
-        category: '6-month',
-        categoryLabel: '6 Month Program',
-        icon: 'award',
-        title: 'VLSI Mastery Program',
-        subtitle: 'From Classroom Concepts to Chip Design',
-        duration: '6 Months',
-        level: 'Career Track',
-        price: 'Career Flagship',
-        priceNum: 149999,
-        brochure: 'images/Verification.webp',
-        brochureTitle: 'VLSI Mastery & Full Verification Curriculum',
-        description: 'From classroom concepts to chip design. An intensive 6-month career program covering digital fundamentals, synthesizable RTL, UVM verification, and FPGA emulation with placement assistance.',
-        topics: [
-          'Complete Front-End Flow: Digital Architecture to Silicon Emulation',
-          'Synthesizable RTL Design & State Machine Microarchitectures',
-          'Enterprise UVM 1.2 Verification & Assertion-Based Sign-off',
-          'FPGA Hardware Prototyping on Artix-7 & Placement Support'
-        ],
-        prerequisites: 'B.Tech/M.Tech in ECE/EE/CS or working professional transitioning to VLSI.',
-        modules: [
-          {
-            title: 'Module 1: Digital Electronics & Verilog RTL Foundations',
-            topics: ['Combinational & sequential synthesis', 'Blocking vs non-blocking nuances', 'FSM design and timing closure']
-          },
-          {
-            title: 'Module 2: Advanced Computer Architecture & Datapath Design',
-            topics: ['Pipelined CPU architecture & hazard resolution', 'Memory hierarchies, SRAM controllers & bus arbiters', 'Static Timing Analysis (STA) setup/hold constraints']
-          },
-          {
-            title: 'Module 3: SystemVerilog for Verification & SVA Assertions',
-            topics: ['OOP constructs: classes, polymorphism, inheritance', 'Constrained random stimulus & mailboxes', 'Immediate and concurrent SystemVerilog Assertions (SVA)']
-          },
-          {
-            title: 'Module 4: Universal Verification Methodology (UVM 1.2)',
-            topics: ['UVM phases, factory overrides, and config DB', 'Building scalable UVM drivers, monitors, and scoreboards', 'Register Abstraction Layer (RAL) implementation']
-          },
-          {
-            title: 'Module 5: FPGA Prototyping, AXI Interconnect & Vivado Flow',
-            topics: ['Synthesizing RTL onto AMD Xilinx Artix-7 silicon', 'AXI4-Lite and AXI4-Stream system interconnects', 'In-system signal tracing with Vivado ILA logic analyzer']
-          },
-          {
-            title: 'Module 6: Tape-Out Capstone Project & Technical Placement Prep',
-            topics: ['Full-chip SoC verification plan execution and regression sign-off', '100% code & functional coverage closure', '1-on-1 technical mock interviews with Senior Silicon Engineers']
-          }
-        ]
-      },
-
-      // 2. Beginners Programs: RTL Design
+      // =========================================================================
+      // 1. VLSI FRONTEND TRACK (PROMOTED ON TOP)
+      // =========================================================================
       {
         id: 'rtl-design',
-        category: 'beginner',
-        categoryLabel: 'Beginners',
+        category: 'vlsi-frontend',
+        categoryLabel: 'VLSI Frontend',
         icon: 'cpu',
         title: 'RTL Design',
         subtitle: 'Digital + Verilog Training Program',
@@ -3565,18 +3535,17 @@
           }
         ]
       },
-
-      // 3. Beginners Programs: Verification
       {
         id: 'verification',
-        category: 'beginner',
-        categoryLabel: 'Beginners',
+        category: 'vlsi-frontend',
+        categoryLabel: 'VLSI Frontend',
         icon: 'shield-check',
         title: 'Verification',
-        subtitle: '4 months, Core VLSI Verification',
+        subtitle: '4 Months, Core VLSI Verification (SV + UVM)',
         duration: '4 Months',
-        level: 'Foundational',
-        price: '40,000/-',
+        level: 'Job-Oriented',
+        price: '35,000/-',
+        priceNum: 35000,
         brochure: 'images/Verification.webp',
         brochureTitle: '4 Months - Core VLSI Verification Brochure',
         description: 'Complete job-oriented training program. Master SystemVerilog core concepts, UVM testbench architecture, TCL scripting automation, and protocol verification.',
@@ -3606,18 +3575,17 @@
           }
         ]
       },
-
-      // 4. Advance Programs: Assertions
       {
         id: 'assertions',
-        category: 'advanced',
-        categoryLabel: 'Advance',
+        category: 'vlsi-frontend',
+        categoryLabel: 'VLSI Frontend',
         icon: 'check-circle-2',
         title: 'Assertions',
-        subtitle: '1 month, SVA and assertion-based verification',
+        subtitle: '1 Month, SVA and Assertion-Based Verification',
         duration: '1 Month',
         level: 'Advanced',
-        price: '25,000/-',
+        price: '30,000/-',
+        priceNum: 30000,
         brochure: 'images/Assertions.webp',
         brochureTitle: '1 Month - Core VLSI Assertion Training Brochure',
         description: 'Complete job-oriented training program. Master SystemVerilog Assertions (SVA), concurrent sequences, temporal logic, and formal assertion-based verification (ABV).',
@@ -3647,18 +3615,17 @@
           }
         ]
       },
-
-      // 5. Advance Programs: Functional Coverage
       {
         id: 'functional-coverage',
-        category: 'advanced',
-        categoryLabel: 'Advance',
+        category: 'vlsi-frontend',
+        categoryLabel: 'VLSI Frontend',
         icon: 'target',
         title: 'Functional Coverage',
         subtitle: 'Coverage-Driven Verification & Closure',
         duration: '6 Weeks',
         level: 'Advanced',
-        price: 'Specialized Track',
+        price: '30,000/-',
+        priceNum: 30000,
         brochure: 'images/Verification.webp',
         brochureTitle: 'Coverage-Driven Verification Curriculum',
         description: 'Achieve 100% verification sign-off. Learn coverage-driven verification (CDV), covergroups, coverpoints, cross-coverage, and coverage metric closure.',
@@ -3688,8 +3655,119 @@
           }
         ]
       },
+      {
+        id: 'sta',
+        category: 'vlsi-frontend',
+        categoryLabel: 'VLSI Frontend',
+        icon: 'clock',
+        title: 'STA',
+        subtitle: 'Static Timing Analysis & Timing Closure',
+        duration: '6 Weeks',
+        level: 'Core Track',
+        price: '20,000/-',
+        priceNum: 20000,
+        brochure: null,
+        description: 'Master timing closure for silicon tape-out. Understand setup and hold slacks, clock domain crossing (CDC), SDC timing constraints, and multi-corner analysis.',
+        topics: [
+          'Static Timing Analysis Principles: Setup & Hold Slack Equations',
+          'Clock Domain Crossing (CDC), Multicycle & False Paths',
+          'Synopsys Design Constraints (SDC): create_clock & I/O Delays',
+          'Timing Optimization Strategies & Engineering Change Orders (ECO)'
+        ],
+        prerequisites: 'Fundamentals of digital logic gates and sequential flip-flop timing.',
+        modules: [
+          {
+            title: 'Module 1: Timing Fundamentals & Path Classification',
+            topics: ['Setup and hold timing equations with clock skew and jitter', 'Data arrival time vs data required time', 'Four types of timing paths: in-to-reg, reg-to-reg, reg-to-out, in-to-out']
+          },
+          {
+            title: 'Module 2: SDC Timing Constraints Formulation',
+            topics: ['Clock definitions: primary, generated, and virtual clocks', 'Input and output delay constraints modeling external board delays', 'Setting multicycle paths and false path timing exceptions']
+          },
+          {
+            title: 'Module 3: Clock Tree Quality & On-Chip Variation (OCV)',
+            topics: ['Clock skew, latency, and uncertainty budgets', 'Process, voltage, and temperature (PVT) operating corners', 'Derate factors and Advanced On-Chip Variation (AOCV)']
+          },
+          {
+            title: 'Module 4: Timing Violation Diagnosis & Sign-off Closure',
+            topics: ['Analyzing timing reports in PrimeTime / Tempus', 'Fixing setup violations via buffer sizing and VT swapping', 'Hold violation fixes, min-delay padding, and post-layout ECO flow']
+          }
+        ]
+      },
 
-      // 6. Embedded Systems: Arduino
+      // =========================================================================
+      // 2. VLSI BACKEND TRACK (SUB-JOB PROFILES)
+      // =========================================================================
+      {
+        id: 'physical-design',
+        category: 'vlsi-backend',
+        categoryLabel: 'VLSI Backend',
+        icon: 'layers',
+        title: 'Physical Design',
+        subtitle: 'Netlist to GDSII Flow & Sign-Off',
+        duration: 'Industry Track',
+        level: 'Sub-Job Profile',
+        price: 'Inquire',
+        priceNum: 0,
+        isNameOnly: true,
+        brochure: null,
+        description: 'Comprehensive backend ASIC implementation track covering logic synthesis, floorplanning, placement, clock tree synthesis (CTS), routing, and physical tape-out closure.',
+        topics: [
+          'Logic Synthesis & Gate-Level Netlist Generation',
+          'Floorplanning, Power Mesh & Macro Placement',
+          'Clock Tree Synthesis (CTS) & Clock Skew Optimization',
+          'Detailed Routing, DRC/LVS Cleaning & GDSII Sign-Off'
+        ],
+        prerequisites: 'Digital design fundamentals and familiarity with CMOS logic.'
+      },
+      {
+        id: 'physical-verification',
+        category: 'vlsi-backend',
+        categoryLabel: 'VLSI Backend',
+        icon: 'check-square',
+        title: 'Physical Verification',
+        subtitle: 'DRC, LVS, Antenna & ERC Sign-Off',
+        duration: 'Industry Track',
+        level: 'Sub-Job Profile',
+        price: 'Inquire',
+        priceNum: 0,
+        isNameOnly: true,
+        brochure: null,
+        description: 'Silicon fabrication verification ensuring 100% compliance with foundry rules, layout-versus-schematic equivalence, antenna rule fixes, and electrostatic discharge protection.',
+        topics: [
+          'Design Rule Checking (DRC) & Complex Violation Resolution',
+          'Layout Versus Schematic (LVS) Extraction & Mismatch Debugging',
+          'Antenna Effect Mitigation & Diode Insertion',
+          'Dummy Metal Fill Insertion & Foundry Mask Sign-Off'
+        ],
+        prerequisites: 'Basic knowledge of VLSI physical layout and EDA verification flows.'
+      },
+      {
+        id: 'floorplan',
+        category: 'vlsi-backend',
+        categoryLabel: 'VLSI Backend',
+        icon: 'layout-grid',
+        title: 'Floorplanning',
+        subtitle: 'Silicon Budgeting & Power Grid Architecture',
+        duration: 'Industry Track',
+        level: 'Sub-Job Profile',
+        price: 'Inquire',
+        priceNum: 0,
+        isNameOnly: true,
+        brochure: null,
+        description: 'Strategic silicon budgeting, core area estimation, IO pad allocation, macro clustering, and low-IR drop power distribution mesh design.',
+        topics: [
+          'Die Sizing, Aspect Ratio & Utilization Budgeting',
+          'Macro Clustering, Channel Sizing & Flyline Analysis',
+          'Core Power Rings, Stripe Meshes & Low-IR Drop Planning',
+          'IO Pad Ring Routing & Early Congestion Heatmaps'
+        ],
+        prerequisites: 'Understanding of ASIC chip layout and packaging interfaces.'
+      },
+
+      // =========================================================================
+      // 3. EMBEDDED SYSTEMS
+      // =========================================================================
       {
         id: 'arduino',
         category: 'embedded',
@@ -3698,8 +3776,9 @@
         title: 'Arduino',
         subtitle: 'Microcontroller Architecture & Prototyping',
         duration: '4 Weeks',
-        level: 'Specialized',
-        price: 'Foundational Track',
+        level: 'Foundational',
+        price: '20,000/-',
+        priceNum: 20000,
         brochure: null,
         description: 'Hands-on physical computing and embedded prototyping. Master microcontroller architecture, C/C++ programming, sensor interfacing, and actuator control.',
         topics: [
@@ -3728,21 +3807,20 @@
           }
         ]
       },
-
-      // 7. Embedded Systems: Raspberry Pi
       {
         id: 'raspberry-pi',
         category: 'embedded',
         categoryLabel: 'Embedded Systems',
-        icon: 'layers',
+        icon: 'server',
         title: 'Raspberry Pi',
-        subtitle: '2 months, Raspberry Pi and embedded IoT',
+        subtitle: '2 Months, Raspberry Pi and Embedded IoT',
         duration: '2 Months',
         level: 'Specialized',
         price: '25,000/-',
+        priceNum: 25000,
         brochure: 'images/raspberry-pi.webp',
         brochureTitle: '2 Months - Raspberry Pi Training Program Brochure',
-        description: 'Learn | Build | Automate | Innovate. Comprehensive training on single-board computer architecture, Linux OS, Python GPIO, sensor bus protocols, and edge IoT.',
+        description: 'Learn, build, automate, and innovate. Comprehensive training on single-board computer architecture, Linux OS, Python GPIO, sensor bus protocols, and edge IoT.',
         topics: [
           'Linux OS & Command Line Basics, Shell Automation',
           'GPIO Programming with Python (gpiozero & RPi.GPIO)',
@@ -3769,8 +3847,90 @@
           }
         ]
       },
+      {
+        id: 'ai-model',
+        category: 'embedded',
+        categoryLabel: 'Embedded Systems',
+        icon: 'brain',
+        title: 'AI Model',
+        subtitle: 'Edge AI & TinyML on Embedded Hardware',
+        duration: '4 Weeks',
+        level: 'Specialized',
+        price: '10,000/-',
+        priceNum: 10000,
+        brochure: null,
+        description: 'Bring artificial intelligence to silicon edge devices. Train, quantize, and deploy lightweight neural network models on microcontrollers and embedded Linux single-board computers.',
+        topics: [
+          'Introduction to TinyML & Edge Artificial Intelligence',
+          'Model Optimization: Quantization (INT8) & Pruning',
+          'Deploying Neural Networks on Microcontrollers & ARM SoC',
+          'Real-Time Edge Inference for Audio, Vision & Sensor Telemetry'
+        ],
+        prerequisites: 'Basic Python programming and understanding of elementary mathematics.',
+        modules: [
+          {
+            title: 'Module 1: Edge AI Foundations & Hardware Constraints',
+            topics: ['Resource budgets: Flash memory, SRAM, and compute limitations', 'TinyML vs Cloud AI trade-offs and latency considerations', 'Sensor datasets collection and pre-processing pipeline']
+          },
+          {
+            title: 'Module 2: Model Training & Post-Training Quantization',
+            topics: ['Training shallow neural networks in TensorFlow / PyTorch', 'Post-training INT8 quantization and weight pruning', 'Converting models to TensorFlow Lite (.tflite) format']
+          },
+          {
+            title: 'Module 3: TensorFlow Lite for Microcontrollers (TFLM)',
+            topics: ['TFLM runtime architecture and static tensor arena allocation', 'Deploying model byte arrays into C++ embedded firmware', 'Benchmarking inference latency and energy consumption']
+          },
+          {
+            title: 'Module 4: Live Edge Projects & Sensor Classification',
+            topics: ['Keyword spotting / voice trigger on microcontroller microphone', 'Vibration anomaly detection on accelerometer telemetry', 'Edge vision inference on Raspberry Pi camera streams']
+          }
+        ]
+      },
 
-      // 8. FPGA's: Artix-7
+      // =========================================================================
+      // 4. FPGA PROGRAMS
+      // =========================================================================
+      {
+        id: 'spartan',
+        category: 'fpga',
+        categoryLabel: 'FPGA',
+        icon: 'zap',
+        title: 'Spartan',
+        subtitle: 'Cost-Optimized FPGA Design & Board Bring-up',
+        duration: '3 Months',
+        level: 'Hardware Specialized',
+        price: '25,000/-',
+        priceNum: 25000,
+        highlightBadge: 'We manufacture our own board',
+        brochure: 'images/FPGA.webp',
+        brochureTitle: 'FPGA Architecture & Implementation Brochure',
+        description: 'Cost-optimized hardware implementation on in-house manufactured development boards. Master Xilinx Spartan FPGA architectures, resource-efficient design, and board interfacing.',
+        topics: [
+          'Spartan FPGA Architecture & Logic Cell Utilization',
+          'Hardware Bring-Up on In-House Manufactured Boards',
+          'Serial Communication (UART/SPI) Hardware Controllers',
+          'Seven-Segment Displays, VGA Controllers & Board Peripherals'
+        ],
+        prerequisites: 'Basic Verilog HDL or digital electronics knowledge.',
+        modules: [
+          {
+            title: 'Module 1: Spartan FPGA Architecture & Hardware Resources',
+            topics: ['Spartan-6 vs Spartan-7 architectural comparisons', 'Logic cells, slice architecture, and distributed RAM', 'Clock distribution networks and Digital Clock Managers (DCM)']
+          },
+          {
+            title: 'Module 2: Logic Synthesis & Resource Optimization',
+            topics: ['Minimizing LUT utilization through clean coding styles', 'Pipelining high-fanout nets for timing optimization', 'Pin assignment (UCF/XDC) and I/O standard configurations (LVCMOS)']
+          },
+          {
+            title: 'Module 3: Peripheral Controllers from Scratch in Verilog',
+            topics: ['Baud-rate generator and UART transmitter/receiver state machines', 'Seven-segment display time-multiplexed controller', 'VGA timing generator and 640x480 pixel frame buffer']
+          },
+          {
+            title: 'Module 4: Board Bring-up, Bitstream Download & Testing',
+            topics: ['JTAG configuration and onboard SPI flash PROM programming', 'Hardware debugging using logic analyzers and oscilloscopes', 'Capstone: Building a complete digital controller on Spartan hardware']
+          }
+        ]
+      },
       {
         id: 'artix-7',
         category: 'fpga',
@@ -3780,7 +3940,8 @@
         subtitle: '3 Months - Basic Level FPGA Training on Artix-7',
         duration: '3 Months',
         level: 'Specialized',
-        price: '25,000/-',
+        price: '30,000/-',
+        priceNum: 30000,
         brochure: 'images/FPGA.webp',
         brochureTitle: '3 Months - Basic Level FPGA Training on Artix-7 Brochure',
         description: 'Online & offline training available. Master AMD Xilinx Artix-7 architecture, synthesizable Verilog, Vivado ML design flow, XDC timing constraints, and Vivado ILA.',
@@ -3810,49 +3971,135 @@
           }
         ]
       },
-
-      // 9. FPGA's: Spartan
       {
-        id: 'spartan',
+        id: 'nano-fpga',
         category: 'fpga',
         categoryLabel: 'FPGA',
-        icon: 'zap',
-        title: 'Spartan',
-        subtitle: 'Cost-Optimized FPGA Design & Board Bring-up',
-        duration: '3 Months',
+        icon: 'minimize-2',
+        title: 'Nano FPGA',
+        subtitle: 'Compact Low-Power FPGA Prototyping',
+        duration: '6 Weeks',
         level: 'Specialized',
-        price: '25,000/-',
-        brochure: 'images/FPGA.webp',
-        brochureTitle: 'FPGA Architecture & Implementation Brochure',
-        description: 'Cost-optimized hardware implementation. Master Xilinx Spartan FPGA architectures (Spartan-6 / Spartan-7), resource-efficient design, and board interfacing.',
+        price: '20,000/-',
+        priceNum: 20000,
+        brochure: null,
+        description: 'Compact, power-efficient programmable logic. Master miniature FPGA architectures, lightweight toolchains, hardware design constraints, and low-latency serial interfacing.',
         topics: [
-          'Spartan FPGA Architecture & Logic Cell Utilization',
-          'ISE / Vivado Toolchain Flows for Spartan Silicon',
-          'Serial Communication (UART/SPI) Hardware Controllers',
-          'Seven-Segment Displays, VGA Controllers & Board Peripherals'
+          'Miniature & Ultra-Low Power FPGA Architectures',
+          'RTL Synthesis & Resource Constrained Logic Mapping',
+          'High-Speed I/O Interfacing with Minimal Pin Count',
+          'Hands-On Bring-up of Nano Development Hardware'
         ],
-        prerequisites: 'Basic Verilog HDL or digital electronics knowledge.',
+        prerequisites: 'Basic knowledge of digital logic and Verilog hardware description.',
         modules: [
           {
-            title: 'Module 1: Spartan FPGA Architecture & Hardware Resources',
-            topics: ['Spartan-6 vs Spartan-7 architectural comparisons', 'Logic cells, slice architecture, and distributed RAM', 'Clock distribution networks and Digital Clock Managers (DCM)']
+            title: 'Module 1: Architecture of Nano Programmable Logic',
+            topics: ['Ultra-low power fabric architecture and compact packaging', 'Look-up table budgeting and distributed registers', 'Clock generation in compact silicon layouts']
           },
           {
-            title: 'Module 2: Logic Synthesis & Resource Optimization',
-            topics: ['Minimizing LUT utilization through clean coding styles', 'Pipelining high-fanout nets for timing optimization', 'Pin assignment (UCF/XDC) and I/O standard configurations (LVCMOS)']
+            title: 'Module 2: Logic Design & Synthesizable Verilog',
+            topics: ['Writing clean, resource-thrifty Verilog modules', 'State machine design optimized for minimal logic cell footprint', 'Synchronous serial interfaces: SPI, I2C, and UART']
           },
           {
-            title: 'Module 3: Peripheral Controllers from Scratch in Verilog',
-            topics: ['Baud-rate generator and UART transmitter/receiver state machines', 'Seven-segment display time-multiplexed controller', 'VGA timing generator and 640x480 pixel frame buffer']
+            title: 'Module 3: Toolchain Compilation & Bitstream Flashing',
+            topics: ['Open and lightweight toolchain synthesis flows', 'Floorplanning pin constraints for high-density packages', 'Direct flashing via USB-to-JTAG/SPI programming adapters']
           },
           {
-            title: 'Module 4: Board Bring-up, Bitstream Download & Testing',
-            topics: ['JTAG configuration and onboard SPI flash PROM programming', 'Hardware debugging using logic analyzers and oscilloscopes', 'Capstone: Building a complete digital controller on Spartan hardware']
+            title: 'Module 4: Real-Time Hardware Project & Sensor Integration',
+            topics: ['Interfacing high-speed digital sensors to the Nano FPGA', 'Implementing hardware hardware PWM and timing counters', 'Live hardware validation and signal measurement']
           }
         ]
       },
 
-      // 10. Fee Based Internship
+      // =========================================================================
+      // 5. SCRIPTING LANGUAGE
+      // =========================================================================
+      {
+        id: 'scripting-vlsi',
+        category: 'scripting',
+        categoryLabel: 'Scripting Language',
+        icon: 'terminal',
+        title: 'Scripting Language',
+        subtitle: 'TCL, Python & Shell for VLSI Automation',
+        duration: '6 Weeks',
+        level: 'Productivity Track',
+        price: '20,000/-',
+        priceNum: 20000,
+        brochure: null,
+        description: 'Automate chip design and verification flows. Master industry standard scripting languages essential for semiconductor and EDA engineering pipelines.',
+        topics: [
+          'TCL Scripting for EDA Tools (Questa, Vivado, Synopsys)',
+          'Python Automation for Test Vector Generation & Regressions',
+          'Linux Shell Scripting & Command Line Automation',
+          'Log File Parsing, Error Catching & Summary Reporting'
+        ],
+        prerequisites: 'Basic computer literacy and interest in automation.',
+        modules: [
+          {
+            title: 'Module 1: TCL Automation for Simulation Tools',
+            topics: ['TCL syntax, variables, lists, and control structures', 'Driving QuestaSim / ModelSim / Vivado using TCL batch scripts', 'Automating compilation, elaboration, and do-file execution']
+          },
+          {
+            title: 'Module 2: Python Scripting for Verification Engineers',
+            topics: ['Python file I/O, regex matching, and string formatting', 'Generating constrained-random test vectors and stimulus files', 'Building regression seed managers and test runners']
+          },
+          {
+            title: 'Module 3: Linux Shell Pipelines & Cron Jobs',
+            topics: ['Bash scripting: environment variables, loops, and exit codes', 'Grep, sed, and awk text processing for log extraction', 'Automating daily regression runs with cron schedulers']
+          },
+          {
+            title: 'Module 4: Automated Regression Flow & Report Generation',
+            topics: ['Parsing simulation log files for UVM_ERROR and UVM_FATAL markers', 'Generating automated HTML/Markdown test summary dashboards', 'Packaging regression artifacts for verification review meetings']
+          }
+        ]
+      },
+
+      // =========================================================================
+      // 6. C / C++
+      // =========================================================================
+      {
+        id: 'cpp-hardware',
+        category: 'cpp',
+        categoryLabel: 'C / C++',
+        icon: 'code',
+        title: 'C / C++',
+        subtitle: 'C / C++ for Hardware & Embedded Systems',
+        duration: '8 Weeks',
+        level: 'Systems Track',
+        price: 'Inquire',
+        priceNum: 0,
+        brochure: null,
+        description: 'Master foundational and object-oriented programming tailored for embedded systems, hardware modeling, and preparation for SystemVerilog OOP concepts.',
+        topics: [
+          'C Pointers, Memory Management & Bitwise Hardware Operations',
+          'Object-Oriented Programming (OOP) in C++: Classes & Inheritance',
+          'Memory Mapping, Hardware Registers & Volatile Qualifiers',
+          'Data Structures & Algorithms for Hardware Modeling'
+        ],
+        prerequisites: 'Curiosity for systems programming. No prior coding experience required.',
+        modules: [
+          {
+            title: 'Module 1: C Programming & Bitwise Manipulation',
+            topics: ['Data types, control flow, functions, and scopes', 'Bitwise operators (&, |, ^, ~, <<, >>) for hardware mask manipulation', 'Setting, clearing, and toggling specific peripheral register bits']
+          },
+          {
+            title: 'Module 2: Pointers, Dynamic Memory & Structs',
+            topics: ['Pointer arithmetic, dereferencing, and pointer-to-pointer', 'Dynamic memory allocation with malloc/free and memory leak prevention', 'Structures, unions, and bitfields for hardware register maps']
+          },
+          {
+            title: 'Module 3: C++ Object-Oriented Fundamentals',
+            topics: ['Classes, objects, constructors, destructors, and encapsulation', 'Single, multiple, and hierarchical inheritance', 'Polymorphism, virtual functions, and abstract base classes']
+          },
+          {
+            title: 'Module 4: Hardware Interfacing & Performance Optimization',
+            topics: ['Volatile keyword, memory barriers, and bare-metal pointer casting', 'Implementing ring buffers and circular queues for UART FIFOs', 'Preparing for SystemVerilog OOP class architectures']
+          }
+        ]
+      },
+
+      // =========================================================================
+      // 7. INTERNSHIP
+      // =========================================================================
       {
         id: 'fee-based-internship',
         category: 'internship',
@@ -3863,6 +4110,7 @@
         duration: '3 - 6 Months',
         level: 'Industry Level',
         price: '25,000/-',
+        priceNum: 25000,
         brochure: 'images/RTL1-1086x1536.png',
         brochureTitle: 'Fee Based Internship Program Syllabus',
         description: 'Comprehensive tape-out oriented internship program designed for students and fresh graduates. Work on production-grade RTL design, UVM verification environments, and real semiconductor IP with industry mentor evaluations and placement assistance.',
@@ -3957,14 +4205,20 @@
         card.dataset.category = prog.category;
         card.id = `card-${prog.id}`;
 
-        const topicsHtml = prog.topics.map(topic => `
+        const topicsHtml = prog.topics ? prog.topics.map(topic => `
           <li class="program-card__topic-item">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <polyline points="20 6 9 17 4 12"></polyline>
             </svg>
             <span>${topic}</span>
           </li>
-        `).join('');
+        `).join('') : '';
+
+        const highlightHtml = prog.highlightBadge ? `
+          <div style="margin-top: 8px; margin-bottom: 4px;">
+            <span class="badge-highlight">${prog.highlightBadge}</span>
+          </div>
+        ` : '';
 
         const subtitleHtml = prog.subtitle ? `
           <div class="program-card__subtitle">${prog.subtitle}</div>
@@ -3972,25 +4226,14 @@
 
         const priceHtml = prog.price ? `<span class="badge-price">${prog.price}</span>` : '';
 
-        card.innerHTML = `
-          <div>
-            <div class="program-card__header">
-              <span class="badge-teal">${prog.categoryLabel}</span>
-              <div style="display: flex; align-items: center; gap: 6px; flex-shrink: 0;">
-                <span class="badge-duration">${prog.duration}</span>
-                ${priceHtml}
-              </div>
-            </div>
-            <div class="program-card__icon-box">
-              <i data-lucide="${prog.icon}"></i>
-            </div>
-            <h3 class="program-card__title">${prog.title}</h3>
-            ${subtitleHtml}
-            <p class="program-card__desc">${prog.description}</p>
-            <ul class="program-card__topics">
-              ${topicsHtml}
-            </ul>
+        const footerHtml = prog.isNameOnly ? `
+          <div class="program-card__footer">
+            <span style="font-size: 0.75rem; color: var(--text-lo); font-weight: 500;">Sub-Job Profile Track</span>
+            <button type="button" class="enroll-card-btn" data-program-name="${prog.title}">
+              Inquire
+            </button>
           </div>
+        ` : `
           <div class="program-card__footer">
             <div style="display: flex; align-items: center; gap: 8px;">
               ${prog.brochure ? `
@@ -4007,15 +4250,39 @@
               <button type="button" class="enroll-card-btn" data-program-name="${prog.title}">
                 Enroll
               </button>
+              ${prog.priceNum && prog.priceNum > 0 ? `
               <button type="button" class="add-to-cart-btn" 
                 data-program-id="${prog.id}" 
                 data-program-name="${prog.title}"
-                data-program-price="${prog.priceNum || 35000}"
+                data-program-price="${prog.priceNum}"
                 data-program-price-label="${prog.price}" title="Add to Cart">
                 <i data-lucide="shopping-cart" style="width:14px;height:14px;"></i>
-              </button>
+              </button>` : ''}
             </div>
           </div>
+        `;
+
+        card.innerHTML = `
+          <div>
+            <div class="program-card__header">
+              <span class="badge-teal">${prog.categoryLabel}</span>
+              <div style="display: flex; align-items: center; gap: 6px; flex-shrink: 0;">
+                <span class="badge-duration">${prog.duration}</span>
+                ${priceHtml}
+              </div>
+            </div>
+            ${highlightHtml}
+            <div class="program-card__icon-box">
+              <i data-lucide="${prog.icon}"></i>
+            </div>
+            <h3 class="program-card__title">${prog.title}</h3>
+            ${subtitleHtml}
+            <p class="program-card__desc">${prog.description}</p>
+            <ul class="program-card__topics">
+              ${topicsHtml}
+            </ul>
+          </div>
+          ${footerHtml}
         `;
 
         programCardsContainer.appendChild(card);
@@ -4195,7 +4462,7 @@
       if (drawerPrice) {
         drawerPrice.textContent = prog.price || 'Enrollment Open';
       }
-      drawerProgramPrereqs.textContent = prog.prerequisites;
+      drawerProgramPrereqs.textContent = prog.prerequisites || 'Open to engineering students and working professionals.';
 
       const drawerBrochureBtn = document.getElementById('drawerBrochureBtn');
       if (drawerBrochureBtn) {
@@ -4210,7 +4477,8 @@
 
       // Render modules
       drawerModulesContainer.innerHTML = '';
-      prog.modules.forEach((mod, idx) => {
+      if (prog.modules && prog.modules.length > 0) {
+        prog.modules.forEach((mod, idx) => {
         const item = document.createElement('div');
         item.className = `module-item ${idx === 0 ? 'open' : ''}`;
 
@@ -4242,6 +4510,14 @@
 
         drawerModulesContainer.appendChild(item);
       });
+      } else {
+        const emptyBox = document.createElement("div");
+        emptyBox.style.padding = "32px 16px";
+        emptyBox.style.textAlign = "center";
+        emptyBox.style.color = "#64748B";
+        emptyBox.textContent = "Detailed module curriculum is available upon inquiry or enrollment.";
+        drawerModulesContainer.appendChild(emptyBox);
+      }
 
       lucide.createIcons();
 
@@ -4785,7 +5061,7 @@
       }
     });
 
-    // 6. STATS COUNTER ANIMATION — handled by dedicated script after stats section HTML
+    // 6. STATS COUNTER ANIMATION : handled by dedicated script after stats section HTML
 
     // -------------------------------------------------------------------------
     // 7. SECTION HEADING SCROLL REVEAL
@@ -5032,7 +5308,7 @@
 
   <!-- Floating WhatsApp Chat Widget -->
   <aside class="floating-whatsapp" aria-label="WhatsApp Support">
-    <a href="https://api.whatsapp.com/send/?phone=919810191592&text=Hello%2C%20I%20want%20to%20enquire%20about%20the%206-Month%20VLSI%20Mastery%20Job-Oriented%20Program.&type=phone_number&app_absent=0"
+    <a href="https://api.whatsapp.com/send/?phone=919810191592&text=Hello%2C%20I%20want%20to%20enquire%20about%20the%20VLSI%20Training%20Programs.&type=phone_number&app_absent=0"
       target="_blank" rel="noopener noreferrer" class="floating-whatsapp__btn"
       aria-label="Chat on WhatsApp with VLSI Insights">
       <span class="floating-whatsapp__badge" aria-label="1 new notification">1</span>
