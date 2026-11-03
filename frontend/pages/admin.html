@@ -1,0 +1,1511 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Workspace | VLSI Insights</title>
+  <meta name="description" content="Central administrative workspace for managing Wall of Achievers, webinar sessions, blogs, and platform settings.">
+  <meta name="robots" content="noindex, nofollow">
+
+  <!-- Core Styles -->
+  <link rel="stylesheet" href="../css/global.css">
+  <link rel="stylesheet" href="../css/navbar.css">
+  <link rel="stylesheet" href="../css/footer.css">
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+  <!-- Supabase Client -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="../js/supabase.js"></script>
+
+  <style>
+    /* ========================================================================== */
+    /* ADMIN WORKSPACE CUSTOM STYLES                                              */
+    /* ========================================================================== */
+    :root {
+      --admin-bg: #F8FAFC;
+      --admin-surface: #FFFFFF;
+      --admin-card: #FFFFFF;
+      --admin-border: #E2E8F0;
+      --admin-primary: #0D9488;
+      --admin-primary-dark: #0F766E;
+      --admin-text-hi: #0F172A;
+      --admin-text-mid: #475569;
+      --admin-text-muted: #94A3B8;
+      --admin-danger: #EF4444;
+      --admin-success: #10B981;
+    }
+
+    body {
+      background-color: var(--admin-bg);
+      color: var(--admin-text-hi);
+      font-family: var(--font-sans, system-ui, -apple-system, sans-serif);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .admin-container {
+      max-width: 1320px;
+      margin: 0 auto;
+      padding: 32px 24px 64px;
+      width: 100%;
+      flex: 1;
+    }
+
+    /* Auth Gate Card (Shown when not authenticated as admin) */
+    .admin-gate-wrap {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 60vh;
+    }
+
+    .admin-gate-card {
+      background: #FFFFFF;
+      border: 1px solid var(--admin-border);
+      border-radius: 20px;
+      padding: 44px 36px;
+      max-width: 520px;
+      width: 100%;
+      text-align: center;
+      box-shadow: 0 12px 36px rgba(0, 0, 0, 0.06);
+    }
+
+    .admin-gate-icon {
+      width: 64px;
+      height: 64px;
+      border-radius: 16px;
+      background: #F0FDFA;
+      color: var(--admin-primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 20px;
+      border: 1px solid #CCFBF1;
+    }
+
+    .admin-gate-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--admin-text-hi);
+      margin: 0 0 8px;
+    }
+
+    .admin-gate-desc {
+      font-size: 0.9375rem;
+      color: var(--admin-text-mid);
+      line-height: 1.6;
+      margin: 0 0 24px;
+    }
+
+    .admin-gate-badges {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-bottom: 24px;
+      text-align: left;
+      background: #F8FAFC;
+      border: 1px solid var(--admin-border);
+      padding: 14px 18px;
+      border-radius: 12px;
+    }
+
+    .admin-gate-badge-item {
+      font-size: 0.8125rem;
+      color: var(--admin-text-mid);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .admin-gate-badge-item strong {
+      color: var(--admin-text-hi);
+      font-family: monospace;
+    }
+
+    /* Top Admin Header */
+    .admin-top-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid var(--admin-border);
+      margin-bottom: 28px;
+    }
+
+    .admin-title-wrap h1 {
+      font-size: 1.75rem;
+      font-weight: 800;
+      color: var(--admin-text-hi);
+      margin: 0 0 4px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .admin-badge-pill {
+      font-size: 0.75rem;
+      font-weight: 700;
+      background: #CCFBF1;
+      color: #0F766E;
+      padding: 4px 10px;
+      border-radius: 9999px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .admin-subtitle {
+      font-size: 0.9375rem;
+      color: var(--admin-text-mid);
+      margin: 0;
+    }
+
+    .admin-top-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .btn-view-site {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 16px;
+      background: #FFFFFF;
+      border: 1px solid var(--admin-border);
+      color: var(--admin-text-hi);
+      font-size: 0.875rem;
+      font-weight: 600;
+      border-radius: 10px;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+
+    .btn-view-site:hover {
+      background: #F1F5F9;
+      border-color: #CBD5E1;
+    }
+
+    .btn-signout-admin {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 9px 16px;
+      background: #FEE2E2;
+      border: 1px solid #FECACA;
+      color: #B91C1C;
+      font-size: 0.875rem;
+      font-weight: 600;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .btn-signout-admin:hover {
+      background: #FCA5A5;
+    }
+
+    /* KPI Stats Ribbon */
+    .admin-stats-ribbon {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+      margin-bottom: 28px;
+    }
+
+    .stat-card {
+      background: #FFFFFF;
+      border: 1px solid var(--admin-border);
+      border-radius: 14px;
+      padding: 18px 20px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+    }
+
+    .stat-card-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 10px;
+      background: #F0FDFA;
+      color: var(--admin-primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .stat-card-label {
+      font-size: 0.8125rem;
+      color: var(--admin-text-mid);
+      font-weight: 500;
+      margin-bottom: 2px;
+    }
+
+    .stat-card-value {
+      font-size: 1.375rem;
+      font-weight: 800;
+      color: var(--admin-text-hi);
+    }
+
+    /* Tabs Navigation */
+    .admin-tabs-nav {
+      display: flex;
+      gap: 8px;
+      border-bottom: 1px solid var(--admin-border);
+      margin-bottom: 24px;
+      overflow-x: auto;
+    }
+
+    .admin-tab-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 20px;
+      background: transparent;
+      border: none;
+      border-bottom: 2px solid transparent;
+      color: var(--admin-text-mid);
+      font-size: 0.9375rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+
+    .admin-tab-btn:hover {
+      color: var(--admin-text-hi);
+    }
+
+    .admin-tab-btn.active {
+      color: var(--admin-primary);
+      border-bottom-color: var(--admin-primary);
+    }
+
+    /* Tab Panes */
+    .admin-tab-pane {
+      display: none;
+    }
+
+    .admin-tab-pane.active {
+      display: block;
+    }
+
+    /* Two-Column Editor Grid (Form + Live Preview) */
+    .admin-editor-grid {
+      display: grid;
+      grid-template-columns: 1fr 380px;
+      gap: 28px;
+      align-items: start;
+      margin-bottom: 36px;
+    }
+
+    @media (max-width: 1024px) {
+      .admin-editor-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .editor-form-card,
+    .editor-preview-card,
+    .admin-table-card {
+      background: #FFFFFF;
+      border: 1px solid var(--admin-border);
+      border-radius: 16px;
+      padding: 24px 28px;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.03);
+    }
+
+    .card-heading {
+      font-size: 1.125rem;
+      font-weight: 700;
+      color: var(--admin-text-hi);
+      margin: 0 0 6px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .card-subheading {
+      font-size: 0.875rem;
+      color: var(--admin-text-mid);
+      margin: 0 0 20px;
+    }
+
+    /* Form Inputs */
+    .form-group {
+      margin-bottom: 18px;
+    }
+
+    .form-label {
+      display: block;
+      font-size: 0.8125rem;
+      font-weight: 600;
+      color: var(--admin-text-hi);
+      margin-bottom: 6px;
+    }
+
+    .form-input,
+    .form-select,
+    .form-textarea {
+      width: 100%;
+      padding: 10px 14px;
+      background: #FFFFFF;
+      border: 1px solid var(--admin-border);
+      border-radius: 8px;
+      font-size: 0.875rem;
+      color: var(--admin-text-hi);
+      transition: all 0.2s ease;
+      font-family: inherit;
+    }
+
+    .form-input:focus,
+    .form-select:focus,
+    .form-textarea:focus {
+      outline: none;
+      border-color: var(--admin-primary);
+      box-shadow: 0 0 0 3px rgba(13, 148, 136, 0.12);
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    @media (max-width: 640px) {
+      .form-row {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* File Drop Zone */
+    .file-drop-box {
+      border: 2px dashed #CBD5E1;
+      border-radius: 12px;
+      padding: 24px 16px;
+      text-align: center;
+      cursor: pointer;
+      background: #F8FAFC;
+      transition: all 0.2s ease;
+      position: relative;
+    }
+
+    .file-drop-box:hover,
+    .file-drop-box.dragover {
+      border-color: var(--admin-primary);
+      background: #F0FDFA;
+    }
+
+    .file-drop-input {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      cursor: pointer;
+      width: 100%;
+      height: 100%;
+    }
+
+    .btn-submit-action {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 12px 24px;
+      background: var(--admin-primary);
+      color: #FFFFFF;
+      border: none;
+      border-radius: 10px;
+      font-size: 0.9375rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      box-shadow: 0 4px 12px rgba(13, 148, 136, 0.25);
+      width: 100%;
+      margin-top: 8px;
+    }
+
+    .btn-submit-action:hover {
+      background: var(--admin-primary-dark);
+      transform: translateY(-1px);
+    }
+
+    /* Live Preview Component (Exact image-testimonial-grid.tsx layout) */
+    .preview-card-stage {
+      background: #F1F5F9;
+      border-radius: 12px;
+      padding: 16px;
+      display: flex;
+      justify-content: center;
+      min-height: 320px;
+      align-items: center;
+    }
+
+    .preview-achiever-card {
+      width: 100%;
+      max-width: 320px;
+      border-radius: 16px;
+      overflow: hidden;
+      position: relative;
+      background: #FFFFFF;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    }
+
+    .preview-achiever-card img {
+      width: 100%;
+      height: 280px;
+      object-fit: cover;
+      display: block;
+      background: #E2E8F0;
+    }
+
+    .preview-achiever-gradient {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(15, 23, 42, 0.75) 0%, rgba(15, 23, 42, 0.15) 50%, rgba(15, 23, 42, 0.85) 100%);
+      pointer-events: none;
+    }
+
+    .preview-achiever-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      padding: 14px 16px;
+      color: #FFFFFF;
+    }
+
+    .preview-user-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .preview-avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 9999px;
+      border: 2px solid rgba(255, 255, 255, 0.85);
+      object-fit: cover;
+      flex-shrink: 0;
+    }
+
+    .preview-name {
+      font-size: 0.9375rem;
+      font-weight: 700;
+      text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
+      line-height: 1.2;
+    }
+
+    .preview-role {
+      font-size: 0.75rem;
+      color: #2DD4BF;
+      font-weight: 600;
+      margin-top: 2px;
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+    }
+
+    /* Management Table */
+    .admin-table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+    }
+
+    .admin-table th {
+      background: #F8FAFC;
+      padding: 12px 16px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--admin-text-mid);
+      border-bottom: 1px solid var(--admin-border);
+    }
+
+    .admin-table td {
+      padding: 14px 16px;
+      border-bottom: 1px solid var(--admin-border);
+      font-size: 0.875rem;
+      vertical-align: middle;
+    }
+
+    .admin-table tr:hover td {
+      background: #F8FAFC;
+    }
+
+    .table-thumb {
+      width: 48px;
+      height: 48px;
+      border-radius: 8px;
+      object-fit: cover;
+      display: block;
+      background: #E2E8F0;
+    }
+
+    .btn-delete-row {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 6px 12px;
+      background: #FEE2E2;
+      border: 1px solid #FECACA;
+      color: #B91C1C;
+      font-size: 0.75rem;
+      font-weight: 600;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .btn-delete-row:hover {
+      background: #FCA5A5;
+    }
+
+    /* Toast Notification */
+    .admin-toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: #0F172A;
+      color: #FFFFFF;
+      padding: 14px 20px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 0.875rem;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      z-index: 9999;
+      transform: translateY(100px);
+      opacity: 0;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      pointer-events: none;
+    }
+
+    .admin-toast.show {
+      transform: translateY(0);
+      opacity: 1;
+      pointer-events: auto;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ========================================================================= -->
+  <!-- 1. AUTH GATE (Visible if user is NOT signed in with an authorized admin email) -->
+  <!-- ========================================================================= -->
+  <div id="adminAuthGate" class="admin-container admin-gate-wrap" style="display: flex;">
+    <div class="admin-gate-card">
+      <div class="admin-gate-icon">
+        <i data-lucide="shield-alert" style="width: 32px; height: 32px;"></i>
+      </div>
+      <h2 class="admin-gate-title">Admin Access Restricted</h2>
+      <p class="admin-gate-desc">
+        This workspace is restricted to authorized platform administrators. Please sign in with an authorized administrator account to continue.
+      </p>
+
+      <div class="admin-gate-badges">
+        <div class="admin-gate-badge-item">
+          <i data-lucide="check-circle" style="width: 14px; height: 14px; color: #10B981;"></i>
+          <span>Authorized Admin 1: <strong>vlsiinsights9@gmail.com</strong></span>
+        </div>
+        <div class="admin-gate-badge-item">
+          <i data-lucide="check-circle" style="width: 14px; height: 14px; color: #10B981;"></i>
+          <span>Authorized Admin 2: <strong>amol.singhal25@gmail.com</strong></span>
+        </div>
+      </div>
+
+      <div style="display: flex; flex-direction: column; gap: 10px;">
+        <a href="login.html?redirect=admin.html" class="btn-submit-action" style="text-decoration: none;">
+          <i data-lucide="log-in" style="width: 18px; height: 18px;"></i>
+          <span>Sign In as Admin</span>
+        </a>
+        <a href="../index.html" class="btn-view-site" style="justify-content: center;">
+          <i data-lucide="arrow-left" style="width: 16px; height: 16px;"></i>
+          <span>Return to Homepage</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- 2. MAIN ADMIN WORKSPACE (Visible only when authorized admin is active)    -->
+  <!-- ========================================================================= -->
+  <div id="adminMainContent" class="admin-container" style="display: none;">
+
+    <!-- Top Bar -->
+    <header class="admin-top-bar">
+      <div class="admin-title-wrap">
+        <h1>
+          <span>VLSI Insights Management</span>
+          <span class="admin-badge-pill">Admin Console</span>
+        </h1>
+        <p class="admin-subtitle">
+          Logged in as <strong id="adminCurrentEmail" style="color: var(--admin-primary);">admin</strong> &bull; Changes auto-sync immediately to the live site.
+        </p>
+      </div>
+
+      <div class="admin-top-actions">
+        <a href="testimonials.html" target="_blank" class="btn-view-site">
+          <i data-lucide="external-link" style="width: 16px; height: 16px;"></i>
+          <span>View Live Wall</span>
+        </a>
+        <a href="blog.html" target="_blank" class="btn-view-site">
+          <i data-lucide="book-open" style="width: 16px; height: 16px;"></i>
+          <span>View Blogs</span>
+        </a>
+        <button type="button" class="btn-signout-admin" id="btnAdminLogout">
+          <i data-lucide="log-out" style="width: 16px; height: 16px;"></i>
+          <span>Sign Out</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- KPI Stats Ribbon -->
+    <div class="admin-stats-ribbon">
+      <div class="stat-card">
+        <div class="stat-card-icon"><i data-lucide="users"></i></div>
+        <div>
+          <div class="stat-card-label">Student Achievers</div>
+          <div class="stat-card-value" id="kpiStudents">0</div>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-card-icon"><i data-lucide="presentation"></i></div>
+        <div>
+          <div class="stat-card-label">Webinars &amp; Workshops</div>
+          <div class="stat-card-value" id="kpiWebinars">0</div>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-card-icon"><i data-lucide="file-text"></i></div>
+        <div>
+          <div class="stat-card-label">Published Blogs</div>
+          <div class="stat-card-value" id="kpiBlogs">0</div>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-card-icon"><i data-lucide="shield-check"></i></div>
+        <div>
+          <div class="stat-card-label">Authorized Admins</div>
+          <div class="stat-card-value" id="kpiAdmins">2</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Navigation Tabs -->
+    <div class="admin-tabs-nav" role="tablist">
+      <button type="button" class="admin-tab-btn active" data-tab="tabAchievers">
+        <i data-lucide="image"></i>
+        <span>Wall of Achievers &amp; Webinars</span>
+      </button>
+      <button type="button" class="admin-tab-btn" data-tab="tabBlogs">
+        <i data-lucide="file-text"></i>
+        <span>Blog Articles</span>
+      </button>
+      <button type="button" class="admin-tab-btn" data-tab="tabAdmins">
+        <i data-lucide="shield"></i>
+        <span>Admin Access Control</span>
+      </button>
+    </div>
+
+    <!-- ======================================================================= -->
+    <!-- TAB 1: WALL OF ACHIEVERS & WEBINARS                                     -->
+    <!-- ======================================================================= -->
+    <div class="admin-tab-pane active" id="tabAchievers">
+      <div class="admin-editor-grid">
+
+        <!-- Add Form -->
+        <div class="editor-form-card">
+          <h2 class="card-heading">
+            <i data-lucide="plus-circle" style="color: var(--admin-primary);"></i>
+            <span>Add New Student Achiever or Webinar Photo</span>
+          </h2>
+          <p class="card-subheading">
+            Upload student placement photos or webinar flyers. Once published, photos automatically scale and fit inside the Wall of Achievers masonry grid.
+          </p>
+
+          <form id="formAddPhoto" onsubmit="return handlePublishPhoto(event);">
+            <div class="form-row">
+              <div class="form-group">
+                <label for="photoType" class="form-label">Category</label>
+                <select id="photoType" class="form-select" onchange="updatePhotoPreview();">
+                  <option value="student">Student Placement Photo</option>
+                  <option value="webinar">Webinar / Workshop Session</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="photoName" class="form-label" id="labelPhotoName">Student Name (from photo)</label>
+                <input type="text" id="photoName" class="form-input" placeholder="e.g. Rahul, Pooja Shukla" required oninput="updatePhotoPreview();">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="photoRole" class="form-label" id="labelPhotoRole">Role / Program Specialization</label>
+              <input type="text" id="photoRole" class="form-input" placeholder="e.g. RTL Design Engineer, Verification Track" required oninput="updatePhotoPreview();">
+            </div>
+
+            <!-- Image File Upload or URL -->
+            <div class="form-group">
+              <label class="form-label">Upload Photo</label>
+              <div class="file-drop-box" id="photoDropBox">
+                <input type="file" id="photoFileInput" accept="image/*" class="file-drop-input" onchange="handlePhotoFile(event);">
+                <i data-lucide="upload-cloud" style="width: 32px; height: 32px; color: var(--admin-primary); margin-bottom: 8px;"></i>
+                <div style="font-weight: 600; color: var(--admin-text-hi);">Click or Drag &amp; Drop Photo Here</div>
+                <div style="font-size: 0.75rem; color: var(--admin-text-mid); margin-top: 4px;">Supports JPG, PNG, WEBP files</div>
+              </div>
+              <div style="text-align: center; margin: 10px 0; font-size: 0.75rem; color: var(--admin-text-mid); font-weight: 700;">OR PASTE IMAGE URL</div>
+              <input type="url" id="photoUrlInput" class="form-input" placeholder="https://example.com/photo.jpg" oninput="handlePhotoUrl(event);">
+            </div>
+
+            <button type="submit" class="btn-submit-action">
+              <i data-lucide="check" style="width: 18px; height: 18px;"></i>
+              <span>Publish to Wall of Achievers</span>
+            </button>
+          </form>
+        </div>
+
+        <!-- Live Preview Card -->
+        <div class="editor-preview-card">
+          <h2 class="card-heading">
+            <i data-lucide="eye" style="color: var(--admin-primary);"></i>
+            <span>Live Card Preview</span>
+          </h2>
+          <p class="card-subheading">Instant preview matching the live masonry layout.</p>
+
+          <div class="preview-card-stage">
+            <div class="preview-achiever-card">
+              <img id="cardPrevImg" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=500&auto=format&fit=crop&q=80" alt="Preview Photo">
+              <div class="preview-achiever-gradient"></div>
+              <div class="preview-achiever-overlay">
+                <div class="preview-user-row">
+                  <img id="cardPrevAvatar" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80" class="preview-avatar" alt="Avatar">
+                  <div>
+                    <div class="preview-name" id="cardPrevName">Student Name</div>
+                    <div class="preview-role" id="cardPrevRole">RTL Design Engineer</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Existing Entries Management Table -->
+      <div class="admin-table-card">
+        <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; margin-bottom: 16px;">
+          <div>
+            <h2 class="card-heading" style="margin-bottom: 2px;">Active Wall Entries</h2>
+            <p class="card-subheading" style="margin-bottom: 0;">Manage photos currently live on the public Wall of Achievers.</p>
+          </div>
+          <button type="button" class="btn-view-site" onclick="resetDefaultAchievers();" title="Restore default photos if deleted">
+            <i data-lucide="rotate-ccw" style="width: 14px; height: 14px;"></i>
+            <span>Restore Defaults</span>
+          </button>
+        </div>
+
+        <div style="overflow-x: auto;">
+          <table class="admin-table" id="achieversTable">
+            <thead>
+              <tr>
+                <th>Photo</th>
+                <th>Name / Session</th>
+                <th>Role / Topic</th>
+                <th>Type</th>
+                <th>Source</th>
+                <th style="text-align: right;">Action</th>
+              </tr>
+            </thead>
+            <tbody id="achieversTableBody">
+              <!-- Rendered via JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ======================================================================= -->
+    <!-- TAB 2: TECHNICAL BLOGS                                                  -->
+    <!-- ======================================================================= -->
+    <div class="admin-tab-pane" id="tabBlogs">
+      <div class="admin-editor-grid">
+
+        <!-- Blog Form -->
+        <div class="editor-form-card">
+          <h2 class="card-heading">
+            <i data-lucide="edit-3" style="color: var(--admin-primary);"></i>
+            <span>Create &amp; Publish Blog Article</span>
+          </h2>
+          <p class="card-subheading">Publish verified technical articles that immediately appear in the Blog catalog.</p>
+
+          <form id="formAddBlog" onsubmit="return handlePublishBlog(event);">
+            <div class="form-group">
+              <label for="blogTitle" class="form-label">Article Title</label>
+              <input type="text" id="blogTitle" class="form-input" placeholder="e.g. Mastering SystemVerilog Assertions (SVA) in UVM" required oninput="updateBlogPreview();">
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="blogCategory" class="form-label">Category</label>
+                <select id="blogCategory" class="form-select" onchange="updateBlogPreview();">
+                  <option value="VLSI Design">VLSI Design</option>
+                  <option value="Design Verification">Design Verification</option>
+                  <option value="SoC Architecture">SoC Architecture</option>
+                  <option value="FPGA & Hardware">FPGA &amp; Hardware</option>
+                  <option value="Embedded Systems">Embedded Systems</option>
+                  <option value="Career Guide">Career Guide</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="blogReadTime" class="form-label">Read Time</label>
+                <input type="text" id="blogReadTime" class="form-input" value="6 min read" placeholder="e.g. 5 min read" oninput="updateBlogPreview();">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="blogAuthor" class="form-label">Author</label>
+              <input type="text" id="blogAuthor" class="form-input" value="VLSI Insights Technical Team" placeholder="Author name" oninput="updateBlogPreview();">
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Featured Cover Image</label>
+              <input type="file" id="blogFileInput" accept="image/*" class="form-input" onchange="handleBlogFile(event);" style="margin-bottom: 8px;">
+              <input type="url" id="blogUrlInput" class="form-input" placeholder="Or paste image URL (e.g. https://images.unsplash.com/...)" oninput="handleBlogUrl(event);">
+            </div>
+
+            <div class="form-group">
+              <label for="blogExcerpt" class="form-label">Short Excerpt / Summary</label>
+              <textarea id="blogExcerpt" class="form-textarea" rows="2" placeholder="Brief summary displayed on article cards..." required oninput="updateBlogPreview();"></textarea>
+            </div>
+
+            <div class="form-group">
+              <label for="blogContent" class="form-label">Full Article Content (HTML / Text)</label>
+              <textarea id="blogContent" class="form-textarea" rows="8" placeholder="<p>Write your article paragraphs here...</p><h2>Key Concepts</h2><p>Additional technical details...</p>" required></textarea>
+            </div>
+
+            <button type="submit" class="btn-submit-action">
+              <i data-lucide="send" style="width: 18px; height: 18px;"></i>
+              <span>Publish Article to Blog Catalog</span>
+            </button>
+          </form>
+        </div>
+
+        <!-- Live Blog Preview -->
+        <div class="editor-preview-card">
+          <h2 class="card-heading">
+            <i data-lucide="eye" style="color: var(--admin-primary);"></i>
+            <span>Blog Card Preview</span>
+          </h2>
+          <p class="card-subheading">How the post card will appear on the blog catalog page.</p>
+
+          <div style="background: #F8FAFC; border: 1px solid var(--admin-border); border-radius: 12px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.05);">
+            <img id="blogPrevImg" src="https://images.unsplash.com/photo-1518770660439-4636190af475?w=600&auto=format&fit=crop&q=80" alt="Blog cover" style="width: 100%; height: 170px; object-fit: cover; display: block;">
+            <div style="padding: 16px;">
+              <span id="blogPrevCategory" style="font-size: 0.75rem; font-weight: 700; color: #0D9488; text-transform: uppercase;">VLSI Design</span>
+              <h3 id="cardBlogTitle" style="font-size: 1rem; font-weight: 700; color: var(--admin-text-hi); margin: 6px 0;">Article Title Preview</h3>
+              <p id="cardBlogExcerpt" style="font-size: 0.8125rem; color: var(--admin-text-mid); line-height: 1.5; margin: 0 0 12px;">Article excerpt summary will appear here...</p>
+              <div style="display: flex; align-items: center; justify-content: space-between; font-size: 0.75rem; color: var(--admin-text-muted);">
+                <span id="cardBlogAuthor">VLSI Insights Technical Team</span>
+                <span id="cardBlogRead">6 min read</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Published Blogs Table -->
+      <div class="admin-table-card">
+        <h2 class="card-heading">Custom Published Blog Articles</h2>
+        <p class="card-subheading">Articles published through this admin console.</p>
+
+        <div style="overflow-x: auto;">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>Cover</th>
+                <th>Title</th>
+                <th>Category</th>
+                <th>Date</th>
+                <th style="text-align: right;">Action</th>
+              </tr>
+            </thead>
+            <tbody id="blogsTableBody">
+              <!-- Rendered via JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ======================================================================= -->
+    <!-- TAB 3: ADMIN ACCESS CONTROL                                             -->
+    <!-- ======================================================================= -->
+    <div class="admin-tab-pane" id="tabAdmins">
+      <div class="editor-form-card" style="max-width: 680px; margin-bottom: 28px;">
+        <h2 class="card-heading">
+          <i data-lucide="shield" style="color: var(--admin-primary);"></i>
+          <span>Authorized Administrator Emails</span>
+        </h2>
+        <p class="card-subheading">
+          Only users authenticated with these email addresses can access this console.
+        </p>
+
+        <form id="formAddAdmin" onsubmit="return handleAddAdminEmail(event);" style="display: flex; gap: 10px; margin-bottom: 24px;">
+          <input type="email" id="newAdminEmail" class="form-input" placeholder="Enter new admin email address..." required style="flex: 1;">
+          <button type="submit" class="btn-submit-action" style="width: auto; margin-top: 0; padding: 10px 20px;">
+            <i data-lucide="user-plus" style="width: 16px; height: 16px;"></i>
+            <span>Add Admin</span>
+          </button>
+        </form>
+
+        <div style="overflow-x: auto;">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>Email Address</th>
+                <th>Role</th>
+                <th style="text-align: right;">Action</th>
+              </tr>
+            </thead>
+            <tbody id="adminEmailsTableBody">
+              <!-- Rendered via JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Toast Notification -->
+  <div class="admin-toast" id="adminToast">
+    <i data-lucide="check-circle" style="color: #34D399; width: 20px; height: 20px;"></i>
+    <span id="adminToastMsg">Success</span>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- ADMIN SCRIPTS                                                             -->
+  <!-- ========================================================================= -->
+  <script>
+    (function() {
+      'use strict';
+
+      // 1. Initial Defaults
+      const MASTER_ADMINS = ['vlsiinsights9@gmail.com', 'amol.singhal25@gmail.com'];
+
+      const DEFAULT_ACHIEVERS = [
+        { id: 'ach_1', name: 'Dhilipan Amirthalingam', role: 'Physical Design Track', type: 'student', src: 'images/Students_photo/522686_DhilipanAmirthalingam.JPG' },
+        { id: 'ach_2', name: 'Aditiya', role: 'Verification Engineer', type: 'student', src: 'images/Students_photo/Aditiya.jpeg' },
+        { id: 'ach_3', name: 'Pooja Shukla', role: 'RTL Design Engineer', type: 'student', src: 'images/Students_photo/Pooja%20Shukla.jpeg' },
+        { id: 'ach_4', name: 'Rahul', role: 'SOC Verification', type: 'student', src: 'images/Students_photo/rahul.jpg' },
+        { id: 'ach_5', name: 'Kalyan', role: 'Verification Engineer', type: 'student', src: 'images/Students_photo/kalyan.jpg' },
+        { id: 'ach_6', name: 'Karan Kumar', role: 'FPGA Prototyping', type: 'student', src: 'images/Students_photo/Karan%20Kumar.jpeg' },
+        { id: 'ach_7', name: 'NIET Campus Faculty Development Program', role: 'Hands-On Silicon & FPGA Workshop', type: 'webinar', src: 'images/Students_photo/NIET_FTP.jpg' },
+        { id: 'ach_8', name: 'Swati', role: 'ASIC Development Team', type: 'student', src: 'images/Students_photo/Swati.png' },
+        { id: 'ach_9', name: 'Muskan P', role: 'RTL Design Cohort', type: 'student', src: 'images/Students_photo/Muskan%20P.jpeg' },
+        { id: 'ach_10', name: 'Priyam Roy', role: 'EDA Automation Specialist', type: 'student', src: 'images/Students_photo/Priyam%20Roy.jpeg' },
+        { id: 'ach_11', name: 'Ritesh', role: 'Embedded Systems', type: 'student', src: 'images/Students_photo/Ritesh.jpeg' },
+        { id: 'ach_12', name: 'Shachi', role: 'UVM Verification Track', type: 'student', src: 'images/Students_photo/shachi.jpeg' },
+        { id: 'ach_13', name: 'Chander', role: 'ASIC Design Specialist', type: 'student', src: 'images/Students_photo/chander.jpeg' },
+        { id: 'ach_14', name: 'Faculty Workshop & Hardware Bring-Up Lab', role: 'Live FPGA Prototyping & Board Testing', type: 'webinar', src: 'images/Students_photo/FTP_NIET_2.jpg' },
+        { id: 'ach_15', name: 'Anusha', role: 'SystemVerilog & SVA', type: 'student', src: 'images/Students_photo/anusha.jpeg' },
+        { id: 'ach_16', name: 'Ajeet', role: 'Digital Electronics Cohort', type: 'student', src: 'images/Students_photo/ajeet.jpeg' },
+        { id: 'ach_17', name: 'Krishna', role: 'SoC Architecture', type: 'student', src: 'images/Students_photo/Krishna.png' },
+        { id: 'ach_18', name: 'Pratap', role: 'Verification Engineer', type: 'student', src: 'images/Students_photo/pratap.png' },
+        { id: 'ach_19', name: 'Sunny', role: 'Embedded IoT Track', type: 'student', src: 'images/Students_photo/sunny.jpeg' },
+        { id: 'ach_20', name: 'Sonu', role: 'FPGA Prototyping', type: 'student', src: 'images/Students_photo/sonu.jpeg' },
+        { id: 'ach_21', name: 'Live Semiconductor Webinar Series', role: 'UVM & Tape-Out Verification Masterclasses', type: 'webinar', src: 'images/Students_photo/WhatsApp%20Image%202025-02-06%20at%208.12.12%20PM.jpeg' },
+        { id: 'ach_22', name: 'Soumya', role: 'VLSI Design Mentee', type: 'student', src: 'images/Students_photo/Soumya_phot.jpeg' },
+        { id: 'ach_23', name: 'Smitha', role: 'RTL Design Track', type: 'student', src: 'images/Students_photo/Smitha.jpeg' },
+        { id: 'ach_24', name: 'Pummy', role: 'Digital VLSI Cohort', type: 'student', src: 'images/Students_photo/Pummy.jpeg' },
+        { id: 'ach_25', name: 'Perez', role: 'Hardware Mentorship', type: 'student', src: 'images/Students_photo/perez.jpeg' },
+        { id: 'ach_26', name: 'Silicon Architecture Masterclass', role: 'Front-End Design to Tape-Out Implementation', type: 'webinar', src: 'images/Students_photo/WhatsApp%20Image%202025-02-06%20at%208.12.56%20PM.jpeg' }
+      ];
+
+      var uploadedPhotoDataUrl = '';
+      var uploadedBlogDataUrl = '';
+      var activeAdminEmail = '';
+
+      // 2. Storage Helpers
+      function getAdminEmails() {
+        try {
+          var custom = JSON.parse(localStorage.getItem('vlsi_admin_emails') || '[]');
+          return Array.from(new Set(MASTER_ADMINS.concat(custom)));
+        } catch(e) {
+          return MASTER_ADMINS;
+        }
+      }
+
+      function getCustomAchievers() {
+        try { return JSON.parse(localStorage.getItem('vlsi_custom_achievers') || '[]'); } catch(e) { return []; }
+      }
+
+      function getDeletedIds() {
+        try { return JSON.parse(localStorage.getItem('vlsi_deleted_achievers') || '[]'); } catch(e) { return []; }
+      }
+
+      function getCustomBlogs() {
+        try { return JSON.parse(localStorage.getItem('vlsi_custom_blogs') || '[]'); } catch(e) { return []; }
+      }
+
+      function showToast(msg) {
+        var toast = document.getElementById('adminToast');
+        var text = document.getElementById('adminToastMsg');
+        if (text) text.textContent = msg;
+        if (toast) {
+          toast.classList.add('show');
+          setTimeout(function() { toast.classList.remove('show'); }, 3000);
+        }
+      }
+
+      // 3. Auth Check
+      function checkAdminAuth() {
+        var user = null;
+        var primaryKey = 'sb-riipijrgucqigndcjwre-auth-token';
+        try {
+          var raw = localStorage.getItem(primaryKey);
+          if (raw) {
+            var parsed = JSON.parse(raw);
+            if (parsed && parsed.user) user = parsed.user;
+            else if (parsed && parsed.currentSession && parsed.currentSession.user) user = parsed.currentSession.user;
+          }
+        } catch(e) {}
+
+        if (!user) {
+          try {
+            var rawUser = localStorage.getItem('sb-riipijrgucqigndcjwre-auth-token-user');
+            if (rawUser) user = JSON.parse(rawUser);
+          } catch(e) {}
+        }
+
+        var authorizedList = getAdminEmails().map(function(e) { return e.toLowerCase().trim(); });
+        var email = user && user.email ? user.email.toLowerCase().trim() : '';
+
+        // For local development convenience: if running on localhost and ?admin=true is present, allow access
+        var urlParams = new URLSearchParams(window.location.search);
+        var isLocalDevOverride = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+        if (urlParams.get('admin') === 'true' && isLocalDevOverride && !email) {
+          email = 'amol.singhal25@gmail.com';
+        }
+
+        if (email && authorizedList.includes(email)) {
+          activeAdminEmail = email;
+          var gate = document.getElementById('adminAuthGate');
+          var main = document.getElementById('adminMainContent');
+          var emailSpan = document.getElementById('adminCurrentEmail');
+          if (gate) gate.style.display = 'none';
+          if (main) main.style.display = 'block';
+          if (emailSpan) emailSpan.textContent = email;
+          loadDashboardData();
+        } else {
+          var gate = document.getElementById('adminAuthGate');
+          var main = document.getElementById('adminMainContent');
+          if (gate) gate.style.display = 'flex';
+          if (main) main.style.display = 'none';
+        }
+      }
+
+      // 4. Load Dashboard Data & KPIs
+      function loadDashboardData() {
+        var custom = getCustomAchievers();
+        var deleted = getDeletedIds();
+        var allAchievers = custom.concat(DEFAULT_ACHIEVERS).filter(function(i) {
+          return deleted.indexOf(i.id) === -1;
+        });
+
+        var studentCount = allAchievers.filter(function(i) { return i.type === 'student'; }).length;
+        var webinarCount = allAchievers.filter(function(i) { return i.type === 'webinar'; }).length;
+        var blogs = getCustomBlogs();
+        var admins = getAdminEmails();
+
+        // Update KPIs
+        var elStudents = document.getElementById('kpiStudents');
+        var elWebinars = document.getElementById('kpiWebinars');
+        var elBlogs = document.getElementById('kpiBlogs');
+        var elAdmins = document.getElementById('kpiAdmins');
+        if (elStudents) elStudents.textContent = studentCount;
+        if (elWebinars) elWebinars.textContent = webinarCount;
+        if (elBlogs) elBlogs.textContent = blogs.length;
+        if (elAdmins) elAdmins.textContent = admins.length;
+
+        // Render Tables
+        renderAchieversTable(allAchievers);
+        renderBlogsTable(blogs);
+        renderAdminEmailsTable(admins);
+      }
+
+      // Render Achievers Table
+      function renderAchieversTable(list) {
+        var tbody = document.getElementById('achieversTableBody');
+        if (!tbody) return;
+        var customIds = getCustomAchievers().map(function(i) { return i.id; });
+
+        if (list.length === 0) {
+          tbody.innerHTML = '<tr><td colspan="6" style="text-align: center; color: var(--admin-text-mid); padding: 32px;">No active photos. Click Restore Defaults to recover initial photos.</td></tr>';
+          return;
+        }
+
+        var html = '';
+        list.forEach(function(item) {
+          var isCustom = customIds.indexOf(item.id) !== -1;
+          var isWebinar = item.type === 'webinar';
+
+          html += '<tr>';
+          html += '  <td><img src="' + item.src + '" class="table-thumb" alt="' + item.name + '"></td>';
+          html += '  <td><strong>' + item.name + '</strong></td>';
+          html += '  <td>' + item.role + '</td>';
+          html += '  <td><span class="admin-badge-pill" style="background:' + (isWebinar ? '#FEF3C7;color:#92400E;' : '#CCFBF1;color:#0F766E;') + '">' + (isWebinar ? 'Webinar' : 'Student') + '</span></td>';
+          html += '  <td><span style="font-size:0.75rem; color:var(--admin-text-muted);">' + (isCustom ? 'Custom Upload' : 'Default Record') + '</span></td>';
+          html += '  <td style="text-align: right;"><button type="button" class="btn-delete-row" onclick="deleteAchieverItem('' + item.id + '')"><i data-lucide="trash-2" style="width:13px;height:13px;"></i> Delete</button></td>';
+          html += '</tr>';
+        });
+
+        tbody.innerHTML = html;
+        if (window.lucide && typeof lucide.createIcons === 'function') lucide.createIcons({ root: tbody });
+      }
+
+      // Render Blogs Table
+      function renderBlogsTable(blogs) {
+        var tbody = document.getElementById('blogsTableBody');
+        if (!tbody) return;
+
+        if (blogs.length === 0) {
+          tbody.innerHTML = '<tr><td colspan="5" style="text-align: center; color: var(--admin-text-mid); padding: 32px;">No custom articles published yet. Use the form above to publish your first article.</td></tr>';
+          return;
+        }
+
+        var html = '';
+        blogs.forEach(function(blog) {
+          var dateStr = new Date(blog.date || Date.now()).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+          html += '<tr>';
+          html += '  <td><img src="' + blog.cover + '" class="table-thumb" alt="' + blog.title + '"></td>';
+          html += '  <td><strong>' + blog.title + '</strong></td>';
+          html += '  <td><span class="admin-badge-pill">' + blog.category + '</span></td>';
+          html += '  <td style="color: var(--admin-text-mid);">' + dateStr + '</td>';
+          html += '  <td style="text-align: right;">';
+          html += '    <a href="post.html?id=' + blog.id + '" target="_blank" class="btn-view-site" style="padding: 4px 8px; font-size: 0.75rem; margin-right: 6px;">View</a>';
+          html += '    <button type="button" class="btn-delete-row" onclick="deleteBlogItem('' + blog.id + '')"><i data-lucide="trash-2" style="width:13px;height:13px;"></i></button>';
+          html += '  </td>';
+          html += '</tr>';
+        });
+
+        tbody.innerHTML = html;
+        if (window.lucide && typeof lucide.createIcons === 'function') lucide.createIcons({ root: tbody });
+      }
+
+      // Render Admin Emails Table
+      function renderAdminEmailsTable(emails) {
+        var tbody = document.getElementById('adminEmailsTableBody');
+        if (!tbody) return;
+
+        var html = '';
+        emails.forEach(function(email) {
+          var isMaster = MASTER_ADMINS.includes(email);
+          html += '<tr>';
+          html += '  <td><strong>' + email + '</strong></td>';
+          html += '  <td><span class="admin-badge-pill" style="background:' + (isMaster ? '#DBEAFE;color:#1E40AF;' : '#F1F5F9;color:#475569;') + '">' + (isMaster ? 'Master Admin' : 'Admin') + '</span></td>';
+          html += '  <td style="text-align: right;">';
+          if (!isMaster) {
+            html += '    <button type="button" class="btn-delete-row" onclick="removeAdminEmail('' + email + '')"><i data-lucide="trash-2" style="width:13px;height:13px;"></i> Remove</button>';
+          } else {
+            html += '    <span style="font-size:0.75rem; color:var(--admin-text-muted);">Protected</span>';
+          }
+          html += '  </td>';
+          html += '</tr>';
+        });
+
+        tbody.innerHTML = html;
+        if (window.lucide && typeof lucide.createIcons === 'function') lucide.createIcons({ root: tbody });
+      }
+
+      // 5. File & Preview Handlers (Wall of Achievers)
+      window.handlePhotoFile = function(e) {
+        var file = e.target.files && e.target.files[0];
+        if (file) {
+          var reader = new FileReader();
+          reader.onload = function(evt) {
+            uploadedPhotoDataUrl = evt.target.result;
+            updatePhotoPreview();
+          };
+          reader.readAsDataURL(file);
+        }
+      };
+
+      window.handlePhotoUrl = function() {
+        uploadedPhotoDataUrl = '';
+        updatePhotoPreview();
+      };
+
+      window.updatePhotoPreview = function() {
+        var name = (document.getElementById('photoName') || {}).value || 'Student Name';
+        var role = (document.getElementById('photoRole') || {}).value || 'RTL Design Engineer';
+        var urlInput = (document.getElementById('photoUrlInput') || {}).value || '';
+        var finalSrc = uploadedPhotoDataUrl || urlInput || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=500&auto=format&fit=crop&q=80';
+
+        var prevImg = document.getElementById('cardPrevImg');
+        var prevAvatar = document.getElementById('cardPrevAvatar');
+        var prevName = document.getElementById('cardPrevName');
+        var prevRole = document.getElementById('cardPrevRole');
+
+        if (prevImg) prevImg.src = finalSrc;
+        if (prevAvatar) prevAvatar.src = finalSrc;
+        if (prevName) prevName.textContent = name;
+        if (prevRole) prevRole.textContent = role;
+      };
+
+      window.handlePublishPhoto = function(e) {
+        if (e && typeof e.preventDefault === 'function') e.preventDefault();
+
+        var type = (document.getElementById('photoType') || {}).value || 'student';
+        var name = ((document.getElementById('photoName') || {}).value || '').trim();
+        var role = ((document.getElementById('photoRole') || {}).value || '').trim();
+        var urlInput = ((document.getElementById('photoUrlInput') || {}).value || '').trim();
+        var finalSrc = uploadedPhotoDataUrl || urlInput;
+
+        if (!finalSrc) {
+          alert('Please upload an image file or enter an image URL.');
+          return false;
+        }
+
+        if (!name || !role) {
+          alert('Please enter both name and role/topic.');
+          return false;
+        }
+
+        var newRecord = {
+          id: 'ach_custom_' + Date.now(),
+          name: name,
+          role: role,
+          type: type,
+          src: finalSrc
+        };
+
+        var customList = getCustomAchievers();
+        customList.unshift(newRecord);
+        localStorage.setItem('vlsi_custom_achievers', JSON.stringify(customList));
+
+        // Reset Form
+        document.getElementById('formAddPhoto').reset();
+        uploadedPhotoDataUrl = '';
+        updatePhotoPreview();
+        loadDashboardData();
+        showToast('Photo Published! It is now live on the Wall of Achievers.');
+        return false;
+      };
+
+      window.deleteAchieverItem = function(id) {
+        if (!confirm('Are you sure you want to delete this photo from the Wall of Achievers?')) return;
+
+        var custom = getCustomAchievers();
+        var customIdx = custom.findIndex(function(i) { return i.id === id; });
+        if (customIdx !== -1) {
+          custom.splice(customIdx, 1);
+          localStorage.setItem('vlsi_custom_achievers', JSON.stringify(custom));
+        } else {
+          var deleted = getDeletedIds();
+          if (deleted.indexOf(id) === -1) {
+            deleted.push(id);
+            localStorage.setItem('vlsi_deleted_achievers', JSON.stringify(deleted));
+          }
+        }
+
+        loadDashboardData();
+        showToast('Photo removed from the Wall.');
+      };
+
+      window.resetDefaultAchievers = function() {
+        if (!confirm('This will restore all default student achiever and webinar photos. Proceed?')) return;
+        localStorage.removeItem('vlsi_deleted_achievers');
+        loadDashboardData();
+        showToast('Default photos restored successfully.');
+      };
+
+      // 6. File & Preview Handlers (Blog Articles)
+      window.handleBlogFile = function(e) {
+        var file = e.target.files && e.target.files[0];
+        if (file) {
+          var reader = new FileReader();
+          reader.onload = function(evt) {
+            uploadedBlogDataUrl = evt.target.result;
+            updateBlogPreview();
+          };
+          reader.readAsDataURL(file);
+        }
+      };
+
+      window.handleBlogUrl = function() {
+        uploadedBlogDataUrl = '';
+        updateBlogPreview();
+      };
+
+      window.updateBlogPreview = function() {
+        var title = (document.getElementById('blogTitle') || {}).value || 'Article Title Preview';
+        var cat = (document.getElementById('blogCategory') || {}).value || 'VLSI Design';
+        var author = (document.getElementById('blogAuthor') || {}).value || 'VLSI Insights Technical Team';
+        var readTime = (document.getElementById('blogReadTime') || {}).value || '6 min read';
+        var excerpt = (document.getElementById('blogExcerpt') || {}).value || 'Article excerpt summary will appear here...';
+        var urlInput = (document.getElementById('blogUrlInput') || {}).value || '';
+        var cover = uploadedBlogDataUrl || urlInput || 'https://images.unsplash.com/photo-1518770660439-4636190af475?w=600&auto=format&fit=crop&q=80';
+
+        var prevImg = document.getElementById('blogPrevImg');
+        var prevCat = document.getElementById('blogPrevCategory');
+        var prevTitle = document.getElementById('cardBlogTitle');
+        var prevExcerpt = document.getElementById('cardBlogExcerpt');
+        var prevAuthor = document.getElementById('cardBlogAuthor');
+        var prevRead = document.getElementById('cardBlogRead');
+
+        if (prevImg) prevImg.src = cover;
+        if (prevCat) prevCat.textContent = cat;
+        if (prevTitle) prevTitle.textContent = title;
+        if (prevExcerpt) prevExcerpt.textContent = excerpt;
+        if (prevAuthor) prevAuthor.textContent = author;
+        if (prevRead) prevRead.textContent = readTime;
+      };
+
+      window.handlePublishBlog = function(e) {
+        if (e && typeof e.preventDefault === 'function') e.preventDefault();
+
+        var title = ((document.getElementById('blogTitle') || {}).value || '').trim();
+        var category = (document.getElementById('blogCategory') || {}).value || 'VLSI Design';
+        var author = ((document.getElementById('blogAuthor') || {}).value || 'VLSI Insights Technical Team').trim();
+        var readTime = ((document.getElementById('blogReadTime') || {}).value || '6 min read').trim();
+        var excerpt = ((document.getElementById('blogExcerpt') || {}).value || '').trim();
+        var content = ((document.getElementById('blogContent') || {}).value || '').trim();
+        var urlInput = ((document.getElementById('blogUrlInput') || {}).value || '').trim();
+        var cover = uploadedBlogDataUrl || urlInput || 'https://images.unsplash.com/photo-1518770660439-4636190af475?w=600&auto=format&fit=crop&q=80';
+
+        if (!title || !excerpt || !content) {
+          alert('Please fill in title, excerpt, and content.');
+          return false;
+        }
+
+        var slug = title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '');
+        var newPost = {
+          id: 'custom_blog_' + Date.now(),
+          slug: slug,
+          title: { rendered: title },
+          excerpt: { rendered: excerpt },
+          content: { rendered: content },
+          category: category,
+          authorName: author,
+          readTime: readTime,
+          cover: cover,
+          date: new Date().toISOString(),
+          _embedded: {
+            'wp:featuredmedia': [{ source_url: cover }],
+            'author': [{ name: author }],
+            'wp:term': [[{ name: category, slug: category.toLowerCase().replace(/\s+/g, '-') }]]
+          }
+        };
+
+        var customBlogs = getCustomBlogs();
+        customBlogs.unshift(newPost);
+        localStorage.setItem('vlsi_custom_blogs', JSON.stringify(customBlogs));
+
+        document.getElementById('formAddBlog').reset();
+        uploadedBlogDataUrl = '';
+        updateBlogPreview();
+        loadDashboardData();
+        showToast('Blog Article Published! It is now live in the Blog Catalog.');
+        return false;
+      };
+
+      window.deleteBlogItem = function(id) {
+        if (!confirm('Are you sure you want to delete this custom blog article?')) return;
+        var blogs = getCustomBlogs();
+        var idx = blogs.findIndex(function(b) { return b.id === id; });
+        if (idx !== -1) {
+          blogs.splice(idx, 1);
+          localStorage.setItem('vlsi_custom_blogs', JSON.stringify(blogs));
+        }
+        loadDashboardData();
+        showToast('Blog article deleted.');
+      };
+
+      // 7. Admin Emails Management
+      window.handleAddAdminEmail = function(e) {
+        if (e && typeof e.preventDefault === 'function') e.preventDefault();
+        var input = document.getElementById('newAdminEmail');
+        var email = input ? input.value.trim().toLowerCase() : '';
+        if (!email || !email.includes('@')) {
+          alert('Please enter a valid email address.');
+          return false;
+        }
+
+        var current = getAdminEmails();
+        if (current.includes(email)) {
+          alert('This email is already an authorized administrator.');
+          return false;
+        }
+
+        var custom = [];
+        try { custom = JSON.parse(localStorage.getItem('vlsi_admin_emails') || '[]'); } catch(e) {}
+        custom.push(email);
+        localStorage.setItem('vlsi_admin_emails', JSON.stringify(custom));
+
+        if (input) input.value = '';
+        loadDashboardData();
+        showToast('Administrator email added successfully.');
+        return false;
+      };
+
+      window.removeAdminEmail = function(email) {
+        if (MASTER_ADMINS.includes(email)) {
+          alert('Master admin accounts cannot be removed.');
+          return;
+        }
+        if (!confirm('Are you sure you want to revoke admin access for ' + email + '?')) return;
+
+        var custom = [];
+        try { custom = JSON.parse(localStorage.getItem('vlsi_admin_emails') || '[]'); } catch(e) {}
+        custom = custom.filter(function(e) { return e.toLowerCase() !== email.toLowerCase(); });
+        localStorage.setItem('vlsi_admin_emails', JSON.stringify(custom));
+
+        loadDashboardData();
+        showToast('Admin access revoked for ' + email);
+      };
+
+      // 8. Tabs Switching
+      document.querySelectorAll('.admin-tab-btn').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          var targetId = btn.getAttribute('data-tab');
+          document.querySelectorAll('.admin-tab-btn').forEach(function(b) { b.classList.remove('active'); });
+          document.querySelectorAll('.admin-tab-pane').forEach(function(p) { p.classList.remove('active'); });
+
+          btn.classList.add('active');
+          var pane = document.getElementById(targetId);
+          if (pane) pane.classList.add('active');
+          if (window.lucide && typeof lucide.createIcons === 'function') lucide.createIcons();
+        });
+      });
+
+      // 9. Logout
+      var btnLogout = document.getElementById('btnAdminLogout');
+      if (btnLogout) {
+        btnLogout.addEventListener('click', function() {
+          try {
+            var primaryKey = 'sb-riipijrgucqigndcjwre-auth-token';
+            localStorage.removeItem(primaryKey);
+            localStorage.removeItem('sb-riipijrgucqigndcjwre-auth-token-user');
+            if (window.sb && window.sb.auth) window.sb.auth.signOut();
+          } catch(e) {}
+          window.location.href = '../index.html';
+        });
+      }
+
+      // Initialize
+      document.addEventListener('DOMContentLoaded', function() {
+        checkAdminAuth();
+        if (window.lucide && typeof lucide.createIcons === 'function') lucide.createIcons();
+      });
+      checkAdminAuth();
+      if (window.lucide && typeof lucide.createIcons === 'function') lucide.createIcons();
+    })();
+  </script>
+</body>
+</html>

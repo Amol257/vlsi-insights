@@ -1741,7 +1741,7 @@
           }
         } catch(e) {
           console.warn('Live related articles failed, rendering fallback related articles:', e);
-          const allFallbacks = (window.VLSI_FALLBACK_POSTS || []).filter(p => String(p.id) !== String(currentPostId));
+          const allFallbacks = getAllAvailableFallbackPosts().filter(p => String(p.id) !== String(currentPostId));
           const subset = allFallbacks.slice(0, 3);
           if (subset.length > 0 && relatedGrid) {
             relatedGrid.innerHTML = '';
@@ -1806,7 +1806,7 @@
           const data = await res.json();
           const post = Array.isArray(data) ? data[0] : data;
           if (!post) {
-            const fallbackPost = window.VLSI_FALLBACK_POSTS && window.VLSI_FALLBACK_POSTS.find(p => p.slug === slug || String(p.id) === String(id));
+            const fallbackPost = getAllAvailableFallbackPosts().find(p => p.slug === slug || String(p.id) === String(id));
             if (fallbackPost) {
               renderPost(fallbackPost);
               return;
@@ -1818,7 +1818,7 @@
           renderPost(post);
         } catch(err) {
           console.warn('WordPress API unreachable. Checking offline fallback catalog for slug:', slug, id, err.message);
-          const fallbackPost = window.VLSI_FALLBACK_POSTS && window.VLSI_FALLBACK_POSTS.find(p => p.slug === slug || String(p.id) === String(id));
+          const fallbackPost = getAllAvailableFallbackPosts().find(p => p.slug === slug || String(p.id) === String(id));
           if (fallbackPost) {
             renderPost(fallbackPost);
             return;

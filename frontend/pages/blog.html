@@ -1415,8 +1415,7 @@
         feedMessage.style.display = 'none';
         loadMoreWrap.style.display = 'none';
 
-        const fallbackData = window.VLSI_FALLBACK_POSTS || [];
-        let filtered = fallbackData;
+        let customBlogs = []; { customBlogs = JSON.parse(localStorage.getItem('vlsi_custom_blogs') || '[]'); } catch(e) {} fallbackData = customBlogs.concat(window.VLSI_FALLBACK_POSTS || []); filtered = fallbackData;
 
         if (currentCategory && currentCategory !== 'all') {
           const target = String(currentCategory).toLowerCase();

@@ -329,6 +329,52 @@
         if (userNameEl) { userNameEl.textContent = name; }
         if (avatarEl)   { avatarEl.textContent = initial; }
 
+        // Inject Admin Panel link if authorized administrator
+        const ADMIN_EMAILS_DEFAULT = ['vlsiinsights9@gmail.com', 'amol.singhal25@gmail.com'];
+        let adminList = ADMIN_EMAILS_DEFAULT;
+        try {
+          const customAdmins = JSON.parse(localStorage.getItem('vlsi_admin_emails') || '[]');
+          adminList = Array.from(new Set(ADMIN_EMAILS_DEFAULT.concat(customAdmins)));
+        } catch(e) {}
+        const userEmail = (user.email || '').toLowerCase().trim();
+        const isAdminUser = adminList.map(e => e.toLowerCase().trim()).includes(userEmail);
+
+        if (userMenu) {
+          const dropPanel = userMenu.querySelector('.user-dropdown-panel');
+          if (dropPanel) {
+            let adminItem = dropPanel.querySelector('.nav-admin-link');
+            if (isAdminUser) {
+              if (!adminItem) {
+                adminItem = document.createElement('a');
+                adminItem.className = 'nav-admin-link';
+                adminItem.href = 'admin.html';
+                adminItem.setAttribute('role', 'menuitem');
+                adminItem.style.cssText = 'display:flex;align-items:center;gap:8px;padding:8px 12px;font-size:0.875rem;font-weight:600;color:#0D9488;text-decoration:none;border-radius:6px;margin-bottom:4px;';
+                adminItem.innerHTML = '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg><span>Admin Panel</span>';
+                dropPanel.insertBefore(adminItem, dropPanel.firstChild);
+              }
+            } else if (adminItem) {
+              adminItem.remove();
+            }
+          }
+        }
+
+        if (mobileUserMenu) {
+          let mobileAdmin = mobileUserMenu.querySelector('.mobile-admin-link');
+          if (isAdminUser) {
+            if (!mobileAdmin) {
+              mobileAdmin = document.createElement('a');
+              mobileAdmin.className = 'mobile-admin-link';
+              mobileAdmin.href = 'admin.html';
+              mobileAdmin.style.cssText = 'display:inline-flex;align-items:center;gap:6px;font-size:0.8125rem;font-weight:600;color:#0D9488;text-decoration:none;padding:4px 8px;background:#F0FDFA;border-radius:6px;margin-left:8px;';
+              mobileAdmin.innerHTML = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg><span>Admin</span>';
+              mobileUserMenu.appendChild(mobileAdmin);
+            }
+          } else if (mobileAdmin) {
+            mobileAdmin.remove();
+          }
+        }
+
         if (mobileUserMenu) {
           mobileUserMenu.hidden = false;
           mobileUserMenu.style.setProperty('display', 'flex', 'important');
