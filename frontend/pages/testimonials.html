@@ -819,15 +819,6 @@
       background: #F1F5F9;
     }
 
-    /* Top Overlay Gradient (image-testimonial-grid.tsx) */
-    .achiever-card__gradient {
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(180deg, rgba(15, 23, 42, 0.72) 0%, rgba(15, 23, 42, 0.15) 45%, rgba(15, 23, 42, 0.8) 100%);
-      pointer-events: none;
-      transition: opacity 0.3s ease;
-    }
-
     /* Top Left Profile & Role Badge */
     .achiever-card__overlay-top {
       position: absolute;
@@ -2288,24 +2279,21 @@
         filtered.forEach(function(item) {
           var isWebinar = item.type === 'webinar';
           html += '<div class="achiever-card" data-id="' + item.id + '" data-type="' + item.type + '">';
-          html += '  <img src="' + item.src + '" alt="' + item.name + '" class="achiever-main-img" loading="lazy" decoding="async">';
-          html += '  <div class="achiever-card__gradient"></div>';
-          html += '  <div class="achiever-card__overlay-top">';
-          html += '    <div class="achiever-card__user-row">';
-          if (!isWebinar) {
-            html += '      <img src="' + item.src + '" class="achiever-card__avatar" alt="' + item.name + '">';
-          } else {
-            html += '      <div class="achiever-card__avatar" style="display:flex;align-items:center;justify-content:center;background:#0D9488;border-color:#2DD4BF;"><i data-lucide="presentation" style="width:16px;height:16px;color:#fff;"></i></div>';
-          }
-          html += '      <div>';
-          html += '        <div class="achiever-card__name">' + item.name + '</div>';
-          html += '        <div class="achiever-card__feedback">' + item.role + '</div>';
+          html += '  <div class="achiever-card__media">';
+          html += '    <img src="' + item.src + '" alt="' + item.name + '" class="achiever-main-img" loading="lazy" decoding="async">';
+          html += '  </div>';
+          html += '  <div class="achiever-card__body">';
+          html += '    <div class="achiever-card__header-row">';
+          html += '      <div class="achiever-card__identity">';
+          html += '        <h3 class="achiever-card__name">' + item.name + '</h3>';
+          html += '        <p class="achiever-card__role">' + item.role + '</p>';
           html += '      </div>';
+          html += '      <span class="achiever-card__badge achiever-card__badge--' + (isWebinar ? 'webinar' : 'student') + '">';
+          html += '        <i data-lucide="' + (isWebinar ? 'presentation' : 'graduation-cap') + '" style="width:11px;height:11px;"></i>';
+          html += '        <span>' + (isWebinar ? 'Webinar' : 'Student') + '</span>';
+          html += '      </span>';
           html += '    </div>';
           html += '  </div>';
-          if (isWebinar) {
-            html += '  <div class="achiever-card__webinar-tag"><i data-lucide="video" style="width:13px;height:13px;color:#2DD4BF;"></i> Webinar Session</div>';
-          }
           html += '</div>';
         });
 

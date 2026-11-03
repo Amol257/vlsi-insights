@@ -448,67 +448,71 @@
     .preview-achiever-card {
       width: 100%;
       max-width: 320px;
-      border-radius: 16px;
+      border-radius: 18px;
       overflow: hidden;
-      position: relative;
       background: #FFFFFF;
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+      border: 1px solid rgba(226, 232, 240, 0.9);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
     }
 
-    .preview-achiever-card img {
+    .preview-achiever-media {
       width: 100%;
-      height: 280px;
+      overflow: hidden;
+      background: #F1F5F9;
+    }
+
+    .preview-achiever-media img {
+      width: 100%;
+      height: 240px;
       object-fit: cover;
       display: block;
-      background: #E2E8F0;
     }
 
-    .preview-achiever-gradient {
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(180deg, rgba(15, 23, 42, 0.75) 0%, rgba(15, 23, 42, 0.15) 50%, rgba(15, 23, 42, 0.85) 100%);
-      pointer-events: none;
-    }
-
-    .preview-achiever-overlay {
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
+    .preview-achiever-body {
       padding: 14px 16px;
-      color: #FFFFFF;
+      background: #FFFFFF;
+      border-top: 1px solid rgba(241, 245, 249, 0.9);
     }
 
-    .preview-user-row {
+    .preview-achiever-header-row {
       display: flex;
-      align-items: center;
+      align-items: flex-start;
+      justify-content: space-between;
       gap: 10px;
-    }
-
-    .preview-avatar {
-      width: 36px;
-      height: 36px;
-      border-radius: 9999px;
-      border: 2px solid rgba(255, 255, 255, 0.85);
-      object-fit: cover;
-      flex-shrink: 0;
     }
 
     .preview-name {
       font-size: 0.9375rem;
       font-weight: 700;
-      text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
-      line-height: 1.2;
+      color: #0F172A;
+      line-height: 1.3;
+      margin: 0 0 2px;
     }
 
     .preview-role {
-      font-size: 0.75rem;
-      color: #2DD4BF;
+      font-size: 0.8125rem;
+      color: #0D9488;
       font-weight: 600;
-      margin-top: 2px;
-      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+      line-height: 1.35;
+      margin: 0;
     }
 
+    .preview-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 3px 8px;
+      border-radius: 9999px;
+      font-size: 0.6875rem;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+      background: #F0FDFA;
+      color: #0F766E;
+      border: 1px solid #CCFBF1;
+      white-space: nowrap;
+    }
+  
     /* Management Table */
     .admin-table {
       width: 100%;
@@ -780,19 +784,21 @@
 
           <div class="preview-card-stage">
             <div class="preview-achiever-card">
-              <img id="cardPrevImg" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=500&auto=format&fit=crop&q=80" alt="Preview Photo">
-              <div class="preview-achiever-gradient"></div>
-              <div class="preview-achiever-overlay">
-                <div class="preview-user-row">
-                  <img id="cardPrevAvatar" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80" class="preview-avatar" alt="Avatar">
+              <div class="preview-achiever-media">
+                <img id="cardPrevImg" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=500&auto=format&fit=crop&q=80" alt="Preview Photo">
+              </div>
+              <div class="preview-achiever-body">
+                <div class="preview-achiever-header-row">
                   <div>
-                    <div class="preview-name" id="cardPrevName">Student Name</div>
-                    <div class="preview-role" id="cardPrevRole">RTL Design Engineer</div>
+                    <h3 class="preview-name" id="cardPrevName">Student Name</h3>
+                    <p class="preview-role" id="cardPrevRole">RTL Design Engineer</p>
                   </div>
+                  <span class="preview-badge" id="cardPrevBadge">Student</span>
                 </div>
               </div>
             </div>
           </div>
+        </div>
         </div>
       </div>
 
@@ -1248,14 +1254,26 @@
         var finalSrc = uploadedPhotoDataUrl || urlInput || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=500&auto=format&fit=crop&q=80';
 
         var prevImg = document.getElementById('cardPrevImg');
-        var prevAvatar = document.getElementById('cardPrevAvatar');
         var prevName = document.getElementById('cardPrevName');
         var prevRole = document.getElementById('cardPrevRole');
+        var prevBadge = document.getElementById('cardPrevBadge');
+        var type = (document.getElementById('photoType') || {}).value || 'student';
 
         if (prevImg) prevImg.src = finalSrc;
-        if (prevAvatar) prevAvatar.src = finalSrc;
         if (prevName) prevName.textContent = name;
         if (prevRole) prevRole.textContent = role;
+        if (prevBadge) {
+          prevBadge.textContent = type === 'webinar' ? 'Webinar' : 'Student';
+          if (type === 'webinar') {
+            prevBadge.style.background = '#FEF3C7';
+            prevBadge.style.color = '#92400E';
+            prevBadge.style.borderColor = '#FDE68A';
+          } else {
+            prevBadge.style.background = '#F0FDFA';
+            prevBadge.style.color = '#0F766E';
+            prevBadge.style.borderColor = '#CCFBF1';
+          }
+        }
       };
 
       window.handlePublishPhoto = function(e) {
