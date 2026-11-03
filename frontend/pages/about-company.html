@@ -571,11 +571,11 @@
     }
 
     .team-avatar {
-      width: 56px;
-      height: 56px;
+      width: 64px;
+      height: 64px;
       border-radius: 50%;
       background: rgba(0, 168, 135, 0.08);
-      border: 1.5px solid var(--trace);
+      border: 2px solid var(--trace);
       color: var(--trace);
       font-family: var(--font-display);
       font-weight: var(--weight-bold);
@@ -584,6 +584,16 @@
       align-items: center;
       justify-content: center;
       letter-spacing: 0.05em;
+      flex-shrink: 0;
+      overflow: hidden;
+      box-shadow: 0 4px 14px rgba(0, 168, 135, 0.12);
+    }
+
+    .team-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
     }
 
     .team-name {
@@ -625,6 +635,131 @@
     .team-linkedin svg {
       width: 16px;
       height: 16px;
+    }
+
+    /* -------------------------------------------------------------------------- */
+    /* 5.5 TESTIMONIALS SECTION                                                   */
+    /* -------------------------------------------------------------------------- */
+    .company-testimonials-section {
+      padding: var(--section-y) 0;
+      background: #FFFFFF;
+      border-top: 1px solid var(--edge);
+      border-bottom: 1px solid var(--edge);
+    }
+
+    .company-testimonials-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-6);
+      margin-top: var(--space-8);
+    }
+
+    @media (max-width: 992px) {
+      .company-testimonials-grid {
+        grid-template-columns: 1fr;
+        gap: var(--space-4);
+      }
+    }
+
+    .company-testi-card {
+      background: #FAFAFA;
+      border: 1px solid var(--edge);
+      border-radius: 16px;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+    }
+
+    .company-testi-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 24px -6px rgba(15, 23, 42, 0.08);
+      border-color: var(--trace);
+    }
+
+    .company-testi-head {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .company-testi-avatar {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid rgba(0, 168, 135, 0.25);
+      background: #FFFFFF;
+      flex-shrink: 0;
+    }
+
+    .company-testi-name {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 1rem;
+      color: var(--text-hi);
+      line-height: 1.2;
+    }
+
+    .company-testi-badge {
+      display: inline-block;
+      font-size: 0.6875rem;
+      font-weight: 700;
+      color: var(--trace);
+      background: rgba(0, 168, 135, 0.08);
+      padding: 2px 7px;
+      border-radius: 4px;
+      margin-left: 6px;
+    }
+
+    .company-testi-role {
+      font-size: 0.75rem;
+      color: var(--text-mid);
+      margin-top: 3px;
+    }
+
+    .company-testi-stars {
+      display: flex;
+      gap: 3px;
+    }
+
+    .company-testi-stars svg,
+    .company-testi-stars i {
+      width: 14px;
+      height: 14px;
+      fill: #F59E0B !important;
+      color: #F59E0B !important;
+      stroke: #F59E0B !important;
+    }
+
+    .company-testi-quote {
+      font-size: 0.875rem;
+      line-height: 1.6;
+      color: var(--text-mid);
+      font-style: italic;
+      flex-grow: 1;
+    }
+
+    .company-testi-cta-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.9375rem;
+      font-weight: 600;
+      color: var(--trace);
+      background: rgba(0, 168, 135, 0.08);
+      border: 1px solid rgba(0, 168, 135, 0.2);
+      padding: 12px 24px;
+      border-radius: 9999px;
+      text-decoration: none;
+      transition: background 0.2s ease, transform 0.2s ease;
+    }
+
+    .company-testi-cta-link:hover {
+      background: var(--trace);
+      color: #FFFFFF;
+      transform: translateY(-2px);
     }
 
     /* -------------------------------------------------------------------------- */
@@ -1361,7 +1496,9 @@
         <div class="team-grid">
           <!-- Member 1 -->
           <article class="team-card">
-            <div class="team-avatar" aria-label="Anand Kumar">AK</div>
+            <div class="team-avatar" aria-label="Anand Kumar">
+              <img src="images/team/anand-kumar.jpg" alt="Anand Kumar" loading="lazy" decoding="async">
+            </div>
             <div>
               <h3 class="team-name">Anand Kumar</h3>
               <div class="team-role">Head of VLSI &amp; Verification</div>
@@ -1376,7 +1513,9 @@
 
           <!-- Member 2 -->
           <article class="team-card">
-            <div class="team-avatar" aria-label="Rohan Sen">RS</div>
+            <div class="team-avatar" aria-label="Rohan Sen">
+              <img src="images/team/rohan-sen.jpg" alt="Rohan Sen" loading="lazy" decoding="async">
+            </div>
             <div>
               <h3 class="team-name">Rohan Sen</h3>
               <div class="team-role">Lead Embedded Architect</div>
@@ -1391,7 +1530,9 @@
 
           <!-- Member 3 -->
           <article class="team-card">
-            <div class="team-avatar" aria-label="Vandana Nair">VN</div>
+            <div class="team-avatar" aria-label="Vandana Nair">
+              <img src="images/team/vandana-nair.jpg" alt="Vandana Nair" loading="lazy" decoding="async">
+            </div>
             <div>
               <h3 class="team-name">Vandana Nair</h3>
               <div class="team-role">Director of Academic Partnerships</div>
@@ -1403,6 +1544,79 @@
               <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true" style="vertical-align: -2px; margin-right: 4px;"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.46 10.9v8.37H9.2V10.9H6.46M7.83 6.45a1.64 1.64 0 1 0 0 3.28 1.64 1.64 0 0 0 0-3.28z"/></svg>Connect on LinkedIn
             </a>
           </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5.5 TESTIMONIALS SPOTLIGHT SECTION -->
+    <section class="company-testimonials-section" aria-label="Engineering Stories & Testimonials">
+      <div class="container">
+        <div class="section-heading-group">
+          <p class="section-label">Alumni Stories &amp; Industry Trust</p>
+          <h2 class="section-heading">What Our Engineers &amp; Partners Say</h2>
+          <p style="color: var(--text-mid); font-size: 1.0625rem; max-width: 620px; margin-top: 8px;">
+            Engineers trained at VLSI Insights are currently working at tier-1 semiconductor companies including Qualcomm, Synopsys, Intel, Cadence, ARM, and NXP.
+          </p>
+        </div>
+
+        <div class="company-testimonials-grid">
+          <!-- Testimonial 1: Rahul -->
+          <article class="company-testi-card">
+            <div class="company-testi-head">
+              <img src="images/Students_photo/rahul.jpg" alt="Rahul" class="company-testi-avatar" loading="lazy">
+              <div>
+                <div class="company-testi-name">Rahul <span class="company-testi-badge">Qualcomm</span></div>
+                <div class="company-testi-role">RTL Design Engineer &bull; Batch of 2024</div>
+              </div>
+            </div>
+            <div class="company-testi-stars">
+              <i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i>
+            </div>
+            <p class="company-testi-quote">
+              "The deep-dive RTL microarchitecture module gave me the exact hands-on experience needed to clear multi-round interviews at a leading semiconductor firm."
+            </p>
+          </article>
+
+          <!-- Testimonial 2: Pooja Shukla -->
+          <article class="company-testi-card">
+            <div class="company-testi-head">
+              <img src="images/Students_photo/Pooja%20Shukla.jpeg" alt="Pooja Shukla" class="company-testi-avatar" loading="lazy">
+              <div>
+                <div class="company-testi-name">Pooja Shukla <span class="company-testi-badge">NXP</span></div>
+                <div class="company-testi-role">RTL Design Engineer &bull; Batch of 2023</div>
+              </div>
+            </div>
+            <div class="company-testi-stars">
+              <i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i>
+            </div>
+            <p class="company-testi-quote">
+              "Unlike standard theoretical college labs, here we simulated actual multi-clock SoCs. Building SystemVerilog testbenches with UVM factory overrides gave me immense confidence."
+            </p>
+          </article>
+
+          <!-- Testimonial 3: Priyam Roy -->
+          <article class="company-testi-card">
+            <div class="company-testi-head">
+              <img src="images/Students_photo/Priyam%20Roy.jpeg" alt="Priyam Roy" class="company-testi-avatar" loading="lazy">
+              <div>
+                <div class="company-testi-name">Priyam Roy <span class="company-testi-badge">Cadence</span></div>
+                <div class="company-testi-role">Scripting Engineer &bull; Batch of 2024</div>
+              </div>
+            </div>
+            <div class="company-testi-stars">
+              <i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i>
+            </div>
+            <p class="company-testi-quote">
+              "Automating EDA regression runs using Python, Makefile, and TCL scripting was an eye-opener. It helped me land an automation role managing high-throughput verification farms."
+            </p>
+          </article>
+        </div>
+
+        <div style="text-align: center; margin-top: 40px;">
+          <a href="testimonials.html" class="company-testi-cta-link">
+            <span>Explore All 26+ Achievers &amp; Full Testimonials</span>
+            <i data-lucide="arrow-right" style="width: 16px; height: 16px;"></i>
+          </a>
         </div>
       </div>
     </section>
