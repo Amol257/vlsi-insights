@@ -448,69 +448,19 @@
     .preview-achiever-card {
       width: 100%;
       max-width: 320px;
-      border-radius: 18px;
+      border-radius: 16px;
       overflow: hidden;
       background: #FFFFFF;
       border: 1px solid rgba(226, 232, 240, 0.9);
       box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
     }
 
-    .preview-achiever-media {
+    .preview-achiever-card img {
       width: 100%;
-      overflow: hidden;
-      background: #F1F5F9;
-    }
-
-    .preview-achiever-media img {
-      width: 100%;
-      height: 240px;
+      height: 280px;
       object-fit: cover;
       display: block;
-    }
-
-    .preview-achiever-body {
-      padding: 14px 16px;
       background: #FFFFFF;
-      border-top: 1px solid rgba(241, 245, 249, 0.9);
-    }
-
-    .preview-achiever-header-row {
-      display: flex;
-      align-items: flex-start;
-      justify-content: space-between;
-      gap: 10px;
-    }
-
-    .preview-name {
-      font-size: 0.9375rem;
-      font-weight: 700;
-      color: #0F172A;
-      line-height: 1.3;
-      margin: 0 0 2px;
-    }
-
-    .preview-role {
-      font-size: 0.8125rem;
-      color: #0D9488;
-      font-weight: 600;
-      line-height: 1.35;
-      margin: 0;
-    }
-
-    .preview-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-      padding: 3px 8px;
-      border-radius: 9999px;
-      font-size: 0.6875rem;
-      font-weight: 700;
-      letter-spacing: 0.02em;
-      text-transform: uppercase;
-      background: #F0FDFA;
-      color: #0F766E;
-      border: 1px solid #CCFBF1;
-      white-space: nowrap;
     }
   
     /* Management Table */
@@ -792,18 +742,7 @@
 
           <div class="preview-card-stage">
             <div class="preview-achiever-card">
-              <div class="preview-achiever-media">
-                <img id="cardPrevImg" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=500&auto=format&fit=crop&q=80" alt="Preview Photo">
-              </div>
-              <div class="preview-achiever-body">
-                <div class="preview-achiever-header-row">
-                  <div>
-                    <h3 class="preview-name" id="cardPrevName">Student Name</h3>
-                    <p class="preview-role" id="cardPrevRole">RTL Design Engineer</p>
-                  </div>
-                  <span class="preview-badge" id="cardPrevBadge">Student</span>
-                </div>
-              </div>
+              <img id="cardPrevImg" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=500&auto=format&fit=crop&q=80" alt="Preview Photo">
             </div>
           </div>
         </div>

@@ -837,7 +837,7 @@
       }
     }
 
-    /* Modern Achiever Card (Pure White Surface, 100% Fit, Zero Black Borders, Zero Overlay) */
+    /* Modern Achiever Card (Pure Image Only - Zero Text, Zero Overlays, 100% Fit) */
     .achiever-card {
       break-inside: avoid;
       -webkit-column-break-inside: avoid;
@@ -845,7 +845,7 @@
       display: block;
       width: 100%;
       margin-bottom: 20px;
-      border-radius: 18px;
+      border-radius: 16px;
       overflow: hidden;
       background: #FFFFFF;
       border: 1px solid rgba(226, 232, 240, 0.9);
@@ -861,34 +861,28 @@
       border-color: rgba(13, 148, 136, 0.4);
     }
 
-    /* Image Media Box: Fills 100% of placeholder, zero black borders or empty space */
-    .achiever-card__media {
-      width: 100%;
-      overflow: hidden;
-      position: relative;
-      background: #FFFFFF;
-    }
-
-    .achiever-card[data-type="student"] .achiever-card__media {
-      aspect-ratio: 4 / 5;
-    }
-
-    .achiever-card[data-type="webinar"] .achiever-card__media {
-      aspect-ratio: 16 / 10;
-    }
-
     .achiever-card img.achiever-main-img {
       width: 100%;
       height: 100%;
       display: block;
       object-fit: cover;
       object-position: center 25%;
-      transform: scale(1.15); /* Zooms past studio oval borders and fills placeholder edge-to-edge */
+      transform: scale(1.15); /* Zooms past studio oval/vignette borders to fill placeholder edge-to-edge */
       transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
       background: #FFFFFF;
     }
 
-    /* Targeted zoom for sonu.jpeg and other studio vignette photos to cleanly crop out the oval border */
+    .achiever-card[data-type="student"] img.achiever-main-img {
+      aspect-ratio: 4 / 5;
+    }
+
+    .achiever-card[data-type="webinar"] img.achiever-main-img {
+      aspect-ratio: 16 / 10;
+      object-position: center center;
+      transform: none;
+    }
+
+    /* Targeted zoom for sonu.jpeg to cleanly crop out the studio vignette border */
     .achiever-card img.achiever-main-img[src*="sonu"] {
       transform: scale(1.32);
       object-position: center 30%;
@@ -898,75 +892,14 @@
       transform: scale(1.22);
     }
 
+    .achiever-card[data-type="webinar"]:hover img.achiever-main-img {
+      transform: scale(1.04);
+    }
+
     .achiever-card:hover img.achiever-main-img[src*="sonu"] {
       transform: scale(1.40);
     }
-
-    /* Card Details Body: Dedicated clean white space below photo, ZERO text overlay */
-    .achiever-card__body {
-      padding: 14px 16px 16px;
-      background: #FFFFFF;
-      border-top: 1px solid rgba(241, 245, 249, 0.9);
-    }
-
-    .achiever-card__header-row {
-      display: flex;
-      align-items: flex-start;
-      justify-content: space-between;
-      gap: 12px;
-    }
-
-    .achiever-card__identity {
-      flex: 1;
-      min-width: 0;
-    }
-
-    .achiever-card__name {
-      font-family: var(--font-display, inherit);
-      font-weight: 700;
-      font-size: 0.9375rem;
-      line-height: 1.3;
-      color: var(--text-hi, #0F172A);
-      margin: 0 0 3px;
-      word-break: break-word;
-    }
-
-    .achiever-card__role {
-      font-size: 0.8125rem;
-      font-weight: 600;
-      color: #0D9488;
-      line-height: 1.35;
-      margin: 0;
-      word-break: break-word;
-    }
-
-    .achiever-card__badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-      padding: 3px 8px;
-      border-radius: 9999px;
-      font-size: 0.6875rem;
-      font-weight: 700;
-      letter-spacing: 0.02em;
-      text-transform: uppercase;
-      white-space: nowrap;
-      flex-shrink: 0;
-      margin-top: 1px;
-    }
-
-    .achiever-card__badge--student {
-      background: #F0FDFA;
-      color: #0F766E;
-      border: 1px solid #CCFBF1;
-    }
-
-    .achiever-card__badge--webinar {
-      background: #FEF3C7;
-      color: #92400E;
-      border: 1px solid #FDE68A;
-    }
-
+  
     /* -------------------------------------------------------------------------- */
     /* BOTTOM BLUR & FADE EFFECT (Images glide under section end line)            */
     /* -------------------------------------------------------------------------- */
@@ -2127,23 +2060,8 @@
 
         var html = '';
         filtered.forEach(function(item) {
-          var isWebinar = item.type === 'webinar';
           html += '<div class="achiever-card" data-id="' + item.id + '" data-type="' + item.type + '">';
-          html += '  <div class="achiever-card__media">';
-          html += '    <img src="' + item.src + '" alt="' + item.name + '" class="achiever-main-img" loading="lazy" decoding="async">';
-          html += '  </div>';
-          html += '  <div class="achiever-card__body">';
-          html += '    <div class="achiever-card__header-row">';
-          html += '      <div class="achiever-card__identity">';
-          html += '        <h3 class="achiever-card__name">' + item.name + '</h3>';
-          html += '        <p class="achiever-card__role">' + item.role + '</p>';
-          html += '      </div>';
-          html += '      <span class="achiever-card__badge achiever-card__badge--' + (isWebinar ? 'webinar' : 'student') + '">';
-          html += '        <i data-lucide="' + (isWebinar ? 'presentation' : 'graduation-cap') + '" style="width:11px;height:11px;"></i>';
-          html += '        <span>' + (isWebinar ? 'Webinar' : 'Student') + '</span>';
-          html += '      </span>';
-          html += '    </div>';
-          html += '  </div>';
+          html += '  <img src="' + item.src + '" alt="' + item.name + '" class="achiever-main-img" loading="lazy" decoding="async">';
           html += '</div>';
         });
 
