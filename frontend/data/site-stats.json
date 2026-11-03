@@ -1,12 +1,12 @@
 {
-  "as_of": "2026-09-20",
-  "version": "2026.1",
+  "as_of": "2025-09-20",
+  "version": "1.0",
   "metrics": {
     "students_trained": {
       "value": "200+",
       "number": 200,
       "label": "Engineers & Students Trained",
-      "evidence_ref": "Internal alumni cohort verification database (2021-2026)"
+      "evidence_ref": "Internal alumni cohort verification database (2021-Present)"
     },
     "training_tracks": {
       "value": "3",

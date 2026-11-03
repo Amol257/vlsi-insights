@@ -9,7 +9,7 @@
     {
       id: 101,
       slug: 'rtl-design-vs-design-verification-vlsi-career',
-      title: { rendered: 'RTL Design vs Design Verification: Which VLSI Career Path Is Right for You in 2026?' },
+      title: { rendered: 'RTL Design vs Design Verification: Which VLSI Career Path Is Right for You ?' },
       excerpt: { rendered: 'Compare technical responsibilities, daily workflows, EDA tool requirements, and compensation trajectory between front-end RTL microarchitecture and UVM verification.' },
       content: {
         rendered: `
@@ -25,7 +25,7 @@
           </ul>
         `
       },
-      date: '2026-03-01T10:00:00',
+      date: '2025-03-01T10:00:00',
       category: 'Career Guidance',
       read_time: '6 min read',
       _embedded: {
@@ -35,8 +35,8 @@
     },
     {
       id: 102,
-      slug: 'vlsi-career-roadmap-2026',
-      title: { rendered: 'VLSI Career Roadmap 2026: Complete Guide to Becoming a Successful Silicon Engineer' },
+      slug: 'vlsi-career-roadmap',
+      title: { rendered: 'VLSI Career Roadmap: Complete Guide to Becoming a Successful Silicon Engineer' },
       excerpt: { rendered: 'A comprehensive step-by-step roadmap for ECE graduates and transitioning engineers to master semiconductor fundamentals, digital logic, and front-end ASIC design.' },
       content: {
         rendered: `
@@ -49,7 +49,7 @@
           <p>Gain fluency with QuestaSim, ModelSim, and cloud-based EDA Playground. Implement self-checking testbenches and UVM transaction-level modeling.</p>
         `
       },
-      date: '2026-02-24T14:30:00',
+      date: '2025-02-24T14:30:00',
       category: 'Career Roadmap',
       read_time: '8 min read',
       _embedded: {
@@ -60,7 +60,7 @@
     {
       id: 103,
       slug: 'top-50-rtl-design-interview-questions',
-      title: { rendered: 'Top 50 RTL Design Interview Questions and Practical Answers for 2026' },
+      title: { rendered: 'Top 50 RTL Design Interview Questions and Practical Answers' },
       excerpt: { rendered: 'Master essential digital logic, timing closure, FIFO architectures, static timing analysis (STA), and SystemVerilog questions asked by top silicon teams.' },
       content: {
         rendered: `
@@ -74,7 +74,7 @@
           <p>Pointers must be converted to Gray code before synchronization across clock domains to ensure only one bit changes per clock cycle, preventing multi-bit CDC race states.</p>
         `
       },
-      date: '2026-02-18T09:15:00',
+      date: '2025-02-18T09:15:00',
       category: 'Interview Prep',
       read_time: '10 min read',
       _embedded: {
@@ -100,7 +100,7 @@
           </ol>
         `
       },
-      date: '2026-02-10T11:00:00',
+      date: '2025-02-10T11:00:00',
       category: 'ASIC Flow',
       read_time: '7 min read',
       _embedded: {
@@ -120,7 +120,7 @@
           <p>A standardized UVM environment separates sequence generation, driver signal toggling, monitor sampling, and scoreboard comparison. Layering concurrent SystemVerilog assertions (SVA) allows verification teams to trap protocol anomalies immediately at the cycle boundary.</p>
         `
       },
-      date: '2026-01-29T16:00:00',
+      date: '2025-01-29T16:00:00',
       category: 'Verification',
       read_time: '8 min read',
       _embedded: {
@@ -144,7 +144,7 @@
           </ul>
         `
       },
-      date: '2026-01-20T12:00:00',
+      date: '2025-01-20T12:00:00',
       category: 'RTL Design',
       read_time: '5 min read',
       _embedded: {
@@ -162,7 +162,7 @@
           <p>Firmware bridges physical silicon transistors with high-level software stacks. A proficient embedded engineer possesses deep understanding of register maps, memory-mapped I/O, interrupt service routines (ISRs), and real-time scheduling guarantees.</p>
         `
       },
-      date: '2026-01-14T15:20:00',
+      date: '2025-01-14T15:20:00',
       category: 'Embedded Systems',
       read_time: '7 min read',
       _embedded: {
@@ -180,7 +180,7 @@
           <p>Properly setting up your EDA environment is the essential prerequisite for productive digital simulation. This guide covers project compilation, QuestaSim command-line execution, and interactive waveform debugging.</p>
         `
       },
-      date: '2026-01-08T09:00:00',
+      date: '2025-01-08T09:00:00',
       category: 'EDA Tools',
       read_time: '6 min read',
       _embedded: {

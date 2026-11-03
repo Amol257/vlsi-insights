@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Complete Your Profile | VLSI Insights</title>
-  <meta name="description" content="One last step — add your phone number to complete your VLSI Insights profile.">
+  <meta name="description" content="One last step : add your phone number to complete your VLSI Insights profile.">
   <meta name="robots" content="noindex">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -243,7 +243,7 @@
 </head>
 <body>
 
-  <!-- Standard Navbar (minimal — no dropdowns needed on this transitional page) -->
+  <!-- Standard Navbar (minimal : no dropdowns needed on this transitional page) -->
   <header class="navbar" role="banner">
     <div class="container navbar__inner">
       <a href="index.html" class="nav-logo" aria-label="VLSI Insights Homepage">
@@ -381,7 +381,7 @@
       if (!client) return;
       const { data: { session } } = await client.auth.getSession();
       if (!session) {
-        // Not signed in — redirect to login
+        // Not signed in : redirect to login
         window.location.href = 'login.html';
         return;
       }
