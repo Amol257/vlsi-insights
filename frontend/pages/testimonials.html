@@ -866,8 +866,8 @@
       height: 100%;
       display: block;
       object-fit: cover;
-      object-position: center 25%;
-      transform: scale(1.15); /* Zooms past studio oval/vignette borders to fill placeholder edge-to-edge */
+      object-position: center 18%;
+      transform: none;
       transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
       background: #FFFFFF;
     }
@@ -882,22 +882,78 @@
       transform: none;
     }
 
-    /* Targeted zoom for sonu.jpeg to cleanly crop out the studio vignette border */
-    .achiever-card img.achiever-main-img[src*="sonu"] {
-      transform: scale(1.32);
+    /* Targeted individual portrait alignment for optimal headroom and edge to edge fit */
+    .achiever-card img.achiever-main-img[src*="chander"] {
+      object-position: center 8%;
+      transform: none;
+    }
+
+    .achiever-card img.achiever-main-img[src*="Karan%20Kumar"],
+    .achiever-card img.achiever-main-img[src*="Karan+Kumar"],
+    .achiever-card img.achiever-main-img[src*="Karan"] {
+      object-position: center 4%;
+      transform: none;
+    }
+
+    .achiever-card img.achiever-main-img[src*="ajeet"] {
+      object-position: center 10%;
+      transform: none;
+    }
+
+    .achiever-card img.achiever-main-img[src*="Aditiya"] {
+      object-position: center 8%;
+      transform: none;
+    }
+
+    .achiever-card img.achiever-main-img[src*="anusha"] {
+      object-position: center 10%;
+      transform: none;
+    }
+
+    .achiever-card img.achiever-main-img[src*="Pummy"] {
+      object-position: center 14%;
+      transform: none;
+    }
+
+    .achiever-card img.achiever-main-img[src*="rahul"] {
+      object-position: center 12%;
+      transform: none;
+    }
+
+    .achiever-card img.achiever-main-img[src*="shachi"] {
+      object-position: center 18%;
+      transform: none;
+    }
+
+    .achiever-card img.achiever-main-img[src*="Muskan"] {
       object-position: center 30%;
+      transform: none;
+    }
+
+    .achiever-card img.achiever-main-img[src*="sunny"] {
+      object-position: center 26%;
+      transform: scale(1.12);
+    }
+
+    .achiever-card img.achiever-main-img[src*="sonu"] {
+      object-position: center 28%;
+      transform: scale(1.32);
     }
 
     .achiever-card:hover img.achiever-main-img {
-      transform: scale(1.22);
-    }
-
-    .achiever-card[data-type="webinar"]:hover img.achiever-main-img {
       transform: scale(1.04);
     }
 
+    .achiever-card[data-type="webinar"]:hover img.achiever-main-img {
+      transform: scale(1.03);
+    }
+
+    .achiever-card:hover img.achiever-main-img[src*="sunny"] {
+      transform: scale(1.18);
+    }
+
     .achiever-card:hover img.achiever-main-img[src*="sonu"] {
-      transform: scale(1.40);
+      transform: scale(1.38);
     }
   
     /* -------------------------------------------------------------------------- */

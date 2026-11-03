@@ -539,10 +539,12 @@
 
     .preview-achiever-card img {
       width: 100%;
-      height: 280px;
+      aspect-ratio: 4 / 5;
       object-fit: cover;
+      object-position: center 18%;
       display: block;
       background: #FFFFFF;
+      transition: aspect-ratio 0.25s ease;
     }
 
     /* Blog Card Live Preview UI */
@@ -1630,7 +1632,16 @@
         var prevBadge = document.getElementById('cardPrevBadge');
         var type = (document.getElementById('photoType') || {}).value || 'student';
 
-        if (prevImg) prevImg.src = finalSrc;
+        if (prevImg) {
+          prevImg.src = finalSrc;
+          if (type === 'webinar') {
+            prevImg.style.aspectRatio = '16 / 10';
+            prevImg.style.objectPosition = 'center center';
+          } else {
+            prevImg.style.aspectRatio = '4 / 5';
+            prevImg.style.objectPosition = 'center 18%';
+          }
+        }
         if (prevName) prevName.textContent = name;
         if (prevRole) prevRole.textContent = role;
         if (prevBadge) {
