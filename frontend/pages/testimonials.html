@@ -1791,22 +1791,12 @@
   <!-- ========================================================================= -->
   <section class="gallery-section" id="wall-of-achievers" aria-label="Wall of Achievers">
     <div class="container">
-      <div class="wall-header-wrapper">
-        <div class="wall-header-text">
-          <span class="section-label">Alumni Success &amp; Placements</span>
-          <h2 class="wall-title">Wall of Achievers</h2>
-          <p class="wall-subtitle">
-            Meet the engineers who trained with VLSI Insights and transitioned into top semiconductor MNCs, design teams, and live campus training programs.
-          </p>
-        </div>
-
-        <!-- Admin Control Entrypoint -->
-        <div class="wall-admin-entry">
-          <button type="button" class="admin-auth-toggle-btn" id="btnAdminAuthToggle" aria-label="Admin Portal">
-            <i data-lucide="shield-check" style="width: 16px; height: 16px;"></i>
-            <span id="adminToggleLabel">Admin Access</span>
-          </button>
-        </div>
+      <div class="wall-header-wrapper" style="text-align: center; max-width: 680px; margin: 0 auto 36px;">
+        <span class="section-label">Alumni Success &amp; Placements</span>
+        <h2 class="wall-title">Wall of Achievers</h2>
+        <p class="wall-subtitle">
+          Meet the engineers who trained with VLSI Insights and transitioned into top semiconductor MNCs, design teams, and live campus training programs.
+        </p>
       </div>
 
       <!-- Admin Toolbar (Visible only when Admin Mode is active) -->
@@ -1920,49 +1910,7 @@
     </div>
   </div>
 
-  <!-- ADMIN SIGN-IN & VERIFICATION MODAL -->
-  <div class="admin-modal-backdrop" id="adminPasscodeModal" style="display: none;" role="dialog" aria-modal="true" aria-labelledby="modalPassTitle">
-    <div class="admin-modal-card" style="max-width: 440px;">
-      <div class="admin-modal-header">
-        <div style="display: flex; align-items: center; gap: 8px;">
-          <div class="admin-modal-icon"><i data-lucide="shield-check" style="width: 18px; height: 18px;"></i></div>
-          <h3 id="modalPassTitle" style="font-size: 1.125rem; font-weight: 700; color: var(--text-hi); margin: 0;">Administrator Access</h3>
-        </div>
-        <button type="button" class="admin-modal-close" id="btnClosePassModal" aria-label="Close modal">&times;</button>
-      </div>
-
-      <div class="admin-modal-form">
-        <div class="admin-auth-info-banner">
-          <div><strong>Authorized Administrators Only</strong></div>
-          <div style="margin-top: 4px;">Admin privileges are strictly restricted to verified administrator accounts:</div>
-          <div class="admin-auth-email-pills" id="adminAuthEmailPills">
-            <!-- Dynamically populated from authorized emails list -->
-          </div>
-        </div>
-
-        <form id="formAdminUnlock" onsubmit="return handleAdminUnlockSubmit(event);">
-          <div class="form-group">
-            <label for="adminAuthEmail" class="form-label">Administrator Email</label>
-            <input type="email" id="adminAuthEmail" class="form-input" placeholder="e.g. vlsiinsights9@gmail.com" required autocomplete="email" />
-          </div>
-
-          <div class="form-group">
-            <label for="adminAuthPassword" class="form-label">Password</label>
-            <input type="password" id="adminAuthPassword" class="form-input" placeholder="Enter account password" required autocomplete="current-password" />
-            <div id="passcodeError" class="passcode-error-msg" style="display: none;"></div>
-          </div>
-
-          <div class="admin-modal-actions" style="margin-top: 20px;">
-            <button type="button" class="btn-cancel" id="btnCancelPassModal">Cancel</button>
-            <button type="submit" class="btn-submit-achiever" id="btnSubmitAdminAuth">
-              <span>Sign In as Admin</span>
-              <i data-lucide="arrow-right" style="width: 16px; height: 16px;"></i>
-            </button>
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>
+  
 
   <!-- MANAGE ADMIN EMAILS MODAL -->
   <div class="admin-modal-backdrop" id="adminEmailsModal" style="display: none;" role="dialog" aria-modal="true" aria-labelledby="modalEmailsTitle">
@@ -2316,7 +2264,7 @@
         });
       });
 
-      // 5. Authorized Admin Emails Management & Dynamic Access Control
+      // 5. Authorized Admin Emails Management & Automatic Access Control
       var DEFAULT_ADMIN_EMAILS = [
         'vlsiinsights9@gmail.com',
         'amol.singhal25@gmail.com'
@@ -2340,17 +2288,6 @@
         if (!email) return false;
         var list = getAuthorizedAdminEmails();
         return list.indexOf(email.toLowerCase().trim()) !== -1;
-      }
-
-      function renderAdminAuthPills() {
-        var pillsContainer = document.getElementById('adminAuthEmailPills');
-        if (!pillsContainer) return;
-        var list = getAuthorizedAdminEmails();
-        var html = '';
-        list.forEach(function(email) {
-          html += '<span class="admin-auth-email-pill">' + email + '</span>';
-        });
-        pillsContainer.innerHTML = html;
       }
 
       function renderAdminEmailsManager() {
@@ -2387,7 +2324,6 @@
         list = list.filter(function(e) { return e !== emailToRemove.toLowerCase().trim(); });
         saveAuthorizedAdminEmails(list);
         renderAdminEmailsManager();
-        renderAdminAuthPills();
         if (window.showToast) {
           window.showToast('Admin Email Removed', 'Removed admin access for ' + emailToRemove, 'info');
         }
@@ -2416,87 +2352,75 @@
           saveAuthorizedAdminEmails(list);
           if (input) input.value = '';
           renderAdminEmailsManager();
-          renderAdminAuthPills();
           if (window.showToast) {
             window.showToast('Admin Email Added', 'Granted admin privileges to ' + val, 'success');
           }
         });
       }
 
-      // Check Active Admin Session
-      function getActiveAdminEmail() {
-        var sessionEmail = sessionStorage.getItem('vlsi_admin_email');
-        if (sessionEmail && isEmailAuthorizedAdmin(sessionEmail)) {
-          return sessionEmail;
-        }
+      // Check Active Logged-in Admin Email from Supabase
+      async function getActiveAdminEmail() {
+        // 1. Supabase Client Session
+        try {
+          var client = window.sb || (typeof window.getSupabaseClient === 'function' ? window.getSupabaseClient() : null);
+          if (client && client.auth) {
+            var sessionRes = await client.auth.getSession();
+            if (sessionRes && sessionRes.data && sessionRes.data.session && sessionRes.data.session.user) {
+              var email = sessionRes.data.session.user.email;
+              if (email && isEmailAuthorizedAdmin(email)) {
+                return email.toLowerCase().trim();
+              }
+            }
+          }
+        } catch(e) {}
+
+        // 2. Token in LocalStorage
         try {
           var token = localStorage.getItem('sb-riipijrgucqigndcjwre-auth-token');
           if (token) {
             var parsed = JSON.parse(token);
-            var email = (parsed.user && parsed.user.email) || (parsed.currentSession && parsed.currentSession.user && parsed.currentSession.user.email) || '';
-            if (isEmailAuthorizedAdmin(email)) {
-              sessionStorage.setItem('vlsi_admin_email', email.toLowerCase().trim());
-              return email.toLowerCase().trim();
+            var uEmail = (parsed.user && parsed.user.email) || (parsed.currentSession && parsed.currentSession.user && parsed.currentSession.user.email);
+            if (uEmail && isEmailAuthorizedAdmin(uEmail)) {
+              return uEmail.toLowerCase().trim();
             }
           }
         } catch(e) {}
+
         return null;
       }
 
-      function isAdminSession() {
-        return !!getActiveAdminEmail();
-      }
+      async function applyAdminState() {
+        if (sessionStorage.getItem('vlsi_admin_locked') === 'true') {
+          document.body.classList.remove('admin-mode-on');
+          var tb = document.getElementById('adminToolbar');
+          if (tb) tb.style.display = 'none';
+          return;
+        }
 
-      function applyAdminState() {
-        var adminEmail = getActiveAdminEmail();
-        var isActive = !!adminEmail;
+        var adminEmail = await getActiveAdminEmail();
         var toolbar = document.getElementById('adminToolbar');
-        var toggleBtn = document.getElementById('btnAdminAuthToggle');
-        var toggleLabel = document.getElementById('adminToggleLabel');
 
-        if (isActive) {
+        if (adminEmail) {
           document.body.classList.add('admin-mode-on');
-          if (toolbar) toolbar.style.display = 'flex';
-          if (toggleBtn) toggleBtn.classList.add('active');
-          if (toggleLabel) toggleLabel.textContent = 'Admin: ' + adminEmail.split('@')[0];
+          if (toolbar) {
+            toolbar.style.display = 'flex';
+            var statusEl = toolbar.querySelector('.admin-toolbar__status span strong');
+            if (statusEl) statusEl.textContent = 'Admin Mode Active (' + adminEmail + '):';
+          }
         } else {
           document.body.classList.remove('admin-mode-on');
           if (toolbar) toolbar.style.display = 'none';
-          if (toggleBtn) toggleBtn.classList.remove('active');
-          if (toggleLabel) toggleLabel.textContent = 'Admin Access';
         }
       }
 
-      // Admin toggle button click
-      var btnAdminToggle = document.getElementById('btnAdminAuthToggle');
-      if (btnAdminToggle) {
-        btnAdminToggle.addEventListener('click', function() {
-          if (isAdminSession()) {
-            // Already active, open add photo modal directly
-            var addModal = document.getElementById('adminAddModal');
-            if (addModal) addModal.style.display = 'flex';
-          } else {
-            // Open sign-in modal
-            renderAdminAuthPills();
-            var passModal = document.getElementById('adminPasscodeModal');
-            if (passModal) {
-              passModal.style.display = 'flex';
-              var input = document.getElementById('adminAuthEmail');
-              if (input) { input.focus(); }
-            }
-          }
-        });
-      }
-
-      // Exit Admin Mode
+      // Exit Admin Mode for current session
       var btnExitAdmin = document.getElementById('btnExitAdmin');
       if (btnExitAdmin) {
         btnExitAdmin.addEventListener('click', function() {
-          sessionStorage.removeItem('vlsi_admin_email');
-          sessionStorage.removeItem('vlsi_admin_active');
+          sessionStorage.setItem('vlsi_admin_locked', 'true');
           applyAdminState();
           if (window.showToast) {
-            window.showToast('Admin Mode Locked', 'You have exited admin mode.', 'info');
+            window.showToast('Admin Mode Locked', 'Admin controls hidden for this session.', 'info');
           }
         });
       }
@@ -2520,106 +2444,23 @@
         });
       });
 
-      // Handle Admin Sign-In & Verification Submit
-      window.handleAdminUnlockSubmit = async function(e) {
-        if (e && typeof e.preventDefault === 'function') e.preventDefault();
-        var emailInput = document.getElementById('adminAuthEmail');
-        var passInput = document.getElementById('adminAuthPassword');
-        var err = document.getElementById('passcodeError');
-        var btnSubmit = document.getElementById('btnSubmitAdminAuth');
-
-        var email = (emailInput ? emailInput.value : '').toLowerCase().trim();
-        var password = (passInput ? passInput.value : '').trim();
-
-        if (err) err.style.display = 'none';
-
-        // 1. First strict check: Is this email authorized for admin access?
-        if (!isEmailAuthorizedAdmin(email)) {
-          if (err) {
-            err.textContent = 'Access Denied: ' + email + ' is not an authorized administrator email.';
-            err.style.display = 'block';
-          }
-          return false;
-        }
-
-        // 2. Authenticate credentials via Supabase
-        if (btnSubmit) {
-          btnSubmit.disabled = true;
-          btnSubmit.innerHTML = '<span>Verifying...</span>';
-        }
-
-        try {
-          var client = window.sb || (typeof window.getSupabaseClient === 'function' ? window.getSupabaseClient() : null);
-          if (client && client.auth) {
-            var res = await client.auth.signInWithPassword({ email: email, password: password });
-            if (res.error) {
-              if (err) {
-                err.textContent = res.error.message || 'Invalid email or password.';
-                err.style.display = 'block';
-              }
-              if (btnSubmit) {
-                btnSubmit.disabled = false;
-                btnSubmit.innerHTML = '<span>Sign In as Admin</span> <i data-lucide="arrow-right" style="width:16px;height:16px;"></i>';
-                if (window.lucide) lucide.createIcons();
-              }
-              return false;
-            }
-          }
-          // Successfully authenticated & verified authorized email
-          sessionStorage.setItem('vlsi_admin_email', email);
-          var passModal = document.getElementById('adminPasscodeModal');
-          if (passModal) passModal.style.display = 'none';
-          applyAdminState();
-          if (window.showToast) {
-            window.showToast('Admin Mode Active', 'Welcome, ' + email + '! You have administrator access.', 'success');
-          }
-        } catch(ex) {
-          // If offline or network fallback with verified password
-          if (password.length >= 6) {
-            sessionStorage.setItem('vlsi_admin_email', email);
-            var pModal = document.getElementById('adminPasscodeModal');
-            if (pModal) pModal.style.display = 'none';
+      // Listen for Supabase auth state changes
+      try {
+        var client = window.sb || (typeof window.getSupabaseClient === 'function' ? window.getSupabaseClient() : null);
+        if (client && client.auth && typeof client.auth.onAuthStateChange === 'function') {
+          client.auth.onAuthStateChange(function() {
+            sessionStorage.removeItem('vlsi_admin_locked');
             applyAdminState();
-          } else {
-            if (err) {
-              err.textContent = 'Sign-in error: ' + (ex.message || 'Please check credentials.');
-              err.style.display = 'block';
-            }
-          }
-        } finally {
-          if (btnSubmit) {
-            btnSubmit.disabled = false;
-            btnSubmit.innerHTML = '<span>Sign In as Admin</span> <i data-lucide="arrow-right" style="width:16px;height:16px;"></i>';
-            if (window.lucide) lucide.createIcons();
-          }
+          });
         }
-        return false;
-      };
+      } catch(e) {}
 
-      // Modal Close Handlers
-      ['btnClosePassModal', 'btnCancelPassModal'].forEach(function(id) {
-        var el = document.getElementById(id);
-        if (el) el.addEventListener('click', function() {
-          var m = document.getElementById('adminPasscodeModal');
-          if (m) m.style.display = 'none';
-        });
+      window.addEventListener('storage', function(e) {
+        if (e.key === 'sb-riipijrgucqigndcjwre-auth-token' || e.key === 'vlsi_admin_emails') {
+          sessionStorage.removeItem('vlsi_admin_locked');
+          applyAdminState();
+        }
       });
-
-      ['btnCloseAddModal', 'btnCancelAddModal'].forEach(function(id) {
-        var el = document.getElementById(id);
-        if (el) el.addEventListener('click', function() {
-          var m = document.getElementById('adminAddModal');
-          if (m) m.style.display = 'none';
-        });
-      });
-
-      var btnOpenAdd = document.getElementById('btnOpenAddModal');
-      if (btnOpenAdd) {
-        btnOpenAdd.addEventListener('click', function() {
-          var m = document.getElementById('adminAddModal');
-          if (m) m.style.display = 'flex';
-        });
-      }
 
       // Dynamic Category Label Switcher in Add Modal
       var selectType = document.getElementById('achieverType');
