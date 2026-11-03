@@ -288,11 +288,11 @@
 
     /* Tab Panes */
     .admin-tab-pane {
-      display: none;
+      display: none !important;
     }
 
     .admin-tab-pane.active {
-      display: block;
+      display: block !important;
     }
 
     /* Two-Column Editor Grid (Form + Live Preview) */
@@ -1540,7 +1540,7 @@
           html += '  <td>' + item.role + '</td>';
           html += '  <td><span class="admin-badge-pill" style="background:' + (isWebinar ? '#FEF3C7;color:#92400E;' : '#CCFBF1;color:#0F766E;') + '">' + (isWebinar ? 'Webinar' : 'Student') + '</span></td>';
           html += '  <td><span style="font-size:0.75rem; color:var(--admin-text-muted);">' + (isCustom ? 'Custom Upload' : 'Default Record') + '</span></td>';
-          html += '  <td style="text-align: right;"><button type="button" class="btn-delete-row" onclick="deleteAchieverItem(\'" + item.id + "\')"><i data-lucide="trash-2" style="width:13px;height:13px;"></i> Delete</button></td>';
+          html += '  <td style="text-align: right;"><button type="button" class="btn-delete-row" data-delete-achiever="' + item.id + '"><i data-lucide="trash-2" style="width:13px;height:13px;"></i> Delete</button></td>';
           html += '</tr>';
         });
 
@@ -1548,7 +1548,6 @@
         if (window.lucide && typeof lucide.createIcons === 'function') lucide.createIcons({ root: tbody });
       }
 
-      // Render Blogs Table
       function renderBlogsTable(blogs) {
         var tbody = document.getElementById('blogsTableBody');
         if (!tbody) return;
@@ -1568,7 +1567,7 @@
           html += '  <td style="color: var(--admin-text-mid);">' + dateStr + '</td>';
           html += '  <td style="text-align: right;">';
           html += '    <a href="post.html?id=' + blog.id + '" target="_blank" class="btn-view-site" style="padding: 4px 8px; font-size: 0.75rem; margin-right: 6px;">View</a>';
-          html += '    <button type="button" class="btn-delete-row" onclick="deleteBlogItem(\'" + blog.id + "\')"><i data-lucide="trash-2" style="width:13px;height:13px;"></i></button>';
+          html += '    <button type="button" class="btn-delete-row" data-delete-blog="' + blog.id + '"><i data-lucide="trash-2" style="width:13px;height:13px;"></i></button>';
           html += '  </td>';
           html += '</tr>';
         });
@@ -1577,7 +1576,6 @@
         if (window.lucide && typeof lucide.createIcons === 'function') lucide.createIcons({ root: tbody });
       }
 
-      // Render Admin Emails Table
       function renderAdminEmailsTable(emails) {
         var tbody = document.getElementById('adminEmailsTableBody');
         if (!tbody) return;
@@ -1590,7 +1588,7 @@
           html += '  <td><span class="admin-badge-pill" style="background:' + (isMaster ? '#DBEAFE;color:#1E40AF;' : '#F1F5F9;color:#475569;') + '">' + (isMaster ? 'Master Admin' : 'Admin') + '</span></td>';
           html += '  <td style="text-align: right;">';
           if (!isMaster) {
-            html += '    <button type="button" class="btn-delete-row" onclick="removeAdminEmail(\'" + email + "\')"><i data-lucide="trash-2" style="width:13px;height:13px;"></i> Remove</button>';
+            html += '    <button type="button" class="btn-delete-row" data-remove-admin="' + email + '"><i data-lucide="trash-2" style="width:13px;height:13px;"></i> Remove</button>';
           } else {
             html += '    <span style="font-size:0.75rem; color:var(--admin-text-muted);">Protected</span>';
           }
@@ -1866,18 +1864,67 @@
         showToast('Admin access revoked for ' + email);
       };
 
-      // 8. Tabs Switching
+      // 8. Robust Tabs Switching & Delegated Actions
+      window.switchAdminTab = function(targetId) {
+        var panes = document.querySelectorAll('.admin-tab-pane');
+        var buttons = document.querySelectorAll('.admin-tab-btn');
+
+        buttons.forEach(function(b) {
+          if (b.getAttribute('data-tab') === targetId) {
+            b.classList.add('active');
+          } else {
+            b.classList.remove('active');
+          }
+        });
+
+        panes.forEach(function(p) {
+          if (p.id === targetId) {
+            p.classList.add('active');
+            p.style.setProperty('display', 'block', 'important');
+          } else {
+            p.classList.remove('active');
+            p.style.setProperty('display', 'none', 'important');
+          }
+        });
+
+        if (window.lucide && typeof lucide.createIcons === 'function') lucide.createIcons();
+      };
+
       document.querySelectorAll('.admin-tab-btn').forEach(function(btn) {
         btn.addEventListener('click', function() {
           var targetId = btn.getAttribute('data-tab');
-          document.querySelectorAll('.admin-tab-btn').forEach(function(b) { b.classList.remove('active'); });
-          document.querySelectorAll('.admin-tab-pane').forEach(function(p) { p.classList.remove('active'); });
-
-          btn.classList.add('active');
-          var pane = document.getElementById(targetId);
-          if (pane) pane.classList.add('active');
-          if (window.lucide && typeof lucide.createIcons === 'function') lucide.createIcons();
+          window.switchAdminTab(targetId);
         });
+      });
+
+      // Delegated Table Click Listeners for Deletion (100% reliable)
+      document.addEventListener('click', function(e) {
+        // Achiever Delete
+        var btnAchiever = e.target.closest('button[data-delete-achiever]');
+        if (btnAchiever) {
+          e.preventDefault();
+          var id = btnAchiever.getAttribute('data-delete-achiever');
+          if (id) deleteAchieverItem(id);
+          return;
+        }
+
+        // Blog Delete
+        var btnBlog = e.target.closest('button[data-delete-blog]');
+        if (btnBlog) {
+          e.preventDefault();
+          var blogId = btnBlog.getAttribute('data-delete-blog');
+          if (blogId) deleteBlogItem(blogId);
+          return;
+        }
+
+        // Admin Email Remove
+        var btnAdmin = e.target.closest('button[data-remove-admin]');
+        if (btnAdmin) {
+          e.preventDefault();
+          var adminEmail = btnAdmin.getAttribute('data-remove-admin');
+          if (adminEmail) removeAdminEmail(adminEmail);
+          return;
+        }
       });
 
       // 9. Logout
