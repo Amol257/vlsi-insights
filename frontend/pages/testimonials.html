@@ -464,7 +464,242 @@
     }
 
     /* -------------------------------------------------------------------------- */
-    /* 4. AUTO-ADJUSTING WALL OF ACHIEVERS & ADMIN GALLERY                       */
+    /* 3. 3D PERSPECTIVE VERTICAL MARQUEE TESTIMONIALS STAGE                     */
+    /* (Inspired by 3d-testimonails.tsx)                                         */
+    /* -------------------------------------------------------------------------- */
+    .stage-3d-wrapper {
+      padding: 48px 0 64px;
+    }
+
+    .stage-3d-header {
+      text-align: center;
+      max-width: 680px;
+      margin: 0 auto 36px;
+    }
+
+    .stage-3d-title {
+      font-family: var(--font-display);
+      font-weight: 700;
+      color: var(--text-hi);
+      font-size: 2.25rem;
+      letter-spacing: -0.02em;
+      margin-top: 6px;
+    }
+
+    .stage-3d-subtitle {
+      color: var(--text-mid);
+      font-size: 1rem;
+      margin-top: 8px;
+      line-height: 1.6;
+    }
+
+    .stage-3d-container {
+      position: relative;
+      height: 520px;
+      width: 100%;
+      border-radius: 20px;
+      border: 1px solid var(--edge);
+      background: linear-gradient(180deg, #F8FAFC 0%, #FFFFFF 100%);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
+      overflow: hidden;
+      perspective: 1000px;
+    }
+
+    .stage-3d-tilt {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+      width: 130%;
+      height: 140%;
+      transform: translateX(-10%) translateY(-10%) rotateX(16deg) rotateY(-8deg) rotateZ(10deg);
+      transform-style: preserve-3d;
+      transition: transform 0.5s ease;
+    }
+
+    @media (max-width: 900px) {
+      .stage-3d-tilt {
+        width: 115%;
+        transform: translateX(-5%) translateY(-5%) rotateX(10deg) rotateY(-4deg) rotateZ(6deg);
+      }
+    }
+
+    @media (max-width: 640px) {
+      .stage-3d-container {
+        height: 440px;
+      }
+      .stage-3d-tilt {
+        width: 100%;
+        transform: none;
+        gap: 12px;
+      }
+    }
+
+    /* Vertical Marquee Column */
+    .marquee-column {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      width: 270px;
+      flex-shrink: 0;
+      overflow: hidden;
+    }
+
+    .marquee-track {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      animation: marqueeScrollDown 38s linear infinite;
+    }
+
+    .marquee-track.reverse {
+      animation: marqueeScrollUp 38s linear infinite;
+    }
+
+    .stage-3d-container:hover .marquee-track {
+      animation-play-state: paused;
+    }
+
+    @keyframes marqueeScrollDown {
+      0% { transform: translateY(0); }
+      100% { transform: translateY(calc(-50% - 8px)); }
+    }
+
+    @keyframes marqueeScrollUp {
+      0% { transform: translateY(calc(-50% - 8px)); }
+      100% { transform: translateY(0); }
+    }
+
+    /* Marquee Card */
+    .marquee-card {
+      background: #FFFFFF;
+      border: 1px solid var(--edge);
+      border-radius: 14px;
+      padding: 18px 20px;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
+      transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+      cursor: pointer;
+    }
+
+    .marquee-card:hover {
+      transform: scale(1.02);
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.1);
+      border-color: var(--trace);
+    }
+
+    .marquee-card-head {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 10px;
+    }
+
+    .marquee-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid rgba(0, 168, 132, 0.25);
+      flex-shrink: 0;
+      background: var(--substrate);
+    }
+
+    .marquee-name {
+      font-weight: 700;
+      font-size: 0.9375rem;
+      color: var(--text-hi);
+      line-height: 1.2;
+    }
+
+    .marquee-role {
+      font-size: 0.75rem;
+      font-weight: 500;
+      color: var(--text-mid);
+      margin-top: 2px;
+    }
+
+    .marquee-company {
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+      font-size: 0.6875rem;
+      font-weight: 700;
+      color: var(--trace);
+      background: rgba(0, 168, 132, 0.08);
+      padding: 1px 6px;
+      border-radius: 4px;
+      margin-left: 4px;
+    }
+
+    .marquee-stars {
+      display: flex;
+      gap: 2px;
+      margin-bottom: 8px;
+    }
+
+    .marquee-stars i {
+      width: 14px;
+      height: 14px;
+      fill: #F59E0B;
+      color: #F59E0B;
+    }
+
+    .marquee-quote {
+      font-size: 0.8125rem;
+      line-height: 1.5;
+      color: #334155;
+      font-style: italic;
+    }
+
+    /* Edge Gradient Fade Masks */
+    .stage-fade-mask-top {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 100px;
+      background: linear-gradient(180deg, #FFFFFF 0%, rgba(255,255,255,0.7) 40%, transparent 100%);
+      pointer-events: none;
+      z-index: 5;
+    }
+
+    .stage-fade-mask-bottom {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 100px;
+      background: linear-gradient(0deg, #FFFFFF 0%, rgba(255,255,255,0.7) 40%, transparent 100%);
+      pointer-events: none;
+      z-index: 5;
+    }
+
+    .stage-fade-mask-left {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      width: 80px;
+      background: linear-gradient(90deg, #FFFFFF 0%, transparent 100%);
+      pointer-events: none;
+      z-index: 5;
+    }
+
+    .stage-fade-mask-right {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      right: 0;
+      width: 80px;
+      background: linear-gradient(270deg, #FFFFFF 0%, transparent 100%);
+      pointer-events: none;
+      z-index: 5;
+    }
+
+    /* -------------------------------------------------------------------------- */
+    /* 4. WALL OF ACHIEVERS : CLEAN MASONRY GRID                                  */
+    /* (Inspired by image-testimonial-grid.tsx)                                   */
     /* -------------------------------------------------------------------------- */
     .gallery-section {
       background: #FFFFFF;
@@ -474,285 +709,11 @@
       position: relative;
     }
 
-    .wall-header-wrapper {
-      display: flex;
-      align-items: flex-end;
-      justify-content: space-between;
-      gap: 24px;
-      margin-bottom: 32px;
-      flex-wrap: wrap;
-    }
-
-    .wall-header-text {
-      max-width: 680px;
-    }
-
-    .wall-title {
-      font-family: var(--font-display);
-      font-weight: 700;
-      color: var(--text-hi);
-      font-size: 2.25rem;
-      letter-spacing: -0.02em;
-      margin-top: 6px;
-    }
-
-    .wall-subtitle {
-      color: var(--text-mid);
-      font-size: 1rem;
-      margin-top: 8px;
-      line-height: 1.6;
-    }
-
-    /* Admin trigger button */
-    .admin-auth-toggle-btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 9px 16px;
-      background: var(--substrate);
-      border: 1px solid var(--edge);
-      border-radius: 9999px;
-      font-size: 0.8125rem;
-      font-weight: 600;
-      color: var(--text-mid);
-      cursor: pointer;
-      transition: all var(--dur-base) ease;
-    }
-
-    .admin-auth-toggle-btn:hover {
-      background: #FFFFFF;
-      color: var(--trace);
-      border-color: var(--trace);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-    }
-
-    .admin-auth-toggle-btn.active {
-      background: rgba(0, 168, 132, 0.1);
-      border-color: var(--trace);
-      color: var(--trace);
-    }
-
-    /* Manage Admin Emails Button */
-    .btn-admin-manage-emails {
-      background: rgba(255, 255, 255, 0.1);
-      color: #E2E8F0;
-      border: 1px solid #334155;
-      padding: 9px 15px;
-      border-radius: 8px;
-      font-weight: 600;
-      font-size: 0.8125rem;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 7px;
-      transition: all 0.2s ease;
-    }
-
-    .btn-admin-manage-emails:hover {
-      background: rgba(255, 255, 255, 0.18);
-      color: #FFFFFF;
-      border-color: #64748B;
-    }
-
-    /* Admin Emails List & Management */
-    .admin-emails-list {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      margin-bottom: 20px;
-      max-height: 220px;
-      overflow-y: auto;
-      padding-right: 4px;
-    }
-
-    .admin-email-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      background: var(--substrate);
-      padding: 10px 14px;
-      border-radius: 8px;
-      border: 1px solid var(--edge);
-    }
-
-    .admin-email-info {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-size: 0.875rem;
-      font-weight: 600;
-      color: var(--text-hi);
-    }
-
-    .admin-email-badge {
-      font-size: 0.6875rem;
-      font-weight: 700;
-      padding: 2px 8px;
-      background: rgba(0, 168, 132, 0.12);
-      color: var(--trace);
-      border-radius: 9999px;
-      letter-spacing: 0.02em;
-    }
-
-    .admin-email-del-btn {
-      background: transparent;
-      border: none;
-      color: #94A3B8;
-      cursor: pointer;
-      padding: 4px;
-      border-radius: 4px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: all 0.15s ease;
-    }
-
-    .admin-email-del-btn:hover:not(:disabled) {
-      color: #EF4444;
-      background: rgba(239, 68, 68, 0.1);
-    }
-
-    .admin-email-del-btn:disabled {
-      opacity: 0.3;
-      cursor: not-allowed;
-    }
-
-    .add-email-row {
-      display: flex;
-      gap: 10px;
-    }
-
-    .admin-auth-info-banner {
-      background: rgba(0, 168, 132, 0.06);
-      border: 1px solid rgba(0, 168, 132, 0.2);
-      border-radius: 8px;
-      padding: 12px 14px;
-      margin-bottom: 18px;
-      font-size: 0.8125rem;
-      color: var(--text-mid);
-      line-height: 1.5;
-    }
-
-    .admin-auth-info-banner strong {
-      color: var(--text-hi);
-    }
-
-    .admin-auth-email-pills {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-      margin-top: 8px;
-    }
-
-    .admin-auth-email-pill {
-      font-family: monospace;
-      font-size: 0.75rem;
-      background: #FFFFFF;
-      padding: 3px 8px;
-      border-radius: 4px;
-      border: 1px solid var(--edge);
-      color: var(--trace);
-      font-weight: 600;
-    }
-
-    /* Admin Toolbar */
-    .admin-toolbar {
-      background: #0F172A;
-      color: #FFFFFF;
-      border-radius: 12px;
-      padding: 14px 20px;
-      margin-bottom: 28px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 16px;
-      flex-wrap: wrap;
-      box-shadow: 0 10px 25px rgba(15, 23, 42, 0.18);
-      border: 1px solid #1E293B;
-      animation: fadeInSlide 0.3s ease;
-    }
-
-    @keyframes fadeInSlide {
-      from { opacity: 0; transform: translateY(-8px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    .admin-toolbar__status {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-size: 0.875rem;
-    }
-
-    .admin-live-dot {
-      width: 10px;
-      height: 10px;
-      background: #10B981;
-      border-radius: 50%;
-      box-shadow: 0 0 10px #10B981;
-      display: inline-block;
-      animation: pulseGreen 2s infinite;
-    }
-
-    @keyframes pulseGreen {
-      0%, 100% { opacity: 1; transform: scale(1); }
-      50% { opacity: 0.5; transform: scale(1.2); }
-    }
-
-    .admin-toolbar__actions {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .btn-admin-action {
-      background: var(--trace);
-      color: #FFFFFF;
-      border: none;
-      padding: 9px 18px;
-      border-radius: 8px;
-      font-weight: 600;
-      font-size: 0.875rem;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      transition: background 0.2s ease, transform 0.15s ease;
-    }
-
-    .btn-admin-action:hover {
-      background: #008f72;
-      transform: translateY(-1px);
-    }
-
-    .btn-admin-exit {
-      background: transparent;
-      color: #94A3B8;
-      border: 1px solid #334155;
-      padding: 8px 14px;
-      border-radius: 8px;
-      font-weight: 600;
-      font-size: 0.8125rem;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      transition: all 0.2s ease;
-    }
-
-    .btn-admin-exit:hover {
-      color: #FFFFFF;
-      border-color: #64748B;
-      background: rgba(255, 255, 255, 0.05);
-    }
-
-    /* Filter Bar */
     .wall-filter-bar {
       display: flex;
       align-items: center;
       gap: 10px;
-      margin-bottom: 28px;
+      margin-bottom: 32px;
       flex-wrap: wrap;
     }
 
@@ -798,151 +759,140 @@
       color: #FFFFFF;
     }
 
-    /* -------------------------------------------------------------------------- */
-    /* Auto-Adjusting Responsive Grid System                                     */
-    /* -------------------------------------------------------------------------- */
+    /* Multi-Column Masonry Grid from image-testimonial-grid.tsx */
     .achievers-wall {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-      gap: 22px;
+      column-count: 4;
+      column-gap: 20px;
       width: 100%;
-      align-items: stretch;
     }
 
-    /* All Photos & Students View: Uniform card heights so every row ends flush */
-    .achievers-wall.view--all,
-    .achievers-wall.view--students {
-      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-      gap: 22px;
-    }
-
-    .achievers-wall.view--all .achiever-card,
-    .achievers-wall.view--students .achiever-card {
-      height: 350px;
-      display: flex;
-      flex-direction: column;
-    }
-
-    /* Webinars & Workshops View: Wide cinematic aspect ratio, auto-fit across full container */
-    .achievers-wall.view--webinars {
-      grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
-      gap: 24px;
-    }
-
-    .achievers-wall.view--webinars .achiever-card {
-      height: 270px;
-      aspect-ratio: 16 / 10;
-      display: flex;
-      flex-direction: column;
-    }
-
-    /* Responsive Breakpoints */
-    @media (max-width: 900px) {
-      .achievers-wall.view--webinars {
-        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-        gap: 18px;
-      }
-      .achievers-wall.view--all .achiever-card,
-      .achievers-wall.view--students .achiever-card {
-        height: 320px;
+    @media (max-width: 1200px) {
+      .achievers-wall {
+        column-count: 3;
+        column-gap: 18px;
       }
     }
 
-    @media (max-width: 600px) {
-      .achievers-wall,
-      .achievers-wall.view--all,
-      .achievers-wall.view--students,
-      .achievers-wall.view--webinars {
-        grid-template-columns: 1fr;
-        gap: 16px;
-      }
-      .achievers-wall.view--all .achiever-card,
-      .achievers-wall.view--students .achiever-card {
-        height: 340px;
-      }
-      .achievers-wall.view--webinars .achiever-card {
-        height: 230px;
+    @media (max-width: 800px) {
+      .achievers-wall {
+        column-count: 2;
+        column-gap: 14px;
       }
     }
 
-    /* Achiever Card */
+    @media (max-width: 520px) {
+      .achievers-wall {
+        column-count: 1;
+      }
+    }
+
+    /* Modern Achiever Card : Zero black backgrounds, zero black borders */
     .achiever-card {
-      border-radius: 14px;
+      break-inside: avoid;
+      -webkit-column-break-inside: avoid;
+      page-break-inside: avoid;
+      display: inline-block;
+      width: 100%;
+      margin-bottom: 20px;
+      border-radius: 16px;
       overflow: hidden;
       position: relative;
-      background: #0F172A;
+      background: #FFFFFF;
       border: 1px solid var(--edge);
-      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.05);
-      transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease;
+      vertical-align: top;
+      cursor: pointer;
     }
 
     .achiever-card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 14px 28px rgba(0, 0, 0, 0.12);
+      transform: scale(1.03);
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
       border-color: var(--trace);
     }
 
     .achiever-card img {
       width: 100%;
-      height: 100%;
+      height: auto;
       display: block;
       object-fit: cover;
-      object-position: top center;
-      transition: transform 0.35s ease;
+      background: #F1F5F9;
     }
 
-    .achiever-card[data-type="webinar"] img {
-      object-position: center;
-    }
-
-    .achiever-card:hover img {
-      transform: scale(1.03);
-    }
-
-    .achiever-card__caption {
+    /* Top Overlay Gradient (image-testimonial-grid.tsx) */
+    .achiever-card__gradient {
       position: absolute;
-      bottom: 0;
+      inset: 0;
+      background: linear-gradient(180deg, rgba(15, 23, 42, 0.72) 0%, rgba(15, 23, 42, 0.15) 45%, rgba(15, 23, 42, 0.8) 100%);
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+
+    /* Top Left Profile & Role Badge */
+    .achiever-card__overlay-top {
+      position: absolute;
+      top: 0;
       left: 0;
       right: 0;
-      background: linear-gradient(180deg, transparent 0%, rgba(15, 23, 42, 0.94) 100%);
-      padding: 28px 14px 12px;
+      padding: 14px 16px;
       color: #FFFFFF;
-      font-size: 0.875rem;
-      font-weight: 600;
-      line-height: 1.3;
+      z-index: 2;
       pointer-events: none;
     }
 
-    .achiever-card__role {
-      display: block;
+    .achiever-card__user-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 4px;
+    }
+
+    .achiever-card__avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      border: 2px solid rgba(255, 255, 255, 0.85);
+      object-fit: cover;
+      background: var(--substrate);
+      flex-shrink: 0;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+    }
+
+    .achiever-card__name {
+      font-weight: 700;
+      font-size: 0.9375rem;
+      color: #FFFFFF;
+      text-shadow: 0 1px 3px rgba(0, 0, 0, 0.85);
+      line-height: 1.2;
+    }
+
+    .achiever-card__feedback {
       font-size: 0.75rem;
       font-weight: 500;
       color: #2DD4BF;
-      margin-top: 2px;
+      text-shadow: 0 1px 3px rgba(0, 0, 0, 0.85);
+      line-height: 1.3;
     }
 
-    .achiever-card__badge {
+    /* Webinar Pill Badge */
+    .achiever-card__webinar-tag {
       position: absolute;
-      top: 10px;
-      left: 10px;
-      padding: 4px 10px;
-      background: rgba(15, 23, 42, 0.8);
+      bottom: 12px;
+      left: 14px;
+      right: 14px;
+      background: rgba(15, 23, 42, 0.75);
       backdrop-filter: blur(8px);
       border: 1px solid rgba(255, 255, 255, 0.18);
-      border-radius: 9999px;
+      border-radius: 8px;
+      padding: 6px 10px;
       color: #FFFFFF;
-      font-size: 0.7rem;
+      font-size: 0.75rem;
       font-weight: 600;
-      letter-spacing: 0.02em;
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
       z-index: 2;
-    }
-
-    .achiever-card__badge--webinar {
-      background: rgba(13, 148, 136, 0.9);
-      border-color: rgba(45, 212, 191, 0.4);
+      pointer-events: none;
+      display: flex;
+      align-items: center;
+      gap: 6px;
     }
 
     /* Admin Delete Card Button */
@@ -962,7 +912,7 @@
       cursor: pointer;
       font-size: 16px;
       line-height: 1;
-      z-index: 3;
+      z-index: 4;
       transition: transform 0.15s ease, background 0.15s ease;
     }
 
@@ -1638,156 +1588,395 @@
   <!-- NOTE: To add more testimonials or student photos, simply copy & paste     -->
   <!-- any review-card or photo-card below. The grid will automatically auto-     -->
   <!-- balance and fit them into the collage!                                    -->
+    <!-- ========================================================================= -->
+  <!-- 3. 3D PERSPECTIVE VERTICAL MARQUEE TESTIMONIALS STAGE                     -->
   <!-- ========================================================================= -->
-  <main class="container" style="padding-top: 48px;">
-    <div class="testimonials-collage" id="testimonialsGrid">
+  <main class="container stage-3d-wrapper">
+    <div class="stage-3d-header">
+      <span class="section-label">Industry Verified Reviews</span>
+      <h2 class="stage-3d-title">What Engineers Say About Us</h2>
+      <p class="stage-3d-subtitle">
+        Real feedback from engineers trained at VLSI Insights now building silicon at Qualcomm, Synopsys, Intel, Cadence, ARM, and NXP.
+      </p>
+    </div>
 
-      <!-- Testimonial 1: RTL Design engineer -->
-      <article class="review-card" data-role="RTL Design engineer">
-        <div>
-          <div class="review-card__header">
-            <div class="student-avatar"><img src="images/Students_photo/rahul.jpg" alt="Rahul" loading="lazy"></div>
-            <div class="student-info">
-              <h3 class="student-name">Rahul</h3>
-              <span class="student-designation">RTL Design engineer</span>
-              <div class="student-batch">Batch of 2024 &bull; Top VLSI MNC Placement</div>
-            </div>
-          </div>
-          <div class="star-rating" aria-label="5 stars">
-            <i data-lucide="star" style="width:16px;height:16px;fill:#F59E0B;"></i>
-            <i data-lucide="star" style="width:16px;height:16px;fill:#F59E0B;"></i>
-            <i data-lucide="star" style="width:16px;height:16px;fill:#F59E0B;"></i>
-            <i data-lucide="star" style="width:16px;height:16px;fill:#F59E0B;"></i>
-            <i data-lucide="star" style="width:16px;height:16px;fill:#F59E0B;"></i>
-          </div>
-          <p class="review-text">
-            &ldquo;The deep-dive RTL microarchitecture module gave me the exact hands-on experience needed to clear multi-round interviews at a leading semiconductor firm. Learning state machines, bus protocols (AXI/AHB), and synthesis constraints made all the difference.&rdquo;
-          </p>
-        </div>
-        <div class="review-footer">
-          <span class="verified-pill"><i data-lucide="check-circle" style="width:14px;height:14px;"></i> Verified Student</span>
-          <span>Bengaluru, India</span>
-        </div>
-      </article>
+    <div class="stage-3d-container">
+      <!-- Edge Gradient Fade Masks -->
+      <div class="stage-fade-mask-top"></div>
+      <div class="stage-fade-mask-bottom"></div>
+      <div class="stage-fade-mask-left"></div>
+      <div class="stage-fade-mask-right"></div>
 
-      <!-- Testimonial 2: Verification Engineer -->
-      <article class="review-card" data-role="Verification Engineer">
-        <div>
-          <div class="review-card__header">
-            <div class="student-avatar"><img src="images/Students_photo/Pooja%20Shukla.jpeg" alt="Pooja Shukla" loading="lazy"></div>
-            <div class="student-info">
-              <h3 class="student-name">Pooja Shukla</h3>
-              <span class="student-designation">Verification Engineer</span>
-              <div class="student-batch">Batch of 2023 &bull; Tier-1 Semiconductor Org</div>
-            </div>
-          </div>
-          <div class="star-rating" aria-label="5 stars">
-            <i data-lucide="star" style="width:16px;height:16px;fill:#F59E0B;"></i>
-            <i data-lucide="star" style="width:16px;height:16px;fill:#F59E0B;"></i>
-            <i data-lucide="star" style="width:16px;height:16px;fill:#F59E0B;"></i>
-            <i data-lucide="star" style="width:16px;height:16px;fill:#F59E0B;"></i>
-            <i data-lucide="star" style="width:16px;height:16px;fill:#F59E0B;"></i>
-          </div>
-          <p class="review-text">
-            &ldquo;Unlike standard theoretical college labs, here we simulated actual multi-clock SoCs. Building SystemVerilog testbenches with UVM factory overrides and functional coverage groups gave me immense confidence.&rdquo;
-          </p>
-        </div>
-        <div class="review-footer">
-          <span class="verified-pill"><i data-lucide="check-circle" style="width:14px;height:14px;"></i> Verified Student</span>
-          <span>Noida, India</span>
-        </div>
-      </article>
+      <!-- 3D Angled Perspective Stage -->
+      <div class="stage-3d-tilt">
+        <!-- Column 1 (Downward Scroll) -->
+        <div class="marquee-column">
+          <div class="marquee-track">
+            <!-- Review 1: Rahul -->
+            <article class="marquee-card">
+              <div class="marquee-card-head">
+                <img src="images/Students_photo/rahul.jpg" alt="Rahul" class="marquee-avatar" loading="lazy">
+                <div>
+                  <div class="marquee-name">Rahul <span class="marquee-company">Qualcomm</span></div>
+                  <div class="marquee-role">RTL Design Engineer &bull; Batch 2024</div>
+                </div>
+              </div>
+              <div class="marquee-stars">
+                <i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i>
+              </div>
+              <p class="marquee-quote">"The deep-dive RTL microarchitecture module gave me the exact hands-on experience needed to clear multi-round interviews at a leading semiconductor firm."</p>
+            </article>
 
-      <!-- Testimonial 3: SOC verification -->
-      <article class="review-card" data-role="SOC verification">
-        <div>
-          <div class="review-card__header">
-            <div class="student-avatar"><img src="images/Students_photo/Aditiya.jpeg" alt="Aditiya" loading="lazy"></div>
-            <div class="student-info">
-              <h3 class="student-name">Aditiya</h3>
-              <span class="student-designation">SOC verification</span>
-              <div class="student-batch">Batch of 2024 &bull; Fabless Chipmaker</div>
-            </div>
-          </div>
-          <div class="star-rating" aria-label="5 stars">
-            <i data-lucide="star" style="width:16px;height:16px;fill:#F59E0B;"></i>
-            <i data-lucide="star" style="width:16px;height:16px;fill:#F59E0B;"></i>
-            <i data-lucide="star" style="width:16px;height:16px;fill:#F59E0B;"></i>
-            <i data-lucide="star" style="width:16px;height:16px;fill:#F59E0B;"></i>
-            <i data-lucide="star" style="width:16px;height:16px;fill:#F59E0B;"></i>
-          </div>
-          <p class="review-text">
-            &ldquo;The hands-on simulation environments and IP integration assignments gave me real confidence to work directly on complex SoC test suites. The mentors were always accessible to debug tricky race conditions.&rdquo;
-          </p>
-        </div>
-        <div class="review-footer">
-          <span class="verified-pill"><i data-lucide="check-circle" style="width:14px;height:14px;"></i> Verified Student</span>
-          <span>Hyderabad, India</span>
-        </div>
-      </article>
+            <!-- Review 2: Pooja Shukla -->
+            <article class="marquee-card">
+              <div class="marquee-card-head">
+                <img src="images/Students_photo/Pooja%20Shukla.jpeg" alt="Pooja Shukla" class="marquee-avatar" loading="lazy">
+                <div>
+                  <div class="marquee-name">Pooja Shukla <span class="marquee-company">NXP</span></div>
+                  <div class="marquee-role">RTL Design Engineer &bull; Batch 2023</div>
+                </div>
+              </div>
+              <div class="marquee-stars">
+                <i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i>
+              </div>
+              <p class="marquee-quote">"Unlike standard theoretical college labs, here we simulated actual multi-clock SoCs. Building SystemVerilog testbenches with UVM factory overrides gave me immense confidence."</p>
+            </article>
 
-      <!-- Testimonial 4: Scripting Engineer -->
-      <article class="review-card" data-role="Scripting Engineer">
-        <div>
-          <div class="review-card__header">
-            <div class="student-avatar"><img src="images/Students_photo/Priyam%20Roy.jpeg" alt="Priyam Roy" loading="lazy"></div>
-            <div class="student-info">
-              <h3 class="student-name">Priyam Roy</h3>
-              <span class="student-designation">Scripting Engineer</span>
-              <div class="student-batch">Batch of 2024 &bull; EDA Automation Specialist</div>
-            </div>
-          </div>
-          <div class="star-rating" aria-label="5 stars">
-            <i data-lucide="star" style="width:16px;height:16px;fill:#F59E0B;"></i>
-            <i data-lucide="star" style="width:16px;height:16px;fill:#F59E0B;"></i>
-            <i data-lucide="star" style="width:16px;height:16px;fill:#F59E0B;"></i>
-            <i data-lucide="star" style="width:16px;height:16px;fill:#F59E0B;"></i>
-            <i data-lucide="star" style="width:16px;height:16px;fill:#F59E0B;"></i>
-          </div>
-          <p class="review-text">
-            &ldquo;Automating EDA regression runs using Python, Makefile, and TCL scripting was an eye-opener. That specific module helped me land an automation role managing high-throughput verification farms.&rdquo;
-          </p>
-        </div>
-        <div class="review-footer">
-          <span class="verified-pill"><i data-lucide="check-circle" style="width:14px;height:14px;"></i> Verified Student</span>
-          <span>Pune, India</span>
-        </div>
-      </article>
+            <!-- Review 3: Dhilipan Amirthalingam -->
+            <article class="marquee-card">
+              <div class="marquee-card-head">
+                <img src="images/Students_photo/522686_DhilipanAmirthalingam.JPG" alt="Dhilipan Amirthalingam" class="marquee-avatar" loading="lazy">
+                <div>
+                  <div class="marquee-name">Dhilipan Amirthalingam <span class="marquee-company">Synopsys</span></div>
+                  <div class="marquee-role">Physical Design &bull; Batch 2024</div>
+                </div>
+              </div>
+              <div class="marquee-stars">
+                <i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i>
+              </div>
+              <p class="marquee-quote">"Synthesizing AXI bus protocols and running STA signoff constraints on real silicon gave me a massive edge in technical interview rounds."</p>
+            </article>
 
-      <!-- Testimonial 5: Design engineer -->
-      <article class="review-card" data-role="Design engineer">
-        <div>
-          <div class="review-card__header">
-            <div class="student-avatar"><img src="images/Students_photo/Swati.png" alt="Swati" loading="lazy"></div>
-            <div class="student-info">
-              <h3 class="student-name">Swati</h3>
-              <span class="student-designation">Design engineer</span>
-              <div class="student-batch">Batch of 2024 &bull; ASIC Development Team</div>
-            </div>
+            <!-- Repeat Duplicate for Seamless Infinite Loop -->
+            <article class="marquee-card">
+              <div class="marquee-card-head">
+                <img src="images/Students_photo/rahul.jpg" alt="Rahul" class="marquee-avatar" loading="lazy">
+                <div>
+                  <div class="marquee-name">Rahul <span class="marquee-company">Qualcomm</span></div>
+                  <div class="marquee-role">RTL Design Engineer &bull; Batch 2024</div>
+                </div>
+              </div>
+              <div class="marquee-stars">
+                <i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i>
+              </div>
+              <p class="marquee-quote">"The deep-dive RTL microarchitecture module gave me the exact hands-on experience needed to clear multi-round interviews at a leading semiconductor firm."</p>
+            </article>
+            <article class="marquee-card">
+              <div class="marquee-card-head">
+                <img src="images/Students_photo/Pooja%20Shukla.jpeg" alt="Pooja Shukla" class="marquee-avatar" loading="lazy">
+                <div>
+                  <div class="marquee-name">Pooja Shukla <span class="marquee-company">NXP</span></div>
+                  <div class="marquee-role">RTL Design Engineer &bull; Batch 2023</div>
+                </div>
+              </div>
+              <div class="marquee-stars">
+                <i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i>
+              </div>
+              <p class="marquee-quote">"Unlike standard theoretical college labs, here we simulated actual multi-clock SoCs. Building SystemVerilog testbenches with UVM factory overrides gave me immense confidence."</p>
+            </article>
+            <article class="marquee-card">
+              <div class="marquee-card-head">
+                <img src="images/Students_photo/522686_DhilipanAmirthalingam.JPG" alt="Dhilipan Amirthalingam" class="marquee-avatar" loading="lazy">
+                <div>
+                  <div class="marquee-name">Dhilipan Amirthalingam <span class="marquee-company">Synopsys</span></div>
+                  <div class="marquee-role">Physical Design &bull; Batch 2024</div>
+                </div>
+              </div>
+              <div class="marquee-stars">
+                <i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i>
+              </div>
+              <p class="marquee-quote">"Synthesizing AXI bus protocols and running STA signoff constraints on real silicon gave me a massive edge in technical interview rounds."</p>
+            </article>
           </div>
-          <div class="star-rating" aria-label="5 stars">
-            <i data-lucide="star" style="width:16px;height:16px;fill:#F59E0B;"></i>
-            <i data-lucide="star" style="width:16px;height:16px;fill:#F59E0B;"></i>
-            <i data-lucide="star" style="width:16px;height:16px;fill:#F59E0B;"></i>
-            <i data-lucide="star" style="width:16px;height:16px;fill:#F59E0B;"></i>
-            <i data-lucide="star" style="width:16px;height:16px;fill:#F59E0B;"></i>
-          </div>
-          <p class="review-text">
-            &ldquo;The end-to-end guidance from Verilog architectural specification down to STA signoff and timing constraints gave me a complete system perspective that most entry-level engineers lack.&rdquo;
-          </p>
         </div>
-        <div class="review-footer">
-          <span class="verified-pill"><i data-lucide="check-circle" style="width:14px;height:14px;"></i> Verified Student</span>
-          <span>Bengaluru, India</span>
-        </div>
-      </article>
 
+        <!-- Column 2 (Upward Scroll / Reverse) -->
+        <div class="marquee-column">
+          <div class="marquee-track reverse">
+            <!-- Review 4: Aditiya -->
+            <article class="marquee-card">
+              <div class="marquee-card-head">
+                <img src="images/Students_photo/Aditiya.jpeg" alt="Aditiya" class="marquee-avatar" loading="lazy">
+                <div>
+                  <div class="marquee-name">Aditiya <span class="marquee-company">Intel</span></div>
+                  <div class="marquee-role">SOC Verification &bull; Batch 2024</div>
+                </div>
+              </div>
+              <div class="marquee-stars">
+                <i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i>
+              </div>
+              <p class="marquee-quote">"The hands-on simulation environments and IP integration assignments gave me real confidence to work directly on complex SoC test suites."</p>
+            </article>
+
+            <!-- Review 5: Priyam Roy -->
+            <article class="marquee-card">
+              <div class="marquee-card-head">
+                <img src="images/Students_photo/Priyam%20Roy.jpeg" alt="Priyam Roy" class="marquee-avatar" loading="lazy">
+                <div>
+                  <div class="marquee-name">Priyam Roy <span class="marquee-company">Cadence</span></div>
+                  <div class="marquee-role">Scripting Engineer &bull; Batch 2024</div>
+                </div>
+              </div>
+              <div class="marquee-stars">
+                <i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i>
+              </div>
+              <p class="marquee-quote">"Automating EDA regression runs using Python, Makefile, and TCL scripting was an eye-opener. It helped me land an automation role managing high-throughput verification farms."</p>
+            </article>
+
+            <!-- Review 6: Kalyan -->
+            <article class="marquee-card">
+              <div class="marquee-card-head">
+                <img src="images/Students_photo/kalyan.jpg" alt="Kalyan" class="marquee-avatar" loading="lazy">
+                <div>
+                  <div class="marquee-name">Kalyan <span class="marquee-company">ARM</span></div>
+                  <div class="marquee-role">Verification Engineer &bull; Batch 2023</div>
+                </div>
+              </div>
+              <div class="marquee-stars">
+                <i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i>
+              </div>
+              <p class="marquee-quote">"The practical experience on advanced chip verification helped me transition smoothly from college into an industry production team."</p>
+            </article>
+
+            <!-- Repeat Duplicate for Seamless Infinite Loop -->
+            <article class="marquee-card">
+              <div class="marquee-card-head">
+                <img src="images/Students_photo/Aditiya.jpeg" alt="Aditiya" class="marquee-avatar" loading="lazy">
+                <div>
+                  <div class="marquee-name">Aditiya <span class="marquee-company">Intel</span></div>
+                  <div class="marquee-role">SOC Verification &bull; Batch 2024</div>
+                </div>
+              </div>
+              <div class="marquee-stars">
+                <i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i>
+              </div>
+              <p class="marquee-quote">"The hands-on simulation environments and IP integration assignments gave me real confidence to work directly on complex SoC test suites."</p>
+            </article>
+            <article class="marquee-card">
+              <div class="marquee-card-head">
+                <img src="images/Students_photo/Priyam%20Roy.jpeg" alt="Priyam Roy" class="marquee-avatar" loading="lazy">
+                <div>
+                  <div class="marquee-name">Priyam Roy <span class="marquee-company">Cadence</span></div>
+                  <div class="marquee-role">Scripting Engineer &bull; Batch 2024</div>
+                </div>
+              </div>
+              <div class="marquee-stars">
+                <i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i>
+              </div>
+              <p class="marquee-quote">"Automating EDA regression runs using Python, Makefile, and TCL scripting was an eye-opener. It helped me land an automation role managing high-throughput verification farms."</p>
+            </article>
+            <article class="marquee-card">
+              <div class="marquee-card-head">
+                <img src="images/Students_photo/kalyan.jpg" alt="Kalyan" class="marquee-avatar" loading="lazy">
+                <div>
+                  <div class="marquee-name">Kalyan <span class="marquee-company">ARM</span></div>
+                  <div class="marquee-role">Verification Engineer &bull; Batch 2023</div>
+                </div>
+              </div>
+              <div class="marquee-stars">
+                <i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i>
+              </div>
+              <p class="marquee-quote">"The practical experience on advanced chip verification helped me transition smoothly from college into an industry production team."</p>
+            </article>
+          </div>
+        </div>
+
+        <!-- Column 3 (Downward Scroll) -->
+        <div class="marquee-column">
+          <div class="marquee-track">
+            <!-- Review 7: Swati -->
+            <article class="marquee-card">
+              <div class="marquee-card-head">
+                <img src="images/Students_photo/Swati.png" alt="Swati" class="marquee-avatar" loading="lazy">
+                <div>
+                  <div class="marquee-name">Swati <span class="marquee-company">AMD</span></div>
+                  <div class="marquee-role">Design Engineer &bull; Batch 2024</div>
+                </div>
+              </div>
+              <div class="marquee-stars">
+                <i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i>
+              </div>
+              <p class="marquee-quote">"The end-to-end guidance from Verilog architectural specification down to STA signoff and timing constraints gave me a complete system perspective."</p>
+            </article>
+
+            <!-- Review 8: Karan Kumar -->
+            <article class="marquee-card">
+              <div class="marquee-card-head">
+                <img src="images/Students_photo/Karan%20Kumar.jpeg" alt="Karan Kumar" class="marquee-avatar" loading="lazy">
+                <div>
+                  <div class="marquee-name">Karan Kumar <span class="marquee-company">Xilinx</span></div>
+                  <div class="marquee-role">FPGA Prototyping &bull; Batch 2024</div>
+                </div>
+              </div>
+              <div class="marquee-stars">
+                <i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i>
+              </div>
+              <p class="marquee-quote">"Working with real FPGA boards and bringing up UART/SPI hardware interfaces gave me practical skills that college textbooks never taught."</p>
+            </article>
+
+            <!-- Review 9: Chander -->
+            <article class="marquee-card">
+              <div class="marquee-card-head">
+                <img src="images/Students_photo/chander.jpeg" alt="Chander" class="marquee-avatar" loading="lazy">
+                <div>
+                  <div class="marquee-name">Chander <span class="marquee-company">NXP</span></div>
+                  <div class="marquee-role">ASIC Design Specialist &bull; Batch 2024</div>
+                </div>
+              </div>
+              <div class="marquee-stars">
+                <i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i>
+              </div>
+              <p class="marquee-quote">"The mentorship is world class. They grilled us on clock domain crossing, reset synchronization, and synthesis optimizations."</p>
+            </article>
+
+            <!-- Repeat Duplicate for Seamless Infinite Loop -->
+            <article class="marquee-card">
+              <div class="marquee-card-head">
+                <img src="images/Students_photo/Swati.png" alt="Swati" class="marquee-avatar" loading="lazy">
+                <div>
+                  <div class="marquee-name">Swati <span class="marquee-company">AMD</span></div>
+                  <div class="marquee-role">Design Engineer &bull; Batch 2024</div>
+                </div>
+              </div>
+              <div class="marquee-stars">
+                <i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i>
+              </div>
+              <p class="marquee-quote">"The end-to-end guidance from Verilog architectural specification down to STA signoff and timing constraints gave me a complete system perspective."</p>
+            </article>
+            <article class="marquee-card">
+              <div class="marquee-card-head">
+                <img src="images/Students_photo/Karan%20Kumar.jpeg" alt="Karan Kumar" class="marquee-avatar" loading="lazy">
+                <div>
+                  <div class="marquee-name">Karan Kumar <span class="marquee-company">Xilinx</span></div>
+                  <div class="marquee-role">FPGA Prototyping &bull; Batch 2024</div>
+                </div>
+              </div>
+              <div class="marquee-stars">
+                <i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i>
+              </div>
+              <p class="marquee-quote">"Working with real FPGA boards and bringing up UART/SPI hardware interfaces gave me practical skills that college textbooks never taught."</p>
+            </article>
+            <article class="marquee-card">
+              <div class="marquee-card-head">
+                <img src="images/Students_photo/chander.jpeg" alt="Chander" class="marquee-avatar" loading="lazy">
+                <div>
+                  <div class="marquee-name">Chander <span class="marquee-company">NXP</span></div>
+                  <div class="marquee-role">ASIC Design Specialist &bull; Batch 2024</div>
+                </div>
+              </div>
+              <div class="marquee-stars">
+                <i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i>
+              </div>
+              <p class="marquee-quote">"The mentorship is world class. They grilled us on clock domain crossing, reset synchronization, and synthesis optimizations."</p>
+            </article>
+          </div>
+        </div>
+
+        <!-- Column 4 (Upward Scroll / Reverse) -->
+        <div class="marquee-column">
+          <div class="marquee-track reverse">
+            <!-- Review 10: Muskan P -->
+            <article class="marquee-card">
+              <div class="marquee-card-head">
+                <img src="images/Students_photo/Muskan%20P.jpeg" alt="Muskan P" class="marquee-avatar" loading="lazy">
+                <div>
+                  <div class="marquee-name">Muskan P <span class="marquee-company">MediaTek</span></div>
+                  <div class="marquee-role">RTL Design Cohort &bull; Batch 2024</div>
+                </div>
+              </div>
+              <div class="marquee-stars">
+                <i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i>
+              </div>
+              <p class="marquee-quote">"The lab assignments mirrored actual industry projects. I walked into my semiconductor interviews knowing the exact practical answers."</p>
+            </article>
+
+            <!-- Review 11: Ritesh -->
+            <article class="marquee-card">
+              <div class="marquee-card-head">
+                <img src="images/Students_photo/Ritesh.jpeg" alt="Ritesh" class="marquee-avatar" loading="lazy">
+                <div>
+                  <div class="marquee-name">Ritesh <span class="marquee-company">Broadcom</span></div>
+                  <div class="marquee-role">Embedded Systems &bull; Batch 2024</div>
+                </div>
+              </div>
+              <div class="marquee-stars">
+                <i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i>
+              </div>
+              <p class="marquee-quote">"Deep dive into ARM Cortex architecture, RTOS kernel porting, and hardware drivers prepared me for real engineering challenges."</p>
+            </article>
+
+            <!-- Review 12: Shachi -->
+            <article class="marquee-card">
+              <div class="marquee-card-head">
+                <img src="images/Students_photo/shachi.jpeg" alt="Shachi" class="marquee-avatar" loading="lazy">
+                <div>
+                  <div class="marquee-name">Shachi <span class="marquee-company">Synopsys</span></div>
+                  <div class="marquee-role">UVM Verification Track &bull; Batch 2023</div>
+                </div>
+              </div>
+              <div class="marquee-stars">
+                <i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i>
+              </div>
+              <p class="marquee-quote">"Writing functional coverage models and constrained random test vectors gave me the exact skills needed to clear tier-1 hiring rounds."</p>
+            </article>
+
+            <!-- Repeat Duplicate for Seamless Infinite Loop -->
+            <article class="marquee-card">
+              <div class="marquee-card-head">
+                <img src="images/Students_photo/Muskan%20P.jpeg" alt="Muskan P" class="marquee-avatar" loading="lazy">
+                <div>
+                  <div class="marquee-name">Muskan P <span class="marquee-company">MediaTek</span></div>
+                  <div class="marquee-role">RTL Design Cohort &bull; Batch 2024</div>
+                </div>
+              </div>
+              <div class="marquee-stars">
+                <i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i>
+              </div>
+              <p class="marquee-quote">"The lab assignments mirrored actual industry projects. I walked into my semiconductor interviews knowing the exact practical answers."</p>
+            </article>
+            <article class="marquee-card">
+              <div class="marquee-card-head">
+                <img src="images/Students_photo/Ritesh.jpeg" alt="Ritesh" class="marquee-avatar" loading="lazy">
+                <div>
+                  <div class="marquee-name">Ritesh <span class="marquee-company">Broadcom</span></div>
+                  <div class="marquee-role">Embedded Systems &bull; Batch 2024</div>
+                </div>
+              </div>
+              <div class="marquee-stars">
+                <i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i>
+              </div>
+              <p class="marquee-quote">"Deep dive into ARM Cortex architecture, RTOS kernel porting, and hardware drivers prepared me for real engineering challenges."</p>
+            </article>
+            <article class="marquee-card">
+              <div class="marquee-card-head">
+                <img src="images/Students_photo/shachi.jpeg" alt="Shachi" class="marquee-avatar" loading="lazy">
+                <div>
+                  <div class="marquee-name">Shachi <span class="marquee-company">Synopsys</span></div>
+                  <div class="marquee-role">UVM Verification Track &bull; Batch 2023</div>
+                </div>
+              </div>
+              <div class="marquee-stars">
+                <i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i>
+              </div>
+              <p class="marquee-quote">"Writing functional coverage models and constrained random test vectors gave me the exact skills needed to clear tier-1 hiring rounds."</p>
+            </article>
+          </div>
+        </div>
+      </div>
     </div>
   </main>
 
-  <!-- WALL OF ACHIEVERS / ALUMNI & STUDENT GRID -->
-    <!-- ========================================================================= -->
-  <!-- 4. AUTO-ADJUSTING WALL OF ACHIEVERS (STUDENTS & WEBINAR GALLERY)          -->
+<!-- 4. AUTO-ADJUSTING WALL OF ACHIEVERS (STUDENTS & WEBINAR GALLERY)          -->
   <!-- ========================================================================= -->
   <section class="gallery-section" id="wall-of-achievers" aria-label="Wall of Achievers">
     <div class="container">
@@ -2193,7 +2382,7 @@
         });
       }
 
-            // 3. Render Wall with Auto-Adjusting Layout & Aligned Baselines
+                  // 3. Render Wall with image-testimonial-grid.tsx Design
       function renderWall() {
         var wall = document.getElementById('achieversWall');
         if (!wall) return;
@@ -2203,15 +2392,6 @@
           if (currentFilter === 'all') return true;
           return item.type === currentFilter;
         });
-
-        // Set layout modifier class based on filter
-        if (currentFilter === 'webinar') {
-          wall.className = 'achievers-wall view--webinars';
-        } else if (currentFilter === 'student') {
-          wall.className = 'achievers-wall view--students';
-        } else {
-          wall.className = 'achievers-wall view--all';
-        }
 
         // Update counts
         var totalCount = achievers.length;
@@ -2225,32 +2405,47 @@
         if (elStudents) elStudents.textContent = studentCount;
         if (elWebinars) elWebinars.textContent = webinarCount;
 
-        // Build HTML
+        // Build HTML following image-testimonial-grid.tsx pattern
         if (filtered.length === 0) {
-          wall.innerHTML = '<div style="grid-column: 1 / -1; text-align: center; padding: 48px 20px; color: var(--text-mid); font-size: 1rem;">No photos found in this category.</div>';
+          wall.innerHTML = '<div style="column-span: all; text-align: center; padding: 48px 20px; color: var(--text-mid); font-size: 1rem;">No photos found in this category.</div>';
           return;
         }
 
         var html = '';
         filtered.forEach(function(item) {
           var isWebinar = item.type === 'webinar';
-          var badgeLabel = isWebinar ? 'Webinar / Workshop' : 'Student Achiever';
-          var badgeClass = isWebinar ? 'achiever-card__badge achiever-card__badge--webinar' : 'achiever-card__badge';
 
-          html += '<article class="achiever-card" data-id="' + item.id + '" data-type="' + item.type + '">';
-          html += '  <span class="' + badgeClass + '">' + badgeLabel + '</span>';
+          html += '<div class="achiever-card" data-id="' + item.id + '" data-type="' + item.type + '">';
+          // Delete button for admin
           html += '  <button type="button" class="achiever-card__del-btn" onclick="window.deleteAchieverItem(\'' + item.id + '\')" title="Delete entry">&times;</button>';
-          html += '  <img src="' + item.src + '" alt="' + item.name + '" loading="lazy" decoding="async" onerror="this.src=\'images/Students_photo/rahul.jpg\';">';
-          html += '  <div class="achiever-card__caption">';
-          html += '    ' + item.name;
-          html += '    <span class="achiever-card__role">' + item.role + '</span>';
+          // Main Image
+          html += '  <img src="' + item.src + '" alt="' + item.name + '" loading="lazy" decoding="async">';
+          // Gradient Overlay
+          html += '  <div class="achiever-card__gradient"></div>';
+          // Top Overlay Info (image-testimonial-grid.tsx pattern)
+          html += '  <div class="achiever-card__overlay-top">';
+          html += '    <div class="achiever-card__user-row">';
+          if (!isWebinar) {
+            html += '      <img src="' + item.src + '" class="achiever-card__avatar" alt="' + item.name + '">';
+          } else {
+            html += '      <div class="achiever-card__avatar" style="display:flex;align-items:center;justify-content:center;background:#0D9488;border-color:#2DD4BF;"><i data-lucide="presentation" style="width:16px;height:16px;color:#fff;"></i></div>';
+          }
+          html += '      <div>';
+          html += '        <div class="achiever-card__name">' + item.name + '</div>';
+          html += '        <div class="achiever-card__feedback">' + item.role + '</div>';
+          html += '      </div>';
+          html += '    </div>';
           html += '  </div>';
-          html += '</article>';
+
+          if (isWebinar) {
+            html += '  <div class="achiever-card__webinar-tag"><i data-lucide="video" style="width:14px;height:14px;color:#2DD4BF;"></i> Webinar / Workshop Session</div>';
+          }
+          html += '</div>';
         });
 
         wall.innerHTML = html;
         if (window.lucide && typeof lucide.createIcons === 'function') {
-          lucide.createIcons();
+          lucide.createIcons({ root: wall });
         }
       }
 
