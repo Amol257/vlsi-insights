@@ -2005,120 +2005,28 @@
       </div>
 
       <!-- Dynamic Auto-Adjusting Masonry Wall -->
-      <div class="achievers-wall" id="achieversWall" aria-live="polite">
-        <!-- Rendered dynamically by Wall of Achievers script -->
+      <!-- Dynamic Auto-Adjusting Masonry Wall with Bottom Blur Fade -->
+      <div class="wall-stage-wrapper" id="wallStageWrapper">
+        <div class="achievers-wall" id="achieversWall" aria-live="polite">
+          <!-- Rendered dynamically by Wall of Achievers script -->
+        </div>
+
+        <!-- Bottom Blur & Fade Effect (Images glide under section end line with blur) -->
+        <div class="wall-bottom-blur-fade" id="wallBottomBlurFade">
+          <div class="wall-blur-backdrop"></div>
+          <div class="wall-fade-gradient"></div>
+          <div class="wall-fade-content">
+            <button type="button" class="btn-expand-wall" id="btnExpandWall" aria-expanded="false">
+              <span id="expandWallText">Explore All Achievers &amp; Webinars</span>
+              <i data-lucide="chevron-down" id="expandWallIcon"></i>
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   </section>
 
   <!-- ========================================================================= -->
-  <!-- ADMIN MODAL: ADD ACHIEVER / WEBINAR PHOTO                                -->
-  <!-- ========================================================================= -->
-  <div class="admin-modal-backdrop" id="adminAddModal" style="display: none;" role="dialog" aria-modal="true" aria-labelledby="modalAddTitle">
-    <div class="admin-modal-card">
-      <div class="admin-modal-header">
-        <div style="display: flex; align-items: center; gap: 8px;">
-          <div class="admin-modal-icon"><i data-lucide="image-plus" style="width: 18px; height: 18px;"></i></div>
-          <h3 id="modalAddTitle" style="font-size: 1.125rem; font-weight: 700; color: var(--text-hi); margin: 0;">Add to Wall of Achievers</h3>
-        </div>
-        <button type="button" class="admin-modal-close" id="btnCloseAddModal" aria-label="Close modal">&times;</button>
-      </div>
-
-      <form id="formAddAchiever" class="admin-modal-form" onsubmit="return handleAddAchieverSubmit(event);">
-        <!-- Category -->
-        <div class="form-group">
-          <label for="achieverType" class="form-label">Category</label>
-          <select id="achieverType" class="form-select" required>
-            <option value="student">Student Photo</option>
-            <option value="webinar">Webinar or Workshop Flyer</option>
-          </select>
-        </div>
-
-        <!-- Name / Title -->
-        <div class="form-group">
-          <label for="achieverName" class="form-label" id="lblAchieverName">Student Name (from photo)</label>
-          <input type="text" id="achieverName" class="form-input" placeholder="e.g. Rahul, Pooja Shukla" required />
-        </div>
-
-        <!-- Role / Subtitle -->
-        <div class="form-group">
-          <label for="achieverRole" class="form-label" id="lblAchieverRole">Role / Specialization</label>
-          <input type="text" id="achieverRole" class="form-input" placeholder="e.g. RTL Design Engineer, Verification Track" required />
-        </div>
-
-        <!-- Image Upload (File or URL) -->
-        <div class="form-group">
-          <label class="form-label">Photo Upload</label>
-          <div class="file-drop-area" id="fileDropArea">
-            <input type="file" id="achieverFileInput" accept="image/*" class="file-drop-input" />
-            <div class="file-drop-content" id="fileDropContent">
-              <i data-lucide="upload-cloud" style="width: 28px; height: 28px; color: var(--trace);"></i>
-              <p style="margin: 6px 0 2px; font-weight: 600; color: var(--text-hi);">Click to browse or drag &amp; drop</p>
-              <span style="font-size: 0.75rem; color: var(--text-mid);">Supports JPEG, PNG, WEBP</span>
-            </div>
-            <div class="file-preview-wrap" id="filePreviewWrap" style="display: none;">
-              <img id="filePreviewImg" src="" alt="Preview" />
-              <button type="button" class="file-preview-remove" id="btnRemovePreview" title="Change photo">&times;</button>
-            </div>
-          </div>
-          <div style="text-align: center; margin: 8px 0; font-size: 0.75rem; color: var(--text-mid); font-weight: 600;">: OR ENTER IMAGE URL :</div>
-          <input type="url" id="achieverUrlInput" class="form-input" placeholder="https://example.com/photo.jpg" />
-        </div>
-
-        <!-- Modal Actions -->
-        <div class="admin-modal-actions">
-          <button type="button" class="btn-cancel" id="btnCancelAddModal">Cancel</button>
-          <button type="submit" class="btn-submit-achiever" id="btnSubmitAchiever">
-            <span>Add to Wall</span>
-            <i data-lucide="arrow-right" style="width: 16px; height: 16px;"></i>
-          </button>
-        </div>
-      </form>
-    </div>
-  </div>
-
-  
-
-  <!-- MANAGE ADMIN EMAILS MODAL -->
-  <div class="admin-modal-backdrop" id="adminEmailsModal" style="display: none;" role="dialog" aria-modal="true" aria-labelledby="modalEmailsTitle">
-    <div class="admin-modal-card" style="max-width: 480px;">
-      <div class="admin-modal-header">
-        <div style="display: flex; align-items: center; gap: 8px;">
-          <div class="admin-modal-icon"><i data-lucide="users" style="width: 18px; height: 18px;"></i></div>
-          <h3 id="modalEmailsTitle" style="font-size: 1.125rem; font-weight: 700; color: var(--text-hi); margin: 0;">Manage Admin Emails</h3>
-        </div>
-        <button type="button" class="admin-modal-close" id="btnCloseEmailsModal" aria-label="Close modal">&times;</button>
-      </div>
-
-      <div class="admin-modal-form">
-        <p style="font-size: 0.8125rem; color: var(--text-mid); line-height: 1.5; margin-bottom: 14px;">
-          The following email addresses have full administrator access to add, edit, and delete photos on the Wall of Achievers.
-        </p>
-
-        <!-- Current authorized emails list -->
-        <div class="admin-emails-list" id="adminEmailsList">
-          <!-- Rendered dynamically -->
-        </div>
-
-        <!-- Add new email form -->
-        <div style="margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--edge);">
-          <label class="form-label" for="newAdminEmailInput">Add New Administrator Email</label>
-          <div class="add-email-row">
-            <input type="email" id="newAdminEmailInput" class="form-input" placeholder="colleague@example.com" />
-            <button type="button" class="btn-submit-achiever" id="btnAddAdminEmail" style="white-space: nowrap; padding: 10px 16px;">
-              <span>+ Add</span>
-            </button>
-          </div>
-          <div id="addEmailError" class="passcode-error-msg" style="display: none;"></div>
-        </div>
-
-        <div class="admin-modal-actions" style="margin-top: 24px;">
-          <button type="button" class="btn-cancel" id="btnCancelEmailsModal">Close</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
   <!-- CTA -->
   <section class="testimonials-cta">
     <div class="container">
@@ -2297,58 +2205,48 @@
     </div>
   </div>
   <!-- ========================================================================= -->
-  <!-- 5. WALL OF ACHIEVERS AUTO-ADJUSTING CONTROLLER & ADMIN LOGIC              -->
-  <!-- ========================================================================= -->
+  <!-- Wall of Achievers Dynamic Logic -->
   <script>
     (function() {
-      // 1. Initial 26 Verified Achievers & Workshop Records
+      // 1. Shuffled & Curated 26 Verified Achievers & Workshop Records
+      // Staggers webinars and diverse student portraits evenly across columns
       const DEFAULT_ACHIEVERS = [
-        { id: 'ach_1', name: 'Dhilipan Amirthalingam', role: 'Physical Design Track', type: 'student', src: 'images/Students_photo/522686_DhilipanAmirthalingam.JPG' },
-        { id: 'ach_2', name: 'Aditiya', role: 'Verification Engineer', type: 'student', src: 'images/Students_photo/Aditiya.jpeg' },
         { id: 'ach_3', name: 'Pooja Shukla', role: 'RTL Design Engineer', type: 'student', src: 'images/Students_photo/Pooja%20Shukla.jpeg' },
-        { id: 'ach_4', name: 'Rahul', role: 'SOC Verification', type: 'student', src: 'images/Students_photo/rahul.jpg' },
-        { id: 'ach_5', name: 'Kalyan', role: 'Verification Engineer', type: 'student', src: 'images/Students_photo/kalyan.jpg' },
-        { id: 'ach_6', name: 'Karan Kumar', role: 'FPGA Prototyping', type: 'student', src: 'images/Students_photo/Karan%20Kumar.jpeg' },
         { id: 'ach_7', name: 'NIET Campus Faculty Development Program', role: 'Hands-On Silicon & FPGA Workshop', type: 'webinar', src: 'images/Students_photo/NIET_FTP.jpg' },
+        { id: 'ach_2', name: 'Aditiya', role: 'Verification Engineer', type: 'student', src: 'images/Students_photo/Aditiya.jpeg' },
+        { id: 'ach_1', name: 'Dhilipan Amirthalingam', role: 'Physical Design Track', type: 'student', src: 'images/Students_photo/522686_DhilipanAmirthalingam.JPG' },
         { id: 'ach_8', name: 'Swati', role: 'ASIC Development Team', type: 'student', src: 'images/Students_photo/Swati.png' },
-        { id: 'ach_9', name: 'Muskan P', role: 'RTL Design Cohort', type: 'student', src: 'images/Students_photo/Muskan%20P.jpeg' },
-        { id: 'ach_10', name: 'Priyam Roy', role: 'EDA Automation Specialist', type: 'student', src: 'images/Students_photo/Priyam%20Roy.jpeg' },
-        { id: 'ach_11', name: 'Ritesh', role: 'Embedded Systems', type: 'student', src: 'images/Students_photo/Ritesh.jpeg' },
-        { id: 'ach_12', name: 'Shachi', role: 'UVM Verification Track', type: 'student', src: 'images/Students_photo/shachi.jpeg' },
         { id: 'ach_13', name: 'Chander', role: 'ASIC Design Specialist', type: 'student', src: 'images/Students_photo/chander.jpeg' },
         { id: 'ach_14', name: 'Faculty Workshop & Hardware Bring-Up Lab', role: 'Live FPGA Prototyping & Board Testing', type: 'webinar', src: 'images/Students_photo/FTP_NIET_2.jpg' },
-        { id: 'ach_15', name: 'Anusha', role: 'SystemVerilog & SVA', type: 'student', src: 'images/Students_photo/anusha.jpeg' },
-        { id: 'ach_16', name: 'Ajeet', role: 'Digital Electronics Cohort', type: 'student', src: 'images/Students_photo/ajeet.jpeg' },
-        { id: 'ach_17', name: 'Krishna', role: 'SoC Architecture', type: 'student', src: 'images/Students_photo/Krishna.png' },
-        { id: 'ach_18', name: 'Pratap', role: 'Verification Engineer', type: 'student', src: 'images/Students_photo/pratap.png' },
-        { id: 'ach_19', name: 'Sunny', role: 'Embedded IoT Track', type: 'student', src: 'images/Students_photo/sunny.jpeg' },
-        { id: 'ach_20', name: 'Sonu', role: 'FPGA Prototyping', type: 'student', src: 'images/Students_photo/sonu.jpeg' },
-        { id: 'ach_21', name: 'Live Semiconductor Webinar Series', role: 'UVM & Tape-Out Verification Masterclasses', type: 'webinar', src: 'images/Students_photo/WhatsApp%20Image%202025-02-06%20at%208.12.12%20PM.jpeg' },
+        { id: 'ach_4', name: 'Rahul', role: 'SOC Verification', type: 'student', src: 'images/Students_photo/rahul.jpg' },
         { id: 'ach_22', name: 'Soumya', role: 'VLSI Design Mentee', type: 'student', src: 'images/Students_photo/Soumya_phot.jpeg' },
+        { id: 'ach_6', name: 'Karan Kumar', role: 'FPGA Prototyping', type: 'student', src: 'images/Students_photo/Karan%20Kumar.jpeg' },
+        { id: 'ach_9', name: 'Muskan P', role: 'RTL Design Cohort', type: 'student', src: 'images/Students_photo/Muskan%20P.jpeg' },
+        { id: 'ach_21', name: 'Live Semiconductor Webinar Series', role: 'UVM & Tape-Out Verification Masterclasses', type: 'webinar', src: 'images/Students_photo/WhatsApp%20Image%202025-02-06%20at%208.12.12%20PM.jpeg' },
+        { id: 'ach_5', name: 'Kalyan', role: 'Verification Engineer', type: 'student', src: 'images/Students_photo/kalyan.jpg' },
+        { id: 'ach_10', name: 'Priyam Roy', role: 'EDA Automation Specialist', type: 'student', src: 'images/Students_photo/Priyam%20Roy.jpeg' },
+        { id: 'ach_12', name: 'Shachi', role: 'UVM Verification Track', type: 'student', src: 'images/Students_photo/shachi.jpeg' },
+        { id: 'ach_16', name: 'Ajeet', role: 'Digital Electronics Cohort', type: 'student', src: 'images/Students_photo/ajeet.jpeg' },
+        { id: 'ach_26', name: 'Silicon Architecture Masterclass', role: 'Front-End Design to Tape-Out Implementation', type: 'webinar', src: 'images/Students_photo/WhatsApp%20Image%202025-02-06%20at%208.12.56%20PM.jpeg' },
+        { id: 'ach_17', name: 'Krishna', role: 'SoC Architecture', type: 'student', src: 'images/Students_photo/Krishna.png' },
+        { id: 'ach_11', name: 'Ritesh', role: 'Embedded Systems', type: 'student', src: 'images/Students_photo/Ritesh.jpeg' },
         { id: 'ach_23', name: 'Smitha', role: 'RTL Design Track', type: 'student', src: 'images/Students_photo/Smitha.jpeg' },
+        { id: 'ach_18', name: 'Pratap', role: 'Verification Engineer', type: 'student', src: 'images/Students_photo/pratap.png' },
+        { id: 'ach_20', name: 'Sonu', role: 'FPGA Prototyping', type: 'student', src: 'images/Students_photo/sonu.jpeg' },
+        { id: 'ach_19', name: 'Sunny', role: 'Embedded IoT Track', type: 'student', src: 'images/Students_photo/sunny.jpeg' },
         { id: 'ach_24', name: 'Pummy', role: 'Digital VLSI Cohort', type: 'student', src: 'images/Students_photo/Pummy.jpeg' },
-        { id: 'ach_25', name: 'Perez', role: 'Hardware Mentorship', type: 'student', src: 'images/Students_photo/perez.jpeg' },
-        { id: 'ach_26', name: 'Silicon Architecture Masterclass', role: 'Front-End Design to Tape-Out Implementation', type: 'webinar', src: 'images/Students_photo/WhatsApp%20Image%202025-02-06%20at%208.12.56%20PM.jpeg' }
+        { id: 'ach_15', name: 'Anusha', role: 'SystemVerilog & SVA', type: 'student', src: 'images/Students_photo/anusha.jpeg' },
+        { id: 'ach_25', name: 'Perez', role: 'Hardware Mentorship', type: 'student', src: 'images/Students_photo/perez.jpeg' }
       ];
 
       var currentFilter = 'all';
-      var uploadedImageDataUrl = '';
 
-      // 2. Storage Helpers
       function getCustomAchievers() {
-        try {
-          return JSON.parse(localStorage.getItem('vlsi_custom_achievers') || '[]');
-        } catch(e) {
-          return [];
-        }
+        try { return JSON.parse(localStorage.getItem('vlsi_custom_achievers') || '[]'); } catch(e) { return []; }
       }
 
       function getDeletedIds() {
-        try {
-          return JSON.parse(localStorage.getItem('vlsi_deleted_achievers') || '[]');
-        } catch(e) {
-          return [];
-        }
+        try { return JSON.parse(localStorage.getItem('vlsi_deleted_achievers') || '[]'); } catch(e) { return []; }
       }
 
       function getAllAchievers() {
@@ -2360,7 +2258,6 @@
         });
       }
 
-                  // 3. Render Wall with image-testimonial-grid.tsx Design
       function renderWall() {
         var wall = document.getElementById('achieversWall');
         if (!wall) return;
@@ -2371,7 +2268,6 @@
           return item.type === currentFilter;
         });
 
-        // Update counts
         var totalCount = achievers.length;
         var studentCount = achievers.filter(function(i) { return i.type === 'student'; }).length;
         var webinarCount = achievers.filter(function(i) { return i.type === 'webinar'; }).length;
@@ -2383,7 +2279,6 @@
         if (elStudents) elStudents.textContent = studentCount;
         if (elWebinars) elWebinars.textContent = webinarCount;
 
-        // Build HTML following image-testimonial-grid.tsx pattern
         if (filtered.length === 0) {
           wall.innerHTML = '<div style="column-span: all; text-align: center; padding: 48px 20px; color: var(--text-mid); font-size: 1rem;">No photos found in this category.</div>';
           return;
@@ -2392,15 +2287,9 @@
         var html = '';
         filtered.forEach(function(item) {
           var isWebinar = item.type === 'webinar';
-
           html += '<div class="achiever-card" data-id="' + item.id + '" data-type="' + item.type + '">';
-          // Delete button for admin
-          html += '  <button type="button" class="achiever-card__del-btn" onclick="window.deleteAchieverItem(\'' + item.id + '\')" title="Delete entry">&times;</button>';
-          // Main Image
-          html += '  <img src="' + item.src + '" alt="' + item.name + '" loading="lazy" decoding="async">';
-          // Gradient Overlay
+          html += '  <img src="' + item.src + '" alt="' + item.name + '" class="achiever-main-img" loading="lazy" decoding="async">';
           html += '  <div class="achiever-card__gradient"></div>';
-          // Top Overlay Info (image-testimonial-grid.tsx pattern)
           html += '  <div class="achiever-card__overlay-top">';
           html += '    <div class="achiever-card__user-row">';
           if (!isWebinar) {
@@ -2414,9 +2303,8 @@
           html += '      </div>';
           html += '    </div>';
           html += '  </div>';
-
           if (isWebinar) {
-            html += '  <div class="achiever-card__webinar-tag"><i data-lucide="video" style="width:14px;height:14px;color:#2DD4BF;"></i> Webinar / Workshop Session</div>';
+            html += '  <div class="achiever-card__webinar-tag"><i data-lucide="video" style="width:13px;height:13px;color:#2DD4BF;"></i> Webinar Session</div>';
           }
           html += '</div>';
         });
@@ -2427,370 +2315,44 @@
         }
       }
 
-      // 4. Filter Tabs Click Handlers
       document.querySelectorAll('.wall-filter-btn').forEach(function(btn) {
         btn.addEventListener('click', function() {
           document.querySelectorAll('.wall-filter-btn').forEach(function(b) { b.classList.remove('active'); });
-          this.classList.add('active');
-          currentFilter = this.getAttribute('data-wall-filter') || 'all';
+          btn.classList.add('active');
+          currentFilter = btn.getAttribute('data-wall-filter') || 'all';
           renderWall();
         });
       });
 
-      // 5. Authorized Admin Emails Management & Automatic Access Control
-      var DEFAULT_ADMIN_EMAILS = [
-        'vlsiinsights9@gmail.com',
-        'amol.singhal25@gmail.com'
-      ];
-
-      function getAuthorizedAdminEmails() {
-        try {
-          var stored = JSON.parse(localStorage.getItem('vlsi_admin_emails') || 'null');
-          if (Array.isArray(stored) && stored.length > 0) {
-            return stored.map(function(e) { return e.toLowerCase().trim(); });
+      var btnExpand = document.getElementById('btnExpandWall');
+      var wallWrapper = document.getElementById('wallStageWrapper');
+      var expandText = document.getElementById('expandWallText');
+      if (btnExpand && wallWrapper) {
+        btnExpand.addEventListener('click', function() {
+          var isExpanded = wallWrapper.classList.toggle('expanded');
+          btnExpand.setAttribute('aria-expanded', isExpanded);
+          if (expandText) {
+            expandText.textContent = isExpanded ? 'Show Less' : 'Explore All Achievers & Webinars';
           }
-        } catch(e) {}
-        return DEFAULT_ADMIN_EMAILS.slice();
-      }
-
-      function saveAuthorizedAdminEmails(emails) {
-        localStorage.setItem('vlsi_admin_emails', JSON.stringify(emails));
-      }
-
-      function isEmailAuthorizedAdmin(email) {
-        if (!email) return false;
-        var list = getAuthorizedAdminEmails();
-        return list.indexOf(email.toLowerCase().trim()) !== -1;
-      }
-
-      function renderAdminEmailsManager() {
-        var listContainer = document.getElementById('adminEmailsList');
-        if (!listContainer) return;
-        var list = getAuthorizedAdminEmails();
-        var html = '';
-        list.forEach(function(email) {
-          var canDelete = list.length > 1;
-          html += '<div class="admin-email-row">';
-          html += '  <div class="admin-email-info">';
-          html += '    <i data-lucide="shield" style="width: 15px; height: 15px; color: var(--trace);"></i>';
-          html += '    <span>' + email + '</span>';
-          html += '    <span class="admin-email-badge">Admin</span>';
-          html += '  </div>';
-          html += '  <button type="button" class="admin-email-del-btn" onclick="window.removeAdminEmail(\'' + email + '\')" ' + (canDelete ? '' : 'disabled title="At least one administrator email must remain."') + '>';
-          html += '    <i data-lucide="trash-2" style="width: 14px; height: 14px;"></i>';
-          html += '  </button>';
-          html += '</div>';
-        });
-        listContainer.innerHTML = html;
-        if (window.lucide && typeof lucide.createIcons === 'function') {
-          lucide.createIcons({ root: listContainer });
-        }
-      }
-
-      window.removeAdminEmail = function(emailToRemove) {
-        var list = getAuthorizedAdminEmails();
-        if (list.length <= 1) {
-          alert('Cannot delete: At least one administrator email must remain.');
-          return;
-        }
-        if (!confirm('Remove admin access for ' + emailToRemove + '?')) return;
-        list = list.filter(function(e) { return e !== emailToRemove.toLowerCase().trim(); });
-        saveAuthorizedAdminEmails(list);
-        renderAdminEmailsManager();
-        if (window.showToast) {
-          window.showToast('Admin Email Removed', 'Removed admin access for ' + emailToRemove, 'info');
-        }
-      };
-
-      var btnAddEmail = document.getElementById('btnAddAdminEmail');
-      if (btnAddEmail) {
-        btnAddEmail.addEventListener('click', function() {
-          var input = document.getElementById('newAdminEmailInput');
-          var err = document.getElementById('addEmailError');
-          var val = (input ? input.value : '').toLowerCase().trim();
-
-          if (!val || val.indexOf('@') === -1 || val.indexOf('.') === -1) {
-            if (err) { err.textContent = 'Please enter a valid email address.'; err.style.display = 'block'; }
-            return;
-          }
-
-          var list = getAuthorizedAdminEmails();
-          if (list.indexOf(val) !== -1) {
-            if (err) { err.textContent = 'This email is already an authorized administrator.'; err.style.display = 'block'; }
-            return;
-          }
-
-          if (err) err.style.display = 'none';
-          list.push(val);
-          saveAuthorizedAdminEmails(list);
-          if (input) input.value = '';
-          renderAdminEmailsManager();
-          if (window.showToast) {
-            window.showToast('Admin Email Added', 'Granted admin privileges to ' + val, 'success');
+          if (!isExpanded) {
+            wallWrapper.scrollIntoView({ behavior: 'smooth', block: 'start' });
           }
         });
       }
-
-      // Check Active Logged-in Admin Email from Supabase
-      async function getActiveAdminEmail() {
-        // 1. Supabase Client Session
-        try {
-          var client = window.sb || (typeof window.getSupabaseClient === 'function' ? window.getSupabaseClient() : null);
-          if (client && client.auth) {
-            var sessionRes = await client.auth.getSession();
-            if (sessionRes && sessionRes.data && sessionRes.data.session && sessionRes.data.session.user) {
-              var email = sessionRes.data.session.user.email;
-              if (email && isEmailAuthorizedAdmin(email)) {
-                return email.toLowerCase().trim();
-              }
-            }
-          }
-        } catch(e) {}
-
-        // 2. Token in LocalStorage
-        try {
-          var token = localStorage.getItem('sb-riipijrgucqigndcjwre-auth-token');
-          if (token) {
-            var parsed = JSON.parse(token);
-            var uEmail = (parsed.user && parsed.user.email) || (parsed.currentSession && parsed.currentSession.user && parsed.currentSession.user.email);
-            if (uEmail && isEmailAuthorizedAdmin(uEmail)) {
-              return uEmail.toLowerCase().trim();
-            }
-          }
-        } catch(e) {}
-
-        return null;
-      }
-
-      async function applyAdminState() {
-        if (sessionStorage.getItem('vlsi_admin_locked') === 'true') {
-          document.body.classList.remove('admin-mode-on');
-          var tb = document.getElementById('adminToolbar');
-          if (tb) tb.style.display = 'none';
-          return;
-        }
-
-        var adminEmail = await getActiveAdminEmail();
-        var toolbar = document.getElementById('adminToolbar');
-
-        if (adminEmail) {
-          document.body.classList.add('admin-mode-on');
-          if (toolbar) {
-            toolbar.style.display = 'flex';
-            var statusEl = toolbar.querySelector('.admin-toolbar__status span strong');
-            if (statusEl) statusEl.textContent = 'Admin Mode Active (' + adminEmail + '):';
-          }
-        } else {
-          document.body.classList.remove('admin-mode-on');
-          if (toolbar) toolbar.style.display = 'none';
-        }
-      }
-
-      // Exit Admin Mode for current session
-      var btnExitAdmin = document.getElementById('btnExitAdmin');
-      if (btnExitAdmin) {
-        btnExitAdmin.addEventListener('click', function() {
-          sessionStorage.setItem('vlsi_admin_locked', 'true');
-          applyAdminState();
-          if (window.showToast) {
-            window.showToast('Admin Mode Locked', 'Admin controls hidden for this session.', 'info');
-          }
-        });
-      }
-
-      // Open Manage Emails Modal
-      var btnOpenEmails = document.getElementById('btnOpenEmailsModal');
-      if (btnOpenEmails) {
-        btnOpenEmails.addEventListener('click', function() {
-          renderAdminEmailsManager();
-          var m = document.getElementById('adminEmailsModal');
-          if (m) m.style.display = 'flex';
-        });
-      }
-
-      // Close Manage Emails Modal
-      ['btnCloseEmailsModal', 'btnCancelEmailsModal'].forEach(function(id) {
-        var el = document.getElementById(id);
-        if (el) el.addEventListener('click', function() {
-          var m = document.getElementById('adminEmailsModal');
-          if (m) m.style.display = 'none';
-        });
-      });
-
-      // Listen for Supabase auth state changes
-      try {
-        var client = window.sb || (typeof window.getSupabaseClient === 'function' ? window.getSupabaseClient() : null);
-        if (client && client.auth && typeof client.auth.onAuthStateChange === 'function') {
-          client.auth.onAuthStateChange(function() {
-            sessionStorage.removeItem('vlsi_admin_locked');
-            applyAdminState();
-          });
-        }
-      } catch(e) {}
 
       window.addEventListener('storage', function(e) {
-        if (e.key === 'sb-riipijrgucqigndcjwre-auth-token' || e.key === 'vlsi_admin_emails') {
-          sessionStorage.removeItem('vlsi_admin_locked');
-          applyAdminState();
+        if (e.key === 'vlsi_custom_achievers' || e.key === 'vlsi_deleted_achievers') {
+          renderWall();
         }
       });
 
-      // Dynamic Category Label Switcher in Add Modal
-      var selectType = document.getElementById('achieverType');
-      if (selectType) {
-        selectType.addEventListener('change', function() {
-          var isWebinar = this.value === 'webinar';
-          var lblName = document.getElementById('lblAchieverName');
-          var inputName = document.getElementById('achieverName');
-          var lblRole = document.getElementById('lblAchieverRole');
-          var inputRole = document.getElementById('achieverRole');
-
-          if (isWebinar) {
-            if (lblName) lblName.textContent = 'Webinar or Workshop Title';
-            if (inputName) inputName.placeholder = 'e.g. Advanced UVM & Tape-Out Masterclass';
-            if (lblRole) lblRole.textContent = 'Topic / Institution / Description';
-            if (inputRole) inputRole.placeholder = 'e.g. Live Hands-on FPGA Architecture Lab';
-          } else {
-            if (lblName) lblName.textContent = 'Student Name (from photo)';
-            if (inputName) inputName.placeholder = 'e.g. Rahul, Pooja Shukla';
-            if (lblRole) lblRole.textContent = 'Role / Specialization';
-            if (inputRole) inputRole.placeholder = 'e.g. RTL Design Engineer, Verification Track';
-          }
-        });
-      }
-
-      // File Drag & Drop / Upload Preview
-      var fileInput = document.getElementById('achieverFileInput');
-      var dropArea = document.getElementById('fileDropArea');
-      var dropContent = document.getElementById('fileDropContent');
-      var previewWrap = document.getElementById('filePreviewWrap');
-      var previewImg = document.getElementById('filePreviewImg');
-      var btnRemovePrev = document.getElementById('btnRemovePreview');
-
-      if (fileInput) {
-        fileInput.addEventListener('change', function(e) {
-          var file = e.target.files && e.target.files[0];
-          if (file) {
-            var reader = new FileReader();
-            reader.onload = function(evt) {
-              uploadedImageDataUrl = evt.target.result;
-              if (previewImg) previewImg.src = uploadedImageDataUrl;
-              if (dropContent) dropContent.style.display = 'none';
-              if (previewWrap) previewWrap.style.display = 'inline-block';
-            };
-            reader.readAsDataURL(file);
-          }
-        });
-      }
-
-      if (btnRemovePrev) {
-        btnRemovePrev.addEventListener('click', function(e) {
-          e.stopPropagation();
-          uploadedImageDataUrl = '';
-          if (fileInput) fileInput.value = '';
-          if (previewImg) previewImg.src = '';
-          if (previewWrap) previewWrap.style.display = 'none';
-          if (dropContent) dropContent.style.display = 'block';
-        });
-      }
-
-      // Handle Add Achiever Submit
-      window.handleAddAchieverSubmit = function(e) {
-        if (e && typeof e.preventDefault === 'function') e.preventDefault();
-
-        var type = (document.getElementById('achieverType') || {}).value || 'student';
-        var name = ((document.getElementById('achieverName') || {}).value || '').trim();
-        var role = ((document.getElementById('achieverRole') || {}).value || '').trim();
-        var urlInput = ((document.getElementById('achieverUrlInput') || {}).value || '').trim();
-
-        var finalImgSrc = uploadedImageDataUrl || urlInput;
-        if (!finalImgSrc) {
-          alert('Please upload an image file or provide an image URL.');
-          return false;
-        }
-
-        if (!name || !role) {
-          alert('Please enter both name and role/description.');
-          return false;
-        }
-
-        var newRecord = {
-          id: 'ach_custom_' + Date.now(),
-          name: name,
-          role: role,
-          type: type,
-          src: finalImgSrc
-        };
-
-        var customList = getCustomAchievers();
-        customList.unshift(newRecord);
-        localStorage.setItem('vlsi_custom_achievers', JSON.stringify(customList));
-
-        // Reset form & close modal
-        var form = document.getElementById('formAddAchiever');
-        if (form) form.reset();
-        uploadedImageDataUrl = '';
-        if (previewWrap) previewWrap.style.display = 'none';
-        if (dropContent) dropContent.style.display = 'block';
-
-        var addModal = document.getElementById('adminAddModal');
-        if (addModal) addModal.style.display = 'none';
-
-        // Re-render and auto-adjust wall
-        renderWall();
-
-        if (window.showToast) {
-          window.showToast('Photo Added Successfully', 'The new ' + (type === 'webinar' ? 'webinar' : 'student') + ' photo was added to the Wall of Achievers.', 'success');
-        } else {
-          alert('Photo added to Wall of Achievers successfully!');
-        }
-
-        // Smooth scroll to newly added photo
-        var firstCard = document.querySelector('.achiever-card');
-        if (firstCard) {
-          firstCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        }
-
-        return false;
-      };
-
-      // Delete Achiever Handler
-      window.deleteAchieverItem = function(id) {
-        if (!isAdminSession()) return;
-        if (!confirm('Are you sure you want to remove this photo from the Wall of Achievers?')) return;
-
-        // Check if in custom list
-        var custom = getCustomAchievers();
-        var customIdx = custom.findIndex(function(i) { return i.id === id; });
-        if (customIdx !== -1) {
-          custom.splice(customIdx, 1);
-          localStorage.setItem('vlsi_custom_achievers', JSON.stringify(custom));
-        } else {
-          // Add to deleted list for default items
-          var deleted = getDeletedIds();
-          if (deleted.indexOf(id) === -1) {
-            deleted.push(id);
-            localStorage.setItem('vlsi_deleted_achievers', JSON.stringify(deleted));
-          }
-        }
-
-        renderWall();
-        if (window.showToast) {
-          window.showToast('Photo Removed', 'The selected entry was removed from the Wall.', 'info');
-        }
-      };
-
-      // Initialize
       document.addEventListener('DOMContentLoaded', function() {
         renderWall();
-        applyAdminState();
       });
-
-      // Also render immediately in case DOM is already loaded
       renderWall();
-      applyAdminState();
     })();
   </script>
+
 </body>
 </html>
 
