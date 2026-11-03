@@ -571,6 +571,7 @@
     }
 
     .team-avatar {
+      position: relative;
       width: 64px;
       height: 64px;
       border-radius: 50%;
@@ -587,13 +588,22 @@
       flex-shrink: 0;
       overflow: hidden;
       box-shadow: 0 4px 14px rgba(0, 168, 135, 0.12);
+      user-select: none;
     }
 
     .team-avatar img {
+      position: absolute;
+      inset: 0;
       width: 100%;
       height: 100%;
       object-fit: cover;
       display: block;
+      z-index: 2;
+    }
+
+    .team-avatar span {
+      position: relative;
+      z-index: 1;
     }
 
     .team-name {
@@ -1489,62 +1499,65 @@
       </div>
     </section>
 
-    <!-- 5. TEAM GRID (3-Column, Circular Teal Initial Avatars, No Photos) -->
+    <!-- 5. TEAM GRID -->
     <section class="team-section">
       <div class="container">
         <div class="section-heading-group">
           <p class="section-label">The people behind it</p>
-          <h2 class="section-heading">Our Technical Leadership</h2>
+          <h2 class="section-heading">Our Leadership &amp; Core Team</h2>
         </div>
 
         <div class="team-grid">
-          <!-- Member 1 -->
+          <!-- Member 1: Pranjal Sharma -->
           <article class="team-card">
-            <div class="team-avatar" aria-label="Anand Kumar">
-              <img src="images/team/anand-kumar.jpg" alt="Anand Kumar" loading="lazy" decoding="async">
+            <div class="team-avatar" aria-label="Pranjal Sharma">
+              <span>PS</span>
+              <img src="images/team/pranjal-sharma.jpg" alt="Pranjal Sharma" loading="lazy" decoding="async" onerror="this.remove();">
             </div>
             <div>
-              <h3 class="team-name">Anand Kumar</h3>
-              <div class="team-role">Head of VLSI &amp; Verification</div>
+              <h3 class="team-name">Pranjal Sharma</h3>
+              <div class="team-role">CEO &amp; Founder</div>
             </div>
             <p class="team-bio">
-              15+ years leading ASIC design and UVM verification teams across tier-1 semiconductor firms. Oversees syllabus fidelity and technical grilling modules.
+              CEO and Founder of VLSI Insights. Experienced Design Verification Engineer specializing in AMBA protocols, Verilog, high-performance interconnect architectures, UVM testbenches, and industry mentorship.
             </p>
-            <a href="https://www.linkedin.com/company/vlsi-insights/?originalSubdomain=in" target="_blank" rel="noopener noreferrer" class="team-linkedin">
+            <a href="https://www.linkedin.com/in/pranjalsharma98/" target="_blank" rel="noopener noreferrer" class="team-linkedin">
               <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true" style="vertical-align: -2px; margin-right: 4px;"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.46 10.9v8.37H9.2V10.9H6.46M7.83 6.45a1.64 1.64 0 1 0 0 3.28 1.64 1.64 0 0 0 0-3.28z"/></svg>Connect on LinkedIn
             </a>
           </article>
 
-          <!-- Member 2 -->
+          <!-- Member 2: Mansi Kaushik -->
           <article class="team-card">
-            <div class="team-avatar" aria-label="Rohan Sen">
-              <img src="images/team/rohan-sen.jpg" alt="Rohan Sen" loading="lazy" decoding="async">
+            <div class="team-avatar" aria-label="Mansi Kaushik">
+              <span>MK</span>
+              <img src="images/team/mansi-kaushik.jpg" alt="Mansi Kaushik" loading="lazy" decoding="async" onerror="this.remove();">
             </div>
             <div>
-              <h3 class="team-name">Rohan Sen</h3>
-              <div class="team-role">Lead Embedded Architect</div>
+              <h3 class="team-name">Mansi Kaushik</h3>
+              <div class="team-role">Director</div>
             </div>
             <p class="team-bio">
-              Specialist in ARM Cortex-M/A firmware, RTOS kernel porting, and industrial IoT communication protocols with 12+ years in hardware engineering.
+              Director at VLSI Insights leading performance marketing strategy, digital operations, lead generation, multichannel automation campaigns, and student outreach.
             </p>
-            <a href="https://www.linkedin.com/company/vlsi-insights/?originalSubdomain=in" target="_blank" rel="noopener noreferrer" class="team-linkedin">
+            <a href="https://www.linkedin.com/in/themansikaushik" target="_blank" rel="noopener noreferrer" class="team-linkedin">
               <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true" style="vertical-align: -2px; margin-right: 4px;"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.46 10.9v8.37H9.2V10.9H6.46M7.83 6.45a1.64 1.64 0 1 0 0 3.28 1.64 1.64 0 0 0 0-3.28z"/></svg>Connect on LinkedIn
             </a>
           </article>
 
-          <!-- Member 3 -->
+          <!-- Member 3: Amol Singhal -->
           <article class="team-card">
-            <div class="team-avatar" aria-label="Vandana Nair">
-              <img src="images/team/vandana-nair.jpg" alt="Vandana Nair" loading="lazy" decoding="async">
+            <div class="team-avatar" aria-label="Amol Singhal">
+              <span>AS</span>
+              <img src="images/team/amol-singhal.jpg" alt="Amol Singhal" loading="lazy" decoding="async" onerror="this.remove();">
             </div>
             <div>
-              <h3 class="team-name">Vandana Nair</h3>
-              <div class="team-role">Director of Academic Partnerships</div>
+              <h3 class="team-name">Amol Singhal</h3>
+              <div class="team-role">Lead Web Developer &amp; Technical Systems Architect</div>
             </div>
             <p class="team-bio">
-              Liaises directly with university placement cells, university deans, and corporate recruiting heads to streamline hiring drives across India.
+              Leads web development and technology infrastructure at VLSI Insights, architecting modern web platforms, interactive learning tools, and automated digital workflows.
             </p>
-            <a href="https://www.linkedin.com/company/vlsi-insights/?originalSubdomain=in" target="_blank" rel="noopener noreferrer" class="team-linkedin">
+            <a href="https://www.linkedin.com/in/amol-singhal257/" target="_blank" rel="noopener noreferrer" class="team-linkedin">
               <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true" style="vertical-align: -2px; margin-right: 4px;"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.46 10.9v8.37H9.2V10.9H6.46M7.83 6.45a1.64 1.64 0 1 0 0 3.28 1.64 1.64 0 0 0 0-3.28z"/></svg>Connect on LinkedIn
             </a>
           </article>
