@@ -1817,11 +1817,11 @@
     }
 
     .testimonial-avatar {
-      width: 40px;
-      height: 40px;
+      width: 44px;
+      height: 44px;
       border-radius: 50%;
       background: rgba(0, 168, 135, 0.08);
-      border: 1px solid var(--trace);
+      border: 1.5px solid var(--trace);
       color: var(--trace);
       font-family: var(--font-display);
       font-weight: 700;
@@ -1830,6 +1830,14 @@
       align-items: center;
       justify-content: center;
       flex-shrink: 0;
+      overflow: hidden;
+    }
+
+    .testimonial-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 50%;
     }
 
     .testimonial-author-name {
@@ -3255,9 +3263,9 @@
                 theory."</p>
             </div>
             <div class="testimonial-author">
-              <div class="testimonial-avatar">AK</div>
+              <div class="testimonial-avatar"><img src="images/Students_photo/Aditiya.jpeg" alt="Aditya K." loading="lazy"></div>
               <div>
-                <div class="testimonial-author-name">Anand K.</div>
+                <div class="testimonial-author-name">Aditya K.</div>
                 <div class="testimonial-author-role">Verification Engineer @ Qualcomm</div>
               </div>
             </div>
@@ -3274,9 +3282,9 @@
                 with proper clock-domain crossing gave me the exact edge needed during interviews at NXP."</p>
             </div>
             <div class="testimonial-author">
-              <div class="testimonial-avatar">PM</div>
+              <div class="testimonial-avatar"><img src="images/Students_photo/Pooja%20Shukla.jpeg" alt="Pooja Shukla" loading="lazy"></div>
               <div>
-                <div class="testimonial-author-name">Pooja M.</div>
+                <div class="testimonial-author-name">Pooja Shukla</div>
                 <div class="testimonial-author-role">RTL Design engineer @ NXP</div>
               </div>
             </div>
@@ -3294,9 +3302,9 @@
               </p>
             </div>
             <div class="testimonial-author">
-              <div class="testimonial-avatar">RS</div>
+              <div class="testimonial-avatar"><img src="images/Students_photo/rahul.jpg" alt="Rahul Sharma" loading="lazy"></div>
               <div>
-                <div class="testimonial-author-name">Rohit S.</div>
+                <div class="testimonial-author-name">Rahul Sharma</div>
                 <div class="testimonial-author-role">SOC verification @ Synopsys</div>
               </div>
             </div>

@@ -120,7 +120,7 @@
 
     /* -------------------------------------------------------------------------- */
     /* STANDARDIZED NAVBAR & NAVIGATION SYSTEM                                    */
-    /* Navbar styles are defined in css/navbar.css — no inline overrides needed */
+    /* Navbar styles are defined in css/navbar.css : no inline overrides needed */
 
     .mobile-nav-list {
       list-style: none;
@@ -314,8 +314,16 @@
       font-size: 1.125rem;
       letter-spacing: 0.5px;
       flex-shrink: 0;
-      
+      overflow: hidden;
       border: 2px solid #FFFFFF;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    }
+
+    .student-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 50%;
     }
     .student-avatar--teal {
       background: linear-gradient(135deg, var(--trace), #0D9488);
@@ -694,7 +702,7 @@
     <div class="container navbar__inner">
       <!-- Brand Logo -->
       <a href="index.html" class="nav-logo" aria-label="VLSI Insights Homepage">
-        <img src="images/logo.png" alt="VLSI Insights — Empowering Tomorrow's Technology Today" class="nav-logo-img">
+        <img src="images/logo.png" alt="VLSI Insights : Empowering Tomorrow's Technology Today" class="nav-logo-img">
       </a>
 
       <!-- Desktop Navigation -->
@@ -969,7 +977,7 @@
       <article class="review-card" data-role="RTL Design engineer">
         <div>
           <div class="review-card__header">
-            <div class="student-avatar student-avatar--teal">RS</div>
+            <div class="student-avatar"><img src="images/Students_photo/rahul.jpg" alt="Rahul Sharma" loading="lazy"></div>
             <div class="student-info">
               <h3 class="student-name">Rahul Sharma</h3>
               <span class="student-designation">RTL Design engineer</span>
@@ -997,9 +1005,9 @@
       <article class="review-card" data-role="Verification Engineer">
         <div>
           <div class="review-card__header">
-            <div class="student-avatar student-avatar--indigo">PN</div>
+            <div class="student-avatar"><img src="images/Students_photo/Pooja%20Shukla.jpeg" alt="Pooja Shukla" loading="lazy"></div>
             <div class="student-info">
-              <h3 class="student-name">Pooja Nair</h3>
+              <h3 class="student-name">Pooja Shukla</h3>
               <span class="student-designation">Verification Engineer</span>
               <div class="student-batch">Batch of 2023 &bull; Tier-1 Semiconductor Org</div>
             </div>
@@ -1025,9 +1033,9 @@
       <article class="review-card" data-role="SOC verification">
         <div>
           <div class="review-card__header">
-            <div class="student-avatar student-avatar--blue">AD</div>
+            <div class="student-avatar"><img src="images/Students_photo/Aditiya.jpeg" alt="Aditya Kumar" loading="lazy"></div>
             <div class="student-info">
-              <h3 class="student-name">Aniket Deshmukh</h3>
+              <h3 class="student-name">Aditya Kumar</h3>
               <span class="student-designation">SOC verification</span>
               <div class="student-batch">Batch of 2024 &bull; Fabless Chipmaker</div>
             </div>
@@ -1053,9 +1061,9 @@
       <article class="review-card" data-role="Scripting Engineer">
         <div>
           <div class="review-card__header">
-            <div class="student-avatar student-avatar--amber">VG</div>
+            <div class="student-avatar"><img src="images/Students_photo/Priyam%20Roy.jpeg" alt="Priyam Roy" loading="lazy"></div>
             <div class="student-info">
-              <h3 class="student-name">Vikas Gupta</h3>
+              <h3 class="student-name">Priyam Roy</h3>
               <span class="student-designation">Scripting Engineer</span>
               <div class="student-batch">Batch of 2024 &bull; EDA Automation Specialist</div>
             </div>
@@ -1081,9 +1089,9 @@
       <article class="review-card" data-role="Design engineer">
         <div>
           <div class="review-card__header">
-            <div class="student-avatar student-avatar--rose">SK</div>
+            <div class="student-avatar"><img src="images/Students_photo/Swati.png" alt="Swati" loading="lazy"></div>
             <div class="student-info">
-              <h3 class="student-name">Sneha Kulkarni</h3>
+              <h3 class="student-name">Swati</h3>
               <span class="student-designation">Design engineer</span>
               <div class="student-batch">Batch of 2024 &bull; ASIC Development Team</div>
             </div>
@@ -1122,37 +1130,70 @@
       </div>
 
       <div class="gallery-grid" id="photoGallery">
-        <!-- Photo Card 01: Drop student/alumni photo here -->
-        <div class="gallery-item photo-card-slot">
-          <div class="photo-card-slot__inner">
-            <div class="photo-card-slot__icon"><i data-lucide="image"></i></div>
-            <h4 class="photo-card-slot__title">Photo Card 01</h4>
-            <p class="photo-card-slot__desc">Alumni Lab &amp; Mentorship</p>
-          </div>
+        <!-- 1. Dhilipan Amirthalingam -->
+        <div class="gallery-item">
+          <img src="images/Students_photo/522686_DhilipanAmirthalingam.JPG" alt="Dhilipan Amirthalingam - VLSI Insights Mentee" loading="lazy">
+          <div class="gallery-caption">Dhilipan Amirthalingam &bull; Physical Design Track</div>
         </div>
-        <!-- Photo Card 02: Drop student/alumni photo here -->
-        <div class="gallery-item photo-card-slot">
-          <div class="photo-card-slot__inner">
-            <div class="photo-card-slot__icon"><i data-lucide="image"></i></div>
-            <h4 class="photo-card-slot__title">Photo Card 02</h4>
-            <p class="photo-card-slot__desc">Tape-Out Review Cohort</p>
-          </div>
+        <!-- 2. Kalyan -->
+        <div class="gallery-item">
+          <img src="images/Students_photo/kalyan.jpg" alt="Kalyan - VLSI Insights Mentee" loading="lazy">
+          <div class="gallery-caption">Kalyan &bull; Verification Engineer</div>
         </div>
-        <!-- Photo Card 03: Drop student/alumni photo here -->
-        <div class="gallery-item photo-card-slot">
-          <div class="photo-card-slot__inner">
-            <div class="photo-card-slot__icon"><i data-lucide="image"></i></div>
-            <h4 class="photo-card-slot__title">Photo Card 03</h4>
-            <p class="photo-card-slot__desc">Verification Lab Milestone</p>
-          </div>
+        <!-- 3. Karan Kumar -->
+        <div class="gallery-item">
+          <img src="images/Students_photo/Karan%20Kumar.jpeg" alt="Karan Kumar - VLSI Insights Mentee" loading="lazy">
+          <div class="gallery-caption">Karan Kumar &bull; FPGA Prototyping</div>
         </div>
-        <!-- Photo Card 04: Drop student/alumni photo here -->
-        <div class="gallery-item photo-card-slot">
-          <div class="photo-card-slot__inner">
-            <div class="photo-card-slot__icon"><i data-lucide="image"></i></div>
-            <h4 class="photo-card-slot__title">Photo Card 04</h4>
-            <p class="photo-card-slot__desc">Engineering Workshop</p>
-          </div>
+        <!-- 4. Muskan P. -->
+        <div class="gallery-item">
+          <img src="images/Students_photo/Muskan%20P.jpeg" alt="Muskan P. - VLSI Insights Mentee" loading="lazy">
+          <div class="gallery-caption">Muskan P. &bull; RTL Design Cohort</div>
+        </div>
+        <!-- 5. Ritesh -->
+        <div class="gallery-item">
+          <img src="images/Students_photo/Ritesh.jpeg" alt="Ritesh - VLSI Insights Mentee" loading="lazy">
+          <div class="gallery-caption">Ritesh &bull; Embedded Systems</div>
+        </div>
+        <!-- 6. Shachi -->
+        <div class="gallery-item">
+          <img src="images/Students_photo/shachi.jpeg" alt="Shachi - VLSI Insights Mentee" loading="lazy">
+          <div class="gallery-caption">Shachi &bull; UVM Verification Track</div>
+        </div>
+        <!-- 7. Chander -->
+        <div class="gallery-item">
+          <img src="images/Students_photo/chander.jpeg" alt="Chander - VLSI Insights Mentee" loading="lazy">
+          <div class="gallery-caption">Chander &bull; ASIC Design Specialist</div>
+        </div>
+        <!-- 8. Anusha -->
+        <div class="gallery-item">
+          <img src="images/Students_photo/anusha.jpeg" alt="Anusha - VLSI Insights Mentee" loading="lazy">
+          <div class="gallery-caption">Anusha &bull; SystemVerilog &amp; SVA</div>
+        </div>
+        <!-- 9. Ajeet -->
+        <div class="gallery-item">
+          <img src="images/Students_photo/ajeet.jpeg" alt="Ajeet - VLSI Insights Mentee" loading="lazy">
+          <div class="gallery-caption">Ajeet &bull; Digital Electronics Cohort</div>
+        </div>
+        <!-- 10. NIET Faculty Training Workshop -->
+        <div class="gallery-item">
+          <img src="images/Students_photo/NIET_FTP.jpg" alt="NIET Faculty Development Program" loading="lazy">
+          <div class="gallery-caption">NIET Campus &bull; Faculty Training Program</div>
+        </div>
+        <!-- 11. NIET FTP Session 2 -->
+        <div class="gallery-item">
+          <img src="images/Students_photo/FTP_NIET_2.jpg" alt="NIET Hands-on VLSI Lab Workshop" loading="lazy">
+          <div class="gallery-caption">Faculty Workshop &bull; Hardware Bring-up Lab</div>
+        </div>
+        <!-- 12. Industry Webinar 1 -->
+        <div class="gallery-item">
+          <img src="images/Students_photo/WhatsApp%20Image%202025-02-06%20at%208.12.12%20PM.jpeg" alt="Live VLSI Webinar Series" loading="lazy">
+          <div class="gallery-caption">Live Webinar &bull; Core Semiconductor Insights</div>
+        </div>
+        <!-- 13. Industry Webinar 2 -->
+        <div class="gallery-item">
+          <img src="images/Students_photo/WhatsApp%20Image%202025-02-06%20at%208.12.56%20PM.jpeg" alt="Silicon Architecture Masterclass" loading="lazy">
+          <div class="gallery-caption">Masterclass &bull; Silicon Verification Architecture</div>
         </div>
       </div>
     </div>
