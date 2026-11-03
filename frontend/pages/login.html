@@ -1238,6 +1238,31 @@
               emailDisplay.textContent = userEmail;
               notice.style.display = 'block';
             }
+
+            // Check if user is an authorized admin
+            const ADMIN_LIST = ['vlsiinsights9@gmail.com', 'amol.singhal25@gmail.com'];
+            let customAdmins = [];
+            try { customAdmins = JSON.parse(localStorage.getItem('vlsi_admin_emails') || '[]'); } catch(e) {}
+            const allAdmins = ADMIN_LIST.concat(customAdmins).map(e => e.toLowerCase().trim());
+            const isAdmin = allAdmins.includes(userEmail.toLowerCase().trim());
+
+            // If redirect param is admin, auto-redirect immediately
+            const params = new URLSearchParams(window.location.search);
+            const redirect = params.get('redirect');
+            if (redirect && redirect.includes('admin') && isAdmin) {
+              window.location.replace(redirect);
+              return;
+            }
+
+            // Update session action button for admins
+            const homeBtn = document.getElementById('sessionHomeBtn');
+            if (homeBtn && isAdmin) {
+              homeBtn.href = redirect || 'admin.html';
+              homeBtn.textContent = 'Go to Admin Workspace';
+              homeBtn.style.background = '#0D9488';
+              homeBtn.style.color = '#FFFFFF';
+              homeBtn.style.borderColor = '#0D9488';
+            }
           }
         } catch (e) {
           console.warn('Session verification check:', e);
