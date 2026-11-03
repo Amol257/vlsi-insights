@@ -1359,7 +1359,12 @@
           }
 
           // Successfully authenticated
-          showSuccess('Signed in successfully! Redirecting...');
+          
+          const ADMIN_LIST = ['vlsiinsights9@gmail.com', 'amol.singhal25@gmail.com'];
+          if (ADMIN_LIST.includes(email.toLowerCase().trim())) {
+            try { localStorage.setItem('vlsi_active_admin_session', email.toLowerCase().trim()); } catch(e) {}
+          }
+showSuccess('Signed in successfully! Redirecting...');
           setLoading(siSubmitBtn, false, 'Sign In');
 
           const params = new URLSearchParams(window.location.search);

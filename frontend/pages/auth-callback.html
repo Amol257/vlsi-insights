@@ -202,6 +202,23 @@
       if (!client || !client.auth) return;
 
       function getRedirectTarget(session) {
+        const userEmail = (session && session.user && session.user.email) ? session.user.email.toLowerCase().trim() : '';
+        const ADMIN_LIST = ['vlsiinsights9@gmail.com', 'amol.singhal25@gmail.com'];
+        let customAdmins = [];
+        try { customAdmins = JSON.parse(localStorage.getItem('vlsi_admin_emails') || '[]'); } catch(e) {}
+        const allAdmins = ADMIN_LIST.concat(customAdmins).map(e => e.toLowerCase().trim());
+
+        if (userEmail && allAdmins.includes(userEmail)) {
+          try { localStorage.setItem('vlsi_active_admin_session', userEmail); } catch(e) {}
+          return 'admin.html';
+        }
+
+        const params = new URLSearchParams(window.location.search);
+        const redirectParam = params.get('redirect');
+        if (redirectParam) {
+          return redirectParam;
+        }
+
         const hasPendingCart = (() => {
           try { return !!sessionStorage.getItem('pending_cart_item'); } catch (e) { return false; }
         })();
