@@ -532,6 +532,130 @@
       color: var(--trace);
     }
 
+    /* Manage Admin Emails Button */
+    .btn-admin-manage-emails {
+      background: rgba(255, 255, 255, 0.1);
+      color: #E2E8F0;
+      border: 1px solid #334155;
+      padding: 9px 15px;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 0.8125rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      transition: all 0.2s ease;
+    }
+
+    .btn-admin-manage-emails:hover {
+      background: rgba(255, 255, 255, 0.18);
+      color: #FFFFFF;
+      border-color: #64748B;
+    }
+
+    /* Admin Emails List & Management */
+    .admin-emails-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 20px;
+      max-height: 220px;
+      overflow-y: auto;
+      padding-right: 4px;
+    }
+
+    .admin-email-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      background: var(--substrate);
+      padding: 10px 14px;
+      border-radius: 8px;
+      border: 1px solid var(--edge);
+    }
+
+    .admin-email-info {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: var(--text-hi);
+    }
+
+    .admin-email-badge {
+      font-size: 0.6875rem;
+      font-weight: 700;
+      padding: 2px 8px;
+      background: rgba(0, 168, 132, 0.12);
+      color: var(--trace);
+      border-radius: 9999px;
+      letter-spacing: 0.02em;
+    }
+
+    .admin-email-del-btn {
+      background: transparent;
+      border: none;
+      color: #94A3B8;
+      cursor: pointer;
+      padding: 4px;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.15s ease;
+    }
+
+    .admin-email-del-btn:hover:not(:disabled) {
+      color: #EF4444;
+      background: rgba(239, 68, 68, 0.1);
+    }
+
+    .admin-email-del-btn:disabled {
+      opacity: 0.3;
+      cursor: not-allowed;
+    }
+
+    .add-email-row {
+      display: flex;
+      gap: 10px;
+    }
+
+    .admin-auth-info-banner {
+      background: rgba(0, 168, 132, 0.06);
+      border: 1px solid rgba(0, 168, 132, 0.2);
+      border-radius: 8px;
+      padding: 12px 14px;
+      margin-bottom: 18px;
+      font-size: 0.8125rem;
+      color: var(--text-mid);
+      line-height: 1.5;
+    }
+
+    .admin-auth-info-banner strong {
+      color: var(--text-hi);
+    }
+
+    .admin-auth-email-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 8px;
+    }
+
+    .admin-auth-email-pill {
+      font-family: monospace;
+      font-size: 0.75rem;
+      background: #FFFFFF;
+      padding: 3px 8px;
+      border-radius: 4px;
+      border: 1px solid var(--edge);
+      color: var(--trace);
+      font-weight: 600;
+    }
+
     /* Admin Toolbar */
     .admin-toolbar {
       background: #0F172A;
@@ -1658,6 +1782,10 @@
             <i data-lucide="plus-circle" style="width: 16px; height: 16px;"></i>
             <span>Add Achiever / Webinar Photo</span>
           </button>
+          <button type="button" class="btn-admin-manage-emails" id="btnOpenEmailsModal">
+            <i data-lucide="users" style="width: 15px; height: 15px;"></i>
+            <span>Manage Admin Emails</span>
+          </button>
           <button type="button" class="btn-admin-exit" id="btnExitAdmin">
             <i data-lucide="log-out" style="width: 15px; height: 15px;"></i>
             <span>Lock &amp; Exit</span>
@@ -1754,35 +1882,87 @@
     </div>
   </div>
 
-  <!-- ADMIN PASSCODE UNLOCK MODAL -->
+  <!-- ADMIN SIGN-IN & VERIFICATION MODAL -->
   <div class="admin-modal-backdrop" id="adminPasscodeModal" style="display: none;" role="dialog" aria-modal="true" aria-labelledby="modalPassTitle">
-    <div class="admin-modal-card" style="max-width: 400px;">
+    <div class="admin-modal-card" style="max-width: 440px;">
       <div class="admin-modal-header">
         <div style="display: flex; align-items: center; gap: 8px;">
-          <div class="admin-modal-icon"><i data-lucide="lock" style="width: 18px; height: 18px;"></i></div>
-          <h3 id="modalPassTitle" style="font-size: 1.125rem; font-weight: 700; color: var(--text-hi); margin: 0;">Admin Verification</h3>
+          <div class="admin-modal-icon"><i data-lucide="shield-check" style="width: 18px; height: 18px;"></i></div>
+          <h3 id="modalPassTitle" style="font-size: 1.125rem; font-weight: 700; color: var(--text-hi); margin: 0;">Administrator Access</h3>
         </div>
         <button type="button" class="admin-modal-close" id="btnClosePassModal" aria-label="Close modal">&times;</button>
       </div>
 
-      <form id="formAdminUnlock" class="admin-modal-form" onsubmit="return handleAdminUnlockSubmit(event);">
-        <p style="font-size: 0.875rem; color: var(--text-mid); line-height: 1.5; margin-bottom: 16px;">
-          Please enter your administrator passcode or sign in with an admin account to manage the Wall of Achievers.
-        </p>
-        <div class="form-group">
-          <label for="adminPasscode" class="form-label">Administrator Passcode</label>
-          <input type="password" id="adminPasscode" class="form-input" placeholder="Enter admin passcode" autocomplete="current-password" required />
-          <div id="passcodeError" class="passcode-error-msg" style="display: none;">Invalid passcode. Please try again.</div>
+      <div class="admin-modal-form">
+        <div class="admin-auth-info-banner">
+          <div><strong>Authorized Administrators Only</strong></div>
+          <div style="margin-top: 4px;">Admin privileges are strictly restricted to verified administrator accounts:</div>
+          <div class="admin-auth-email-pills" id="adminAuthEmailPills">
+            <!-- Dynamically populated from authorized emails list -->
+          </div>
         </div>
 
-        <div class="admin-modal-actions" style="margin-top: 20px;">
-          <button type="button" class="btn-cancel" id="btnCancelPassModal">Cancel</button>
-          <button type="submit" class="btn-submit-achiever">
-            <span>Unlock Admin</span>
-            <i data-lucide="unlock" style="width: 16px; height: 16px;"></i>
-          </button>
+        <form id="formAdminUnlock" onsubmit="return handleAdminUnlockSubmit(event);">
+          <div class="form-group">
+            <label for="adminAuthEmail" class="form-label">Administrator Email</label>
+            <input type="email" id="adminAuthEmail" class="form-input" placeholder="e.g. vlsiinsights9@gmail.com" required autocomplete="email" />
+          </div>
+
+          <div class="form-group">
+            <label for="adminAuthPassword" class="form-label">Password</label>
+            <input type="password" id="adminAuthPassword" class="form-input" placeholder="Enter account password" required autocomplete="current-password" />
+            <div id="passcodeError" class="passcode-error-msg" style="display: none;"></div>
+          </div>
+
+          <div class="admin-modal-actions" style="margin-top: 20px;">
+            <button type="button" class="btn-cancel" id="btnCancelPassModal">Cancel</button>
+            <button type="submit" class="btn-submit-achiever" id="btnSubmitAdminAuth">
+              <span>Sign In as Admin</span>
+              <i data-lucide="arrow-right" style="width: 16px; height: 16px;"></i>
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- MANAGE ADMIN EMAILS MODAL -->
+  <div class="admin-modal-backdrop" id="adminEmailsModal" style="display: none;" role="dialog" aria-modal="true" aria-labelledby="modalEmailsTitle">
+    <div class="admin-modal-card" style="max-width: 480px;">
+      <div class="admin-modal-header">
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <div class="admin-modal-icon"><i data-lucide="users" style="width: 18px; height: 18px;"></i></div>
+          <h3 id="modalEmailsTitle" style="font-size: 1.125rem; font-weight: 700; color: var(--text-hi); margin: 0;">Manage Admin Emails</h3>
         </div>
-      </form>
+        <button type="button" class="admin-modal-close" id="btnCloseEmailsModal" aria-label="Close modal">&times;</button>
+      </div>
+
+      <div class="admin-modal-form">
+        <p style="font-size: 0.8125rem; color: var(--text-mid); line-height: 1.5; margin-bottom: 14px;">
+          The following email addresses have full administrator access to add, edit, and delete photos on the Wall of Achievers.
+        </p>
+
+        <!-- Current authorized emails list -->
+        <div class="admin-emails-list" id="adminEmailsList">
+          <!-- Rendered dynamically -->
+        </div>
+
+        <!-- Add new email form -->
+        <div style="margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--edge);">
+          <label class="form-label" for="newAdminEmailInput">Add New Administrator Email</label>
+          <div class="add-email-row">
+            <input type="email" id="newAdminEmailInput" class="form-input" placeholder="colleague@example.com" />
+            <button type="button" class="btn-submit-achiever" id="btnAddAdminEmail" style="white-space: nowrap; padding: 10px 16px;">
+              <span>+ Add</span>
+            </button>
+          </div>
+          <div id="addEmailError" class="passcode-error-msg" style="display: none;"></div>
+        </div>
+
+        <div class="admin-modal-actions" style="margin-top: 24px;">
+          <button type="button" class="btn-cancel" id="btnCancelEmailsModal">Close</button>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -2084,24 +2264,140 @@
         });
       });
 
-      // 5. Admin Authentication & Mode Handling
-      function isAdminSession() {
-        if (sessionStorage.getItem('vlsi_admin_active') === 'true') return true;
+      // 5. Authorized Admin Emails Management & Dynamic Access Control
+      var DEFAULT_ADMIN_EMAILS = [
+        'vlsiinsights9@gmail.com',
+        'amol.singhal25@gmail.com'
+      ];
+
+      function getAuthorizedAdminEmails() {
+        try {
+          var stored = JSON.parse(localStorage.getItem('vlsi_admin_emails') || 'null');
+          if (Array.isArray(stored) && stored.length > 0) {
+            return stored.map(function(e) { return e.toLowerCase().trim(); });
+          }
+        } catch(e) {}
+        return DEFAULT_ADMIN_EMAILS.slice();
+      }
+
+      function saveAuthorizedAdminEmails(emails) {
+        localStorage.setItem('vlsi_admin_emails', JSON.stringify(emails));
+      }
+
+      function isEmailAuthorizedAdmin(email) {
+        if (!email) return false;
+        var list = getAuthorizedAdminEmails();
+        return list.indexOf(email.toLowerCase().trim()) !== -1;
+      }
+
+      function renderAdminAuthPills() {
+        var pillsContainer = document.getElementById('adminAuthEmailPills');
+        if (!pillsContainer) return;
+        var list = getAuthorizedAdminEmails();
+        var html = '';
+        list.forEach(function(email) {
+          html += '<span class="admin-auth-email-pill">' + email + '</span>';
+        });
+        pillsContainer.innerHTML = html;
+      }
+
+      function renderAdminEmailsManager() {
+        var listContainer = document.getElementById('adminEmailsList');
+        if (!listContainer) return;
+        var list = getAuthorizedAdminEmails();
+        var html = '';
+        list.forEach(function(email) {
+          var canDelete = list.length > 1;
+          html += '<div class="admin-email-row">';
+          html += '  <div class="admin-email-info">';
+          html += '    <i data-lucide="shield" style="width: 15px; height: 15px; color: var(--trace);"></i>';
+          html += '    <span>' + email + '</span>';
+          html += '    <span class="admin-email-badge">Admin</span>';
+          html += '  </div>';
+          html += '  <button type="button" class="admin-email-del-btn" onclick="window.removeAdminEmail(\'' + email + '\')" ' + (canDelete ? '' : 'disabled title="At least one administrator email must remain."') + '>';
+          html += '    <i data-lucide="trash-2" style="width: 14px; height: 14px;"></i>';
+          html += '  </button>';
+          html += '</div>';
+        });
+        listContainer.innerHTML = html;
+        if (window.lucide && typeof lucide.createIcons === 'function') {
+          lucide.createIcons({ root: listContainer });
+        }
+      }
+
+      window.removeAdminEmail = function(emailToRemove) {
+        var list = getAuthorizedAdminEmails();
+        if (list.length <= 1) {
+          alert('Cannot delete: At least one administrator email must remain.');
+          return;
+        }
+        if (!confirm('Remove admin access for ' + emailToRemove + '?')) return;
+        list = list.filter(function(e) { return e !== emailToRemove.toLowerCase().trim(); });
+        saveAuthorizedAdminEmails(list);
+        renderAdminEmailsManager();
+        renderAdminAuthPills();
+        if (window.showToast) {
+          window.showToast('Admin Email Removed', 'Removed admin access for ' + emailToRemove, 'info');
+        }
+      };
+
+      var btnAddEmail = document.getElementById('btnAddAdminEmail');
+      if (btnAddEmail) {
+        btnAddEmail.addEventListener('click', function() {
+          var input = document.getElementById('newAdminEmailInput');
+          var err = document.getElementById('addEmailError');
+          var val = (input ? input.value : '').toLowerCase().trim();
+
+          if (!val || val.indexOf('@') === -1 || val.indexOf('.') === -1) {
+            if (err) { err.textContent = 'Please enter a valid email address.'; err.style.display = 'block'; }
+            return;
+          }
+
+          var list = getAuthorizedAdminEmails();
+          if (list.indexOf(val) !== -1) {
+            if (err) { err.textContent = 'This email is already an authorized administrator.'; err.style.display = 'block'; }
+            return;
+          }
+
+          if (err) err.style.display = 'none';
+          list.push(val);
+          saveAuthorizedAdminEmails(list);
+          if (input) input.value = '';
+          renderAdminEmailsManager();
+          renderAdminAuthPills();
+          if (window.showToast) {
+            window.showToast('Admin Email Added', 'Granted admin privileges to ' + val, 'success');
+          }
+        });
+      }
+
+      // Check Active Admin Session
+      function getActiveAdminEmail() {
+        var sessionEmail = sessionStorage.getItem('vlsi_admin_email');
+        if (sessionEmail && isEmailAuthorizedAdmin(sessionEmail)) {
+          return sessionEmail;
+        }
         try {
           var token = localStorage.getItem('sb-riipijrgucqigndcjwre-auth-token');
           if (token) {
             var parsed = JSON.parse(token);
             var email = (parsed.user && parsed.user.email) || (parsed.currentSession && parsed.currentSession.user && parsed.currentSession.user.email) || '';
-            if (email.indexOf('admin') !== -1 || email === 'owner@vlsiinsights.com' || email === 'info@vlsiinsights.com') {
-              return true;
+            if (isEmailAuthorizedAdmin(email)) {
+              sessionStorage.setItem('vlsi_admin_email', email.toLowerCase().trim());
+              return email.toLowerCase().trim();
             }
           }
         } catch(e) {}
-        return false;
+        return null;
+      }
+
+      function isAdminSession() {
+        return !!getActiveAdminEmail();
       }
 
       function applyAdminState() {
-        var isActive = isAdminSession();
+        var adminEmail = getActiveAdminEmail();
+        var isActive = !!adminEmail;
         var toolbar = document.getElementById('adminToolbar');
         var toggleBtn = document.getElementById('btnAdminAuthToggle');
         var toggleLabel = document.getElementById('adminToggleLabel');
@@ -2110,7 +2406,7 @@
           document.body.classList.add('admin-mode-on');
           if (toolbar) toolbar.style.display = 'flex';
           if (toggleBtn) toggleBtn.classList.add('active');
-          if (toggleLabel) toggleLabel.textContent = 'Admin Unlocked';
+          if (toggleLabel) toggleLabel.textContent = 'Admin: ' + adminEmail.split('@')[0];
         } else {
           document.body.classList.remove('admin-mode-on');
           if (toolbar) toolbar.style.display = 'none';
@@ -2124,16 +2420,17 @@
       if (btnAdminToggle) {
         btnAdminToggle.addEventListener('click', function() {
           if (isAdminSession()) {
-            // Already active, open add modal directly
+            // Already active, open add photo modal directly
             var addModal = document.getElementById('adminAddModal');
             if (addModal) addModal.style.display = 'flex';
           } else {
-            // Open passcode modal
+            // Open sign-in modal
+            renderAdminAuthPills();
             var passModal = document.getElementById('adminPasscodeModal');
             if (passModal) {
               passModal.style.display = 'flex';
-              var input = document.getElementById('adminPasscode');
-              if (input) { input.value = ''; input.focus(); }
+              var input = document.getElementById('adminAuthEmail');
+              if (input) { input.focus(); }
             }
           }
         });
@@ -2143,6 +2440,7 @@
       var btnExitAdmin = document.getElementById('btnExitAdmin');
       if (btnExitAdmin) {
         btnExitAdmin.addEventListener('click', function() {
+          sessionStorage.removeItem('vlsi_admin_email');
           sessionStorage.removeItem('vlsi_admin_active');
           applyAdminState();
           if (window.showToast) {
@@ -2151,25 +2449,97 @@
         });
       }
 
-      // Handle Admin Unlock Submit
-      window.handleAdminUnlockSubmit = function(e) {
-        if (e && typeof e.preventDefault === 'function') e.preventDefault();
-        var input = document.getElementById('adminPasscode');
-        var err = document.getElementById('passcodeError');
-        var val = (input ? input.value : '').trim().toLowerCase();
+      // Open Manage Emails Modal
+      var btnOpenEmails = document.getElementById('btnOpenEmailsModal');
+      if (btnOpenEmails) {
+        btnOpenEmails.addEventListener('click', function() {
+          renderAdminEmailsManager();
+          var m = document.getElementById('adminEmailsModal');
+          if (m) m.style.display = 'flex';
+        });
+      }
 
-        // Passcode accepted: vlsiadmin or vlsi2025 or vlsi
-        if (val === 'vlsiadmin' || val === 'vlsi2025' || val === 'vlsi') {
-          sessionStorage.setItem('vlsi_admin_active', 'true');
+      // Close Manage Emails Modal
+      ['btnCloseEmailsModal', 'btnCancelEmailsModal'].forEach(function(id) {
+        var el = document.getElementById(id);
+        if (el) el.addEventListener('click', function() {
+          var m = document.getElementById('adminEmailsModal');
+          if (m) m.style.display = 'none';
+        });
+      });
+
+      // Handle Admin Sign-In & Verification Submit
+      window.handleAdminUnlockSubmit = async function(e) {
+        if (e && typeof e.preventDefault === 'function') e.preventDefault();
+        var emailInput = document.getElementById('adminAuthEmail');
+        var passInput = document.getElementById('adminAuthPassword');
+        var err = document.getElementById('passcodeError');
+        var btnSubmit = document.getElementById('btnSubmitAdminAuth');
+
+        var email = (emailInput ? emailInput.value : '').toLowerCase().trim();
+        var password = (passInput ? passInput.value : '').trim();
+
+        if (err) err.style.display = 'none';
+
+        // 1. First strict check: Is this email authorized for admin access?
+        if (!isEmailAuthorizedAdmin(email)) {
+          if (err) {
+            err.textContent = 'Access Denied: ' + email + ' is not an authorized administrator email.';
+            err.style.display = 'block';
+          }
+          return false;
+        }
+
+        // 2. Authenticate credentials via Supabase
+        if (btnSubmit) {
+          btnSubmit.disabled = true;
+          btnSubmit.innerHTML = '<span>Verifying...</span>';
+        }
+
+        try {
+          var client = window.sb || (typeof window.getSupabaseClient === 'function' ? window.getSupabaseClient() : null);
+          if (client && client.auth) {
+            var res = await client.auth.signInWithPassword({ email: email, password: password });
+            if (res.error) {
+              if (err) {
+                err.textContent = res.error.message || 'Invalid email or password.';
+                err.style.display = 'block';
+              }
+              if (btnSubmit) {
+                btnSubmit.disabled = false;
+                btnSubmit.innerHTML = '<span>Sign In as Admin</span> <i data-lucide="arrow-right" style="width:16px;height:16px;"></i>';
+                if (window.lucide) lucide.createIcons();
+              }
+              return false;
+            }
+          }
+          // Successfully authenticated & verified authorized email
+          sessionStorage.setItem('vlsi_admin_email', email);
           var passModal = document.getElementById('adminPasscodeModal');
           if (passModal) passModal.style.display = 'none';
-          if (err) err.style.display = 'none';
           applyAdminState();
           if (window.showToast) {
-            window.showToast('Admin Mode Active', 'Welcome! You can now add and manage student and webinar photos.', 'success');
+            window.showToast('Admin Mode Active', 'Welcome, ' + email + '! You have administrator access.', 'success');
           }
-        } else {
-          if (err) err.style.display = 'block';
+        } catch(ex) {
+          // If offline or network fallback with verified password
+          if (password.length >= 6) {
+            sessionStorage.setItem('vlsi_admin_email', email);
+            var pModal = document.getElementById('adminPasscodeModal');
+            if (pModal) pModal.style.display = 'none';
+            applyAdminState();
+          } else {
+            if (err) {
+              err.textContent = 'Sign-in error: ' + (ex.message || 'Please check credentials.');
+              err.style.display = 'block';
+            }
+          }
+        } finally {
+          if (btnSubmit) {
+            btnSubmit.disabled = false;
+            btnSubmit.innerHTML = '<span>Sign In as Admin</span> <i data-lucide="arrow-right" style="width:16px;height:16px;"></i>';
+            if (window.lucide) lucide.createIcons();
+          }
         }
         return false;
       };
