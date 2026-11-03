@@ -2595,8 +2595,7 @@
         <!-- Filter Pill Row -->
         <div class="filter-pill-row" role="tablist" aria-label="Filter programs by track">
           <button type="button" class="filter-pill active" data-filter="all" role="tab" aria-selected="true">All Programs</button>
-          <button type="button" class="filter-pill" data-filter="vlsi-frontend" role="tab" aria-selected="false">VLSI Frontend</button>
-          <button type="button" class="filter-pill" data-filter="vlsi-backend" role="tab" aria-selected="false">VLSI Backend</button>
+          <button type="button" class="filter-pill" data-filter="vlsi" role="tab" aria-selected="false">VLSI</button>
           <button type="button" class="filter-pill" data-filter="embedded" role="tab" aria-selected="false">Embedded Systems</button>
           <button type="button" class="filter-pill" data-filter="fpga" role="tab" aria-selected="false">FPGA</button>
           <button type="button" class="filter-pill" data-filter="scripting" role="tab" aria-selected="false">Scripting Language</button>
@@ -4240,7 +4239,7 @@
         if (prog.category === 'vlsi' && prog.subtrack === 'frontend' && !renderedFrontendHeader) {
           renderedFrontendHeader = true;
           const fHeader = document.createElement('div');
-          fHeader.className = 'track-header-banner';
+          fHeader.className = 'track-header-banner hidden';
           fHeader.dataset.track = 'vlsi';
           fHeader.innerHTML = `
             <h3 class="track-header-banner__title">Frontend</h3>
@@ -4252,7 +4251,7 @@
         if (prog.category === 'vlsi' && prog.subtrack === 'backend' && !renderedBackendHeader) {
           renderedBackendHeader = true;
           const bHeader = document.createElement('div');
-          bHeader.className = 'track-header-banner';
+          bHeader.className = 'track-header-banner hidden';
           bHeader.dataset.track = 'vlsi';
           bHeader.innerHTML = `
             <h3 class="track-header-banner__title">Backend</h3>
@@ -4388,7 +4387,7 @@
         });
 
         banners.forEach(b => {
-          if (filter === 'all' || filter === 'vlsi') {
+          if (filter === 'vlsi') {
             b.classList.remove('hidden');
           } else {
             b.classList.add('hidden');
