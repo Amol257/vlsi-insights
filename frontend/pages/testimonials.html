@@ -463,70 +463,295 @@
       color: #CBD5E1;
     }
 
-    /* COLLAGE GALLERY SECTION */
+    /* -------------------------------------------------------------------------- */
+    /* 4. AUTO-ADJUSTING WALL OF ACHIEVERS & ADMIN GALLERY                       */
+    /* -------------------------------------------------------------------------- */
     .gallery-section {
       background: #FFFFFF;
       border-top: 1px solid var(--edge);
       border-bottom: 1px solid var(--edge);
-      padding: 64px 0;
-    }
-
-    .gallery-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
-      gap: 20px;
-      margin-top: 36px;
-    }
-
-    .gallery-item {
+      padding: 72px 0 84px;
       position: relative;
-      border-radius: 10px;
-      overflow: hidden;
-      aspect-ratio: 1 / 1;
-      background: #0F172A;
+    }
+
+    .wall-header-wrapper {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 24px;
+      margin-bottom: 32px;
+      flex-wrap: wrap;
+    }
+
+    .wall-header-text {
+      max-width: 680px;
+    }
+
+    .wall-title {
+      font-family: var(--font-display);
+      font-weight: 700;
+      color: var(--text-hi);
+      font-size: 2.25rem;
+      letter-spacing: -0.02em;
+      margin-top: 6px;
+    }
+
+    .wall-subtitle {
+      color: var(--text-mid);
+      font-size: 1rem;
+      margin-top: 8px;
+      line-height: 1.6;
+    }
+
+    /* Admin trigger button */
+    .admin-auth-toggle-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 16px;
+      background: var(--substrate);
       border: 1px solid var(--edge);
-      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.05);
-      transition: transform var(--dur-base) ease, box-shadow var(--dur-base) ease;
+      border-radius: 9999px;
+      font-size: 0.8125rem;
+      font-weight: 600;
+      color: var(--text-mid);
+      cursor: pointer;
+      transition: all var(--dur-base) ease;
     }
 
-    .gallery-item:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.12);
+    .admin-auth-toggle-btn:hover {
+      background: #FFFFFF;
+      color: var(--trace);
       border-color: var(--trace);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
     }
 
-    .gallery-item img {
+    .admin-auth-toggle-btn.active {
+      background: rgba(0, 168, 132, 0.1);
+      border-color: var(--trace);
+      color: var(--trace);
+    }
+
+    /* Admin Toolbar */
+    .admin-toolbar {
+      background: #0F172A;
+      color: #FFFFFF;
+      border-radius: 12px;
+      padding: 14px 20px;
+      margin-bottom: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+      box-shadow: 0 10px 25px rgba(15, 23, 42, 0.18);
+      border: 1px solid #1E293B;
+      animation: fadeInSlide 0.3s ease;
+    }
+
+    @keyframes fadeInSlide {
+      from { opacity: 0; transform: translateY(-8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .admin-toolbar__status {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.875rem;
+    }
+
+    .admin-live-dot {
+      width: 10px;
+      height: 10px;
+      background: #10B981;
+      border-radius: 50%;
+      box-shadow: 0 0 10px #10B981;
+      display: inline-block;
+      animation: pulseGreen 2s infinite;
+    }
+
+    @keyframes pulseGreen {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(1.2); }
+    }
+
+    .admin-toolbar__actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .btn-admin-action {
+      background: var(--trace);
+      color: #FFFFFF;
+      border: none;
+      padding: 9px 18px;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 0.875rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: background 0.2s ease, transform 0.15s ease;
+    }
+
+    .btn-admin-action:hover {
+      background: #008f72;
+      transform: translateY(-1px);
+    }
+
+    .btn-admin-exit {
+      background: transparent;
+      color: #94A3B8;
+      border: 1px solid #334155;
+      padding: 8px 14px;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 0.8125rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+    }
+
+    .btn-admin-exit:hover {
+      color: #FFFFFF;
+      border-color: #64748B;
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    /* Filter Bar */
+    .wall-filter-bar {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 28px;
+      flex-wrap: wrap;
+    }
+
+    .wall-filter-btn {
+      padding: 8px 18px;
+      border-radius: 9999px;
+      font-size: 0.875rem;
+      font-weight: 600;
+      background: var(--substrate);
+      color: var(--text-mid);
+      border: 1px solid var(--edge);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: all var(--dur-base) ease;
+    }
+
+    .wall-filter-btn:hover {
+      color: var(--text-hi);
+      background: #FFFFFF;
+      border-color: #CBD5E1;
+    }
+
+    .wall-filter-btn.active {
+      background: var(--trace);
+      color: #FFFFFF;
+      border-color: var(--trace);
+      box-shadow: 0 4px 12px rgba(0, 168, 132, 0.25);
+    }
+
+    .filter-count {
+      padding: 2px 7px;
+      border-radius: 9999px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      background: rgba(0, 0, 0, 0.08);
+      color: inherit;
+    }
+
+    .wall-filter-btn.active .filter-count {
+      background: rgba(255, 255, 255, 0.25);
+      color: #FFFFFF;
+    }
+
+    /* Auto-Adjusting CSS Multi-Column Masonry Wall */
+    .achievers-wall {
+      column-count: 4;
+      column-gap: 20px;
       width: 100%;
-      height: 100%;
-      object-fit: cover;
-      transition: transform 0.4s ease;
     }
 
-    .gallery-item:hover img {
-      transform: scale(1.05);
-    }
-
-    @media (min-width: 900px) {
-      .gallery-item--wide {
-        grid-column: span 2;
-        aspect-ratio: 2 / 1;
+    @media (max-width: 1200px) {
+      .achievers-wall {
+        column-count: 3;
+        column-gap: 18px;
       }
     }
 
-    .gallery-caption {
+    @media (max-width: 768px) {
+      .achievers-wall {
+        column-count: 2;
+        column-gap: 14px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .achievers-wall {
+        column-count: 1;
+      }
+    }
+
+    /* Achiever Card */
+    .achiever-card {
+      break-inside: avoid;
+      -webkit-column-break-inside: avoid;
+      page-break-inside: avoid;
+      display: inline-block;
+      width: 100%;
+      margin-bottom: 20px;
+      border-radius: 12px;
+      overflow: hidden;
+      position: relative;
+      background: #0F172A;
+      border: 1px solid var(--edge);
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.05);
+      transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+      vertical-align: top;
+    }
+
+    .achiever-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 14px 28px rgba(0, 0, 0, 0.12);
+      border-color: var(--trace);
+    }
+
+    .achiever-card img {
+      width: 100%;
+      height: auto;
+      display: block;
+      object-fit: cover;
+      transition: transform 0.35s ease;
+    }
+
+    .achiever-card:hover img {
+      transform: scale(1.03);
+    }
+
+    .achiever-card__caption {
       position: absolute;
       bottom: 0;
       left: 0;
       right: 0;
-      background: linear-gradient(180deg, transparent 0%, rgba(15, 23, 42, 0.92) 100%);
-      padding: 20px 14px 12px;
+      background: linear-gradient(180deg, transparent 0%, rgba(15, 23, 42, 0.94) 100%);
+      padding: 28px 14px 12px;
       color: #FFFFFF;
       font-size: 0.875rem;
       font-weight: 600;
       line-height: 1.3;
+      pointer-events: none;
     }
 
-    .gallery-caption .caption-role {
+    .achiever-card__role {
       display: block;
       font-size: 0.75rem;
       font-weight: 500;
@@ -534,24 +759,281 @@
       margin-top: 2px;
     }
 
-    .gallery-item.photo-card-slot {
-      background: var(--substrate);
-      border: 2px dashed #CBD5E1;
-      aspect-ratio: 4 / 3;
+    .achiever-card__badge {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      padding: 4px 10px;
+      background: rgba(15, 23, 42, 0.8);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      border-radius: 9999px;
+      color: #FFFFFF;
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      z-index: 2;
+    }
+
+    .achiever-card__badge--webinar {
+      background: rgba(13, 148, 136, 0.9);
+      border-color: rgba(45, 212, 191, 0.4);
+    }
+
+    /* Admin Delete Card Button */
+    .achiever-card__del-btn {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: rgba(239, 68, 68, 0.9);
+      color: #FFFFFF;
+      border: none;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 16px;
+      line-height: 1;
+      z-index: 3;
+      transition: transform 0.15s ease, background 0.15s ease;
+    }
+
+    .achiever-card__del-btn:hover {
+      background: #DC2626;
+      transform: scale(1.1);
+    }
+
+    body.admin-mode-on .achiever-card__del-btn {
+      display: flex;
+    }
+
+    /* Admin Modals */
+    .admin-modal-backdrop {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(15, 23, 42, 0.65);
+      backdrop-filter: blur(6px);
+      z-index: 99999;
       display: flex;
       align-items: center;
       justify-content: center;
+      padding: 20px;
+      animation: fadeIn 0.2s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    .admin-modal-card {
+      background: #FFFFFF;
+      width: 100%;
+      max-width: 520px;
+      border-radius: 16px;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+      border: 1px solid var(--edge);
+      overflow: hidden;
+      animation: slideUp 0.25s ease;
+    }
+
+    @keyframes slideUp {
+      from { transform: translateY(16px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    .admin-modal-header {
+      padding: 18px 24px;
+      border-bottom: 1px solid var(--edge);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: var(--substrate);
+    }
+
+    .admin-modal-icon {
+      width: 34px;
+      height: 34px;
+      border-radius: 8px;
+      background: rgba(0, 168, 132, 0.1);
+      color: var(--trace);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .admin-modal-close {
+      background: transparent;
+      border: none;
+      font-size: 24px;
+      color: var(--text-mid);
+      cursor: pointer;
+      line-height: 1;
+      padding: 0;
+      width: 32px;
+      height: 32px;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.15s ease;
+    }
+
+    .admin-modal-close:hover {
+      background: var(--edge);
+      color: var(--text-hi);
+    }
+
+    .admin-modal-form {
+      padding: 24px;
+    }
+
+    .form-group {
+      margin-bottom: 18px;
+    }
+
+    .form-label {
+      display: block;
+      font-size: 0.8125rem;
+      font-weight: 600;
+      color: var(--text-hi);
+      margin-bottom: 6px;
+    }
+
+    .form-input, .form-select {
+      width: 100%;
+      padding: 10px 14px;
+      border: 1px solid var(--edge);
+      border-radius: 8px;
+      font-size: 0.9375rem;
+      color: var(--text-hi);
+      background: #FFFFFF;
+      outline: none;
+      transition: border-color var(--dur-base) ease, box-shadow var(--dur-base) ease;
+    }
+
+    .form-input:focus, .form-select:focus {
+      border-color: var(--trace);
+      box-shadow: 0 0 0 3px rgba(0, 168, 132, 0.15);
+    }
+
+    /* File drop area */
+    .file-drop-area {
+      position: relative;
+      border: 2px dashed #CBD5E1;
+      border-radius: 10px;
+      padding: 24px;
       text-align: center;
-      padding: 24px 16px;
+      background: var(--substrate);
+      cursor: pointer;
       transition: all var(--dur-base) ease;
+    }
+
+    .file-drop-area:hover, .file-drop-area.dragover {
+      border-color: var(--trace);
+      background: rgba(0, 168, 132, 0.03);
+    }
+
+    .file-drop-input {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
       cursor: pointer;
     }
 
-    .gallery-item.photo-card-slot:hover {
-      border-color: var(--trace);
-      background: #FFFFFF;
-      
-      transform: translateY(-3px);
+    .file-preview-wrap {
+      position: relative;
+      max-height: 180px;
+      border-radius: 8px;
+      overflow: hidden;
+      margin: 0 auto;
+      display: inline-block;
+    }
+
+    .file-preview-wrap img {
+      max-height: 180px;
+      width: auto;
+      display: block;
+      border-radius: 8px;
+    }
+
+    .file-preview-remove {
+      position: absolute;
+      top: 6px;
+      right: 6px;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: rgba(15, 23, 42, 0.85);
+      color: #FFFFFF;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+    }
+
+    .passcode-error-msg {
+      color: #EF4444;
+      font-size: 0.8125rem;
+      font-weight: 500;
+      margin-top: 6px;
+    }
+
+    .admin-modal-actions {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 12px;
+      margin-top: 24px;
+    }
+
+    .btn-cancel {
+      padding: 10px 18px;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 0.875rem;
+      background: transparent;
+      color: var(--text-mid);
+      border: 1px solid var(--edge);
+      cursor: pointer;
+    }
+
+    .btn-cancel:hover {
+      background: var(--substrate);
+      color: var(--text-hi);
+    }
+
+    .btn-submit-achiever {
+      padding: 10px 22px;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 0.875rem;
+      background: var(--trace);
+      color: #FFFFFF;
+      border: none;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: background 0.2s ease;
+    }
+
+    .btn-submit-achiever:hover {
+      background: #008f72;
     }
 
     .photo-card-slot__inner {
@@ -1142,255 +1624,167 @@
   </main>
 
   <!-- WALL OF ACHIEVERS / ALUMNI & STUDENT GRID -->
-  <section class="gallery-section" id="wall-of-achievers">
+    <!-- ========================================================================= -->
+  <!-- 4. AUTO-ADJUSTING WALL OF ACHIEVERS (STUDENTS & WEBINAR GALLERY)          -->
+  <!-- ========================================================================= -->
+  <section class="gallery-section" id="wall-of-achievers" aria-label="Wall of Achievers">
     <div class="container">
-      <div style="text-align: center; max-width: 680px; margin: 0 auto 36px;">
-        <span class="section-label">Alumni Success &amp; Placements</span>
-        <h2 style="font-family: var(--font-display); font-weight: 700; color: var(--text-hi); font-size: 2.25rem; letter-spacing: -0.02em;">
-          Wall of Achievers
-        </h2>
-        <p style="color: var(--text-mid); font-size: 1rem; margin-top: 10px; line-height: 1.6;">
-          Meet the engineers who trained with VLSI Insights and transitioned into top semiconductor MNCs, design teams, and live campus training programs.
-        </p>
+      <div class="wall-header-wrapper">
+        <div class="wall-header-text">
+          <span class="section-label">Alumni Success &amp; Placements</span>
+          <h2 class="wall-title">Wall of Achievers</h2>
+          <p class="wall-subtitle">
+            Meet the engineers who trained with VLSI Insights and transitioned into top semiconductor MNCs, design teams, and live campus training programs.
+          </p>
+        </div>
+
+        <!-- Admin Control Entrypoint -->
+        <div class="wall-admin-entry">
+          <button type="button" class="admin-auth-toggle-btn" id="btnAdminAuthToggle" aria-label="Admin Portal">
+            <i data-lucide="shield-check" style="width: 16px; height: 16px;"></i>
+            <span id="adminToggleLabel">Admin Access</span>
+          </button>
+        </div>
       </div>
 
-      <div class="gallery-grid" id="photoGallery">
-        <!-- 1. Dhilipan Amirthalingam -->
-        <div class="gallery-item">
-          <img src="images/Students_photo/522686_DhilipanAmirthalingam.JPG" alt="Dhilipan Amirthalingam" loading="lazy">
-          <div class="gallery-caption">
-            Dhilipan Amirthalingam
-            <span class="caption-role">Physical Design Track</span>
-          </div>
+      <!-- Admin Toolbar (Visible only when Admin Mode is active) -->
+      <div class="admin-toolbar" id="adminToolbar" style="display: none;">
+        <div class="admin-toolbar__status">
+          <span class="admin-live-dot"></span>
+          <span><strong>Admin Mode Active:</strong> You can add new student/webinar photos and manage entries on the live wall.</span>
         </div>
+        <div class="admin-toolbar__actions">
+          <button type="button" class="btn-admin-action" id="btnOpenAddModal">
+            <i data-lucide="plus-circle" style="width: 16px; height: 16px;"></i>
+            <span>Add Achiever / Webinar Photo</span>
+          </button>
+          <button type="button" class="btn-admin-exit" id="btnExitAdmin">
+            <i data-lucide="log-out" style="width: 15px; height: 15px;"></i>
+            <span>Lock &amp; Exit</span>
+          </button>
+        </div>
+      </div>
 
-        <!-- 2. Aditya Kumar -->
-        <div class="gallery-item">
-          <img src="images/Students_photo/Aditiya.jpeg" alt="Aditya Kumar" loading="lazy">
-          <div class="gallery-caption">
-            Aditiya
-            <span class="caption-role">Verification Engineer</span>
-          </div>
-        </div>
+      <!-- Auto-Adjusting Filter Bar -->
+      <div class="wall-filter-bar" role="tablist" aria-label="Wall Filters">
+        <button type="button" class="wall-filter-btn active" data-wall-filter="all">
+          <span>All Photos</span>
+          <span class="filter-count" id="countAll">26</span>
+        </button>
+        <button type="button" class="wall-filter-btn" data-wall-filter="student">
+          <span>Students</span>
+          <span class="filter-count" id="countStudents">21</span>
+        </button>
+        <button type="button" class="wall-filter-btn" data-wall-filter="webinar">
+          <span>Webinars &amp; Workshops</span>
+          <span class="filter-count" id="countWebinars">5</span>
+        </button>
+      </div>
 
-        <!-- 3. Pooja Shukla -->
-        <div class="gallery-item">
-          <img src="images/Students_photo/Pooja%20Shukla.jpeg" alt="Pooja Shukla" loading="lazy">
-          <div class="gallery-caption">
-            Pooja Shukla
-            <span class="caption-role">RTL Design Engineer</span>
-          </div>
-        </div>
-
-        <!-- 4. Rahul Sharma -->
-        <div class="gallery-item">
-          <img src="images/Students_photo/rahul.jpg" alt="Rahul Sharma" loading="lazy">
-          <div class="gallery-caption">
-            Rahul
-            <span class="caption-role">SOC Verification</span>
-          </div>
-        </div>
-
-        <!-- 5. Kalyan -->
-        <div class="gallery-item">
-          <img src="images/Students_photo/kalyan.jpg" alt="Kalyan" loading="lazy">
-          <div class="gallery-caption">
-            Kalyan
-            <span class="caption-role">Verification Engineer</span>
-          </div>
-        </div>
-
-        <!-- 6. Karan Kumar -->
-        <div class="gallery-item">
-          <img src="images/Students_photo/Karan%20Kumar.jpeg" alt="Karan Kumar" loading="lazy">
-          <div class="gallery-caption">
-            Karan Kumar
-            <span class="caption-role">FPGA Prototyping</span>
-          </div>
-        </div>
-
-        <!-- 7. NIET Faculty Training Workshop (Wide Highlight) -->
-        <div class="gallery-item gallery-item--wide">
-          <img src="images/Students_photo/NIET_FTP.jpg" alt="NIET Faculty Development Program" loading="lazy">
-          <div class="gallery-caption">
-            NIET Campus Faculty Development Program
-            <span class="caption-role">Hands-On Silicon &amp; FPGA Workshop</span>
-          </div>
-        </div>
-
-        <!-- 8. Swati -->
-        <div class="gallery-item">
-          <img src="images/Students_photo/Swati.png" alt="Swati" loading="lazy">
-          <div class="gallery-caption">
-            Swati
-            <span class="caption-role">ASIC Development Team</span>
-          </div>
-        </div>
-
-        <!-- 9. Muskan P. -->
-        <div class="gallery-item">
-          <img src="images/Students_photo/Muskan%20P.jpeg" alt="Muskan P" loading="lazy">
-          <div class="gallery-caption">
-            Muskan P
-            <span class="caption-role">RTL Design Cohort</span>
-          </div>
-        </div>
-
-        <!-- 10. Priyam Roy -->
-        <div class="gallery-item">
-          <img src="images/Students_photo/Priyam%20Roy.jpeg" alt="Priyam Roy" loading="lazy">
-          <div class="gallery-caption">
-            Priyam Roy
-            <span class="caption-role">EDA Automation Specialist</span>
-          </div>
-        </div>
-
-        <!-- 11. Ritesh -->
-        <div class="gallery-item">
-          <img src="images/Students_photo/Ritesh.jpeg" alt="Ritesh" loading="lazy">
-          <div class="gallery-caption">
-            Ritesh
-            <span class="caption-role">Embedded Systems</span>
-          </div>
-        </div>
-
-        <!-- 12. Shachi -->
-        <div class="gallery-item">
-          <img src="images/Students_photo/shachi.jpeg" alt="Shachi" loading="lazy">
-          <div class="gallery-caption">
-            Shachi
-            <span class="caption-role">UVM Verification Track</span>
-          </div>
-        </div>
-
-        <!-- 13. Chander -->
-        <div class="gallery-item">
-          <img src="images/Students_photo/chander.jpeg" alt="Chander" loading="lazy">
-          <div class="gallery-caption">
-            Chander
-            <span class="caption-role">ASIC Design Specialist</span>
-          </div>
-        </div>
-
-        <!-- 14. NIET Hands-on Lab (Wide Highlight) -->
-        <div class="gallery-item gallery-item--wide">
-          <img src="images/Students_photo/FTP_NIET_2.jpg" alt="NIET Hands-on VLSI Lab Workshop" loading="lazy">
-          <div class="gallery-caption">
-            Faculty Workshop &amp; Hardware Bring-Up Lab
-            <span class="caption-role">Live FPGA Prototyping &amp; Board Testing</span>
-          </div>
-        </div>
-
-        <!-- 15. Anusha -->
-        <div class="gallery-item">
-          <img src="images/Students_photo/anusha.jpeg" alt="Anusha" loading="lazy">
-          <div class="gallery-caption">
-            Anusha
-            <span class="caption-role">SystemVerilog &amp; SVA</span>
-          </div>
-        </div>
-
-        <!-- 16. Ajeet -->
-        <div class="gallery-item">
-          <img src="images/Students_photo/ajeet.jpeg" alt="Ajeet" loading="lazy">
-          <div class="gallery-caption">
-            Ajeet
-            <span class="caption-role">Digital Electronics Cohort</span>
-          </div>
-        </div>
-
-        <!-- 17. Krishna -->
-        <div class="gallery-item">
-          <img src="images/Students_photo/Krishna.png" alt="Krishna" loading="lazy">
-          <div class="gallery-caption">
-            Krishna
-            <span class="caption-role">SoC Architecture</span>
-          </div>
-        </div>
-
-        <!-- 18. Pratap -->
-        <div class="gallery-item">
-          <img src="images/Students_photo/pratap.png" alt="Pratap" loading="lazy">
-          <div class="gallery-caption">
-            Pratap
-            <span class="caption-role">Verification Engineer</span>
-          </div>
-        </div>
-
-        <!-- 19. Sunny -->
-        <div class="gallery-item">
-          <img src="images/Students_photo/sunny.jpeg" alt="Sunny" loading="lazy">
-          <div class="gallery-caption">
-            Sunny
-            <span class="caption-role">Embedded IoT Track</span>
-          </div>
-        </div>
-
-        <!-- 20. Sonu -->
-        <div class="gallery-item">
-          <img src="images/Students_photo/sonu.jpeg" alt="Sonu" loading="lazy">
-          <div class="gallery-caption">
-            Sonu
-            <span class="caption-role">FPGA Prototyping</span>
-          </div>
-        </div>
-
-        <!-- 21. Industry Webinar Series (Wide Highlight) -->
-        <div class="gallery-item gallery-item--wide">
-          <img src="images/Students_photo/WhatsApp%20Image%202025-02-06%20at%208.12.12%20PM.jpeg" alt="Live VLSI Webinar Series" loading="lazy">
-          <div class="gallery-caption">
-            Live Semiconductor Webinar Series
-            <span class="caption-role">UVM &amp; Tape-Out Verification Masterclasses</span>
-          </div>
-        </div>
-
-        <!-- 22. Soumya -->
-        <div class="gallery-item">
-          <img src="images/Students_photo/Soumya_phot.jpeg" alt="Soumya" loading="lazy">
-          <div class="gallery-caption">
-            Soumya
-            <span class="caption-role">VLSI Design Mentee</span>
-          </div>
-        </div>
-
-        <!-- 23. Smitha -->
-        <div class="gallery-item">
-          <img src="images/Students_photo/Smitha.jpeg" alt="Smitha" loading="lazy">
-          <div class="gallery-caption">
-            Smitha
-            <span class="caption-role">RTL Design Track</span>
-          </div>
-        </div>
-
-        <!-- 24. Pummy -->
-        <div class="gallery-item">
-          <img src="images/Students_photo/Pummy.jpeg" alt="Pummy" loading="lazy">
-          <div class="gallery-caption">
-            Pummy
-            <span class="caption-role">Digital VLSI Cohort</span>
-          </div>
-        </div>
-
-        <!-- 25. Perez -->
-        <div class="gallery-item">
-          <img src="images/Students_photo/perez.jpeg" alt="Perez" loading="lazy">
-          <div class="gallery-caption">
-            Perez
-            <span class="caption-role">Hardware Mentorship</span>
-          </div>
-        </div>
-
-        <!-- 26. Silicon Architecture Masterclass (Wide Highlight) -->
-        <div class="gallery-item gallery-item--wide">
-          <img src="images/Students_photo/WhatsApp%20Image%202025-02-06%20at%208.12.56%20PM.jpeg" alt="Silicon Architecture Masterclass" loading="lazy">
-          <div class="gallery-caption">
-            Silicon Architecture Masterclass
-            <span class="caption-role">Front-End Design to Tape-Out Implementation</span>
-          </div>
-        </div>
+      <!-- Dynamic Auto-Adjusting Masonry Wall -->
+      <div class="achievers-wall" id="achieversWall" aria-live="polite">
+        <!-- Rendered dynamically by Wall of Achievers script -->
       </div>
     </div>
   </section>
+
+  <!-- ========================================================================= -->
+  <!-- ADMIN MODAL: ADD ACHIEVER / WEBINAR PHOTO                                -->
+  <!-- ========================================================================= -->
+  <div class="admin-modal-backdrop" id="adminAddModal" style="display: none;" role="dialog" aria-modal="true" aria-labelledby="modalAddTitle">
+    <div class="admin-modal-card">
+      <div class="admin-modal-header">
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <div class="admin-modal-icon"><i data-lucide="image-plus" style="width: 18px; height: 18px;"></i></div>
+          <h3 id="modalAddTitle" style="font-size: 1.125rem; font-weight: 700; color: var(--text-hi); margin: 0;">Add to Wall of Achievers</h3>
+        </div>
+        <button type="button" class="admin-modal-close" id="btnCloseAddModal" aria-label="Close modal">&times;</button>
+      </div>
+
+      <form id="formAddAchiever" class="admin-modal-form" onsubmit="return handleAddAchieverSubmit(event);">
+        <!-- Category -->
+        <div class="form-group">
+          <label for="achieverType" class="form-label">Category</label>
+          <select id="achieverType" class="form-select" required>
+            <option value="student">Student Photo</option>
+            <option value="webinar">Webinar or Workshop Flyer</option>
+          </select>
+        </div>
+
+        <!-- Name / Title -->
+        <div class="form-group">
+          <label for="achieverName" class="form-label" id="lblAchieverName">Student Name (from photo)</label>
+          <input type="text" id="achieverName" class="form-input" placeholder="e.g. Rahul, Pooja Shukla" required />
+        </div>
+
+        <!-- Role / Subtitle -->
+        <div class="form-group">
+          <label for="achieverRole" class="form-label" id="lblAchieverRole">Role / Specialization</label>
+          <input type="text" id="achieverRole" class="form-input" placeholder="e.g. RTL Design Engineer, Verification Track" required />
+        </div>
+
+        <!-- Image Upload (File or URL) -->
+        <div class="form-group">
+          <label class="form-label">Photo Upload</label>
+          <div class="file-drop-area" id="fileDropArea">
+            <input type="file" id="achieverFileInput" accept="image/*" class="file-drop-input" />
+            <div class="file-drop-content" id="fileDropContent">
+              <i data-lucide="upload-cloud" style="width: 28px; height: 28px; color: var(--trace);"></i>
+              <p style="margin: 6px 0 2px; font-weight: 600; color: var(--text-hi);">Click to browse or drag &amp; drop</p>
+              <span style="font-size: 0.75rem; color: var(--text-mid);">Supports JPEG, PNG, WEBP</span>
+            </div>
+            <div class="file-preview-wrap" id="filePreviewWrap" style="display: none;">
+              <img id="filePreviewImg" src="" alt="Preview" />
+              <button type="button" class="file-preview-remove" id="btnRemovePreview" title="Change photo">&times;</button>
+            </div>
+          </div>
+          <div style="text-align: center; margin: 8px 0; font-size: 0.75rem; color: var(--text-mid); font-weight: 600;">: OR ENTER IMAGE URL :</div>
+          <input type="url" id="achieverUrlInput" class="form-input" placeholder="https://example.com/photo.jpg" />
+        </div>
+
+        <!-- Modal Actions -->
+        <div class="admin-modal-actions">
+          <button type="button" class="btn-cancel" id="btnCancelAddModal">Cancel</button>
+          <button type="submit" class="btn-submit-achiever" id="btnSubmitAchiever">
+            <span>Add to Wall</span>
+            <i data-lucide="arrow-right" style="width: 16px; height: 16px;"></i>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ADMIN PASSCODE UNLOCK MODAL -->
+  <div class="admin-modal-backdrop" id="adminPasscodeModal" style="display: none;" role="dialog" aria-modal="true" aria-labelledby="modalPassTitle">
+    <div class="admin-modal-card" style="max-width: 400px;">
+      <div class="admin-modal-header">
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <div class="admin-modal-icon"><i data-lucide="lock" style="width: 18px; height: 18px;"></i></div>
+          <h3 id="modalPassTitle" style="font-size: 1.125rem; font-weight: 700; color: var(--text-hi); margin: 0;">Admin Verification</h3>
+        </div>
+        <button type="button" class="admin-modal-close" id="btnClosePassModal" aria-label="Close modal">&times;</button>
+      </div>
+
+      <form id="formAdminUnlock" class="admin-modal-form" onsubmit="return handleAdminUnlockSubmit(event);">
+        <p style="font-size: 0.875rem; color: var(--text-mid); line-height: 1.5; margin-bottom: 16px;">
+          Please enter your administrator passcode or sign in with an admin account to manage the Wall of Achievers.
+        </p>
+        <div class="form-group">
+          <label for="adminPasscode" class="form-label">Administrator Passcode</label>
+          <input type="password" id="adminPasscode" class="form-input" placeholder="Enter admin passcode" autocomplete="current-password" required />
+          <div id="passcodeError" class="passcode-error-msg" style="display: none;">Invalid passcode. Please try again.</div>
+        </div>
+
+        <div class="admin-modal-actions" style="margin-top: 20px;">
+          <button type="button" class="btn-cancel" id="btnCancelPassModal">Cancel</button>
+          <button type="submit" class="btn-submit-achiever">
+            <span>Unlock Admin</span>
+            <i data-lucide="unlock" style="width: 16px; height: 16px;"></i>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
 
   <!-- CTA -->
   <section class="testimonials-cta">
@@ -1569,6 +1963,398 @@
       <button type="button" class="cookie-btn--decline" id="cookieDeclineBtn">Essential Only</button>
     </div>
   </div>
+  <!-- ========================================================================= -->
+  <!-- 5. WALL OF ACHIEVERS AUTO-ADJUSTING CONTROLLER & ADMIN LOGIC              -->
+  <!-- ========================================================================= -->
+  <script>
+    (function() {
+      // 1. Initial 26 Verified Achievers & Workshop Records
+      const DEFAULT_ACHIEVERS = [
+        { id: 'ach_1', name: 'Dhilipan Amirthalingam', role: 'Physical Design Track', type: 'student', src: 'images/Students_photo/522686_DhilipanAmirthalingam.JPG' },
+        { id: 'ach_2', name: 'Aditiya', role: 'Verification Engineer', type: 'student', src: 'images/Students_photo/Aditiya.jpeg' },
+        { id: 'ach_3', name: 'Pooja Shukla', role: 'RTL Design Engineer', type: 'student', src: 'images/Students_photo/Pooja%20Shukla.jpeg' },
+        { id: 'ach_4', name: 'Rahul', role: 'SOC Verification', type: 'student', src: 'images/Students_photo/rahul.jpg' },
+        { id: 'ach_5', name: 'Kalyan', role: 'Verification Engineer', type: 'student', src: 'images/Students_photo/kalyan.jpg' },
+        { id: 'ach_6', name: 'Karan Kumar', role: 'FPGA Prototyping', type: 'student', src: 'images/Students_photo/Karan%20Kumar.jpeg' },
+        { id: 'ach_7', name: 'NIET Campus Faculty Development Program', role: 'Hands-On Silicon & FPGA Workshop', type: 'webinar', src: 'images/Students_photo/NIET_FTP.jpg' },
+        { id: 'ach_8', name: 'Swati', role: 'ASIC Development Team', type: 'student', src: 'images/Students_photo/Swati.png' },
+        { id: 'ach_9', name: 'Muskan P', role: 'RTL Design Cohort', type: 'student', src: 'images/Students_photo/Muskan%20P.jpeg' },
+        { id: 'ach_10', name: 'Priyam Roy', role: 'EDA Automation Specialist', type: 'student', src: 'images/Students_photo/Priyam%20Roy.jpeg' },
+        { id: 'ach_11', name: 'Ritesh', role: 'Embedded Systems', type: 'student', src: 'images/Students_photo/Ritesh.jpeg' },
+        { id: 'ach_12', name: 'Shachi', role: 'UVM Verification Track', type: 'student', src: 'images/Students_photo/shachi.jpeg' },
+        { id: 'ach_13', name: 'Chander', role: 'ASIC Design Specialist', type: 'student', src: 'images/Students_photo/chander.jpeg' },
+        { id: 'ach_14', name: 'Faculty Workshop & Hardware Bring-Up Lab', role: 'Live FPGA Prototyping & Board Testing', type: 'webinar', src: 'images/Students_photo/FTP_NIET_2.jpg' },
+        { id: 'ach_15', name: 'Anusha', role: 'SystemVerilog & SVA', type: 'student', src: 'images/Students_photo/anusha.jpeg' },
+        { id: 'ach_16', name: 'Ajeet', role: 'Digital Electronics Cohort', type: 'student', src: 'images/Students_photo/ajeet.jpeg' },
+        { id: 'ach_17', name: 'Krishna', role: 'SoC Architecture', type: 'student', src: 'images/Students_photo/Krishna.png' },
+        { id: 'ach_18', name: 'Pratap', role: 'Verification Engineer', type: 'student', src: 'images/Students_photo/pratap.png' },
+        { id: 'ach_19', name: 'Sunny', role: 'Embedded IoT Track', type: 'student', src: 'images/Students_photo/sunny.jpeg' },
+        { id: 'ach_20', name: 'Sonu', role: 'FPGA Prototyping', type: 'student', src: 'images/Students_photo/sonu.jpeg' },
+        { id: 'ach_21', name: 'Live Semiconductor Webinar Series', role: 'UVM & Tape-Out Verification Masterclasses', type: 'webinar', src: 'images/Students_photo/WhatsApp%20Image%202025-02-06%20at%208.12.12%20PM.jpeg' },
+        { id: 'ach_22', name: 'Soumya', role: 'VLSI Design Mentee', type: 'student', src: 'images/Students_photo/Soumya_phot.jpeg' },
+        { id: 'ach_23', name: 'Smitha', role: 'RTL Design Track', type: 'student', src: 'images/Students_photo/Smitha.jpeg' },
+        { id: 'ach_24', name: 'Pummy', role: 'Digital VLSI Cohort', type: 'student', src: 'images/Students_photo/Pummy.jpeg' },
+        { id: 'ach_25', name: 'Perez', role: 'Hardware Mentorship', type: 'student', src: 'images/Students_photo/perez.jpeg' },
+        { id: 'ach_26', name: 'Silicon Architecture Masterclass', role: 'Front-End Design to Tape-Out Implementation', type: 'webinar', src: 'images/Students_photo/WhatsApp%20Image%202025-02-06%20at%208.12.56%20PM.jpeg' }
+      ];
+
+      var currentFilter = 'all';
+      var uploadedImageDataUrl = '';
+
+      // 2. Storage Helpers
+      function getCustomAchievers() {
+        try {
+          return JSON.parse(localStorage.getItem('vlsi_custom_achievers') || '[]');
+        } catch(e) {
+          return [];
+        }
+      }
+
+      function getDeletedIds() {
+        try {
+          return JSON.parse(localStorage.getItem('vlsi_deleted_achievers') || '[]');
+        } catch(e) {
+          return [];
+        }
+      }
+
+      function getAllAchievers() {
+        var custom = getCustomAchievers();
+        var deleted = getDeletedIds();
+        var all = custom.concat(DEFAULT_ACHIEVERS);
+        return all.filter(function(item) {
+          return deleted.indexOf(item.id) === -1;
+        });
+      }
+
+      // 3. Render Wall with Auto-Adjusting Layout
+      function renderWall() {
+        var wall = document.getElementById('achieversWall');
+        if (!wall) return;
+
+        var achievers = getAllAchievers();
+        var filtered = achievers.filter(function(item) {
+          if (currentFilter === 'all') return true;
+          return item.type === currentFilter;
+        });
+
+        // Update counts
+        var totalCount = achievers.length;
+        var studentCount = achievers.filter(function(i) { return i.type === 'student'; }).length;
+        var webinarCount = achievers.filter(function(i) { return i.type === 'webinar'; }).length;
+
+        var elAll = document.getElementById('countAll');
+        var elStudents = document.getElementById('countStudents');
+        var elWebinars = document.getElementById('countWebinars');
+        if (elAll) elAll.textContent = totalCount;
+        if (elStudents) elStudents.textContent = studentCount;
+        if (elWebinars) elWebinars.textContent = webinarCount;
+
+        // Build HTML
+        var html = '';
+        filtered.forEach(function(item) {
+          var isWebinar = item.type === 'webinar';
+          var badgeLabel = isWebinar ? 'Webinar / Workshop' : 'Student Achiever';
+          var badgeClass = isWebinar ? 'achiever-card__badge achiever-card__badge--webinar' : 'achiever-card__badge';
+
+          html += '<article class="achiever-card" data-id="' + item.id + '" data-type="' + item.type + '">';
+          html += '  <span class="' + badgeClass + '">' + badgeLabel + '</span>';
+          html += '  <button type="button" class="achiever-card__del-btn" onclick="window.deleteAchieverItem(\'' + item.id + '\')" title="Delete entry">&times;</button>';
+          html += '  <img src="' + item.src + '" alt="' + item.name + '" loading="lazy" decoding="async" onerror="this.src=\'images/Students_photo/rahul.jpg\';">';
+          html += '  <div class="achiever-card__caption">';
+          html += '    ' + item.name;
+          html += '    <span class="achiever-card__role">' + item.role + '</span>';
+          html += '  </div>';
+          html += '</article>';
+        });
+
+        wall.innerHTML = html;
+        if (window.lucide && typeof lucide.createIcons === 'function') {
+          lucide.createIcons();
+        }
+      }
+
+      // 4. Filter Tabs Click Handlers
+      document.querySelectorAll('.wall-filter-btn').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          document.querySelectorAll('.wall-filter-btn').forEach(function(b) { b.classList.remove('active'); });
+          this.classList.add('active');
+          currentFilter = this.getAttribute('data-wall-filter') || 'all';
+          renderWall();
+        });
+      });
+
+      // 5. Admin Authentication & Mode Handling
+      function isAdminSession() {
+        if (sessionStorage.getItem('vlsi_admin_active') === 'true') return true;
+        try {
+          var token = localStorage.getItem('sb-riipijrgucqigndcjwre-auth-token');
+          if (token) {
+            var parsed = JSON.parse(token);
+            var email = (parsed.user && parsed.user.email) || (parsed.currentSession && parsed.currentSession.user && parsed.currentSession.user.email) || '';
+            if (email.indexOf('admin') !== -1 || email === 'owner@vlsiinsights.com' || email === 'info@vlsiinsights.com') {
+              return true;
+            }
+          }
+        } catch(e) {}
+        return false;
+      }
+
+      function applyAdminState() {
+        var isActive = isAdminSession();
+        var toolbar = document.getElementById('adminToolbar');
+        var toggleBtn = document.getElementById('btnAdminAuthToggle');
+        var toggleLabel = document.getElementById('adminToggleLabel');
+
+        if (isActive) {
+          document.body.classList.add('admin-mode-on');
+          if (toolbar) toolbar.style.display = 'flex';
+          if (toggleBtn) toggleBtn.classList.add('active');
+          if (toggleLabel) toggleLabel.textContent = 'Admin Unlocked';
+        } else {
+          document.body.classList.remove('admin-mode-on');
+          if (toolbar) toolbar.style.display = 'none';
+          if (toggleBtn) toggleBtn.classList.remove('active');
+          if (toggleLabel) toggleLabel.textContent = 'Admin Access';
+        }
+      }
+
+      // Admin toggle button click
+      var btnAdminToggle = document.getElementById('btnAdminAuthToggle');
+      if (btnAdminToggle) {
+        btnAdminToggle.addEventListener('click', function() {
+          if (isAdminSession()) {
+            // Already active, open add modal directly
+            var addModal = document.getElementById('adminAddModal');
+            if (addModal) addModal.style.display = 'flex';
+          } else {
+            // Open passcode modal
+            var passModal = document.getElementById('adminPasscodeModal');
+            if (passModal) {
+              passModal.style.display = 'flex';
+              var input = document.getElementById('adminPasscode');
+              if (input) { input.value = ''; input.focus(); }
+            }
+          }
+        });
+      }
+
+      // Exit Admin Mode
+      var btnExitAdmin = document.getElementById('btnExitAdmin');
+      if (btnExitAdmin) {
+        btnExitAdmin.addEventListener('click', function() {
+          sessionStorage.removeItem('vlsi_admin_active');
+          applyAdminState();
+          if (window.showToast) {
+            window.showToast('Admin Mode Locked', 'You have exited admin mode.', 'info');
+          }
+        });
+      }
+
+      // Handle Admin Unlock Submit
+      window.handleAdminUnlockSubmit = function(e) {
+        if (e && typeof e.preventDefault === 'function') e.preventDefault();
+        var input = document.getElementById('adminPasscode');
+        var err = document.getElementById('passcodeError');
+        var val = (input ? input.value : '').trim().toLowerCase();
+
+        // Passcode accepted: vlsiadmin or vlsi2025 or vlsi
+        if (val === 'vlsiadmin' || val === 'vlsi2025' || val === 'vlsi') {
+          sessionStorage.setItem('vlsi_admin_active', 'true');
+          var passModal = document.getElementById('adminPasscodeModal');
+          if (passModal) passModal.style.display = 'none';
+          if (err) err.style.display = 'none';
+          applyAdminState();
+          if (window.showToast) {
+            window.showToast('Admin Mode Active', 'Welcome! You can now add and manage student and webinar photos.', 'success');
+          }
+        } else {
+          if (err) err.style.display = 'block';
+        }
+        return false;
+      };
+
+      // Modal Close Handlers
+      ['btnClosePassModal', 'btnCancelPassModal'].forEach(function(id) {
+        var el = document.getElementById(id);
+        if (el) el.addEventListener('click', function() {
+          var m = document.getElementById('adminPasscodeModal');
+          if (m) m.style.display = 'none';
+        });
+      });
+
+      ['btnCloseAddModal', 'btnCancelAddModal'].forEach(function(id) {
+        var el = document.getElementById(id);
+        if (el) el.addEventListener('click', function() {
+          var m = document.getElementById('adminAddModal');
+          if (m) m.style.display = 'none';
+        });
+      });
+
+      var btnOpenAdd = document.getElementById('btnOpenAddModal');
+      if (btnOpenAdd) {
+        btnOpenAdd.addEventListener('click', function() {
+          var m = document.getElementById('adminAddModal');
+          if (m) m.style.display = 'flex';
+        });
+      }
+
+      // Dynamic Category Label Switcher in Add Modal
+      var selectType = document.getElementById('achieverType');
+      if (selectType) {
+        selectType.addEventListener('change', function() {
+          var isWebinar = this.value === 'webinar';
+          var lblName = document.getElementById('lblAchieverName');
+          var inputName = document.getElementById('achieverName');
+          var lblRole = document.getElementById('lblAchieverRole');
+          var inputRole = document.getElementById('achieverRole');
+
+          if (isWebinar) {
+            if (lblName) lblName.textContent = 'Webinar or Workshop Title';
+            if (inputName) inputName.placeholder = 'e.g. Advanced UVM & Tape-Out Masterclass';
+            if (lblRole) lblRole.textContent = 'Topic / Institution / Description';
+            if (inputRole) inputRole.placeholder = 'e.g. Live Hands-on FPGA Architecture Lab';
+          } else {
+            if (lblName) lblName.textContent = 'Student Name (from photo)';
+            if (inputName) inputName.placeholder = 'e.g. Rahul, Pooja Shukla';
+            if (lblRole) lblRole.textContent = 'Role / Specialization';
+            if (inputRole) inputRole.placeholder = 'e.g. RTL Design Engineer, Verification Track';
+          }
+        });
+      }
+
+      // File Drag & Drop / Upload Preview
+      var fileInput = document.getElementById('achieverFileInput');
+      var dropArea = document.getElementById('fileDropArea');
+      var dropContent = document.getElementById('fileDropContent');
+      var previewWrap = document.getElementById('filePreviewWrap');
+      var previewImg = document.getElementById('filePreviewImg');
+      var btnRemovePrev = document.getElementById('btnRemovePreview');
+
+      if (fileInput) {
+        fileInput.addEventListener('change', function(e) {
+          var file = e.target.files && e.target.files[0];
+          if (file) {
+            var reader = new FileReader();
+            reader.onload = function(evt) {
+              uploadedImageDataUrl = evt.target.result;
+              if (previewImg) previewImg.src = uploadedImageDataUrl;
+              if (dropContent) dropContent.style.display = 'none';
+              if (previewWrap) previewWrap.style.display = 'inline-block';
+            };
+            reader.readAsDataURL(file);
+          }
+        });
+      }
+
+      if (btnRemovePrev) {
+        btnRemovePrev.addEventListener('click', function(e) {
+          e.stopPropagation();
+          uploadedImageDataUrl = '';
+          if (fileInput) fileInput.value = '';
+          if (previewImg) previewImg.src = '';
+          if (previewWrap) previewWrap.style.display = 'none';
+          if (dropContent) dropContent.style.display = 'block';
+        });
+      }
+
+      // Handle Add Achiever Submit
+      window.handleAddAchieverSubmit = function(e) {
+        if (e && typeof e.preventDefault === 'function') e.preventDefault();
+
+        var type = (document.getElementById('achieverType') || {}).value || 'student';
+        var name = ((document.getElementById('achieverName') || {}).value || '').trim();
+        var role = ((document.getElementById('achieverRole') || {}).value || '').trim();
+        var urlInput = ((document.getElementById('achieverUrlInput') || {}).value || '').trim();
+
+        var finalImgSrc = uploadedImageDataUrl || urlInput;
+        if (!finalImgSrc) {
+          alert('Please upload an image file or provide an image URL.');
+          return false;
+        }
+
+        if (!name || !role) {
+          alert('Please enter both name and role/description.');
+          return false;
+        }
+
+        var newRecord = {
+          id: 'ach_custom_' + Date.now(),
+          name: name,
+          role: role,
+          type: type,
+          src: finalImgSrc
+        };
+
+        var customList = getCustomAchievers();
+        customList.unshift(newRecord);
+        localStorage.setItem('vlsi_custom_achievers', JSON.stringify(customList));
+
+        // Reset form & close modal
+        var form = document.getElementById('formAddAchiever');
+        if (form) form.reset();
+        uploadedImageDataUrl = '';
+        if (previewWrap) previewWrap.style.display = 'none';
+        if (dropContent) dropContent.style.display = 'block';
+
+        var addModal = document.getElementById('adminAddModal');
+        if (addModal) addModal.style.display = 'none';
+
+        // Re-render and auto-adjust wall
+        renderWall();
+
+        if (window.showToast) {
+          window.showToast('Photo Added Successfully', 'The new ' + (type === 'webinar' ? 'webinar' : 'student') + ' photo was added to the Wall of Achievers.', 'success');
+        } else {
+          alert('Photo added to Wall of Achievers successfully!');
+        }
+
+        // Smooth scroll to newly added photo
+        var firstCard = document.querySelector('.achiever-card');
+        if (firstCard) {
+          firstCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+
+        return false;
+      };
+
+      // Delete Achiever Handler
+      window.deleteAchieverItem = function(id) {
+        if (!isAdminSession()) return;
+        if (!confirm('Are you sure you want to remove this photo from the Wall of Achievers?')) return;
+
+        // Check if in custom list
+        var custom = getCustomAchievers();
+        var customIdx = custom.findIndex(function(i) { return i.id === id; });
+        if (customIdx !== -1) {
+          custom.splice(customIdx, 1);
+          localStorage.setItem('vlsi_custom_achievers', JSON.stringify(custom));
+        } else {
+          // Add to deleted list for default items
+          var deleted = getDeletedIds();
+          if (deleted.indexOf(id) === -1) {
+            deleted.push(id);
+            localStorage.setItem('vlsi_deleted_achievers', JSON.stringify(deleted));
+          }
+        }
+
+        renderWall();
+        if (window.showToast) {
+          window.showToast('Photo Removed', 'The selected entry was removed from the Wall.', 'info');
+        }
+      };
+
+      // Initialize
+      document.addEventListener('DOMContentLoaded', function() {
+        renderWall();
+        applyAdminState();
+      });
+
+      // Also render immediately in case DOM is already loaded
+      renderWall();
+      applyAdminState();
+    })();
+  </script>
 </body>
 </html>
 
