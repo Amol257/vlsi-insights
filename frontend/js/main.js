@@ -329,7 +329,7 @@
         if (userNameEl) { userNameEl.textContent = name; }
         if (avatarEl)   { avatarEl.textContent = initial; }
 
-        // Inject Admin Panel link if authorized administrator
+        // Inject Admin Panel button ONLY if logged in as authorized administrator
         const ADMIN_EMAILS_DEFAULT = ['vlsiinsights9@gmail.com', 'amol.singhal25@gmail.com'];
         let adminList = ADMIN_EMAILS_DEFAULT;
         try {
@@ -337,7 +337,29 @@
           adminList = Array.from(new Set(ADMIN_EMAILS_DEFAULT.concat(customAdmins)));
         } catch(e) {}
         const userEmail = (user.email || '').toLowerCase().trim();
-        const isAdminUser = adminList.map(e => e.toLowerCase().trim()).includes(userEmail);
+        let activeAdminSession = '';
+        try { activeAdminSession = (localStorage.getItem('vlsi_active_admin_session') || '').toLowerCase().trim(); } catch(e) {}
+        const normalizedAdmins = adminList.map(e => e.toLowerCase().trim());
+        const isAdminUser = normalizedAdmins.includes(userEmail) || normalizedAdmins.includes(activeAdminSession);
+
+        // Prominent Navbar Admin Button (Visible only to authorized admins)
+        const navControls = document.querySelector('.navbar__controls');
+        if (navControls) {
+          let directAdminBtn = document.getElementById('navAdminDirectBtn');
+          if (isAdminUser) {
+            if (!directAdminBtn) {
+              directAdminBtn = document.createElement('a');
+              directAdminBtn.id = 'navAdminDirectBtn';
+              directAdminBtn.href = 'admin.html';
+              directAdminBtn.className = 'nav-admin-top-btn';
+              directAdminBtn.style.cssText = 'display:inline-flex;align-items:center;gap:6px;padding:6px 14px;background:#0D9488;color:#FFFFFF;border-radius:9999px;font-size:0.8125rem;font-weight:700;text-decoration:none;box-shadow:0 2px 8px rgba(13,148,136,0.3);transition:all 0.2s ease;margin-right:8px;';
+              directAdminBtn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg><span>Admin Panel</span>';
+              navControls.insertBefore(directAdminBtn, navControls.firstChild);
+            }
+          } else if (directAdminBtn) {
+            directAdminBtn.remove();
+          }
+        }
 
         if (userMenu) {
           const dropPanel = userMenu.querySelector('.user-dropdown-panel');

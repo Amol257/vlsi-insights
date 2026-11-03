@@ -1207,7 +1207,7 @@
           if (gate) gate.style.display = 'none';
           if (main) main.style.display = 'block';
           if (emailSpan) emailSpan.textContent = normalizedEmail;
-          loadDashboardData();
+          try { loadDashboardData(); } catch(err) { console.warn('Dashboard render:', err); }
         } else {
           var gate = document.getElementById('adminAuthGate');
           var main = document.getElementById('adminMainContent');
@@ -1302,7 +1302,7 @@
           html += '  <td>' + item.role + '</td>';
           html += '  <td><span class="admin-badge-pill" style="background:' + (isWebinar ? '#FEF3C7;color:#92400E;' : '#CCFBF1;color:#0F766E;') + '">' + (isWebinar ? 'Webinar' : 'Student') + '</span></td>';
           html += '  <td><span style="font-size:0.75rem; color:var(--admin-text-muted);">' + (isCustom ? 'Custom Upload' : 'Default Record') + '</span></td>';
-          html += '  <td style="text-align: right;"><button type="button" class="btn-delete-row" onclick="deleteAchieverItem('' + item.id + '')"><i data-lucide="trash-2" style="width:13px;height:13px;"></i> Delete</button></td>';
+          html += '  <td style="text-align: right;"><button type="button" class="btn-delete-row" onclick="deleteAchieverItem(\'" + item.id + "\')"><i data-lucide="trash-2" style="width:13px;height:13px;"></i> Delete</button></td>';
           html += '</tr>';
         });
 
@@ -1330,7 +1330,7 @@
           html += '  <td style="color: var(--admin-text-mid);">' + dateStr + '</td>';
           html += '  <td style="text-align: right;">';
           html += '    <a href="post.html?id=' + blog.id + '" target="_blank" class="btn-view-site" style="padding: 4px 8px; font-size: 0.75rem; margin-right: 6px;">View</a>';
-          html += '    <button type="button" class="btn-delete-row" onclick="deleteBlogItem('' + blog.id + '')"><i data-lucide="trash-2" style="width:13px;height:13px;"></i></button>';
+          html += '    <button type="button" class="btn-delete-row" onclick="deleteBlogItem(\'" + blog.id + "\')"><i data-lucide="trash-2" style="width:13px;height:13px;"></i></button>';
           html += '  </td>';
           html += '</tr>';
         });
@@ -1352,7 +1352,7 @@
           html += '  <td><span class="admin-badge-pill" style="background:' + (isMaster ? '#DBEAFE;color:#1E40AF;' : '#F1F5F9;color:#475569;') + '">' + (isMaster ? 'Master Admin' : 'Admin') + '</span></td>';
           html += '  <td style="text-align: right;">';
           if (!isMaster) {
-            html += '    <button type="button" class="btn-delete-row" onclick="removeAdminEmail('' + email + '')"><i data-lucide="trash-2" style="width:13px;height:13px;"></i> Remove</button>';
+            html += '    <button type="button" class="btn-delete-row" onclick="removeAdminEmail(\'" + email + "\')"><i data-lucide="trash-2" style="width:13px;height:13px;"></i> Remove</button>';
           } else {
             html += '    <span style="font-size:0.75rem; color:var(--admin-text-muted);">Protected</span>';
           }
