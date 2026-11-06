@@ -438,6 +438,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
+      
       overflow: hidden;
       box-shadow: 0 4px 14px rgba(0, 168, 135, 0.12);
       user-select: none;
@@ -1366,9 +1367,12 @@
             </div>
           </div>
 
+          <!-- Right Column: 160px Circular Headshot Placeholder with CSS Initials Avatar Fallback -->
           <!-- Right Column: 160px Circular Headshot Card -->
           <div>
             <div class="headshot-card">
+              <div class="headshot-avatar" aria-label="Pranjal Sharma Initials">
+                <!-- CSS initials fallback degrades gracefully if no image provided -->
               <div class="headshot-avatar" aria-label="Pranjal Sharma">
                 <span>PS</span>
                 <img src="../images/team/pranjal-sharma.jpg" alt="Pranjal Sharma, CEO and Founder of VLSI Insights" loading="lazy" decoding="async" onerror="if(this.getAttribute('data-fallback')!=='1'){this.setAttribute('data-fallback','1');this.src='images/team/pranjal-sharma.jpg';}else{this.remove();}">
@@ -1456,8 +1460,8 @@
           </blockquote>
 
           <div class="bio-paragraphs">
-            <p>I started VLSI Insights because I lived the frustration myself. Fresh out of engineering college, I had a degree but no practical skills that companies actually look for. There was a huge gap between what universities teach and what the semiconductor industry needs   and almost nobody was bridging it.</p>
-            <p>After working at companies like Agnisys and NXP Semiconductors and getting an M.Tech with Honours, I realised I could use everything I learned on the job to help the next batch of engineers skip the years of confusion I went through. Since founding VLSI Insights in 2023, we have trained over 500 students and placed them in technology companies across India and abroad.</p>
+            <p>I started VLSI Insights because I faced those exact challenges myself. Fresh out of engineering college, I had a degree but no practical skills that companies actually look for. There was a huge gap between what universities teach and what the semiconductor industry needs   and almost nobody was bridging it.</p>
+            <p>After working at top MNC's and getting an M.Tech with Honours, I realised I could use everything I learned on the job to help the next batch of engineers skip the years of confusion I went through. Since founding VLSI Insights in 2023, we have trained over 500 students and placed them in technology companies across India and abroad.</p>
           </div>
         </div>
       </div>
